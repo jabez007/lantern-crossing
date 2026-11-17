@@ -1,0 +1,15 @@
+name = "Book Tweaks"
+filename = "book-tweaks-1.2.0-26.2.jar"
+side = "client"
+pin = true
+
+[download]
+url = "https://cdn.modrinth.com/data/skd7t7zC/versions/N3Xq3hFp/book-tweaks-1.2.0-26.2.jar"
+hash-format = "sha512"
+hash = "1e7761f1faee900e8f999da5fa63e8a49d32e86ec4929fb09aa1aa574a3b14e532022e2bb0f9c103607f14edf019696427a843bd043bdea973a37822ff3d4b2c"
+
+
+[update]
+[update.modrinth]
+mod-id = "skd7t7zC"
+version = "N3Xq3hFp"

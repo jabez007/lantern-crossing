@@ -1,0 +1,7 @@
+# Export only explicitly allowed client payload. Keep build tooling out.
+*
+!mods/
+!mods/**
+!config/
+!config/**
+# Packwiz reads pack.toml/index.toml itself, not as overrides.

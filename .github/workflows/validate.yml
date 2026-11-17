@@ -1,0 +1,96 @@
+name: Validate and release
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.12'
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6
+        with:
+          go-version: '1.24.6'
+          cache: false
+      - name: Install explicit tooling
+        run: |
+          python -m pip install -r requirements-dev.txt
+          go install github.com/packwiz/packwiz@170b22d785959dda5876b54b7f16e1b807a57fb6
+          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
+      - run: make test lint validate
+      - name: Check generated index consistency
+        run: |
+          make refresh
+          git diff --exit-code -- pack.toml index.toml mods config
+      - name: Verify release tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: python scripts/release_metadata.py --tag "$RELEASE_TAG"
+      - name: Build release files
+        run: |
+          make export
+          python scripts/release_metadata.py --checksum
+      - name: Verify reproducible export and source cleanliness
+        run: |
+          cp dist/*.mrpack build-first.mrpack
+          make export
+          cmp build-first.mrpack dist/*.mrpack
+          rm build-first.mrpack
+          git diff --exit-code
+          test -z "$(git status --porcelain)"
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
+        with:
+          name: lantern-crossing
+          path: |
+            dist/*.mrpack
+            dist/*.sha256
+          if-no-files-found: error
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v') && github.event_name == 'push'
+    needs: validate
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      # Rebuild with the same checked sources and exact tooling. This avoids a
+      # second action dependency solely to transfer two small release files.
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.12'
+      - uses: actions/setup-go@924ae3a1cded613372ab5595356fb5720e22ba16 # v6
+        with:
+          go-version: '1.24.6'
+          cache: false
+      - name: Build and verify release
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          python -m pip install -r requirements-dev.txt
+          go install github.com/packwiz/packwiz@170b22d785959dda5876b54b7f16e1b807a57fb6
+          packwiz_bin="$(go env GOPATH)/bin"
+          python scripts/release_metadata.py --tag "$RELEASE_TAG"
+          make release PACKWIZ="$packwiz_bin/packwiz"
+      - name: Publish complete release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          if gh release view "$RELEASE_TAG" --json isDraft > /tmp/release.json; then
+            python -c 'import json; assert json.load(open("/tmp/release.json"))["isDraft"], "Refusing to replace a published release"'
+          else
+            gh release create "$RELEASE_TAG" --verify-tag --draft --title "Lantern Crossing $RELEASE_TAG" --notes-file docs/release-notes.md
+          fi
+          gh release upload "$RELEASE_TAG" dist/*.mrpack dist/*.sha256 --clobber
+          gh release edit "$RELEASE_TAG" --draft=false

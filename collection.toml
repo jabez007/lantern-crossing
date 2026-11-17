@@ -1,0 +1,267 @@
+# Intent only. Exact versions, URLs and hashes belong to mods/*.pw.toml.
+schema = 1
+minecraft = "26.2"
+loader = "fabric"
+
+[[selected]]
+project-id = "AANobbMI"
+slug = "sodium"
+name = "Sodium"
+category = "performance"
+role = "feature"
+
+[[selected]]
+project-id = "gvQqBUqZ"
+slug = "lithium"
+name = "Lithium"
+category = "performance"
+role = "feature"
+
+[[selected]]
+project-id = "uXXizFIs"
+slug = "ferrite-core"
+name = "FerriteCore"
+category = "performance"
+role = "feature"
+
+[[selected]]
+project-id = "5ZwdcRci"
+slug = "immediatelyfast"
+name = "ImmediatelyFast"
+category = "performance"
+role = "feature"
+
+[[selected]]
+project-id = "NNAgCjsB"
+slug = "entityculling"
+name = "Entity Culling"
+category = "performance"
+role = "feature"
+
+[[selected]]
+project-id = "51shyZVL"
+slug = "moreculling"
+name = "More Culling"
+category = "performance"
+role = "feature"
+
+[[selected]]
+project-id = "g96Z4WVZ"
+slug = "badoptimizations"
+name = "BadOptimizations"
+category = "performance"
+role = "feature"
+
+[[selected]]
+project-id = "LQ3K71Q1"
+slug = "dynamic-fps"
+name = "Dynamic FPS"
+category = "performance"
+role = "feature"
+
+[[selected]]
+project-id = "x1hIzbuY"
+slug = "fastquit"
+name = "FastQuit"
+category = "performance"
+role = "feature"
+
+[[selected]]
+project-id = "QwxR6Gcd"
+slug = "debugify"
+name = "Debugify"
+category = "performance"
+role = "feature"
+
+[[selected]]
+project-id = "uLbm7CG6"
+slug = "language-reload"
+name = "Language Reload"
+category = "performance"
+role = "feature"
+
+[[selected]]
+project-id = "O7RBXm3n"
+slug = "inventory-profiles-next"
+name = "Inventory Profiles Next"
+category = "inventory"
+role = "feature"
+
+[[selected]]
+project-id = "aC3cM3Vq"
+slug = "mouse-tweaks"
+name = "Mouse Tweaks"
+category = "inventory"
+role = "feature"
+
+[[selected]]
+project-id = "2M01OLQq"
+slug = "shulkerboxtooltip"
+name = "Shulker Box Tooltip"
+category = "inventory"
+role = "feature"
+
+[[excluded]]
+project-id = "vPNqo58Q"
+slug = "client-tweaks"
+name = "Client Tweaks"
+category = "inventory"
+role = "feature"
+reason = "All six release-designated Fabric 26.2 builds bundle shogi_api 26.2.0.1-SNAPSHOT."
+
+[[selected]]
+project-id = "x02cBj9Y"
+slug = "status-effect-bars"
+name = "Status Effect Bars"
+category = "information"
+role = "feature"
+
+[[excluded]]
+project-id = "YfOlc91N"
+slug = "light-overlay"
+name = "Light Overlay"
+category = "information"
+role = "feature"
+reason = "No published Fabric 26.2 artifact."
+
+[[selected]]
+project-id = "8shC1gFX"
+slug = "betterf3"
+name = "BetterF3"
+category = "information"
+role = "feature"
+
+[[selected]]
+project-id = "kqJFAPU9"
+slug = "better-mount-hud"
+name = "Better Mount HUD"
+category = "information"
+role = "feature"
+
+[[selected]]
+project-id = "pJogNFap"
+slug = "paginatedadvancements"
+name = "Paginated Advancements & Custom Frames"
+category = "information"
+role = "feature"
+
+[[selected]]
+project-id = "n6PXGAoM"
+slug = "better-stats"
+name = "Better Statistics Screen"
+category = "information"
+role = "feature"
+
+[[selected]]
+project-id = "1bokaNcj"
+slug = "xaeros-minimap"
+name = "Xaero's Minimap"
+category = "navigation"
+role = "feature"
+
+[[selected]]
+project-id = "NcUtCpym"
+slug = "xaeros-world-map"
+name = "Xaero's World Map"
+category = "navigation"
+role = "feature"
+
+[[selected]]
+project-id = "w7ThoJFB"
+slug = "zoomify"
+name = "Zoomify (Zoom)"
+category = "navigation"
+role = "feature"
+
+[[excluded]]
+project-id = "c7xDMxha"
+slug = "signtweaks"
+name = "Sign Tweaks"
+category = "writing"
+role = "feature"
+reason = "The stable Fabric 26.2 build requires Mod Menu, whose dependency closure includes a beta."
+
+[[selected]]
+project-id = "skd7t7zC"
+slug = "book-tweaks"
+name = "Book Tweaks"
+category = "writing"
+role = "feature"
+
+[[selected]]
+project-id = "yBW8D80W"
+slug = "lambdynamiclights"
+name = "LambDynamicLights - Dynamic Lights"
+category = "visual-social"
+role = "feature"
+
+[[selected]]
+project-id = "Wb5oqrBJ"
+slug = "chat-heads"
+name = "Chat Heads"
+category = "visual-social"
+role = "feature"
+
+[[excluded]]
+project-id = "YL57xq9U"
+slug = "iris"
+name = "Iris Shaders"
+category = "visual-social"
+role = "feature"
+reason = "All four release-designated Fabric 26.2 builds bundle glsl-transformer 3.0.0-pre3."
+
+[[excluded]]
+project-id = "mOgUt4GM"
+slug = "modmenu"
+name = "Mod Menu"
+category = "pack-management"
+role = "feature"
+reason = "All release-designated Fabric 26.2 builds require Text Placeholder API 3.1.0-beta.1+26.2; no stable dependency closure."
+
+[[resolved-dependency]]
+project-id = "1eAoo2KR"
+slug = "yacl"
+name = "YetAnotherConfigLib (YACL)"
+category = "library"
+role = "dependency"
+required-by = ["w7ThoJFB"]
+
+[[resolved-dependency]]
+project-id = "9s6osm5g"
+slug = "cloth-config"
+name = "Cloth Config API"
+category = "library"
+role = "dependency"
+required-by = ["51shyZVL", "8shC1gFX", "pJogNFap", "x02cBj9Y", "x1hIzbuY"]
+
+[[resolved-dependency]]
+project-id = "Eldc1g37"
+slug = "tcdcommons"
+name = "TCDCommons API"
+category = "library"
+role = "dependency"
+required-by = ["n6PXGAoM"]
+
+[[resolved-dependency]]
+project-id = "Ha28R6CL"
+slug = "fabric-language-kotlin"
+name = "Fabric Language Kotlin"
+category = "library"
+role = "dependency"
+required-by = ["O7RBXm3n", "onSQdWhM", "w7ThoJFB"]
+
+[[selected]]
+project-id = "P7dR8mSH"
+slug = "fabric-api"
+name = "Fabric API"
+category = "platform"
+role = "selected-library"
+required-by = ["1bokaNcj", "1eAoo2KR", "2M01OLQq", "8shC1gFX", "Eldc1g37", "LQ3K71Q1", "NNAgCjsB", "NcUtCpym", "O7RBXm3n", "QwxR6Gcd", "aC3cM3Vq", "n6PXGAoM", "onSQdWhM", "pJogNFap", "skd7t7zC", "uLbm7CG6", "w7ThoJFB", "x1hIzbuY", "yBW8D80W"]
+
+[[resolved-dependency]]
+project-id = "onSQdWhM"
+slug = "libipn"
+name = "libIPN"
+category = "library"
+role = "dependency"
+required-by = ["O7RBXm3n"]

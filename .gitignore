@@ -1,0 +1,15 @@
+/build/
+/dist/
+/.venv/
+/.serena/
+__pycache__/
+*.py[cod]
+.ruff_cache/
+*.jar
+/logs/
+/crash-reports/
+/saves/
+/screenshots/
+/xaero/
+/options.txt
+/servers.dat*

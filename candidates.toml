@@ -1,0 +1,10 @@
+# Staging never adds a project to packwiz. Promotion requires an audit, an exact
+# stable Fabric 26.2 pin, dependency closure, and a deliberate collection edit.
+schema = 1
+candidate = []
+
+# Future [[candidate]] tables require:
+# project-id, slug, category, rationale, status, client-only, target-support,
+# blockers, promotion-criteria. Use nonempty strings or lists for those fields.
+# Example status values: proposed, blocked, ready-for-review.
+# Excluded requested features are recorded in collection.toml, not staged here.
