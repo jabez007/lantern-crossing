@@ -53,9 +53,16 @@ def safe_path(value: str) -> bool:
 
 
 def stable(version: dict) -> bool:
-    return version.get("version_type") == "release" and not any(
-        PRERELEASE.search(str(version.get(key, ""))) for key in ("name", "version_number")
-    )
+    """Upstream release designation governs intentional selections."""
+    return version.get("version_type") == "release"
+
+
+def prerelease_dependency(version: dict) -> bool:
+    """Prerelease-looking dependency artifacts need an exact upstream audit pin."""
+    identifiers = [version.get("name", ""), version.get("version_number", "")]
+    identifiers.extend(f["filename"] for f in version["files"] if f.get("primary"))
+    identifiers.append(version["fabric_descriptor"]["version"])
+    return not stable(version) or any(PRERELEASE.search(value) for value in identifiers)
 
 
 @dataclass
@@ -139,14 +146,13 @@ def check_candidates(root: Path, projects: dict) -> None:
 
 def check_descriptor(descriptor: dict) -> None:
     require(descriptor.get("environment") != "server", "server-only Fabric module")
-    require(not PRERELEASE.search(descriptor["version"]), f"bundled prerelease: {descriptor['id']}")
+    # The containing artifact's hash pins bundled implementation components.
     for child in descriptor.get("bundled", []):
         check_descriptor(child)
 
 
 def check_download(lock: dict, version: dict, pid: str) -> None:
     download = lock["download"]
-    require(not PRERELEASE.search(lock["filename"]), "prerelease artifact filename")
     require(download.get("hash-format") == "sha512", "mod hashes must use SHA-512")
     require(bool(re.fullmatch(r"[0-9a-f]{128}", download["hash"])), "invalid mod SHA-512")
     url = urlsplit(download["url"])
@@ -184,6 +190,10 @@ def check_mod(path: Path, projects: dict, evidence: dict) -> tuple[str, dict, di
     )
     upstream = evidence["projects"][pid]
     require(
+        upstream.get("client_side") != "unsupported" and upstream.get("server_side") != "required",
+        f"{project['slug']}: unsupported client or mandatory server requirement",
+    )
+    require(
         upstream["slug"] == project["slug"] and upstream["name"] == project["name"] == lock["name"],
         "collection/lock/upstream identity mismatch",
     )
@@ -196,13 +206,15 @@ def check_mod(path: Path, projects: dict, evidence: dict) -> tuple[str, dict, di
         and "fabric" in version["loaders"],
         "pin must support Fabric 26.2",
     )
-    require(stable(version), f"prerelease pin: {project['slug']}")
+    if project["role"] != "dependency":
+        require(stable(version), f"selected {project['slug']} must be release-designated")
     check_descriptor(version["fabric_descriptor"])
     check_download(lock, version, pid)
     return pid, lock, version
 
 
 def check_dependencies(projects: dict, versions: dict, evidence: dict) -> None:
+    check_dependency_stability(projects, versions)
     parents = {pid: set() for pid in projects}
     for pid, version in versions.items():
         requirements = {d["project_id"]: d.get("version_id") for d in version["client_required"]}
@@ -230,6 +242,37 @@ def check_dependencies(projects: dict, versions: dict, evidence: dict) -> None:
                 pending.append(dep["project_id"])
     require(reached == set(projects), "orphan dependency outside selected closure")
     check_native_requirements(versions)
+
+
+def upstream_dependency_pin(parent: dict, project_id: str, version: dict) -> bool:
+    """Require the real upstream edge and its exact version declaration."""
+    official = [
+        d
+        for d in parent["dependencies"]
+        if d["dependency_type"] == "required" and d["project_id"] == project_id
+    ]
+    if any(d.get("version_id") == version["id"] for d in official):
+        return True
+    if not any(d.get("version_id") is None for d in official):
+        return False
+    return any(
+        d["project_id"] == project_id
+        and d.get("audited_version") == version["id"]
+        and d.get("upstream_version") == version["version_number"]
+        and urlsplit(d.get("audit_source", "")).scheme == "https"
+        and bool(urlsplit(d.get("audit_source", "")).netloc)
+        and d.get("evidence") == "https://api.modrinth.com/v2/version/" + parent["id"]
+        for d in parent["client_required"]
+    )
+
+
+def check_dependency_stability(projects: dict, versions: dict) -> None:
+    for pid, version in versions.items():
+        if projects[pid]["role"] == "dependency" and prerelease_dependency(version):
+            require(
+                any(upstream_dependency_pin(parent, pid, version) for parent in versions.values()),
+                f"prerelease dependency {projects[pid]['slug']} needs an exact upstream audit pin",
+            )
 
 
 def fabric_modules(descriptor: dict) -> list[dict]:

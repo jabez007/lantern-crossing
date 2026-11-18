@@ -1,0 +1,14 @@
+name = "Client Tweaks"
+filename = "clienttweaks-fabric-26.2-26.2.0.6.jar"
+side = "client"
+pin = true
+
+[download]
+url = "https://cdn.modrinth.com/data/vPNqo58Q/versions/klm9mkyw/clienttweaks-fabric-26.2-26.2.0.6.jar"
+hash-format = "sha512"
+hash = "f3dfd18cb0b58a344dbb362201cb766e9a1408dec15171757014382ef8fcf7a08ca7a4ecdc8abecee56d618e68b742526c80811b35fc642563712d033c3e6215"
+
+[update]
+[update.modrinth]
+mod-id = "vPNqo58Q"
+version = "klm9mkyw"

@@ -5,8 +5,21 @@ file = "config/MouseTweaks.cfg"
 hash = "7bd34c13dff656651a30814a2db4aded8ed607f1bfdb8e66ba4194ef3e00a152"
 
 [[files]]
+file = "config/clienttweaks-common.toml"
+hash = "1d128fe9f9d07d7c7adec3d2ec8d6ca19cd21da9eaf9e762f053c5e8729e4f20"
+
+[[files]]
+file = "config/iris.properties"
+hash = "839d34c5b794e53e3e0155f87632026f1d5354f3dd55854d51e990d04d2c92a3"
+
+[[files]]
 file = "mods/badoptimizations.pw.toml"
 hash = "caba7dd22af2916bcacc61cb5c4ddd36d4cfa51527e463933d2b8fa2d0a2ab84"
+metafile = true
+
+[[files]]
+file = "mods/balm.pw.toml"
+hash = "d3431269d7b3d0d7141ed783e2a449e0eeb88d47dd957f2342fdc2eda56e4932"
 metafile = true
 
 [[files]]
@@ -32,6 +45,11 @@ metafile = true
 [[files]]
 file = "mods/chat-heads.pw.toml"
 hash = "2d86f650ac3926e61219cb064595ce21741c9643f028dbd899f4ea616a4aa68c"
+metafile = true
+
+[[files]]
+file = "mods/client-tweaks.pw.toml"
+hash = "97372c3fbdeb3e19a27669fd571f456b86e84694dce37afdbbbbd026044ea9d1"
 metafile = true
 
 [[files]]
@@ -85,6 +103,11 @@ hash = "0e3bd9b03a56a1d10ce89eca27b14e73a5e156b8ee550a9a05b919732c077a3a"
 metafile = true
 
 [[files]]
+file = "mods/iris.pw.toml"
+hash = "1a51b097cff3f9bc247c9d9f37af04bf0ba7d5853bb19b9990a76852a6b5d6b7"
+metafile = true
+
+[[files]]
 file = "mods/lambdynamiclights.pw.toml"
 hash = "5457d7dca6ecc96870fdc7d07daa41451ece326b55d5f62853792b0cfea1b327"
 metafile = true
@@ -105,6 +128,11 @@ hash = "c11918fa24bb2909de33c58a45f34a6acf2e5e87c210dff69febe5fecd40e6b4"
 metafile = true
 
 [[files]]
+file = "mods/modmenu.pw.toml"
+hash = "1d4ac7b422964eb9611c59bf5ca09546c4e33c378063d9b558dc0f1a091c3c04"
+metafile = true
+
+[[files]]
 file = "mods/moreculling.pw.toml"
 hash = "24c284a21179f59332a88cf78248028731c8b6e49d11702495d94b5ab0a697d1"
 metafile = true
@@ -120,8 +148,18 @@ hash = "abef212d9568b54ea5c9a1d8a47dd85b348a3ef52b8e724caa833c7a43e70006"
 metafile = true
 
 [[files]]
+file = "mods/placeholder-api.pw.toml"
+hash = "62d51e5faa7530ff3eccac2210513dd848f2208ab6c32273772b28f2442f8359"
+metafile = true
+
+[[files]]
 file = "mods/shulkerboxtooltip.pw.toml"
 hash = "73f960775a99c8fe5d12ffbf27850c7f84e772d6efefcb416c1e665daae8f1ca"
+metafile = true
+
+[[files]]
+file = "mods/signtweaks.pw.toml"
+hash = "4a56d54d8dda5d20ca21720689e35ad41a78b68cab4ff41ffcbc37a3c1753956"
 metafile = true
 
 [[files]]

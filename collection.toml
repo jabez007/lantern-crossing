@@ -101,28 +101,12 @@ name = "Shulker Box Tooltip"
 category = "inventory"
 role = "feature"
 
-[[excluded]]
-project-id = "vPNqo58Q"
-slug = "client-tweaks"
-name = "Client Tweaks"
-category = "inventory"
-role = "feature"
-reason = "All six release-designated Fabric 26.2 builds bundle shogi_api 26.2.0.1-SNAPSHOT."
-
 [[selected]]
 project-id = "x02cBj9Y"
 slug = "status-effect-bars"
 name = "Status Effect Bars"
 category = "information"
 role = "feature"
-
-[[excluded]]
-project-id = "YfOlc91N"
-slug = "light-overlay"
-name = "Light Overlay"
-category = "information"
-role = "feature"
-reason = "No published Fabric 26.2 artifact."
 
 [[selected]]
 project-id = "8shC1gFX"
@@ -173,14 +157,6 @@ name = "Zoomify (Zoom)"
 category = "navigation"
 role = "feature"
 
-[[excluded]]
-project-id = "c7xDMxha"
-slug = "signtweaks"
-name = "Sign Tweaks"
-category = "writing"
-role = "feature"
-reason = "The stable Fabric 26.2 build requires Mod Menu, whose dependency closure includes a beta."
-
 [[selected]]
 project-id = "skd7t7zC"
 slug = "book-tweaks"
@@ -202,21 +178,41 @@ name = "Chat Heads"
 category = "visual-social"
 role = "feature"
 
-[[excluded]]
+[[selected]]
+project-id = "P7dR8mSH"
+slug = "fabric-api"
+name = "Fabric API"
+category = "platform"
+role = "selected-library"
+required-by = ["1bokaNcj", "1eAoo2KR", "2M01OLQq", "8shC1gFX", "Eldc1g37", "LQ3K71Q1", "MBAkmtvl", "NNAgCjsB", "NcUtCpym", "O7RBXm3n", "QwxR6Gcd", "aC3cM3Vq", "c7xDMxha", "mOgUt4GM", "n6PXGAoM", "onSQdWhM", "pJogNFap", "skd7t7zC", "uLbm7CG6", "vPNqo58Q", "w7ThoJFB", "x1hIzbuY", "yBW8D80W"]
+
+[[selected]]
+project-id = "vPNqo58Q"
+slug = "client-tweaks"
+name = "Client Tweaks"
+category = "inventory"
+role = "feature"
+
+[[selected]]
+project-id = "c7xDMxha"
+slug = "signtweaks"
+name = "Sign Tweaks"
+category = "writing"
+role = "feature"
+
+[[selected]]
 project-id = "YL57xq9U"
 slug = "iris"
 name = "Iris Shaders"
 category = "visual-social"
 role = "feature"
-reason = "All four release-designated Fabric 26.2 builds bundle glsl-transformer 3.0.0-pre3."
 
-[[excluded]]
+[[selected]]
 project-id = "mOgUt4GM"
 slug = "modmenu"
 name = "Mod Menu"
 category = "pack-management"
 role = "feature"
-reason = "All release-designated Fabric 26.2 builds require Text Placeholder API 3.1.0-beta.1+26.2; no stable dependency closure."
 
 [[resolved-dependency]]
 project-id = "1eAoo2KR"
@@ -232,7 +228,7 @@ slug = "cloth-config"
 name = "Cloth Config API"
 category = "library"
 role = "dependency"
-required-by = ["51shyZVL", "8shC1gFX", "pJogNFap", "x02cBj9Y", "x1hIzbuY"]
+required-by = ["51shyZVL", "8shC1gFX", "c7xDMxha", "pJogNFap", "x02cBj9Y", "x1hIzbuY"]
 
 [[resolved-dependency]]
 project-id = "Eldc1g37"
@@ -250,14 +246,6 @@ category = "library"
 role = "dependency"
 required-by = ["O7RBXm3n", "onSQdWhM", "w7ThoJFB"]
 
-[[selected]]
-project-id = "P7dR8mSH"
-slug = "fabric-api"
-name = "Fabric API"
-category = "platform"
-role = "selected-library"
-required-by = ["1bokaNcj", "1eAoo2KR", "2M01OLQq", "8shC1gFX", "Eldc1g37", "LQ3K71Q1", "NNAgCjsB", "NcUtCpym", "O7RBXm3n", "QwxR6Gcd", "aC3cM3Vq", "n6PXGAoM", "onSQdWhM", "pJogNFap", "skd7t7zC", "uLbm7CG6", "w7ThoJFB", "x1hIzbuY", "yBW8D80W"]
-
 [[resolved-dependency]]
 project-id = "onSQdWhM"
 slug = "libipn"
@@ -265,3 +253,27 @@ name = "libIPN"
 category = "library"
 role = "dependency"
 required-by = ["O7RBXm3n"]
+
+[[resolved-dependency]]
+project-id = "MBAkmtvl"
+slug = "balm"
+name = "Balm"
+category = "library"
+role = "dependency"
+required-by = ["vPNqo58Q"]
+
+[[resolved-dependency]]
+project-id = "eXts2L7r"
+slug = "placeholder-api"
+name = "Text Placeholder API"
+category = "library"
+role = "dependency"
+required-by = ["mOgUt4GM"]
+
+[[excluded]]
+project-id = "YfOlc91N"
+slug = "light-overlay"
+name = "Light Overlay"
+category = "information"
+role = "feature"
+reason = "No published Fabric 26.2 artifact."

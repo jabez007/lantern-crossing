@@ -1,0 +1,7 @@
+# Better Mount HUD owns mount/player HUD presentation.
+[ui]
+alwaysPrioritizeExperienceBar = false
+
+# IPN owns inventory refill and tool replacement assistance.
+[mining]
+doNotUseLastMending = false

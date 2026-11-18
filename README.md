@@ -16,54 +16,55 @@ The target is Minecraft **26.2**, Fabric Loader **0.20.1**, and Java **25**.
 The loader pin comes from Fabric's [26.2 compatibility
 API](https://meta.fabricmc.net/v2/versions/loader/26.2), checked on 2026-11-17.
 The checked evidence is in [upstream-metadata.json](docs/upstream-metadata.json).
-Pack version `26.2.0.1.0` is a development baseline, not a runtime qualification.
+Pack version `26.2.0.2.0` is a development baseline, not a runtime qualification.
 
 ## Pack philosophy
 
 Lantern Crossing keeps vanilla progression, content, and server mechanics.
 It supplies no blocks, items, mobs, dimensions, recipes, gameplay data packs,
 server companions, shader packs, or resource packs. Upstream defaults apply
-except for the documented [Mouse Tweaks override](docs/configuration.md).
+except for the documented [inventory, Client Tweaks, and Iris overrides](docs/configuration.md).
 
 ## Active selections
 
-There are 25 feature selections and six libraries in
+There are 29 of the 30 requested feature selections and eight libraries in
 [collection.toml](collection.toml).
 
 | Category | Selected projects |
 | --- | --- |
 | Performance | Sodium, Lithium, FerriteCore, ImmediatelyFast, Entity Culling, More Culling, BadOptimizations, Dynamic FPS, FastQuit, Debugify, Language Reload |
-| Inventory | Inventory Profiles Next, Mouse Tweaks, Shulker Box Tooltip |
+| Inventory | Inventory Profiles Next, Mouse Tweaks, Shulker Box Tooltip, Client Tweaks |
 | HUD and information | Status Effect Bars, BetterF3, Better Mount HUD, Paginated Advancements, Better Statistics Screen |
 | Navigation | Xaero's Minimap, Xaero's World Map, Zoomify |
-| Writing | Book Tweaks |
-| Visual and social | LambDynamicLights, Chat Heads |
+| Writing | Sign Tweaks, Book Tweaks |
+| Visual and social | LambDynamicLights, Chat Heads, Iris |
+| Pack management | Mod Menu |
 
-Five requested features are excluded under the stable-only policy:
+Light Overlay is the sole blocked requested feature:
 
 | Project | Blocker |
 | --- | --- |
 | Light Overlay | No Fabric 26.2 artifact |
-| Client Tweaks | All six release-designated 26.2 builds bundle a SNAPSHOT library |
-| Mod Menu | Every stable 26.2 version requires a beta Text Placeholder API |
-| Sign Tweaks | Its stable 26.2 version requires the blocked Mod Menu |
-| Iris | Every release-designated 26.2 build bundles `glsl-transformer 3.0.0-pre3` |
 
-No older Minecraft build, prerelease, or replacement mod fills those gaps.
-Shader selection and enhanced sign editing are therefore unavailable in this
-baseline. See the [audit](docs/mod-audit.md) for exact upstream evidence.
+No older Minecraft build or replacement fills that gap.
+Lantern Crossing selects release-designated feature versions. Upstream-declared
+dependency closure may contain prerelease-versioned libraries when those exact
+versions are required or bundled by the selected release. This does not permit
+independently choosing arbitrary prerelease dependencies. See the
+[audit](docs/mod-audit.md) for the exact provenance, including Mod Menu's
+Placeholder API dependency and the libraries bundled with Iris and Client Tweaks.
 
 Fabric API is an explicitly selected platform library. Cloth Config API,
-Fabric Language Kotlin, libIPN, TCDCommons API, and YACL are transitive
-dependencies. Libraries are separate from feature intent, and bundled libraries
+Fabric Language Kotlin, libIPN, TCDCommons API, YACL, Balm, and Text Placeholder API
+are transitive dependencies. Libraries are separate from feature intent, and bundled libraries
 remain inside upstream artifacts. The machine lock layer is `mods/*.pw.toml`.
 It owns exact version IDs, URLs, and SHA-512 hashes. No mod JARs belong in Git.
 
 ## Install an exported pack
 
-1. Obtain `lantern-crossing-26.2.0.1.0.mrpack` and its `.sha256` file from a
+1. Obtain `lantern-crossing-26.2.0.2.0.mrpack` and its `.sha256` file from a
    reviewed release or build them below.
-2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.1.0.sha256`.
+2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.2.0.sha256`.
 3. Import the `.mrpack` into a launcher that supports Modrinth packs. Use a new
    instance with Java 25 and let the launcher obtain the pinned upstream files.
 4. Start the client and complete the [smoke tests](docs/acceptance-tests.md),
@@ -109,20 +110,20 @@ permissions, and JSON encoding. Stored entries avoid compression-version drift.
 Release outputs are:
 
 ```text
-dist/lantern-crossing-26.2.0.1.0.mrpack
-dist/lantern-crossing-26.2.0.1.0.sha256
+dist/lantern-crossing-26.2.0.2.0.mrpack
+dist/lantern-crossing-26.2.0.2.0.sha256
 ```
 
 GitHub Actions validates pushes and pull requests, checks index consistency,
 builds twice to compare archive bytes, and uploads the artifacts. A matching
-`v26.2.0.1.0` tag also creates a GitHub Release with the archive and checksum.
+`v26.2.0.2.0` tag also creates a GitHub Release with the archive and checksum.
 The workflow refuses to replace an already published release. Complete manual
 acceptance before tagging a release intended for users.
 
 ## Select and update deliberately
 
 Version numbers follow `<Minecraft version>.<pack major>.<pack minor>.<pack patch>`.
-`26.2.0.1.0` means Minecraft 26.2 and pack revision 0.1.0. Tags must match
+`26.2.0.2.0` means Minecraft 26.2 and pack revision 0.1.0. Tags must match
 `pack.toml` exactly with a `v` prefix.
 
 Use exact upstream version IDs and repeat the client-only audit for updates.

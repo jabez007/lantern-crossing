@@ -34,8 +34,11 @@ and account information out of committed logs.
 - [ ] Entity and block culling produce no obvious corruption or missing geometry.
 - [ ] Glass, foliage, signs, item frames, and block entities render from multiple angles.
 - [ ] Fullscreen toggling and window resizing work.
-- [ ] Iris loading and shader selection UI are N/A because Iris is excluded.
-      If promoted later, test shader-disabled rendering and shader selection.
+- [ ] Iris UI opens without missing dependencies or server warnings.
+- [ ] Shaders start disabled and ordinary world rendering has no corruption.
+- [ ] Shader-selection UI works and Sodium's options remain functional.
+- [ ] Optionally test one known-good shader pack in a separate test profile,
+      including dynamic lighting. No shader pack is supplied by the pack.
 
 ## Inventory
 
@@ -54,7 +57,17 @@ and account information out of committed logs.
 - [ ] Better Mount HUD displays player and mount state correctly.
 - [ ] Paginated Advancements navigates the server's ordinary advancement tabs.
 - [ ] Better Statistics Screen searches and sorts the player's vanilla statistics.
-- [ ] Mod Menu is absent as documented. If promoted, test its mod list and config links.
+- [ ] Mod Menu opens, lists installed configurable mods, and opens their config screens.
+- [ ] Mod Menu reports no missing dependency warnings.
+
+## Client Tweaks
+
+- [ ] Volume sliders, search retention, and recipe-book navigation work as configured.
+- [ ] Enabled placement and offhand input conveniences behave normally on the vanilla server.
+- [ ] `ui.alwaysPrioritizeExperienceBar=false` leaves the disabled HUD override inactive.
+- [ ] `mining.doNotUseLastMending=false` leaves the disabled durability guard inactive.
+- [ ] No inventory conflict occurs with IPN sorting, refill, or Mouse Tweaks gestures.
+- [ ] No Client Tweaks or Balm warning requests server installation or server data.
 
 ## Navigation
 
@@ -68,8 +81,10 @@ and account information out of committed logs.
 ## Building and writing
 
 - [ ] Light Overlay is absent as documented. If promoted, test overlay display and toggle.
-- [ ] Sign Tweaks is absent as documented. If promoted, test wrapping, movement,
-      copy, paste, and editing on the vanilla server.
+- [ ] Sign Tweaks edits a normal sign on the vanilla server.
+- [ ] Multiline cursor navigation and text wrapping work.
+- [ ] Multiline copy and paste work within vanilla sign limits.
+- [ ] The vanilla server accepts the edited sign and its text persists after reopening.
 - [ ] Vanilla sign placement and editing work with the active rendering stack.
 - [ ] Book Tweaks navigation, page wrapping, multi-page paste, and page memory work.
 - [ ] Edit, save, reopen, and sign a book without bypassing vanilla limits.

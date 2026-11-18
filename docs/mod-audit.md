@@ -22,7 +22,7 @@ The question for every row is whether the selected functionality works entirely 
 | [Inventory Profiles Next](https://modrinth.com/mod/inventory-profiles-next) | [fabric-26.2-2.3.8](https://modrinth.com/mod/inventory-profiles-next/version/oQFRysLk), release-designated | Inventory sorting and local interaction assistance. | Upstream explicitly calls it pure client-side and usable everywhere. Uses vanilla inventory actions. | Active |
 | [Mouse Tweaks](https://modrinth.com/mod/mouse-tweaks) | [26.2-2.31-fabric](https://modrinth.com/mod/mouse-tweaks/version/jOiTBIaB), release-designated | Right-button drag and left-button drag with a carried stack. | Upstream explicitly says there is no server component. Wheel and empty-cursor shift-drag are disabled here. | Active |
 | [Shulker Box Tooltip](https://modrinth.com/mod/shulkerboxtooltip) | [5.4.3+26.2-fabric](https://modrinth.com/mod/shulkerboxtooltip/version/woHKruB1), release-designated | Shulker-item previews from contents already sent in vanilla item components. | No server assistance for this scope. Optional ender-chest preview requires server support and is excluded from pack intent. | Active |
-| [Client Tweaks](https://modrinth.com/mod/client-tweaks) | [26.2.0.5+fabric-26.2](https://modrinth.com/mod/client-tweaks/version/4Z22UbgA), release-designated | Local UI and input tweaks. | Project describes client tweaks, but bundled prerelease library blocks selection before configuration. | Excluded. All six release-designated Fabric 26.2 builds bundle shogi_api 26.2.0.1-SNAPSHOT. |
+| [Client Tweaks](https://modrinth.com/mod/client-tweaks) | [26.2.0.6+fabric-26.2](https://modrinth.com/mod/client-tweaks/version/klm9mkyw), release-designated | Local UI, rendering, targeting, and vanilla input conveniences. Two overlapping guards are pinned off. | Client initializer and enabled tweak implementations are local. No extra server data or installation. Requires Balm; the bundled shogi_api SNAPSHOT is hash-pinned inside this upstream release. | Active |
 | [Status Effect Bars](https://modrinth.com/mod/status-effect-bars) | [1.0.12](https://modrinth.com/mod/status-effect-bars/version/aAXJqboy), release-designated | Render remaining durations from vanilla status-effect data. | No server component. No extra server-only information selected. | Active |
 | [Light Overlay](https://modrinth.com/mod/light-overlay) | No Fabric 26.2 build | Display client-known light levels. | Client-local purpose, but no Fabric 26.2 artifact exists to qualify. | Excluded. No published Fabric 26.2 artifact. |
 | [BetterF3](https://modrinth.com/mod/betterf3) | [19.0.1](https://modrinth.com/mod/betterf3/version/TVXtAI9s), release-designated | Reformat local F3 debug information. | No server component. No added server information. | Active |
@@ -32,25 +32,27 @@ The question for every row is whether the selected functionality works entirely 
 | [Xaero's Minimap](https://modrinth.com/mod/xaeros-minimap) | [fabric-26.2-26.6.2](https://modrinth.com/mod/xaeros-minimap/version/kYWdcLLn), release-designated | Local terrain minimap and locally stored waypoints. | No server assistance for terrain or local waypoints. Server identification, enforced profiles, effects, and teleportation are not selected. | Active |
 | [Xaero's World Map](https://modrinth.com/mod/xaeros-world-map) | [fabric-26.2-1.47.2](https://modrinth.com/mod/xaeros-world-map/version/W8qSt5Gs), release-designated | Locally recorded explored terrain and manual map selection. | No server assistance for recording or viewing terrain. Server-controlled world identification is not selected. Use Manual mode where world separation is ambiguous. | Active |
 | [Zoomify (Zoom)](https://modrinth.com/mod/zoomify) | [2.17.0+mc26.2](https://modrinth.com/mod/zoomify/version/D64cvU6G), release-designated | Local camera zoom. | Client camera transforms and local configuration. Universal metadata also names a NeoForge-only library, not a Fabric requirement. | Active |
-| [Sign Tweaks](https://modrinth.com/mod/signtweaks) | [2.103.0+26.2](https://modrinth.com/mod/signtweaks/version/piBkp75o), release-designated | Local sign editor wrapping, navigation, and paste. | Fabric descriptor is client-only. Required Mod Menu dependency blocks activation; no older prerelease substituted. | Excluded. The stable Fabric 26.2 build requires Mod Menu, whose dependency closure includes a beta. |
+| [Sign Tweaks](https://modrinth.com/mod/signtweaks) | [2.103.0+26.2](https://modrinth.com/mod/signtweaks/version/piBkp75o), release-designated | Sign editor wrapping, multiline navigation, and copy/paste using vanilla sign editing. | Artifact has client entrypoints and no server entrypoint. Requires Mod Menu and Cloth Config; the full selected editor uses no companion server. | Active |
 | [Book Tweaks](https://modrinth.com/mod/book-tweaks) | [1.2.0](https://modrinth.com/mod/book-tweaks/version/N3Xq3hFp), release-designated | Local book editor navigation, word wrapping, and multi-page paste. | Upstream describes a client-side editor. Vanilla book validation and limits remain authoritative. | Active |
 | [LambDynamicLights - Dynamic Lights](https://modrinth.com/mod/lambdynamiclights) | [4.12.4+26.2](https://modrinth.com/mod/lambdynamiclights/version/XVsaQXSm), release-designated | Client-rendered held-item and entity lighting. | No server component. Does not change server block light, spawning, or game rules. | Active |
 | [Chat Heads](https://modrinth.com/mod/chat-heads) | [1.3.2](https://modrinth.com/mod/chat-heads/version/rsO6BV1x), release-designated | Render player heads next to chat messages. | No server component. Uses player data already available on vanilla servers. | Active |
-| [Iris Shaders](https://modrinth.com/mod/iris) | [1.11.0+26.2-fabric](https://modrinth.com/mod/iris/version/1y9HMMC6), release-designated | Client shader loading and shader selection UI. | Client-only artifact, but all stable 26.2 packages bundle a prerelease shader library. | Excluded. All four release-designated Fabric 26.2 builds bundle glsl-transformer 3.0.0-pre3. |
-| [Mod Menu](https://modrinth.com/mod/modmenu) | [20.0.0](https://modrinth.com/mod/modmenu/version/QEDySGIN), release-designated | Local list of mods and configuration entry points. | Client-only artifact, but all stable 26.2 versions declare a required beta dependency. | Excluded. All release-designated Fabric 26.2 builds require Text Placeholder API 3.1.0-beta.1+26.2; no stable dependency closure. |
+| [Iris Shaders](https://modrinth.com/mod/iris) | [1.11.4+26.2-fabric](https://modrinth.com/mod/iris/version/gxZWWnKH), release-designated | Local shader loading, shader selection, and rendering. Starts with shaders disabled. | Client rendering only. Exact upstream Sodium pin xJZxADzI is already selected. Bundled glsl-transformer 3.0.0-pre3 is part of this hash-pinned upstream release. | Active |
+| [Mod Menu](https://modrinth.com/mod/modmenu) | [20.0.3](https://modrinth.com/mod/modmenu/version/iRo7AZXf), release-designated | Installed mod list and local configuration screens. | Client initializer only. Requires Fabric API and Text Placeholder API 3.1.0-beta.1+26.2, exactly as the release build declares. No server counterpart or server data needed. | Active |
 
 ## Dependency audit
 
-Fabric API is an explicitly selected platform library. Five projects are transitive libraries. All six have stable Fabric 26.2 pins and `side = "client"`. Their local APIs and configuration functions do not require any remote-server installation. They add no selected gameplay content. Exact parents appear in `collection.toml`; exact versions and hashes remain authoritative in `mods/*.pw.toml`.
+Fabric API is an explicitly selected platform library. Seven projects are transitive libraries. All eight have exact Fabric 26.2 pins and `side = "client"`. The selected platform library is release-designated. Upstream dependency provenance permits the audited Placeholder API beta-versioned artifact. Their local APIs and configuration functions do not require any remote-server installation. They add no selected gameplay content. Exact parents appear in `collection.toml`; exact versions and hashes remain authoritative in `mods/*.pw.toml`.
 
 | Library | Classification | Client purpose and dependency evidence |
 | --- | --- | --- |
-| [Fabric API](https://modrinth.com/mod/fabric-api) | selected-library | Required by Xaero's Minimap, YetAnotherConfigLib (YACL), Shulker Box Tooltip, BetterF3, TCDCommons API, Dynamic FPS, Entity Culling, Xaero's World Map, Inventory Profiles Next, Debugify, Mouse Tweaks, Better Statistics Screen, libIPN, Paginated Advancements & Custom Frames, Book Tweaks, Language Reload, Zoomify (Zoom), FastQuit, LambDynamicLights - Dynamic Lights. |
+| [Fabric API](https://modrinth.com/mod/fabric-api) | selected-library | Required by Xaero's Minimap, YetAnotherConfigLib (YACL), Shulker Box Tooltip, BetterF3, TCDCommons API, Dynamic FPS, Balm, Entity Culling, Xaero's World Map, Inventory Profiles Next, Debugify, Mouse Tweaks, Sign Tweaks, Mod Menu, Better Statistics Screen, libIPN, Paginated Advancements & Custom Frames, Book Tweaks, Language Reload, Client Tweaks, Zoomify (Zoom), FastQuit, LambDynamicLights - Dynamic Lights. |
 | [YetAnotherConfigLib (YACL)](https://modrinth.com/mod/yacl) | dependency | Required by Zoomify (Zoom). |
-| [Cloth Config API](https://modrinth.com/mod/cloth-config) | dependency | Required by More Culling, BetterF3, Paginated Advancements & Custom Frames, Status Effect Bars, FastQuit. |
+| [Cloth Config API](https://modrinth.com/mod/cloth-config) | dependency | Required by More Culling, BetterF3, Sign Tweaks, Paginated Advancements & Custom Frames, Status Effect Bars, FastQuit. |
 | [TCDCommons API](https://modrinth.com/mod/tcdcommons) | dependency | Required by Better Statistics Screen. |
 | [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) | dependency | Required by Inventory Profiles Next, libIPN, Zoomify (Zoom). |
 | [libIPN](https://modrinth.com/mod/libipn) | dependency | Required by Inventory Profiles Next. |
+| [Balm](https://modrinth.com/mod/balm) | dependency | Required by Client Tweaks. |
+| [Text Placeholder API](https://modrinth.com/mod/placeholder-api) | dependency | Required by Mod Menu. |
 
 Fabric API supplies modules required by Debugify, Book Tweaks, Paginated Advancements, and other artifacts even where their Modrinth records omit that dependency. Sodium bundles the Fabric modules it requires. Cloth Config provides both `cloth-config` and `cloth-config2`. The client closure records these artifact-derived edges as well as upstream required-project edges.
 
@@ -58,17 +60,33 @@ Bundled libraries stay inside their upstream artifacts. They are not separately 
 
 Zoomify version `D64cvU6G` is universal. Its Modrinth record lists KotlinLangForge `1vrSzlao` as required, although that is a NeoForge dependency and has no Fabric build. The Fabric descriptor requires YACL and Fabric Loader. Fabric Language Kotlin is already in the closure for IPN. This is the sole recorded loader-specific metadata exception, in `upstream-metadata.json`. The checker still requires the remaining Modrinth dependencies.
 
-## Stable-package exclusions
+## Upstream release and dependency provenance
 
-The stable-only policy includes prerelease names even when Modrinth assigns `version_type = "release"`, and extends to explicitly versioned bundled Fabric modules. No exception has been made for a beta or snapshot library.
+All 29 active features use upstream release-designated Fabric 26.2 versions.
+The same release requirement applies to explicitly selected Fabric API.
+Resolved and bundled libraries remain part of the selected releases' official
+closure, even when their version identifiers look like prereleases. This is not
+permission to choose an unrelated prerelease or substitute an unaudited version.
 
-- Mod Menu 20.0.0 through 20.0.3 require Text Placeholder API `3.1.0-beta.1+26.2`. Its release label conflicts with its version name. All four dependency paths are blocked.
-- Sign Tweaks has one release-designated 26.2 version, which declares Mod Menu required. Although the Fabric descriptor only needs Fabric API, this pack honors the upstream required-project declaration.
-- Client Tweaks 26.2.0.1 through 26.2.0.6 each bundle `shogi_api` version `26.2.0.1-SNAPSHOT`.
-- Iris 1.11.0, 1.11.1, 1.11.2, and 1.11.4 for 26.2 each bundle `io_github_douira_glsl-transformer` version `3.0.0-pre3`.
-- Light Overlay has no Fabric 26.2 artifact. The Minecraft target is unchanged.
+- Mod Menu's [v20.0.3 build properties](https://github.com/TerraformersMC/ModMenu/blob/v20.0.3/gradle.properties) set `text_placeholder_api_version=3.1.0-beta.1+26.2` and declare Placeholder API required. The separately installed artifact is pinned to `NDqH16LT`. Its original upstream declaration and exact audited pin are recorded on Mod Menu's dependency edge in the snapshot.
+- Sign Tweaks' release declares Mod Menu and Cloth Config required. Both are now active, so that dependency path is satisfied without a server companion.
+- Iris' exact Sodium requirement is `xJZxADzI`, our existing Sodium 0.9.2 pin. Its native descriptor accepts Sodium `0.9.x` and Fabric Loader `>=0.12.3`. Sodium 0.9.2's exclusion of Iris `<=1.11.2` does not apply to Iris 1.11.4. Sodium and Fabric Loader 0.20.1 remain unchanged.
+- Iris bundles `io_github_douira_glsl-transformer` version `3.0.0-pre3`. Client Tweaks bundles `shogi_api` version `26.2.0.1-SNAPSHOT`. The containing release hashes pin these components. Neither is an independent pack selection or separate download.
+- Client Tweaks requires Balm. The resolved library pin is `26.2.0.9+fabric-26.2`. [Release-tagged client initialization](https://github.com/TwelveIterations/ClientTweaks/blob/v26.2.0.6/fabric/src/main/java/net/blay09/mods/clienttweaks/fabric/client/FabricClientTweaksClient.java) registers its config and tweaks on the client. Enabled defaults act on local UI, rendering, targeting, and ordinary inputs. The [configuration record](configuration.md#client-tweaks) lists the deliberately disabled overlaps.
 
-These projects remain excluded requested features in the collection. Readiness discovery may report READY for a release-designated parent even while its dependency closure or bundled modules block activation.
+The artifact audit verifies download hashes and recursive Fabric descriptors.
+All newly installed records use `side = "client"`. An upstream-required library
+would still be rejected if it introduced a mandatory server requirement or a
+server-only module. Runtime verification remains open.
+
+## Sole blocked requested feature
+
+Light Overlay is the only requested feature still excluded. The
+[project version API](https://api.modrinth.com/v2/project/YfOlc91N/version),
+rechecked on 2026-11-17, contains no Fabric Minecraft 26.2 artifact, including no
+release-designated one. The snapshot records an empty matching version set.
+The requested Minecraft target stays 26.2, and no replacement is selected.
+The active feature count is 29 of 30.
 
 ## Intentional rejections
 

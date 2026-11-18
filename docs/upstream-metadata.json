@@ -10,190 +10,6 @@
       "version_id": "D64cvU6G"
     }
   ],
-  "excluded_artifact_examples": {
-    "YL57xq9U": {
-      "breaks": {
-        "batchedentityrendering": "*",
-        "bedrockwaters": "<=1.6.0",
-        "canvas": "*",
-        "colormatic": "<=3.0.0",
-        "distanthorizons": "<=2.1.99",
-        "embeddium": "*",
-        "immersive_portals": "<=1.4.2",
-        "iris-explorer": "*",
-        "optifabric": "*",
-        "originsenhanced": "<=1.3.2",
-        "physicsmod": "<=3.0.13",
-        "worldeditcui": "<1.18.1"
-      },
-      "bundled": [
-        {
-          "bundled": [],
-          "id": "org_antlr_antlr4-runtime",
-          "version": "4.13.1"
-        },
-        {
-          "bundled": [],
-          "depends": {
-            "fabricloader": ">=0.18.4"
-          },
-          "environment": "*",
-          "id": "fabric-api-base",
-          "version": "2.0.4+ece063239c"
-        },
-        {
-          "bundled": [],
-          "depends": {
-            "fabricloader": ">=0.18.4"
-          },
-          "environment": "client",
-          "id": "fabric-key-mapping-api-v1",
-          "version": "2.0.5+e2bdee789c"
-        },
-        {
-          "bundled": [],
-          "id": "io_github_douira_glsl-transformer",
-          "version": "3.0.0-pre3"
-        },
-        {
-          "bundled": [],
-          "id": "org_anarres_jcpp",
-          "version": "1.4.14"
-        }
-      ],
-      "depends": {
-        "fabricloader": ">=0.12.3",
-        "sodium": [
-          "0.9.x"
-        ]
-      },
-      "environment": "client",
-      "id": "iris",
-      "version": "1.11.4+mc26.2"
-    },
-    "c7xDMxha": {
-      "breaks": {
-        "improvedsignediting": [
-          "*"
-        ],
-        "signcopy": [
-          "*"
-        ],
-        "signeditlite": [
-          "*"
-        ],
-        "signtools": [
-          "*"
-        ]
-      },
-      "bundled": [],
-      "depends": {
-        "fabric-api": [
-          "*"
-        ],
-        "fabricloader": [
-          ">=0.18.5"
-        ],
-        "java": [
-          ">=25"
-        ],
-        "minecraft": [
-          ">26.1.2 <27"
-        ]
-      },
-      "environment": "client",
-      "id": "signtweaks",
-      "provides": [],
-      "version": "2.103.0+26.2"
-    },
-    "mOgUt4GM": {
-      "bundled": [
-        {
-          "bundled": [],
-          "depends": {
-            "fabricloader": ">=0.18.4"
-          },
-          "environment": "*",
-          "id": "fabric-api-base",
-          "version": "2.0.4+ece063239e"
-        },
-        {
-          "bundled": [],
-          "depends": {
-            "fabricloader": ">=0.18.4"
-          },
-          "environment": "client",
-          "id": "fabric-key-mapping-api-v1",
-          "version": "2.0.5+e2bdee789e"
-        },
-        {
-          "bundled": [],
-          "depends": {
-            "fabric-api-base": "*",
-            "fabricloader": ">=0.18.4"
-          },
-          "environment": "*",
-          "id": "fabric-lifecycle-events-v1",
-          "version": "4.1.3+4575b05f9e"
-        },
-        {
-          "bundled": [],
-          "depends": {
-            "fabricloader": ">=0.18.4"
-          },
-          "environment": "*",
-          "id": "fabric-resource-loader-v1",
-          "version": "2.0.13+9edec1269e"
-        },
-        {
-          "bundled": [],
-          "depends": {
-            "fabric-api-base": "*",
-            "fabricloader": ">=0.18.4"
-          },
-          "environment": "client",
-          "id": "fabric-screen-api-v1",
-          "version": "5.0.3+086d547a9e"
-        }
-      ],
-      "depends": {
-        "fabric-key-mapping-api-v1": "*",
-        "fabric-lifecycle-events-v1": "*",
-        "fabric-resource-loader-v1": "*",
-        "fabric-screen-api-v1": "*",
-        "fabricloader": ">=0.19.2",
-        "minecraft": ">=26.2 <26.3-alpha.3"
-      },
-      "environment": "client",
-      "id": "modmenu",
-      "version": "20.0.3"
-    },
-    "vPNqo58Q": {
-      "bundled": [
-        {
-          "bundled": [],
-          "depends": {
-            "fabricloader": ">=0.19.3",
-            "java": ">=25",
-            "minecraft": "~26.2-"
-          },
-          "environment": "*",
-          "id": "shogi_api",
-          "version": "26.2.0.1-SNAPSHOT"
-        }
-      ],
-      "depends": {
-        "balm-fabric": ">=26.2.0.1",
-        "fabric-api": "*",
-        "fabricloader": ">=0.19.3",
-        "java": ">=25",
-        "minecraft": "~26.2-"
-      },
-      "environment": "*",
-      "id": "clienttweaks",
-      "version": "26.2.0.6"
-    }
-  },
   "fabric_loader": {
     "build": 1,
     "maven": "net.fabricmc:fabric-loader:0.20.1",
@@ -3199,6 +3015,12 @@
       "source_url": "https://github.com/TwelveIterations/Balm",
       "versions": [
         {
+          "client_required": [
+            {
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
           "dependencies": [
             {
               "dependency_type": "required",
@@ -3207,6 +3029,56 @@
               "version_id": null
             }
           ],
+          "fabric_descriptor": {
+            "bundled": [
+              {
+                "bundled": [],
+                "depends": {
+                  "fabric-api": "*",
+                  "fabricloader": ">=0.19.3",
+                  "java": ">=25",
+                  "minecraft": "~26.2-"
+                },
+                "entrypoints": {
+                  "client": [
+                    "net.blay09.mods.kuma.fabric.FabricKumaAPI"
+                  ]
+                },
+                "environment": "*",
+                "id": "kuma_api",
+                "version": "26.2.0.1"
+              }
+            ],
+            "depends": {
+              "fabric-api": ">=0.152.1+26.2",
+              "fabricloader": ">=0.19.3",
+              "java": ">=25",
+              "minecraft": "~26.2-"
+            },
+            "entrypoints": {
+              "client": [
+                "net.blay09.mods.balm.fabric.client.internal.FabricBalmClient"
+              ],
+              "jade": [
+                "net.blay09.mods.balm.platform.compatibility.hudinfo.internal.JadeModIntegration"
+              ],
+              "jei_mod_plugin": [
+                "net.blay09.mods.balm.platform.compatibility.recipeviewer.internal.jei.CommonJeiPlugin"
+              ],
+              "main": [
+                "net.blay09.mods.balm.fabric.internal.FabricBalm"
+              ],
+              "modmenu": [
+                "net.blay09.mods.balm.fabric.platform.compatibility.modmenu.internal.ModMenuIntegration"
+              ]
+            },
+            "environment": "*",
+            "id": "balm",
+            "provides": [
+              "balm-fabric"
+            ],
+            "version": "26.2.0.9"
+          },
           "files": [
             {
               "file_type": null,
@@ -6141,6 +6013,12 @@
       "source_url": "https://github.com/IrisShaders/Iris",
       "versions": [
         {
+          "client_required": [
+            {
+              "project_id": "AANobbMI",
+              "version_id": "xJZxADzI"
+            }
+          ],
           "dependencies": [
             {
               "dependency_type": "required",
@@ -6149,6 +6027,74 @@
               "version_id": "xJZxADzI"
             }
           ],
+          "fabric_descriptor": {
+            "breaks": {
+              "batchedentityrendering": "*",
+              "bedrockwaters": "<=1.6.0",
+              "canvas": "*",
+              "colormatic": "<=3.0.0",
+              "distanthorizons": "<=2.1.99",
+              "embeddium": "*",
+              "immersive_portals": "<=1.4.2",
+              "iris-explorer": "*",
+              "optifabric": "*",
+              "originsenhanced": "<=1.3.2",
+              "physicsmod": "<=3.0.13",
+              "worldeditcui": "<1.18.1"
+            },
+            "bundled": [
+              {
+                "bundled": [],
+                "id": "org_antlr_antlr4-runtime",
+                "version": "4.13.1"
+              },
+              {
+                "bundled": [],
+                "depends": {
+                  "fabricloader": ">=0.18.4"
+                },
+                "environment": "*",
+                "id": "fabric-api-base",
+                "version": "2.0.4+ece063239c"
+              },
+              {
+                "bundled": [],
+                "depends": {
+                  "fabricloader": ">=0.18.4"
+                },
+                "environment": "client",
+                "id": "fabric-key-mapping-api-v1",
+                "version": "2.0.5+e2bdee789c"
+              },
+              {
+                "bundled": [],
+                "id": "io_github_douira_glsl-transformer",
+                "version": "3.0.0-pre3"
+              },
+              {
+                "bundled": [],
+                "id": "org_anarres_jcpp",
+                "version": "1.4.14"
+              }
+            ],
+            "depends": {
+              "fabricloader": ">=0.12.3",
+              "sodium": [
+                "0.9.x"
+              ]
+            },
+            "entrypoints": {
+              "modmenu": [
+                "net.irisshaders.iris.compat.modmenu.ModMenuIntegration"
+              ],
+              "sodium:config_api_user": [
+                "net.irisshaders.iris.compat.sodium.config.IrisConfig"
+              ]
+            },
+            "environment": "client",
+            "id": "iris",
+            "version": "1.11.4+mc26.2"
+          },
           "files": [
             {
               "file_type": null,
@@ -6378,25 +6324,21 @@
       "source_url": "https://github.com/TerminalMC/SignEdit",
       "versions": [
         {
-          "dependencies": [
+          "client_required": [
             {
-              "dependency_type": "incompatible",
-              "file_name": null,
-              "project_id": "QvdBkyYv",
+              "project_id": "9s6osm5g",
               "version_id": null
             },
             {
-              "dependency_type": "incompatible",
-              "file_name": null,
-              "project_id": "31HqGqE1",
+              "project_id": "P7dR8mSH",
               "version_id": null
             },
             {
-              "dependency_type": "required",
-              "file_name": null,
               "project_id": "mOgUt4GM",
               "version_id": null
-            },
+            }
+          ],
+          "dependencies": [
             {
               "dependency_type": "required",
               "file_name": null,
@@ -6406,13 +6348,31 @@
             {
               "dependency_type": "incompatible",
               "file_name": null,
-              "project_id": "EWQifKYI",
+              "project_id": "cK4nxndh",
               "version_id": null
             },
             {
               "dependency_type": "incompatible",
               "file_name": null,
-              "project_id": "cK4nxndh",
+              "project_id": "31HqGqE1",
+              "version_id": null
+            },
+            {
+              "dependency_type": "incompatible",
+              "file_name": null,
+              "project_id": "QvdBkyYv",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "mOgUt4GM",
+              "version_id": null
+            },
+            {
+              "dependency_type": "incompatible",
+              "file_name": null,
+              "project_id": "EWQifKYI",
               "version_id": null
             },
             {
@@ -6422,6 +6382,51 @@
               "version_id": null
             }
           ],
+          "fabric_descriptor": {
+            "breaks": {
+              "improvedsignediting": [
+                "*"
+              ],
+              "signcopy": [
+                "*"
+              ],
+              "signeditlite": [
+                "*"
+              ],
+              "signtools": [
+                "*"
+              ]
+            },
+            "bundled": [],
+            "depends": {
+              "fabric-api": [
+                "*"
+              ],
+              "fabricloader": [
+                ">=0.18.5"
+              ],
+              "java": [
+                ">=25"
+              ],
+              "minecraft": [
+                ">26.1.2 <27"
+              ]
+            },
+            "entrypoints": {
+              "client": [
+                "dev.terminalmc.signtweaks.SignTweaksFabric"
+              ],
+              "main": [],
+              "modmenu": [
+                "dev.terminalmc.signtweaks.compat.modmenu.ModMenuImpl"
+              ],
+              "server": []
+            },
+            "environment": "client",
+            "id": "signtweaks",
+            "provides": [],
+            "version": "2.103.0+26.2"
+          },
           "files": [
             {
               "file_type": null,
@@ -6571,7 +6576,18 @@
       "source_url": "https://github.com/Patbox/TextPlaceholderAPI",
       "versions": [
         {
+          "client_required": [],
           "dependencies": [],
+          "fabric_descriptor": {
+            "bundled": [],
+            "depends": {
+              "fabricloader": ">=0.18.4",
+              "minecraft": ">=26.2-"
+            },
+            "environment": "*",
+            "id": "placeholder-api",
+            "version": "3.1.0-beta.1+26.2"
+          },
           "files": [
             {
               "file_type": null,
@@ -6845,20 +6861,113 @@
       "source_url": "https://github.com/TerraformersMC/ModMenu",
       "versions": [
         {
-          "dependencies": [
+          "client_required": [
             {
-              "dependency_type": "required",
-              "file_name": null,
-              "project_id": "eXts2L7r",
+              "project_id": "P7dR8mSH",
               "version_id": null
             },
+            {
+              "audit_source": "https://github.com/TerraformersMC/ModMenu/blob/v20.0.3/gradle.properties",
+              "audited_version": "NDqH16LT",
+              "evidence": "https://api.modrinth.com/v2/version/iRo7AZXf",
+              "project_id": "eXts2L7r",
+              "reason": "Mod Menu v20.0.3 declares placeholder-api required and sets text_placeholder_api_version=3.1.0-beta.1+26.2 in gradle.properties. Audited artifact NDqH16LT matches that exact upstream build dependency.",
+              "upstream_version": "3.1.0-beta.1+26.2",
+              "version_id": null
+            }
+          ],
+          "dependencies": [
             {
               "dependency_type": "required",
               "file_name": null,
               "project_id": "P7dR8mSH",
               "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "eXts2L7r",
+              "version_id": null
             }
           ],
+          "fabric_descriptor": {
+            "bundled": [
+              {
+                "bundled": [],
+                "depends": {
+                  "fabricloader": ">=0.18.4"
+                },
+                "environment": "*",
+                "id": "fabric-api-base",
+                "version": "2.0.4+ece063239e"
+              },
+              {
+                "bundled": [],
+                "depends": {
+                  "fabricloader": ">=0.18.4"
+                },
+                "environment": "client",
+                "id": "fabric-key-mapping-api-v1",
+                "version": "2.0.5+e2bdee789e"
+              },
+              {
+                "bundled": [],
+                "depends": {
+                  "fabric-api-base": "*",
+                  "fabricloader": ">=0.18.4"
+                },
+                "entrypoints": {
+                  "client": [
+                    "net.fabricmc.fabric.impl.client.event.lifecycle.ClientLifecycleEventsImpl"
+                  ],
+                  "main": [
+                    "net.fabricmc.fabric.impl.event.lifecycle.LifecycleEventsImpl"
+                  ]
+                },
+                "environment": "*",
+                "id": "fabric-lifecycle-events-v1",
+                "version": "4.1.3+4575b05f9e"
+              },
+              {
+                "bundled": [],
+                "depends": {
+                  "fabricloader": ">=0.18.4"
+                },
+                "environment": "*",
+                "id": "fabric-resource-loader-v1",
+                "version": "2.0.13+9edec1269e"
+              },
+              {
+                "bundled": [],
+                "depends": {
+                  "fabric-api-base": "*",
+                  "fabricloader": ">=0.18.4"
+                },
+                "environment": "client",
+                "id": "fabric-screen-api-v1",
+                "version": "5.0.3+086d547a9e"
+              }
+            ],
+            "depends": {
+              "fabric-key-mapping-api-v1": "*",
+              "fabric-lifecycle-events-v1": "*",
+              "fabric-resource-loader-v1": "*",
+              "fabric-screen-api-v1": "*",
+              "fabricloader": ">=0.19.2",
+              "minecraft": ">=26.2 <26.3-alpha.3"
+            },
+            "entrypoints": {
+              "client": [
+                "com.terraformersmc.modmenu.ModMenu"
+              ],
+              "modmenu": [
+                "com.terraformersmc.modmenu.ModMenuModMenuCompat"
+              ]
+            },
+            "environment": "client",
+            "id": "modmenu",
+            "version": "20.0.3"
+          },
           "files": [
             {
               "file_type": null,
@@ -7017,13 +7126,13 @@
             {
               "dependency_type": "required",
               "file_name": null,
-              "project_id": "P7dR8mSH",
+              "project_id": "eXts2L7r",
               "version_id": null
             },
             {
               "dependency_type": "required",
               "file_name": null,
-              "project_id": "eXts2L7r",
+              "project_id": "P7dR8mSH",
               "version_id": null
             }
           ],
@@ -7059,13 +7168,13 @@
             {
               "dependency_type": "required",
               "file_name": null,
-              "project_id": "P7dR8mSH",
+              "project_id": "eXts2L7r",
               "version_id": null
             },
             {
               "dependency_type": "required",
               "file_name": null,
-              "project_id": "eXts2L7r",
+              "project_id": "P7dR8mSH",
               "version_id": null
             }
           ],
@@ -8134,20 +8243,61 @@
       "source_url": "https://github.com/TwelveIterations/ClientTweaks",
       "versions": [
         {
-          "dependencies": [
+          "client_required": [
             {
-              "dependency_type": "required",
-              "file_name": null,
               "project_id": "MBAkmtvl",
               "version_id": null
             },
+            {
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "dependencies": [
             {
               "dependency_type": "required",
               "file_name": null,
               "project_id": "P7dR8mSH",
               "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "MBAkmtvl",
+              "version_id": null
             }
           ],
+          "fabric_descriptor": {
+            "bundled": [
+              {
+                "bundled": [],
+                "depends": {
+                  "fabricloader": ">=0.19.3",
+                  "java": ">=25",
+                  "minecraft": "~26.2-"
+                },
+                "environment": "*",
+                "id": "shogi_api",
+                "version": "26.2.0.1-SNAPSHOT"
+              }
+            ],
+            "depends": {
+              "balm-fabric": ">=26.2.0.1",
+              "fabric-api": "*",
+              "fabricloader": ">=0.19.3",
+              "java": ">=25",
+              "minecraft": "~26.2-"
+            },
+            "entrypoints": {
+              "client": [
+                "net.blay09.mods.clienttweaks.fabric.client.FabricClientTweaksClient"
+              ],
+              "main": []
+            },
+            "environment": "*",
+            "id": "clienttweaks",
+            "version": "26.2.0.6"
+          },
           "files": [
             {
               "file_type": null,

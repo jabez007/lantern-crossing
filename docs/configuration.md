@@ -1,7 +1,8 @@
 # Configuration decisions
 
-Only `config/MouseTweaks.cfg` is shipped. Every other active mod starts with its
-upstream defaults. User-generated preferences, key bindings, server addresses,
+The pack ships `config/MouseTweaks.cfg`, `config/clienttweaks-common.toml`, and
+`config/iris.properties`. Other settings retain upstream defaults.
+User-generated preferences, key bindings, server addresses,
 map caches, and waypoints do not belong in the repository or release archive.
 
 ## Inventory gestures
@@ -39,10 +40,12 @@ implementation is included. Dynamic lights do not change server-side spawning
 or block light levels. BadOptimizations' lightmap caching and the rendering stack
 need visual testing when a held light, weather, or status effect changes.
 
-Iris is excluded because its stable packages bundle a prerelease library.
-Shaders remain unavailable in this baseline. A later promotion must check the
-exact Sodium requirement, shader-disabled rendering, the shader UI, resizing,
-and interactions with dynamic lighting. No shader pack is bundled.
+Iris 1.11.4 is active with Sodium 0.9.2. `config/iris.properties` sets
+`enableShaders=false` so the clean baseline starts with vanilla rendering.
+The shader-selection UI remains available. No shader pack is bundled.
+Check shader-disabled rendering, resizing, and interactions with dynamic lighting
+before accepting the build. If a player adds a shader pack, review its own
+dynamic-lighting behavior to avoid enabling the same effect twice.
 
 ## Maps and information
 
@@ -60,12 +63,35 @@ Statistics Screen is selected for presenting vanilla player statistics, not its
 server commands or additional server-provided data. No config enables those
 server integrations.
 
-## Excluded configuration
+## Client Tweaks
 
-Client Tweaks is excluded, so its recipe-book, interaction, and HUD tweaks do
-not overlap the dedicated QoL mods. Sign Tweaks and Mod Menu are also excluded.
-Use existing mod-specific keys or configuration files for active projects that
-normally expose configuration through Mod Menu. Book Tweaks keeps its defaults.
+The exact [26.2.0.6 configuration source](https://github.com/TwelveIterations/ClientTweaks/blob/v26.2.0.6/common/src/main/java/net/blay09/mods/clienttweaks/ClientTweaksConfig.java)
+defines these options. The pack pins two existing upstream defaults off in
+`config/clienttweaks-common.toml`:
 
-No speculative config file is shipped for an excluded mod. Promotion requires
-a new audit and a deliberate configuration review.
+| Key | Value | Reason |
+| --- | --- | --- |
+| `ui.alwaysPrioritizeExperienceBar` | `false` | Better Mount HUD owns the selected player/mount HUD presentation. Avoid an additional forced bar-priority rule. |
+| `mining.doNotUseLastMending` | `false` | IPN owns refill and tool replacement assistance. Avoid a second last-durability input guard. |
+
+Other options retain the release's defaults. Enabled behavior includes volume
+sliders, creative and recipe-book search conveniences, ghost-ingredient
+navigation, local shield visibility, placement targeting assistance, and local
+guards against accidental offhand actions. These use client UI, rendering,
+targeting, or suppression of ordinary vanilla inputs. They require no extra
+server data or companion mod. No second sorting, wheel-transfer, or inventory
+drag implementation is enabled by Client Tweaks.
+
+Automatic ladder climbing, reactive sprinting, step-assist changes, and the other
+opt-in tweaks remain at their disabled upstream defaults. Test enabled behavior
+and the two explicitly disabled switches on the vanilla acceptance server.
+
+The [Fabric client initializer](https://github.com/TwelveIterations/ClientTweaks/blob/v26.2.0.6/fabric/src/main/java/net/blay09/mods/clienttweaks/fabric/client/FabricClientTweaksClient.java)
+registers Client Tweaks and its local config on the client. Balm's
+[config interface](https://github.com/TwelveIterations/Balm/blob/v26.2.0.9/common/src/main/java/net/blay09/mods/balm/platform/config/BalmConfig.java)
+maps the common config annotation to `config/clienttweaks-common.toml`.
+Balm can populate omitted options from upstream defaults on first load.
+
+Mod Menu exposes the active mods' configuration screens. Sign Tweaks and Book
+Tweaks retain their upstream editing defaults. Light Overlay remains blocked
+and has no shipped configuration.

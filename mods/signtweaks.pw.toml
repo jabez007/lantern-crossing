@@ -1,0 +1,14 @@
+name = "Sign Tweaks"
+filename = "signtweaks-fabric-2.103.0+26.2.jar"
+side = "client"
+pin = true
+
+[download]
+url = "https://cdn.modrinth.com/data/c7xDMxha/versions/piBkp75o/signtweaks-fabric-2.103.0%2B26.2.jar"
+hash-format = "sha512"
+hash = "06e40f7e94918a625389b89ba30d124597c63ab4c415f436bdb531fdbb22ba0cbc43c751cc1d559a69ee9e76c8f8ce423c9603aeb0abd2a07732351dbd62d394"
+
+[update]
+[update.modrinth]
+mod-id = "c7xDMxha"
+version = "piBkp75o"

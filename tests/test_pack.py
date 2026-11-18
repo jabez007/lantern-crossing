@@ -48,8 +48,10 @@ class PackTests(unittest.TestCase):
     def test_repository_contract(self):
         pack = load_pack(self.root)
         self.assertEqual(len(pack.evidence["requested"]), 30)
-        self.assertEqual(len(pack.collection["excluded"]), 5)
-        self.assertEqual(len(pack.mods), 31)
+        self.assertEqual(sum(p["role"] == "feature" for p in pack.projects.values()), 29)
+        self.assertEqual([p["slug"] for p in pack.collection["excluded"]], ["light-overlay"])
+        self.assertEqual(len(pack.collection["resolved-dependency"]), 7)
+        self.assertEqual(len(pack.mods), 37)
 
     def test_side_is_always_explicitly_client(self):
         for side in ('"both"', '"server"', '""'):
@@ -151,10 +153,10 @@ class PackTests(unittest.TestCase):
 
     def test_release_tag_must_match(self):
         self.assertEqual(
-            metadata(self.root, "v26.2.0.1.0")["archive"], "lantern-crossing-26.2.0.1.0.mrpack"
+            metadata(self.root, "v26.2.0.2.0")["archive"], "lantern-crossing-26.2.0.2.0.mrpack"
         )
         with self.assertRaisesRegex(ValueError, "tag must agree"):
-            metadata(self.root, "v26.2.0.1.1")
+            metadata(self.root, "v26.2.0.2.1")
 
     def test_release_checksum(self):
         (self.root / "dist").mkdir()
@@ -163,11 +165,12 @@ class PackTests(unittest.TestCase):
         result = write_checksum(self.root).read_text()
         self.assertEqual(result, hashlib.sha256(b"archive").hexdigest() + "  " + name + "\n")
 
-    def test_stable_label_does_not_override_prerelease_name(self):
+    def test_stability_uses_upstream_release_designation(self):
         for name in ("1.0-beta.1", "1.0-SNAPSHOT", "3.0.0-pre3", "1.0-rc.1", "1.0-alpha1"):
             with self.subTest(name=name):
-                self.assertFalse(stable({"version_type": "release", "version_number": name}))
-        self.assertFalse(stable({"version_type": "beta", "version_number": "1.0"}))
+                self.assertTrue(stable({"version_type": "release", "version_number": name}))
+        for kind in ("alpha", "beta"):
+            self.assertFalse(stable({"version_type": kind, "version_number": "1.0"}))
         self.assertTrue(stable({"version_type": "release", "version_number": "fabric-26.2-2.3.8"}))
 
     def test_readiness_filters_target_loader_and_stability(self):
@@ -316,15 +319,117 @@ class PackTests(unittest.TestCase):
         self.assertEqual(first, path.read_bytes())
         validate(path, self.root)
 
-    def test_bundled_prerelease_cannot_hide_in_stable_parent(self):
+    def test_bundled_prerelease_is_allowed_in_release_parent(self):
         path = self.root / "docs/upstream-metadata.json"
         snapshot = json.loads(path.read_text())
         version = next(
             v for v in snapshot["projects"]["AANobbMI"]["versions"] if v["id"] == "xJZxADzI"
         )
-        version["fabric_descriptor"]["bundled"][0]["version"] = "1.0-SNAPSHOT"
+        version["fabric_descriptor"]["bundled"][0]["version"] = "3.0.0-pre3"
         path.write_text(json.dumps(snapshot))
-        self.invalid("bundled prerelease")
+        load_pack(self.root)
+
+    def edit_evidence(self, change):
+        path = self.root / "docs/upstream-metadata.json"
+        snapshot = json.loads(path.read_text())
+        change(snapshot)
+        path.write_text(json.dumps(snapshot))
+
+    def evidence_version(self, snapshot, project_id):
+        return next(
+            v for v in snapshot["projects"][project_id]["versions"] if "client_required" in v
+        )
+
+    def prerelease_dependency(self, snapshot, audited=True):
+        dependency = self.evidence_version(snapshot, "1eAoo2KR")
+        dependency["version_type"] = "beta"
+        dependency["version_number"] = "3.0.0-pre3"
+        parent = self.evidence_version(snapshot, "w7ThoJFB")
+        edge = next(d for d in parent["client_required"] if d["project_id"] == "1eAoo2KR")
+        if audited:
+            edge["audited_version"] = dependency["id"]
+            edge["evidence"] = "https://api.modrinth.com/v2/version/" + parent["id"]
+            edge["upstream_version"] = dependency["version_number"]
+            edge["audit_source"] = "https://example.org/upstream/release/build.properties"
+        return parent, dependency
+
+    def test_official_exact_audited_prerelease_dependency_is_allowed(self):
+        self.edit_evidence(self.prerelease_dependency)
+        load_pack(self.root)
+
+    def test_exact_upstream_version_dependency_is_allowed(self):
+        def exact_requirement(snapshot):
+            parent, dependency = self.prerelease_dependency(snapshot, audited=False)
+            for edge in parent["dependencies"] + parent["client_required"]:
+                if edge["project_id"] == "1eAoo2KR":
+                    edge["version_id"] = dependency["id"]
+
+        self.edit_evidence(exact_requirement)
+        load_pack(self.root)
+
+    def test_independently_selected_feature_must_be_a_release(self):
+        for kind in ("alpha", "beta"):
+            with self.subTest(kind=kind):
+                self.edit_evidence(
+                    lambda s: self.evidence_version(s, "AANobbMI").update(version_type=kind)
+                )
+                self.invalid("selected.*release-designated")
+
+    def test_selected_platform_library_must_be_a_release(self):
+        self.edit_evidence(
+            lambda s: self.evidence_version(s, "P7dR8mSH").update(version_type="beta")
+        )
+        self.invalid("selected.*release-designated")
+
+    def test_prerelease_dependency_requires_exact_audited_pin(self):
+        self.edit_evidence(lambda s: self.prerelease_dependency(s, audited=False))
+        self.invalid("prerelease dependency.*upstream.*pin")
+
+    def test_prerelease_dependency_cannot_be_independently_substituted(self):
+        def substitute(snapshot):
+            parent, _ = self.prerelease_dependency(snapshot)
+            edge = next(d for d in parent["client_required"] if d["project_id"] == "1eAoo2KR")
+            edge["audited_version"] = "different-version"
+
+        self.edit_evidence(substitute)
+        self.invalid("prerelease dependency.*upstream.*pin")
+
+    def test_prerelease_pin_must_match_upstream_version_declaration(self):
+        def mismatched_declaration(snapshot):
+            parent, _ = self.prerelease_dependency(snapshot)
+            edge = next(d for d in parent["client_required"] if d["project_id"] == "1eAoo2KR")
+            edge["upstream_version"] = "1.0"
+
+        self.edit_evidence(mismatched_declaration)
+        self.invalid("prerelease dependency.*upstream.*pin")
+
+    def test_manually_added_prerelease_edge_is_not_upstream_provenance(self):
+        def remove_upstream_declaration(snapshot):
+            parent, _ = self.prerelease_dependency(snapshot)
+            parent["dependencies"] = [
+                d for d in parent["dependencies"] if d["project_id"] != "1eAoo2KR"
+            ]
+            del parent["fabric_descriptor"]["depends"]["yet_another_config_lib_v3"]
+
+        self.edit_evidence(remove_upstream_declaration)
+        self.invalid("prerelease dependency.*upstream.*pin")
+
+    def test_server_required_dependency_is_rejected(self):
+        self.edit_evidence(lambda s: s["projects"]["1eAoo2KR"].update(server_side="required"))
+        self.invalid("server requirement")
+
+    def test_server_only_bundled_module_is_still_rejected(self):
+        def server_bundle(snapshot):
+            version = self.evidence_version(snapshot, "AANobbMI")
+            version["fabric_descriptor"]["bundled"][0]["environment"] = "server"
+
+        self.edit_evidence(server_bundle)
+        self.invalid("server-only Fabric module")
+
+    def test_client_tweaks_overlap_switches_are_pinned_off(self):
+        config = load_toml(self.root / "config/clienttweaks-common.toml")
+        self.assertIs(config["ui"]["alwaysPrioritizeExperienceBar"], False)
+        self.assertIs(config["mining"]["doNotUseLastMending"], False)
 
     def test_native_dependency_omission_is_detected(self):
         path = self.root / "docs/upstream-metadata.json"
