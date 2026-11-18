@@ -48,10 +48,9 @@ class PackTests(unittest.TestCase):
     def test_repository_contract(self):
         pack = load_pack(self.root)
         self.assertEqual(len(pack.evidence["requested"]), 30)
-        self.assertEqual(sum(p["role"] == "feature" for p in pack.projects.values()), 29)
-        self.assertEqual([p["slug"] for p in pack.collection["excluded"]], ["light-overlay"])
-        self.assertEqual(len(pack.collection["resolved-dependency"]), 7)
-        self.assertEqual(len(pack.mods), 37)
+        features = {pid for pid, project in pack.projects.items() if project["role"] == "feature"}
+        self.assertEqual(features, set(pack.evidence["requested"]))
+        self.assertFalse(pack.collection.get("excluded"))
 
     def test_side_is_always_explicitly_client(self):
         for side in ('"both"', '"server"', '""'):
@@ -74,6 +73,39 @@ class PackTests(unittest.TestCase):
     def test_unexpected_lock_project(self):
         self.replace("mods/sodium.pw.toml", 'mod-id = "AANobbMI"', 'mod-id = "unknown1"')
         self.invalid("unexpected active")
+
+    def test_same_named_project_cannot_replace_light_overlay_lock(self):
+        self.replace("mods/lightoverlay.pw.toml", 'mod-id = "8qVa1XCN"', 'mod-id = "YfOlc91N"')
+        self.assertEqual(
+            load_toml(self.root / "mods/lightoverlay.pw.toml")["name"], "Light Overlay"
+        )
+        self.invalid("unexpected active project")
+
+    def test_same_named_project_cannot_replace_requested_identity(self):
+        self.replace("collection.toml", 'project-id = "8qVa1XCN"', 'project-id = "YfOlc91N"')
+        self.replace("mods/lightoverlay.pw.toml", 'mod-id = "8qVa1XCN"', 'mod-id = "YfOlc91N"')
+        self.invalid("all requested features")
+
+    def test_light_overlay_requires_exact_upstream_overlaylib_pin(self):
+        def require_another_version(snapshot):
+            parent = self.evidence_version(snapshot, "8qVa1XCN")
+            for edge in parent["dependencies"] + parent["client_required"]:
+                if edge["project_id"] == "M1B8mLoH":
+                    edge["version_id"] = "different-version"
+
+        self.edit_evidence(require_another_version)
+        self.invalid("exact dependency version mismatch")
+
+    def test_light_overlay_render_stack_has_no_new_declared_conflicts(self):
+        pack = load_pack(self.root)
+        stack = {"8qVa1XCN", "M1B8mLoH", "YL57xq9U", "AANobbMI"}
+        module_ids = {pack.versions[pid]["fabric_descriptor"]["id"] for pid in stack}
+        for pid in stack:
+            self.assertEqual(pack.mods[pid]["side"], "client")
+        for pid in ("8qVa1XCN", "M1B8mLoH"):
+            descriptor = pack.versions[pid]["fabric_descriptor"]
+            conflicts = set(descriptor.get("breaks", {})) | set(descriptor.get("conflicts", {}))
+            self.assertFalse(module_ids & conflicts)
 
     def test_duplicate_project_and_slug(self):
         collection = (self.root / "collection.toml").read_text()
@@ -153,10 +185,10 @@ class PackTests(unittest.TestCase):
 
     def test_release_tag_must_match(self):
         self.assertEqual(
-            metadata(self.root, "v26.2.0.2.0")["archive"], "lantern-crossing-26.2.0.2.0.mrpack"
+            metadata(self.root, "v26.2.0.3.0")["archive"], "lantern-crossing-26.2.0.3.0.mrpack"
         )
         with self.assertRaisesRegex(ValueError, "tag must agree"):
-            metadata(self.root, "v26.2.0.2.1")
+            metadata(self.root, "v26.2.0.3.1")
 
     def test_release_checksum(self):
         (self.root / "dist").mkdir()
@@ -196,8 +228,8 @@ class PackTests(unittest.TestCase):
             active = discover(self.root, "26.2", "active", snapshot)
             requested = discover(self.root, "26.2", "requested", snapshot)
         self.assertTrue(all(r["ready"] for r in active))
-        self.assertEqual(len(requested), 30)
-        self.assertEqual([r["name"] for r in requested if not r["ready"]], ["Light Overlay"])
+        self.assertEqual(len(requested), len(snapshot["requested"]))
+        self.assertTrue(all(r["ready"] for r in requested))
 
     def archive_data(self):
         pack = load_pack(self.root)

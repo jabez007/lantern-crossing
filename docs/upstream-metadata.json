@@ -1388,6 +1388,498 @@
         }
       ]
     },
+    "8qVa1XCN": {
+      "client_side": "required",
+      "name": "Light Overlay",
+      "server_side": "unsupported",
+      "slug": "lightoverlay",
+      "source_url": "https://github.com/lugosieben/lightoverlay",
+      "versions": [
+        {
+          "client_required": [
+            {
+              "project_id": "M1B8mLoH",
+              "version_id": "OQkmYeS8"
+            },
+            {
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            },
+            {
+              "project_id": "1eAoo2KR",
+              "version_id": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "M1B8mLoH",
+              "version_id": "OQkmYeS8"
+            },
+            {
+              "dependency_type": "optional",
+              "file_name": null,
+              "project_id": "mOgUt4GM",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "1eAoo2KR",
+              "version_id": null
+            }
+          ],
+          "fabric_descriptor": {
+            "bundled": [],
+            "depends": {
+              "fabric-api": ">=0.152.1+26.2",
+              "fabricloader": ">=0.19.3",
+              "java": ">=21",
+              "minecraft": "~26.2",
+              "overlaylib": "~0.12.0+26.2",
+              "yet_another_config_lib_v3": ">=3.9.4+26.2-fabric"
+            },
+            "entrypoints": {
+              "main": [
+                "net.lugo.lightoverlay.LightOverlay"
+              ],
+              "modmenu": [
+                "net.lugo.lightoverlay.config.ModMenuIntegration"
+              ]
+            },
+            "environment": "client",
+            "id": "light-overlay",
+            "version": "2.12.0+26.2"
+          },
+          "files": [
+            {
+              "file_type": null,
+              "filename": "light-overlay-2.12.0+26.2.jar",
+              "hashes": {
+                "sha1": "dbc46a53c951c338c042e28045eb5f0e52bcab33",
+                "sha512": "9673f34d356f5be2ef1fdd4e844c5ff2d0edf73e6fcbd5e463136909ac64e6c49b084eface3b6b78c50ed3d683476c4071f32e058623f8c0666343ce554bd662"
+              },
+              "id": "HPzOborz",
+              "primary": true,
+              "size": 67051,
+              "url": "https://cdn.modrinth.com/data/8qVa1XCN/versions/AT01Q5uN/light-overlay-2.12.0%2B26.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "AT01Q5uN",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "Light Overlay 2.12.0+26.2",
+          "project_id": "8qVa1XCN",
+          "version_number": "2.12.0+26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "1eAoo2KR",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            },
+            {
+              "dependency_type": "optional",
+              "file_name": null,
+              "project_id": "mOgUt4GM",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "M1B8mLoH",
+              "version_id": "MB037GNW"
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "light-overlay-2.11.1+26.2.jar",
+              "hashes": {
+                "sha1": "34f1b2618658d9a120814df87482627702d3a15d",
+                "sha512": "884c9d118c37ff08ddf4bb85d33896f8194acaf6f85a7af51deab7a03885562290c9097d795a1ce981cd6bfc4438cd5b3b4e39666dfdc5639c3ce2c3c79e32fa"
+              },
+              "id": "3yv7gzul",
+              "primary": true,
+              "size": 67128,
+              "url": "https://cdn.modrinth.com/data/8qVa1XCN/versions/2H2mtn8q/light-overlay-2.11.1%2B26.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "2H2mtn8q",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "Light Overlay 2.11.1+26.2",
+          "project_id": "8qVa1XCN",
+          "version_number": "2.11.1+26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            },
+            {
+              "dependency_type": "optional",
+              "file_name": null,
+              "project_id": "mOgUt4GM",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "1eAoo2KR",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "M1B8mLoH",
+              "version_id": "MB037GNW"
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "light-overlay-2.11.0+26.2.jar",
+              "hashes": {
+                "sha1": "3eb22407e31ba0c49f53337a93a7992e7e9b42a7",
+                "sha512": "fbbaa18ca4dce7cf541a9210a07be4ef8852fa018de3911ece4dc65485f2e0681b6e8263d91fc06f5b14af0797e7731a7d9d484ce1632e72aa4a164d2611fc34"
+              },
+              "id": "qpeIY7EE",
+              "primary": true,
+              "size": 66731,
+              "url": "https://cdn.modrinth.com/data/8qVa1XCN/versions/gm415N8d/light-overlay-2.11.0%2B26.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "gm415N8d",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "Light Overlay 2.11.0+26.2",
+          "project_id": "8qVa1XCN",
+          "version_number": "2.11.0+26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "M1B8mLoH",
+              "version_id": "YYMMzABX"
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "1eAoo2KR",
+              "version_id": null
+            },
+            {
+              "dependency_type": "optional",
+              "file_name": null,
+              "project_id": "mOgUt4GM",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "light-overlay-2.10.4+26.2.jar",
+              "hashes": {
+                "sha1": "4fff4d3bf03ae1db0413c00aa074fa27d7603836",
+                "sha512": "71d038f7416076cecffa04e7a0c5857382985fd7570225c1d2e24544a340408b5b06d4e9b501d98b0b2ec6d26947887e59b85be76bf0c036b6fd3ca35080875f"
+              },
+              "id": "3Dl2mW6z",
+              "primary": true,
+              "size": 60999,
+              "url": "https://cdn.modrinth.com/data/8qVa1XCN/versions/F6OCMzFA/light-overlay-2.10.4%2B26.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "F6OCMzFA",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "Light Overlay 2.10.4+26.2",
+          "project_id": "8qVa1XCN",
+          "version_number": "2.10.4+26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "1eAoo2KR",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "M1B8mLoH",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "light-overlay-2.10.3+26.2.jar",
+              "hashes": {
+                "sha1": "48eaf505c13db63282e707480313dc014f3d8ece",
+                "sha512": "9bf65bd7cee85e0c644d2a8d840da601a38703894d479cf0efc452167c4ea1826e720022621941d96595aadbfa8f94b18369ed28df3faeca1f8d57f1374c1692"
+              },
+              "id": "gyEZ5bia",
+              "primary": true,
+              "size": 61569,
+              "url": "https://cdn.modrinth.com/data/8qVa1XCN/versions/oPcnpmE8/light-overlay-2.10.3%2B26.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "oPcnpmE8",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "Light Overlay 2.10.3+26.2",
+          "project_id": "8qVa1XCN",
+          "version_number": "2.10.3+26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "1eAoo2KR",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "M1B8mLoH",
+              "version_id": null
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "light-overlay-2.10.2+26.2.jar",
+              "hashes": {
+                "sha1": "829a934a2d3f9f8c86c614ec2b2ec6f8599812ab",
+                "sha512": "c9da889dff99cb2588563077cad88d402007efc1f1c530c7bad93e28174c1b88501a4cb1f049419ee63f886e007e131d3003f788f9c2041cd3ada0a9bcf57551"
+              },
+              "id": "ZkxZfkLg",
+              "primary": true,
+              "size": 61490,
+              "url": "https://cdn.modrinth.com/data/8qVa1XCN/versions/vFNj9Jrn/light-overlay-2.10.2%2B26.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "vFNj9Jrn",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "Light Overlay 2.10.2+26.2",
+          "project_id": "8qVa1XCN",
+          "version_number": "2.10.2+26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "M1B8mLoH",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "1eAoo2KR",
+              "version_id": null
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "light-overlay-2.10.1+26.2.jar",
+              "hashes": {
+                "sha1": "1e5b74577053393577ee25dfb8fad6b02aa270d2",
+                "sha512": "0bb9ec5b7856f004bef99f6e2296c3688dd290453cbd6c8173c0d3c289e3db00b618959298e020143c9a5504ecfc6088a06d78e5814bab48152bc9441c9db2c9"
+              },
+              "id": "MA8Hm5F8",
+              "primary": true,
+              "size": 59148,
+              "url": "https://cdn.modrinth.com/data/8qVa1XCN/versions/DqkjFdHa/light-overlay-2.10.1%2B26.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "DqkjFdHa",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "Light Overlay 2.10.1+26.2",
+          "project_id": "8qVa1XCN",
+          "version_number": "2.10.1+26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "1eAoo2KR",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "M1B8mLoH",
+              "version_id": null
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "light-overlay-2.10.0+26.2.jar",
+              "hashes": {
+                "sha1": "3172f93c3b9543a8f782067465c5444fb8538c67",
+                "sha512": "04bdbbe675a87ab94f8fc7cd621d314a9bd33cb05adfdbbb2b52e22f1b590d15795a14a04b6f68f683d3474aaefcb2bb64c86b627b24572033210836f18def66"
+              },
+              "id": "2UOafgNv",
+              "primary": true,
+              "size": 57483,
+              "url": "https://cdn.modrinth.com/data/8qVa1XCN/versions/1xAUZb4O/light-overlay-2.10.0%2B26.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "1xAUZb4O",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "Light Overlay 2.10.0+26.2",
+          "project_id": "8qVa1XCN",
+          "version_number": "2.10.0+26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "1eAoo2KR",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "M1B8mLoH",
+              "version_id": null
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "light-overlay-2.9.2+26.2.jar",
+              "hashes": {
+                "sha1": "3e45ba3b7f53c3f2ab37591a8480d153e84ac5d6",
+                "sha512": "163a43b918b3708c513d70bc470142ec0e356b5ec9f3c4f9b85701e534de3c9ccee17f4231a9433c53b09d2ff4ddcb5dcd90ff48d4e8f7d8958d06c5b22b8d78"
+              },
+              "id": "5dBvWo4t",
+              "primary": true,
+              "size": 56466,
+              "url": "https://cdn.modrinth.com/data/8qVa1XCN/versions/S3YALc9F/light-overlay-2.9.2%2B26.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "S3YALc9F",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "Light Overlay 2.9.2+26.2",
+          "project_id": "8qVa1XCN",
+          "version_number": "2.9.2+26.2",
+          "version_type": "release"
+        }
+      ]
+    },
     "8shC1gFX": {
       "client_side": "required",
       "name": "BetterF3",
@@ -3003,6 +3495,297 @@
           "name": "v3.11.8",
           "project_id": "LQ3K71Q1",
           "version_number": "3.11.8",
+          "version_type": "release"
+        }
+      ]
+    },
+    "M1B8mLoH": {
+      "client_side": "required",
+      "name": "OverlayLib",
+      "server_side": "unsupported",
+      "slug": "overlaylib",
+      "source_url": "https://github.com/lugosieben/overlaylib",
+      "versions": [
+        {
+          "client_required": [
+            {
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "fabric_descriptor": {
+            "bundled": [],
+            "depends": {
+              "fabric-api": ">=0.152.1+26.2",
+              "fabricloader": ">=0.19.3",
+              "java": ">=25",
+              "minecraft": "~26.2"
+            },
+            "entrypoints": {
+              "main": [
+                "net.lugo.overlaylib.OverlayLib"
+              ]
+            },
+            "environment": "client",
+            "id": "overlaylib",
+            "version": "0.12.0+26.2"
+          },
+          "files": [
+            {
+              "file_type": null,
+              "filename": "overlaylib-0.12.0+26.2.jar",
+              "hashes": {
+                "sha1": "ae0f8452ba53b194b52677ab9ac9e076a4979473",
+                "sha512": "c6f3981c99dd68786984361c26a2128df06a359485e947bab4cc2f1c3c5efe6887463779322cb44c14071c1bfa9b8fb1e6d43fc4afc1a453ff8a9a5038516393"
+              },
+              "id": "6hWFTJzX",
+              "primary": true,
+              "size": 151892,
+              "url": "https://cdn.modrinth.com/data/M1B8mLoH/versions/OQkmYeS8/overlaylib-0.12.0%2B26.2.jar"
+            },
+            {
+              "file_type": null,
+              "filename": "overlaylib-0.12.0+26.2-javadoc.jar",
+              "hashes": {
+                "sha1": "ce1739bb716ee0b753316d1a65a695f98778c5fe",
+                "sha512": "b22b34a6bbf58f5e7c916daf7273bdf6352f28815b18aff451bbf4dbca03f1b14b69125843e8398feed8f5da680a426fd775cbcb443b3050ce603604cec68bae"
+              },
+              "id": "7PeNwJCn",
+              "primary": false,
+              "size": 4289806,
+              "url": "https://cdn.modrinth.com/data/M1B8mLoH/versions/OQkmYeS8/overlaylib-0.12.0%2B26.2-javadoc.jar"
+            },
+            {
+              "file_type": null,
+              "filename": "overlaylib-0.12.0+26.2-sources.jar",
+              "hashes": {
+                "sha1": "15ada22e505fffdf1126d70167e12e8422515e5a",
+                "sha512": "7124f62d887b7013ab61eefb4239cf434a4688a7df67bc05f07ae915583818f9ed33d0a3c22c7e6196b90f0025284c7d9fd0e9e1b55b6136afe9b23a87df858d"
+              },
+              "id": "fJ1tPl98",
+              "primary": false,
+              "size": 92221,
+              "url": "https://cdn.modrinth.com/data/M1B8mLoH/versions/OQkmYeS8/overlaylib-0.12.0%2B26.2-sources.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "OQkmYeS8",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "OverlayLib 0.12.0+26.2",
+          "project_id": "M1B8mLoH",
+          "version_number": "0.12.0+26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "overlaylib-0.11.0+26.2.jar",
+              "hashes": {
+                "sha1": "a3e3912aa9adee494f2f408bfc1c6bcc57f757fd",
+                "sha512": "e6f18bbf40c1cfab164b6ff39a74bba1aebc90efabce0b3091d3ca5ae13cf1116afd8c0fbe48ebc01892a3c96a8f1e32294d2eecbd2e56a0bda93af316664c5f"
+              },
+              "id": "nuGWxhT8",
+              "primary": true,
+              "size": 151737,
+              "url": "https://cdn.modrinth.com/data/M1B8mLoH/versions/MB037GNW/overlaylib-0.11.0%2B26.2.jar"
+            },
+            {
+              "file_type": null,
+              "filename": "overlaylib-0.11.0+26.2-javadoc.jar",
+              "hashes": {
+                "sha1": "6250771e5c692da2d29ad82a4cc992358a6f91ac",
+                "sha512": "41116766942703fa01376d14342cb0202c114f285c0ba1eedb2f059e2124adf3109a6cc3d6418014c27c94593cff875bd2905c10e3719c5572fbbea1b1f1f7e5"
+              },
+              "id": "nKSvhrmV",
+              "primary": false,
+              "size": 4289797,
+              "url": "https://cdn.modrinth.com/data/M1B8mLoH/versions/MB037GNW/overlaylib-0.11.0%2B26.2-javadoc.jar"
+            },
+            {
+              "file_type": null,
+              "filename": "overlaylib-0.11.0+26.2-sources.jar",
+              "hashes": {
+                "sha1": "1f6970f2ddd26951964863573f6305e3fbffd545",
+                "sha512": "9a84cfb3f8c9ebef0a4ae0ed95bf3fad0a252960a6a98ac448c5f7a76574011ec37a5984c478636af9d687410f2f18c35254e245bd98a66a012bc154f702464c"
+              },
+              "id": "G9dPic33",
+              "primary": false,
+              "size": 92158,
+              "url": "https://cdn.modrinth.com/data/M1B8mLoH/versions/MB037GNW/overlaylib-0.11.0%2B26.2-sources.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "MB037GNW",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "OverlayLib 0.11.0+26.2",
+          "project_id": "M1B8mLoH",
+          "version_number": "0.11.0+26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "overlaylib-0.10.0+26.2.jar",
+              "hashes": {
+                "sha1": "e0ff5e19f91bea1f25c56d26e37285ed5462d64d",
+                "sha512": "748f590778cba8aba8c2104ee01c035bec6f1b72d07775fcbb5b8b7082a0d80872ed85a1e09b6a8755cd418faf5229af10f0037fc823a222d4ddc5f028eddbbb"
+              },
+              "id": "y4Twd6lU",
+              "primary": true,
+              "size": 133375,
+              "url": "https://cdn.modrinth.com/data/M1B8mLoH/versions/YYMMzABX/overlaylib-0.10.0%2B26.2.jar"
+            },
+            {
+              "file_type": null,
+              "filename": "overlaylib-0.10.0+26.2-javadoc.jar",
+              "hashes": {
+                "sha1": "9606fe8e8828ac9bf193296d578b6270a541ad89",
+                "sha512": "d5cc297612815ad9fe4b82fa6a1d3ce96a60ad17f1b59debaf9a3f6a34bcf9c5176172780241f132cc92cd80ec756f7e5594c72ae4c9f23ca97bc4062af780ed"
+              },
+              "id": "XtOMYtRe",
+              "primary": false,
+              "size": 4262148,
+              "url": "https://cdn.modrinth.com/data/M1B8mLoH/versions/YYMMzABX/overlaylib-0.10.0%2B26.2-javadoc.jar"
+            },
+            {
+              "file_type": null,
+              "filename": "overlaylib-0.10.0+26.2-sources.jar",
+              "hashes": {
+                "sha1": "bdd3b6606764d5dd8b0a1f467e6a65b0b3aae170",
+                "sha512": "744375aafbd60c592778b809a0cd74df661bc71c5592652163c7a956f1d2f1d98bbe759fe5e20ac79c06a68c54cba91a16453c1f1bf311ca220c29797a11add9"
+              },
+              "id": "IVqSKPay",
+              "primary": false,
+              "size": 86890,
+              "url": "https://cdn.modrinth.com/data/M1B8mLoH/versions/YYMMzABX/overlaylib-0.10.0%2B26.2-sources.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "YYMMzABX",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "OverlayLib 0.10.0+26.2",
+          "project_id": "M1B8mLoH",
+          "version_number": "0.10.0+26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "overlaylib-0.9.2+26.2.jar",
+              "hashes": {
+                "sha1": "84c0b91bf4f6e7950c8a34474bac96e9117df0c8",
+                "sha512": "91040e6b68ade75286382722cdf62124a2ad1dcb23462e1cfd0b6525a073fdb4bd8d6d7de985159afc2ea1c2658cdb5e00f45193ef65f3af018052bdf1636fb1"
+              },
+              "id": "Jjsa9BvW",
+              "primary": true,
+              "size": 132915,
+              "url": "https://cdn.modrinth.com/data/M1B8mLoH/versions/GhbKW7UP/overlaylib-0.9.2%2B26.2.jar"
+            },
+            {
+              "file_type": "sources-jar",
+              "filename": "overlaylib-0.9.2+26.2-sources.jar",
+              "hashes": {
+                "sha1": "d926bf8a1cd98c8ccadf248deb5c423f1c41fda2",
+                "sha512": "e7010413050709da9607f3b5a208ead21cd21caf72a6960e77cf9334be0afb1daf68af0225384a8f4a79dcfd8ca0d6f5cacbf048fffff0d21ea52e496efb7506"
+              },
+              "id": "UAqhdDqJ",
+              "primary": false,
+              "size": 86898,
+              "url": "https://cdn.modrinth.com/data/M1B8mLoH/versions/GhbKW7UP/overlaylib-0.9.2%2B26.2-sources.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "GhbKW7UP",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "OverlayLib 0.9.2+26.2",
+          "project_id": "M1B8mLoH",
+          "version_number": "0.9.2+26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "overlaylib-0.9.1+26.2.jar",
+              "hashes": {
+                "sha1": "69384c02670f15b05dc4e9dabff2c5712788da16",
+                "sha512": "1ec5c5b3e710f3a1fcea257e7d28d93afaebd2157bae6fb716b1fd2262acc635b45b1e4162726188b45c9ffba180eb0eafc0ae8d06877cc879cc629b4cb7aa20"
+              },
+              "id": "xYFdnV3a",
+              "primary": true,
+              "size": 134088,
+              "url": "https://cdn.modrinth.com/data/M1B8mLoH/versions/D0MLklRE/overlaylib-0.9.1%2B26.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "D0MLklRE",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "OverlayLib 0.9.1+26.2",
+          "project_id": "M1B8mLoH",
+          "version_number": "0.9.1+26.2",
           "version_type": "release"
         }
       ]
@@ -6228,14 +7011,6 @@
         }
       ]
     },
-    "YfOlc91N": {
-      "client_side": "required",
-      "name": "Light Overlay",
-      "server_side": "unsupported",
-      "slug": "light-overlay",
-      "source_url": "https://github.com/shedaniel/LightOverlay-Fabric",
-      "versions": []
-    },
     "aC3cM3Vq": {
       "client_side": "required",
       "name": "Mouse Tweaks",
@@ -9343,7 +10118,7 @@
     "2M01OLQq",
     "vPNqo58Q",
     "x02cBj9Y",
-    "YfOlc91N",
+    "8qVa1XCN",
     "8shC1gFX",
     "kqJFAPU9",
     "pJogNFap",

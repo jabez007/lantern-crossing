@@ -93,5 +93,25 @@ maps the common config annotation to `config/clienttweaks-common.toml`.
 Balm can populate omitted options from upstream defaults on first load.
 
 Mod Menu exposes the active mods' configuration screens. Sign Tweaks and Book
-Tweaks retain their upstream editing defaults. Light Overlay remains blocked
-and has no shipped configuration.
+Tweaks retain their upstream editing defaults.
+
+## Light Overlay
+
+Light Overlay retains its upstream defaults. The
+[release's key registrations](https://github.com/lugosieben/lightoverlay/blob/7e7647bb424ca8195329c889ce529c5974d11c21/src/main/java/net/lugo/lightoverlay/registration/KeyMappings.java)
+bind overlay toggling to F9. Config opening and overlay-mode cycling are unbound.
+The config screen is also available from Mod Menu or the client-local
+`/lightoverlay config` command. No Light Overlay config or keybind override is shipped.
+
+Static inspection of the pinned artifacts found no competing F9 action in
+Xaero's Minimap, Xaero's World Map, Zoomify, BetterF3, Iris, LambDynamicLights,
+or the other active utility mods. libIPN defines F9 in its key-code catalog but
+does not assign it to an action by default. User-customized bindings can differ;
+verify the new instance's Controls screen during acceptance.
+
+Light Overlay and OverlayLib declare no conflicts with the selected Iris/Sodium
+stack. The overlay uses client-known world/light data and requires no server
+component. This establishes static eligibility, not rendering acceptance.
+Test toggling and persistence with Sodium, Iris, and LambDynamicLights installed,
+starting with shaders disabled. Dynamic lighting does not change server-side
+block light or spawn rules.

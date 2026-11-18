@@ -80,7 +80,6 @@ and account information out of committed logs.
 
 ## Building and writing
 
-- [ ] Light Overlay is absent as documented. If promoted, test overlay display and toggle.
 - [ ] Sign Tweaks edits a normal sign on the vanilla server.
 - [ ] Multiline cursor navigation and text wrapping work.
 - [ ] Multiline copy and paste work within vanilla sign limits.
@@ -88,6 +87,36 @@ and account information out of committed logs.
 - [ ] Vanilla sign placement and editing work with the active rendering stack.
 - [ ] Book Tweaks navigation, page wrapping, multi-page paste, and page memory work.
 - [ ] Edit, save, reopen, and sign a book without bypassing vanilla limits.
+
+## Light Overlay
+
+### Basic overlay
+
+- [ ] Join a Minecraft 26.2 world and activate Light Overlay with F9.
+- [ ] The overlay renders useful light and spawnability information.
+- [ ] Deactivate it and confirm the overlay disappears cleanly.
+
+### Vanilla server
+
+- [ ] Connect to a completely unmodified vanilla Minecraft 26.2 server.
+- [ ] No missing-server-mod or companion-library warning appears.
+- [ ] Activate Light Overlay and verify useful light/spawn information is displayed.
+- [ ] The server requires no mod or plugin for these features.
+
+### Rendering stack
+
+- [ ] With Sodium, Iris, Light Overlay, OverlayLib, and LambDynamicLights installed,
+      the world and overlay render normally.
+- [ ] Iris UI works and shaders-disabled rendering has no corruption.
+- [ ] Enabling the overlay causes no obvious rendering corruption.
+- [ ] Disabling it restores normal rendering without leftover overlay geometry.
+- [ ] Optionally test one known-good shader pack separately. Do not add it to the pack.
+
+### Configuration
+
+- [ ] Open Light Overlay's config through Mod Menu or `/lightoverlay config`.
+- [ ] F9 works, and the Controls screen shows no new default keybind conflict.
+- [ ] Configuration changes persist after restarting the client.
 
 ## Social and resource behavior
 

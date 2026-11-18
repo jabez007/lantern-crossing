@@ -16,7 +16,7 @@ The target is Minecraft **26.2**, Fabric Loader **0.20.1**, and Java **25**.
 The loader pin comes from Fabric's [26.2 compatibility
 API](https://meta.fabricmc.net/v2/versions/loader/26.2), checked on 2026-11-17.
 The checked evidence is in [upstream-metadata.json](docs/upstream-metadata.json).
-Pack version `26.2.0.2.0` is a development baseline, not a runtime qualification.
+Pack version `26.2.0.3.0` is a development baseline, not a runtime qualification.
 
 ## Pack philosophy
 
@@ -27,26 +27,22 @@ except for the documented [inventory, Client Tweaks, and Iris overrides](docs/co
 
 ## Active selections
 
-There are 29 of the 30 requested feature selections and eight libraries in
+All 30 requested feature selections are active, with nine libraries in
 [collection.toml](collection.toml).
 
 | Category | Selected projects |
 | --- | --- |
 | Performance | Sodium, Lithium, FerriteCore, ImmediatelyFast, Entity Culling, More Culling, BadOptimizations, Dynamic FPS, FastQuit, Debugify, Language Reload |
 | Inventory | Inventory Profiles Next, Mouse Tweaks, Shulker Box Tooltip, Client Tweaks |
-| HUD and information | Status Effect Bars, BetterF3, Better Mount HUD, Paginated Advancements, Better Statistics Screen |
+| HUD and information | Status Effect Bars, Light Overlay, BetterF3, Better Mount HUD, Paginated Advancements, Better Statistics Screen |
 | Navigation | Xaero's Minimap, Xaero's World Map, Zoomify |
 | Writing | Sign Tweaks, Book Tweaks |
 | Visual and social | LambDynamicLights, Chat Heads, Iris |
 | Pack management | Mod Menu |
 
-Light Overlay is the sole blocked requested feature:
-
-| Project | Blocker |
-| --- | --- |
-| Light Overlay | No Fabric 26.2 artifact |
-
-No older Minecraft build or replacement fills that gap.
+There are zero blocked requested features. Light Overlay uses the current
+`lightoverlay` project, Modrinth ID `8qVa1XCN`; the audit records the identity
+correction that completes this baseline.
 Lantern Crossing selects release-designated feature versions. Upstream-declared
 dependency closure may contain prerelease-versioned libraries when those exact
 versions are required or bundled by the selected release. This does not permit
@@ -55,16 +51,16 @@ independently choosing arbitrary prerelease dependencies. See the
 Placeholder API dependency and the libraries bundled with Iris and Client Tweaks.
 
 Fabric API is an explicitly selected platform library. Cloth Config API,
-Fabric Language Kotlin, libIPN, TCDCommons API, YACL, Balm, and Text Placeholder API
+Fabric Language Kotlin, libIPN, TCDCommons API, YACL, Balm, Text Placeholder API, and OverlayLib
 are transitive dependencies. Libraries are separate from feature intent, and bundled libraries
 remain inside upstream artifacts. The machine lock layer is `mods/*.pw.toml`.
 It owns exact version IDs, URLs, and SHA-512 hashes. No mod JARs belong in Git.
 
 ## Install an exported pack
 
-1. Obtain `lantern-crossing-26.2.0.2.0.mrpack` and its `.sha256` file from a
+1. Obtain `lantern-crossing-26.2.0.3.0.mrpack` and its `.sha256` file from a
    reviewed release or build them below.
-2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.2.0.sha256`.
+2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.3.0.sha256`.
 3. Import the `.mrpack` into a launcher that supports Modrinth packs. Use a new
    instance with Java 25 and let the launcher obtain the pinned upstream files.
 4. Start the client and complete the [smoke tests](docs/acceptance-tests.md),
@@ -110,20 +106,20 @@ permissions, and JSON encoding. Stored entries avoid compression-version drift.
 Release outputs are:
 
 ```text
-dist/lantern-crossing-26.2.0.2.0.mrpack
-dist/lantern-crossing-26.2.0.2.0.sha256
+dist/lantern-crossing-26.2.0.3.0.mrpack
+dist/lantern-crossing-26.2.0.3.0.sha256
 ```
 
 GitHub Actions validates pushes and pull requests, checks index consistency,
 builds twice to compare archive bytes, and uploads the artifacts. A matching
-`v26.2.0.2.0` tag also creates a GitHub Release with the archive and checksum.
+`v26.2.0.3.0` tag also creates a GitHub Release with the archive and checksum.
 The workflow refuses to replace an already published release. Complete manual
 acceptance before tagging a release intended for users.
 
 ## Select and update deliberately
 
 Version numbers follow `<Minecraft version>.<pack major>.<pack minor>.<pack patch>`.
-`26.2.0.2.0` means Minecraft 26.2 and pack revision 0.1.0. Tags must match
+`26.2.0.3.0` means Minecraft 26.2 and pack revision 0.3.0. Tags must match
 `pack.toml` exactly with a `v` prefix.
 
 Use exact upstream version IDs and repeat the client-only audit for updates.
@@ -141,10 +137,10 @@ python3 scripts/check_target_readiness.py --offline
 ```
 
 The default checks active features and libraries. The requested scope covers
-all 30 original features and currently exits nonzero for Light Overlay.
+all 30 requested features. Both scopes currently report release availability for
+the complete baseline.
 Discovery does not qualify a dependency closure, audit a pinned artifact, or
-replace runtime testing. Excluded parent projects can have available builds
-whose dependencies still block activation.
+replace runtime testing.
 
 ## Repository structure and licensing
 

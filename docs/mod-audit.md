@@ -24,7 +24,7 @@ The question for every row is whether the selected functionality works entirely 
 | [Shulker Box Tooltip](https://modrinth.com/mod/shulkerboxtooltip) | [5.4.3+26.2-fabric](https://modrinth.com/mod/shulkerboxtooltip/version/woHKruB1), release-designated | Shulker-item previews from contents already sent in vanilla item components. | No server assistance for this scope. Optional ender-chest preview requires server support and is excluded from pack intent. | Active |
 | [Client Tweaks](https://modrinth.com/mod/client-tweaks) | [26.2.0.6+fabric-26.2](https://modrinth.com/mod/client-tweaks/version/klm9mkyw), release-designated | Local UI, rendering, targeting, and vanilla input conveniences. Two overlapping guards are pinned off. | Client initializer and enabled tweak implementations are local. No extra server data or installation. Requires Balm; the bundled shogi_api SNAPSHOT is hash-pinned inside this upstream release. | Active |
 | [Status Effect Bars](https://modrinth.com/mod/status-effect-bars) | [1.0.12](https://modrinth.com/mod/status-effect-bars/version/aAXJqboy), release-designated | Render remaining durations from vanilla status-effect data. | No server component. No extra server-only information selected. | Active |
-| [Light Overlay](https://modrinth.com/mod/light-overlay) | No Fabric 26.2 build | Display client-known light levels. | Client-local purpose, but no Fabric 26.2 artifact exists to qualify. | Excluded. No published Fabric 26.2 artifact. |
+| [Light Overlay](https://modrinth.com/mod/lightoverlay), ID `8qVa1XCN` | [2.12.0+26.2](https://modrinth.com/mod/lightoverlay/version/AT01Q5uN), Fabric 26.2 release | Client-side light/spawnability overlay, local toggle, and local configuration. | Upstream is client-only. Release source uses client world data and client command callbacks. Requires OverlayLib 0.12.0+26.2, Fabric API, and YACL; no server counterpart. | Accepted, active |
 | [BetterF3](https://modrinth.com/mod/betterf3) | [19.0.1](https://modrinth.com/mod/betterf3/version/TVXtAI9s), release-designated | Reformat local F3 debug information. | No server component. No added server information. | Active |
 | [Better Mount HUD](https://modrinth.com/mod/better-mount-hud) | [1.3.1](https://modrinth.com/mod/better-mount-hud/version/M3Fe5t0L), release-designated | Mount and player HUD layout. | No server component. Uses ordinary vanilla mount state. | Active |
 | [Paginated Advancements & Custom Frames](https://modrinth.com/mod/paginatedadvancements) | [2.8.0+26.2](https://modrinth.com/mod/paginatedadvancements/version/Ra3zz0eG), release-designated | Pagination and screen layout for vanilla advancements. | No server component. Custom advancement content is not selected or supplied. | Active |
@@ -41,18 +41,19 @@ The question for every row is whether the selected functionality works entirely 
 
 ## Dependency audit
 
-Fabric API is an explicitly selected platform library. Seven projects are transitive libraries. All eight have exact Fabric 26.2 pins and `side = "client"`. The selected platform library is release-designated. Upstream dependency provenance permits the audited Placeholder API beta-versioned artifact. Their local APIs and configuration functions do not require any remote-server installation. They add no selected gameplay content. Exact parents appear in `collection.toml`; exact versions and hashes remain authoritative in `mods/*.pw.toml`.
+Fabric API is an explicitly selected platform library. Eight projects are transitive libraries. All nine have exact Fabric 26.2 pins and `side = "client"`. The selected platform library is release-designated. Upstream dependency provenance permits the audited Placeholder API beta-versioned artifact. Their local APIs and configuration functions do not require any remote-server installation. They add no selected gameplay content. Exact parents appear in `collection.toml`; exact versions and hashes remain authoritative in `mods/*.pw.toml`.
 
 | Library | Classification | Client purpose and dependency evidence |
 | --- | --- | --- |
-| [Fabric API](https://modrinth.com/mod/fabric-api) | selected-library | Required by Xaero's Minimap, YetAnotherConfigLib (YACL), Shulker Box Tooltip, BetterF3, TCDCommons API, Dynamic FPS, Balm, Entity Culling, Xaero's World Map, Inventory Profiles Next, Debugify, Mouse Tweaks, Sign Tweaks, Mod Menu, Better Statistics Screen, libIPN, Paginated Advancements & Custom Frames, Book Tweaks, Language Reload, Client Tweaks, Zoomify (Zoom), FastQuit, LambDynamicLights - Dynamic Lights. |
-| [YetAnotherConfigLib (YACL)](https://modrinth.com/mod/yacl) | dependency | Required by Zoomify (Zoom). |
+| [Fabric API](https://modrinth.com/mod/fabric-api) | selected-library | Required by Xaero's Minimap, YetAnotherConfigLib (YACL), Shulker Box Tooltip, Light Overlay, BetterF3, TCDCommons API, Dynamic FPS, OverlayLib, Balm, Entity Culling, Xaero's World Map, Inventory Profiles Next, Debugify, Mouse Tweaks, Sign Tweaks, Mod Menu, Better Statistics Screen, libIPN, Paginated Advancements & Custom Frames, Book Tweaks, Language Reload, Client Tweaks, Zoomify (Zoom), FastQuit, LambDynamicLights - Dynamic Lights. |
+| [YetAnotherConfigLib (YACL)](https://modrinth.com/mod/yacl) | dependency | Required by Light Overlay, Zoomify (Zoom). |
 | [Cloth Config API](https://modrinth.com/mod/cloth-config) | dependency | Required by More Culling, BetterF3, Sign Tweaks, Paginated Advancements & Custom Frames, Status Effect Bars, FastQuit. |
 | [TCDCommons API](https://modrinth.com/mod/tcdcommons) | dependency | Required by Better Statistics Screen. |
 | [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) | dependency | Required by Inventory Profiles Next, libIPN, Zoomify (Zoom). |
 | [libIPN](https://modrinth.com/mod/libipn) | dependency | Required by Inventory Profiles Next. |
 | [Balm](https://modrinth.com/mod/balm) | dependency | Required by Client Tweaks. |
 | [Text Placeholder API](https://modrinth.com/mod/placeholder-api) | dependency | Required by Mod Menu. |
+| [OverlayLib](https://modrinth.com/mod/overlaylib) | dependency | Required by Light Overlay. |
 
 Fabric API supplies modules required by Debugify, Book Tweaks, Paginated Advancements, and other artifacts even where their Modrinth records omit that dependency. Sodium bundles the Fabric modules it requires. Cloth Config provides both `cloth-config` and `cloth-config2`. The client closure records these artifact-derived edges as well as upstream required-project edges.
 
@@ -62,7 +63,7 @@ Zoomify version `D64cvU6G` is universal. Its Modrinth record lists KotlinLangFor
 
 ## Upstream release and dependency provenance
 
-All 29 active features use upstream release-designated Fabric 26.2 versions.
+All 30 active features use upstream release-designated Fabric 26.2 versions.
 The same release requirement applies to explicitly selected Fabric API.
 Resolved and bundled libraries remain part of the selected releases' official
 closure, even when their version identifiers look like prereleases. This is not
@@ -79,14 +80,23 @@ All newly installed records use `side = "client"`. An upstream-required library
 would still be rejected if it introduced a mandatory server requirement or a
 server-only module. Runtime verification remains open.
 
-## Sole blocked requested feature
+## Light Overlay identity correction
 
-Light Overlay is the only requested feature still excluded. The
-[project version API](https://api.modrinth.com/v2/project/YfOlc91N/version),
-rechecked on 2026-11-17, contains no Fabric Minecraft 26.2 artifact, including no
-release-designated one. The snapshot records an empty matching version set.
-The requested Minecraft target stays 26.2, and no replacement is selected.
-The active feature count is 29 of 30.
+The accepted project is `8qVa1XCN`, slug `lightoverlay`, release `AT01Q5uN`
+(`2.12.0+26.2`). Its [release metadata](https://api.modrinth.com/v2/version/AT01Q5uN)
+requires OverlayLib `OQkmYeS8` (`0.12.0+26.2`) exactly. OverlayLib is a resolved
+client-only library. Existing Fabric API and YACL pins satisfy the other required
+projects. No existing mod pin changed. Both new artifacts declare a client
+Fabric environment and no dependency conflicts with the selected rendering stack.
+Upstream advertises Iris support; actual rendering remains a manual test.
+
+The earlier exclusion queried the different Modrinth project `YfOlc91N`, slug
+`light-overlay`, which shares the display name. That incorrect collection and
+snapshot identity has been removed. Project-ID substitution regressions now
+reject the similarly named project. The correct release's native Fabric module
+ID and JAR filename still contain `light-overlay`; those are upstream artifact
+identifiers, not its Modrinth project slug. All 30 requested features are active,
+with zero blocked features.
 
 ## Intentional rejections
 

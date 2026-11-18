@@ -1,10 +1,11 @@
 Lantern Crossing is a Minecraft Java 26.2 Fabric client pack. Server operators
 do not need to install anything.
 
-This development baseline contains 29 of 30 requested features and eight libraries.
+This development baseline contains all 30 requested features and nine libraries.
 Mod Menu, Sign Tweaks, Iris, and Client Tweaks are active upstream releases.
 Their exact official dependency closure may include prerelease-versioned libraries.
-Light Overlay remains blocked because there is no Fabric 26.2 artifact.
+Light Overlay 2.12.0+26.2 is active from project 8qVa1XCN, with its exact
+OverlayLib 0.12.0+26.2 dependency. Its default F9 toggle is retained.
 See the repository's mod audit for evidence and limitations.
 
 The .mrpack references pinned upstream artifacts and includes documented

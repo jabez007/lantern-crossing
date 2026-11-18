@@ -123,6 +123,11 @@ hash = "1eba2fa3d9ff9d02a549fb8564817b674cca523a99af995807ecf27ee4b46baf"
 metafile = true
 
 [[files]]
+file = "mods/lightoverlay.pw.toml"
+hash = "9e72c69e04857507c1aa24d6a24f73502342bf9a8783cafa7bd048e0e36b52a8"
+metafile = true
+
+[[files]]
 file = "mods/lithium.pw.toml"
 hash = "c11918fa24bb2909de33c58a45f34a6acf2e5e87c210dff69febe5fecd40e6b4"
 metafile = true
@@ -140,6 +145,11 @@ metafile = true
 [[files]]
 file = "mods/mouse-tweaks.pw.toml"
 hash = "57416593c4885b26ecf3f6c987581736d16e2a91f964f055cbc29ebdb50d660d"
+metafile = true
+
+[[files]]
+file = "mods/overlaylib.pw.toml"
+hash = "db372af8f7cec2dd75d1d612a1fdb00a8ddee0cb6e967ff83e561b2217b32861"
 metafile = true
 
 [[files]]

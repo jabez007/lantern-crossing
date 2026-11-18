@@ -2,6 +2,7 @@
 schema = 1
 minecraft = "26.2"
 loader = "fabric"
+excluded = []
 
 [[selected]]
 project-id = "AANobbMI"
@@ -184,7 +185,7 @@ slug = "fabric-api"
 name = "Fabric API"
 category = "platform"
 role = "selected-library"
-required-by = ["1bokaNcj", "1eAoo2KR", "2M01OLQq", "8shC1gFX", "Eldc1g37", "LQ3K71Q1", "MBAkmtvl", "NNAgCjsB", "NcUtCpym", "O7RBXm3n", "QwxR6Gcd", "aC3cM3Vq", "c7xDMxha", "mOgUt4GM", "n6PXGAoM", "onSQdWhM", "pJogNFap", "skd7t7zC", "uLbm7CG6", "vPNqo58Q", "w7ThoJFB", "x1hIzbuY", "yBW8D80W"]
+required-by = ["1bokaNcj", "1eAoo2KR", "2M01OLQq", "8qVa1XCN", "8shC1gFX", "Eldc1g37", "LQ3K71Q1", "M1B8mLoH", "MBAkmtvl", "NNAgCjsB", "NcUtCpym", "O7RBXm3n", "QwxR6Gcd", "aC3cM3Vq", "c7xDMxha", "mOgUt4GM", "n6PXGAoM", "onSQdWhM", "pJogNFap", "skd7t7zC", "uLbm7CG6", "vPNqo58Q", "w7ThoJFB", "x1hIzbuY", "yBW8D80W"]
 
 [[selected]]
 project-id = "vPNqo58Q"
@@ -214,13 +215,20 @@ name = "Mod Menu"
 category = "pack-management"
 role = "feature"
 
+[[selected]]
+project-id = "8qVa1XCN"
+slug = "lightoverlay"
+name = "Light Overlay"
+category = "information"
+role = "feature"
+
 [[resolved-dependency]]
 project-id = "1eAoo2KR"
 slug = "yacl"
 name = "YetAnotherConfigLib (YACL)"
 category = "library"
 role = "dependency"
-required-by = ["w7ThoJFB"]
+required-by = ["8qVa1XCN", "w7ThoJFB"]
 
 [[resolved-dependency]]
 project-id = "9s6osm5g"
@@ -270,10 +278,10 @@ category = "library"
 role = "dependency"
 required-by = ["mOgUt4GM"]
 
-[[excluded]]
-project-id = "YfOlc91N"
-slug = "light-overlay"
-name = "Light Overlay"
-category = "information"
-role = "feature"
-reason = "No published Fabric 26.2 artifact."
+[[resolved-dependency]]
+project-id = "M1B8mLoH"
+slug = "overlaylib"
+name = "OverlayLib"
+category = "library"
+role = "dependency"
+required-by = ["8qVa1XCN"]
