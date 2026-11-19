@@ -143,8 +143,11 @@ runtime compatibility or a performance benefit.
 Config Manager's current [source inspection](https://github.com/TheBossMagnus/Config-Manager/tree/adf332de967b8eef237fa5ffb0f020688548dcc0)
 shows the usual copy path skips existing files. Startup also supports explicit
 update/reset flags. This is promising for preserving personal preferences, but
-it does not resolve the upstream environment disagreement. Defaults remain in
-the current pack locations until an approved promotion and migration pass.
+it does not resolve the upstream environment disagreement. The 2026-11-19 [configuration evaluation](configuration.md#defaults-manager-evaluation-2026-11-19)
+rechecked that metadata and retained Default Options. Configured Defaults was also
+reviewed, not installed. Its missing-option merge does not initialize an already
+populated resource-pack selection, and it does not replace the native key reset
+default. No competing defaults manager is active.
 ModernFix's inspected source and native mixin lists include both client and
 server work; finding a client initializer alone is insufficient for promotion.
 
@@ -152,4 +155,4 @@ server work; finding a client initializer alone is insufficient for promotion.
 
 AppleSkin, Jade, Easy Shulker Boxes, Bookshelf Inspector, and Client Sort are rejected regardless of target availability. AppleSkin and the rejected inspector/container tools do not meet the selected strict server-independence policy. Jade is deliberately excluded. IPN owns sorting, so Client Sort is not selected. The source checker rejects their IDs or slugs, and an undeclared lock also fails the active-set check.
 
-No substitute, shader pack, standalone resource pack, gameplay content, or server companion has been added. Continuity's two built-in visual packs are enabled. See [configuration decisions](configuration.md) and [runtime acceptance](acceptance-tests.md).
+No substitute, shader pack, standalone resource pack, gameplay content, or server companion has been added. Continuity's two built-in visual packs are seeded when options are absent. Existing selections are preserved. See [configuration decisions](configuration.md) and [runtime acceptance](acceptance-tests.md).

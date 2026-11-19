@@ -4,6 +4,55 @@ Release hardening checked on 2026-11-19 for development pack `26.2.0.6.0`.
 Minecraft has not been launched. All runtime acceptance remains open.
 The preceding 26.2.0.5.0 record is preserved in Git history at `3fa2b8f`.
 
+## Configuration evaluation, 2026-11-19
+
+All three requested managers were rechecked against current release metadata,
+hash-verified candidate artifacts and pinned source. The
+[comparison and decision](configuration.md#defaults-manager-evaluation-2026-11-19)
+retain Default Options. No mod pin, dependency, configuration template, pack/index
+hash, version or release-qualification field changed from `7a10392`.
+
+`make test lint validate` passes 94 offline tests. New policy regressions reject
+competing project IDs, obsolete manager layouts, reset/update flags, manager
+resource-pack replacement config and unsupported defaults locations. These tests
+failed before the new guard was implemented. Existing strict client-only,
+provenance, Fabric predicates and archive/release checks still pass.
+
+Seven isolated file scenarios executed unmodified upstream handlers outside
+Minecraft through `DefaultOptionsFilesOracle.java`. The recorded observations
+are bound to the artifact, adapter and template hashes. This does not test
+Minecraft initialization, real keybindings, resource repositories, launchers or
+synchronization. The [fixture scope](configuration.md#file-handler-evidence-and-automation-limits)
+is explicit. Normal unit tests do not download or run upstream Java code.
+
+Observed commands:
+
+```sh
+make test lint validate
+make refresh PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
+make checksum PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
+make export PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
+cmp /tmp/lantern-config-evaluation/first.mrpack dist/lantern-crossing-26.2.0.6.0-dev-26.2.mrpack
+(cd dist && sha256sum --check lantern-crossing-26.2.0.6.0-dev-26.2.sha256)
+/tmp/lantern-bin/actionlint .github/workflows/validate.yml
+ruff check scripts tests --select C90 --config 'lint.mccabe.max-complexity=8'
+git diff --exit-code -- mods config pack.toml index.toml collection.toml docs/upstream-metadata.json release-policy.toml
+```
+
+All passed. Complete archive validation runs inside both exports. The artifact
+remains byte-identical to the preceding 26.2.0.6.0 development build, including
+the SHA-256 recorded below. No new upstream artifact is shipped. The previously
+hosted hardening runs passed on [26.2](https://github.com/jabez007/lantern-crossing/actions/runs/44578125449)
+and [26.3](https://github.com/jabez007/lantern-crossing/actions/runs/44578126861).
+Current results remain in Actions.
+
+Prism and Modrinth App are statically assessed, not runtime-qualified. The
+[launcher matrix](acceptance-tests.md#launcher-configuration-acceptance-matrix)
+leaves all results uncompleted, including App sync disabled/enabled, launcher-created
+options, settings preservation, upgrades and deliberate adoption/reset. The 26.3
+bootstrap remains at its original actual 26.2 target and feature pins; shared
+policy checks and evaluation documentation do not promote its deferred helper.
+
 ## Findings and disposition
 
 | Finding | Disposition |

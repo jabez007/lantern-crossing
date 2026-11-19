@@ -10,22 +10,44 @@ Fabric Loader 0.20.1, and Java 25. Test against a completely unmodified vanilla
 OS, GPU and driver, and results in `verification.md`. Keep addresses, player data,
 and account information out of committed logs.
 
-## Defaults and upgrade acceptance, owner only
+## Launcher configuration acceptance matrix
 
-- [ ] Import a fresh pack in Prism without copying an old profile. Check whether
-      the launcher creates `options.txt` before the first launch.
-- [ ] With no prior options file, verify Continuity's two built-in packs are selected
-      and Light Overlay uses F7. Confirm Renice Shot retains F9.
-- [ ] Verify Mouse Tweaks, Client Tweaks and Iris receive their documented initial
-      defaults early enough to affect the first launch. Shaders initially stay disabled.
-- [ ] In a disposable existing profile, set distinctive graphics/audio preferences,
-      another overlay key, resource-pack choices and Iris settings. Install/update
-      the pack and confirm all existing settings remain intact after two restarts.
-- [ ] Repeat the existing-profile check without a Default Options journal; saved
-      options and mod configs must still be preserved.
-- [ ] For existing profiles retaining F9 for Light Overlay, move it to F7 manually
-      to resolve the screenshot collision. Do not reset unrelated settings.
-- [ ] Confirm no server address list or runtime journal was supplied by the archive.
+**All results below are uncompleted.** Expected behavior comes from source
+inspection and isolated file-method fixtures, not launcher or Minecraft tests.
+Run each column with disposable profiles. Record the launcher version, sync
+controls actually available, pre-launch options contents, archive hash, upgrade
+method and observed results. If the installed App has no sync control, mark that
+column unavailable and record the version, rather than treating it as passed.
+
+| Scenario | Prism | Modrinth App, sync disabled | Modrinth App, sync enabled | Expected result |
+| --- | --- | --- | --- | --- |
+| Fresh `.mrpack` import; inspect before launching | [ ] | [ ] | [ ] | Record whether root options, mod configs or a journal already exist, and which settings the launcher populated. No player options/journal should come from the archive. |
+| First launch, no pre-existing options | [ ] | [ ] | [ ] | Continuity's two built-in packs are selected. Unseen Light Overlay binding becomes F7; Renice Shot remains F9. Mouse Tweaks, Client Tweaks and Iris receive their documented initial settings; shaders start disabled. |
+| Launcher-created options containing only fullscreen/version | [ ] | [ ] | [ ] | Existing options remain authoritative. Continuity may need manual activation; fullscreen survives. An unseen overlay key still receives F7. |
+| Existing graphics, sound, accessibility and interface preferences | [ ] | [ ] | [ ] | Distinctive values survive first launch and two restarts. App-synced values may take precedence; record that separately from mod behavior. |
+| Existing overlay binding set to F8 or F9 | [ ] | [ ] | [ ] | Existing binding survives, even if it conflicts with screenshots. No repeated forced F7 reset. |
+| Customized resource-pack selection and order, with/without a journal | [ ] | [ ] | [ ] | Defaults manager does not replace or reorder it. Record effects of App resource-pack sync separately. |
+| Customized Mouse Tweaks, Client Tweaks and Iris files | [ ] | [ ] | [ ] | Existing files and unrelated settings survive; overlap switches are not silently reasserted. Review those switches manually if retaining old configs. |
+| Repeat launch after changing defaults in-game | [ ] | [ ] | [ ] | Choices persist; no resource-pack or settings reset on every launch. |
+| Upgrade through the actual supported launcher path | [ ] | [ ] | [ ] | Template updates do not reset live options/configs. Newly absent config files and unseen keys can receive defaults. New non-key options and fields in existing mod files are not merged. |
+| Intentional per-action Controls reset | [ ] | [ ] | [ ] | Reset only Light Overlay; verify F7 and no unrelated key changes. If App sync reasserts a global value, test a deliberate per-instance exception. |
+| Intentional Continuity activation | [ ] | [ ] | [ ] | Select both built-in packs manually and preserve personal pack order. Selection survives restart under the chosen sync policy. |
+| Intentional adoption of one mod config | [ ] | [ ] | [ ] | With game closed, retain a copy and move only that live file aside. Next launch re-seeds it; every other custom file remains intact. This resets the entire selected file. |
+| Existing 26.2.0.6.0 Default Options installation | [ ] | [ ] | [ ] | Same manager and templates; existing journal and preferences remain. No cleanup/reset is required. |
+| Upgrade from older direct-override pack | [ ] | [ ] | [ ] | Test a disposable copy with saved options/configs. Record whether the launcher removes previously managed overrides. The defaults manager cannot prevent launcher deletion. |
+
+For the upgrade row, use a real supported pack update or a clearly labeled
+private test export. A second fresh import is not an upgrade test. A local
+`.mrpack` may not expose the same automatic update UI as a published linked
+Modrinth pack; record any unavailable upgrade path as a limitation.
+
+For App sync enabled, separately check game-option sync and resource-pack sync
+where the installed version permits. Test a global custom overlay binding, a
+per-instance override, and whether changes propagate to another disposable
+instance. Do not use personal profiles as sync test fixtures.
+
+Do not run `/defaultoptions saveAll` as a reset operation or remove the journal
+as part of normal upgrades. See [adoption instructions](configuration.md#deliberately-adopt-updated-defaults).
 
 ## Startup
 

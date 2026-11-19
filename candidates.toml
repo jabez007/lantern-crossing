@@ -18,8 +18,8 @@ client-only = "Unresolved metadata conflict: native Fabric environment is univer
 target-support = "Release 1.1.4 (okecULrz) lists Fabric 26.2; native Minecraft range is >=26.1."
 blockers = ["Reconcile upstream client/server metadata before activation; do not bypass the current client-only validator.", "Verify first-install, existing-file preservation, and explicit update/reset behavior in a disposable profile."]
 promotion-criteria = ["Exact release and official dependency closure pass the unchanged client-only checks.", "Move intended defaults under config/modpack_defaults and verify updates preserve personal settings."]
-evidence = ["https://api.modrinth.com/v2/project/jlNms3Jp", "https://api.modrinth.com/v2/version/okecULrz", "https://modrinth.com/mod/configmanager", "docs/mod-audit.md#staged-investigations"]
-checked-at = "2026-11-18"
+evidence = ["https://api.modrinth.com/v2/project/jlNms3Jp", "https://api.modrinth.com/v2/version/okecULrz", "https://modrinth.com/mod/configmanager", "docs/mod-audit.md#staged-investigations", "docs/configuration.md#defaults-manager-evaluation-2026-11-19"]
+checked-at = "2026-11-19"
 
 [[candidate]]
 project-id = "p8RJPJIC"

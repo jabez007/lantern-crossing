@@ -90,7 +90,12 @@ It owns exact version IDs, URLs, and SHA-512 hashes. No mod JARs belong in Git.
    including joining a completely vanilla 26.2 server.
 
 Default Options seeds absent files and respects saved keybindings. Existing
-options and resource-pack choices are preserved. See the [upgrade notes](docs/configuration.md#safe-defaults-and-existing-instances).
+options and resource-pack choices are preserved by the defaults handlers. When
+launchers pre-create `options.txt`, Continuity may require manual activation.
+Modrinth App synchronization can supply saved options and keys; we do not override
+that policy. See the [candidate evaluation and launcher caveats](docs/configuration.md#defaults-manager-evaluation-2026-11-19)
+and the [owner acceptance matrix](docs/acceptance-tests.md#launcher-configuration-acceptance-matrix).
+Neither launcher has been runtime-qualified.
 
 Do not merge this pack into an existing instance's mod directory. A clean
 instance avoids leftover mods and configuration. Server rules may restrict
