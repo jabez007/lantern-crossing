@@ -52,6 +52,16 @@ class PackTests(unittest.TestCase):
         with self.assertRaisesRegex((ValueError, KeyError), message):
             load_pack(self.root)
 
+    def test_pack_validation_preserves_existing_player_screenshots(self):
+        screenshots = self.root / "screenshots"
+        screenshots.mkdir()
+        image = screenshots / "huge_old_adventure.png"
+        original = b"isolated player-file fixture, not an image decoding test"
+        image.write_bytes(original)
+        pack = load_pack(self.root)
+        self.assertEqual(image.read_bytes(), original)
+        self.assertFalse(any("screenshots/" in name for name in pack.overrides))
+
     def test_repository_contract(self):
         pack = load_pack(self.root)
         self.assertEqual(len(pack.evidence["requested"]), 30)
@@ -360,6 +370,10 @@ class PackTests(unittest.TestCase):
             "overrides/server.properties",
             "server-overrides/config/a.cfg",
             "overrides/mods/a.jar",
+            "overrides/screenshots/huge_adventure.png",
+            "overrides/screenshots/screenshot-states.json",
+            "overrides/config/screenshot_viewer.json",
+            "overrides/config/screenshot_overhaul.json",
             "../escape",
             "overrides/config/link",
         ):

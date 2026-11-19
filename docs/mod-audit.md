@@ -316,3 +316,19 @@ No alternative is added. The 26.3 discovery entry is pending a separate exact
 feature/library audit; this 26.2 exception cannot authorize different artifacts.
 The [owner checklist](acceptance-tests.md#enchantment-descriptions-acceptance)
 remains entirely uncompleted.
+
+## Screenshot experience evaluation, 2026-11-19
+
+The [maintained 26.2 review and complete comparison matrix](https://github.com/jabez007/lantern-crossing/blob/2add0bf/docs/mod-audit.md#screenshot-experience-evaluation-2026-11-19)
+retains Renice Shot alone. Viewer `laNoi025` / `id6Yni9S` remains staged for
+bounded image-loading evidence. Overhaul `wYSKV506` / `H592Npj8` remains deferred
+for capture-time sensitive PNG metadata with no opt-out, deletion safety and
+capture integration. Its alpha designation was not the sole decision criterion.
+Candidate URLs/hashes/source commits refer to the evaluated 26.2 artifacts.
+They do not establish 26.3 support or permission to install either mod.
+
+This bootstrap still has 30 installed features, no Renice Shot or gallery, and
+41 future migration identities. No installed artifact, config, upstream lock
+snapshot, index or release qualification changes. The screenshot-owner matrix on
+the maintained line applies to that line only. Any future gallery promotion and
+26.3 migration needs a separate version-specific audit and owner acceptance.

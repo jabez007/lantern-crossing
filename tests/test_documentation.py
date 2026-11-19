@@ -1,0 +1,46 @@
+"""Release-facing instructions must describe the actual branch's development build."""
+
+import shutil
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
+
+from pack_model import ROOT, load_toml
+from release_metadata import check_documentation
+
+
+class DocumentationTests(unittest.TestCase):
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.root = Path(self.temp.name)
+        (self.root / "docs").mkdir()
+        for name in ("pack.toml", "README.md", "docs/release-notes.md", "docs/verification.md"):
+            shutil.copyfile(ROOT / name, self.root / name)
+        self.line = load_toml(ROOT / "release-policy.toml")["version-branch"]
+
+    def test_current_documentation(self):
+        check_documentation(self.root, self.line)
+
+    def test_old_version_or_branch_instructions_fail(self):
+        version = load_toml(self.root / "pack.toml")["version"]
+        for name in ("README.md", "docs/release-notes.md", "docs/verification.md"):
+            path = self.root / name
+            original = path.read_text()
+            with self.subTest(name=name), self.assertRaisesRegex(ValueError, "documentation"):
+                path.write_text(original.replace(version, "26.2.99.99.99"))
+                check_documentation(self.root, self.line)
+            path.write_text(original)
+        wrong = "26.3" if self.line == "26.2" else "26.2"
+        with self.assertRaisesRegex(ValueError, "documentation"):
+            check_documentation(self.root, wrong)
+
+    def test_pack_advance_requires_updated_documentation(self):
+        path = self.root / "pack.toml"
+        version = load_toml(path)["version"]
+        path.write_text(path.read_text().replace(version, "26.2.99.99.99"))
+        with self.assertRaisesRegex(ValueError, "documentation"):
+            check_documentation(self.root, self.line)

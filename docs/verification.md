@@ -1,5 +1,7 @@
 # Verification record — 26.3 development bootstrap
 
+Pack version `26.2.0.3.0` remains the current development bootstrap.
+
 Shared hardening checked on 2026-11-19. This branch is not a Minecraft 26.3
 release: `pack.toml` still declares Minecraft 26.2, Fabric Loader 0.20.1 and pack
 26.2.0.3.0. It retains the original 30 features and nine libraries.
@@ -141,3 +143,24 @@ Light Overlay F7 and Continuity activation once those configuration choices are
 migrated, client startup, vanilla-server join/reconnect, rendering and inventory
 interaction. First audit and pin the 26.3 artifacts and full dependency closure;
 current static checks establish only the retained 26.2 bootstrap contract.
+
+## Screenshot review and documentation guard backport, 2026-11-19
+
+The maintained 26.2 screenshot decision is recorded at `2add0bf`. This bootstrap
+receives the two inactive candidate records, shared documentation identity guard,
+three documentation regressions and a disposable screenshot-preservation test.
+The existing archive-negative test also rejects images/state and unselected
+gallery configs. No Renice Shot, gallery, new default or environment exception is
+installed here. All 41 future feature identities remain unchanged and pending.
+
+Observed `make test lint validate` passed with 107 tests and the same single
+intentional absent-helper skip. `make refresh`, `make checksum`, a repeated
+`make export`, archive `cmp`, checksum verification and offline readiness passed.
+All Packwiz commands used `/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache`.
+Actionlint, complexity threshold 8 and `git diff --check` passed. Comparison with
+`7a5756e` confirms all installed locks/configs, collection, pack/index, upstream
+snapshot, migration inventory, workflow and release policy are unchanged.
+The archive still has SHA-256
+`3e49157da527ed340c0f10c1367cdaae9cb02c1220376840086c588548b8ddff`, 22,657 bytes,
+39 downloads and three older configuration overrides. Release qualification is
+still blocked. No Minecraft or launcher runtime test was performed.

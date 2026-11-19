@@ -107,6 +107,28 @@ def artifact_names(pack: dict, line: str, channel: str) -> dict[str, str]:
     }
 
 
+def check_documentation(root: Path, version_branch: str) -> None:
+    """Keep current install instructions tied to the development artifact identity.
+
+    Check explicit current-version statements, leaving historical audit evidence
+    alone. Release publication uses the same development instructions in Git.
+    """
+    pack = load_toml(root / "pack.toml")
+    info = artifact_names(pack, version_branch, "development")
+    for name in ("README.md", "docs/verification.md"):
+        content = (root / name).read_text()
+        require(
+            f"Pack version `{info['version']}`" in content and info["archive"] in content,
+            f"{name}: current-version/artifact documentation disagrees with pack.toml or branch",
+        )
+    require(
+        (root / "docs/release-notes.md")
+        .read_text()
+        .startswith(f"Lantern Crossing {info['version']} "),
+        "docs/release-notes.md: current-version documentation disagrees with pack.toml",
+    )
+
+
 def write_checksum(root: Path = ROOT, **build_context) -> Path:
     info = metadata(root, **build_context)
     archive = root / "dist" / info["archive"]
@@ -140,6 +162,7 @@ def main() -> int:
     args = parser.parse_args()
     try:
         info = metadata(**context(args))
+        check_documentation(ROOT, info["version-branch"])
         if args.github_output:
             with args.github_output.open("a") as output:
                 output.write("".join(f"{key}={value}\n" for key, value in info.items()))

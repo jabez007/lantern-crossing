@@ -1,3 +1,5 @@
+Lantern Crossing 26.2.0.3.0 remains a development bootstrap for the 26.3 branch.
+
 This is a development bootstrap for the 26.3 version branch, not a Minecraft
 26.3-compatible release. Its actual target remains Minecraft 26.2, Fabric Loader
 0.20.1, pack 26.2.0.3.0, with the original 30 features and nine libraries.
@@ -23,3 +25,8 @@ No new mod, library or default template is installed on this branch.
 The generic exact environment-audit checks are shared. No actual environment
 exception or Enchantment Descriptions/Prickle pin is installed on this bootstrap.
 The maintained-line static review does not approve future 26.3 artifacts.
+
+The screenshot review is shared as future selection evidence only. The maintained
+26.2 line retains Renice Shot alone. Neither gallery nor Renice Shot is added to
+this bootstrap. Documentation identity checks now bind current instructions to
+this branch's actual development artifact. Installed pins/defaults are unchanged.

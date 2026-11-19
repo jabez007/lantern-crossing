@@ -190,3 +190,8 @@ Repository-authored scripts and documentation use the [MIT license](LICENSE).
 That license does not relicense Minecraft or any mod. Each mod retains its own
 upstream license. Packwiz references upstream artifacts rather than vendoring
 their JARs. The `.mrpack` contains download references and the documented config.
+
+The [screenshot evaluation](docs/mod-audit.md#screenshot-experience-evaluation-2026-11-19)
+retains Renice Shot alone on the maintained 26.2 line. Both gallery candidates
+remain staged/deferred. This bootstrap gains no screenshot mod or configuration;
+26.3 artifact compatibility and owner acceptance remain pending.

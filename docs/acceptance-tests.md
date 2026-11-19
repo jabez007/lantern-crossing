@@ -243,3 +243,13 @@ No accurate custom server/plugin enchantment semantics are promised. Do not
 install anything on the vanilla server to resolve a client acceptance failure.
 Legacy config recovery and actual launcher upgrade/sync behavior require owner
 observation, not a Python approximation.
+
+## Future screenshot acceptance
+
+No screenshot mod is introduced into this bootstrap. For the maintained 26.2
+line, the [owner matrix](https://github.com/jabez007/lantern-crossing/blob/2add0bf/docs/acceptance-tests.md#screenshot-owner-acceptance-matrix)
+covers both launchers, normal/4K capture, original-file and preference preservation,
+upgrades, shaders, privacy and vanilla-server connectivity. All results remain
+uncompleted. Gallery sorting/favorites, deletion confirmation, huge image memory
+behavior and Xaero world/dimension matching require separate acceptance only if
+such a mod is deliberately promoted later. No 26.3 compatibility is implied.

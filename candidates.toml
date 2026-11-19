@@ -85,3 +85,39 @@ blockers = ["Text cake saturation is hard-coded 2.4 while icon mode uses 2.8 and
 promotion-criteria = ["Resolve nutrition inconsistencies and verify a narrow accurate configuration against the exact artifact.", "Reconsider only a distinct nutrition gap; do not install duplicate effect/container tooltips."]
 evidence = ["https://api.modrinth.com/v2/version/mo7PzvJD", "https://api.modrinth.com/v2/project/evJ7VC0w", "https://github.com/lunarbunten/tooltiptweaks-mod/tree/5a587ac31ae8c6f047ce234a52bdf7f4b9c0ae3e", "docs/mod-audit.md#qol-and-performance-refinement-2026-11-19"]
 checked-at = "2026-11-19"
+
+[[candidate]]
+project-id = "laNoi025"
+slug = "screenshot-viewer"
+category = "screenshots"
+rationale = "Browse and revisit local exploration screenshots without adding server requirements."
+status = "staged-pending-benchmarking"
+client-only = "Project and exact native artifact are client-only; no Minecraft server companion or custom game protocol found. Runtime acceptance remains pending."
+target-support = "26.2-fabric-1 (id6Yni9S), release-designated Fabric Minecraft 26.2 artifact."
+blockers = ["The release defaults decode every original when opening the gallery; no bounded image cache. Compression still prepares the whole collection and lacks an image-size budget."]
+promotion-criteria = ["A released build or demonstrated safe configuration provides bounded image loading for hundreds/thousands of high-resolution captures, preserves originals, and passes both launcher/rendering acceptance checks."]
+evaluated-version = "26.2-fabric-1"
+evaluated-version-id = "id6Yni9S"
+artifact-url = "https://cdn.modrinth.com/data/laNoi025/versions/id6Yni9S/screenshot_viewer-1.3.6-fabric-mc26.2.jar"
+artifact-sha512 = "97b657caf23599cc3e22f87285bcf8a6e3461eb47f37f3d54f8b1135d1f26b57361fba9c63b9833455bda97adeff717dfb5cff201dc1dd4e83e7dde49386c269"
+source-commit = "82dd0b8be130f5832badeeac9a9df74b2c4fd91a"
+evidence = ["https://api.modrinth.com/v2/version/id6Yni9S", "https://github.com/LGatodu47/ScreenshotViewer/tree/82dd0b8be130f5832badeeac9a9df74b2c4fd91a", "docs/mod-audit.md#screenshot-experience-evaluation-2026-11-19"]
+checked-at = "2026-11-19"
+
+[[candidate]]
+project-id = "wYSKV506"
+slug = "screenshot-overhaul"
+category = "screenshots"
+rationale = "Browse and revisit local exploration screenshots without adding server requirements."
+status = "deferred-due-to-privacy"
+client-only = "Project and exact native artifact are client-only; no Minecraft server companion or custom game protocol found. Runtime acceptance remains pending."
+target-support = "0.2.3-26.2 (H592Npj8), alpha-designated Fabric Minecraft 26.2 artifact."
+blockers = ["The exact alpha unconditionally writes coordinates, server identity and other metadata into PNGs; no capture-time opt-out found. Gallery/preview delete actions lack confirmation. F9 and capture wrappers overlap Renice Shot."]
+promotion-criteria = ["A release-designated build supports disabling sensitive capture metadata, confirmed deletion, and an independently audited capture architecture and pinned Xaero integration. No unbounded prerelease exception."]
+evaluated-version = "0.2.3-26.2"
+evaluated-version-id = "H592Npj8"
+artifact-url = "https://cdn.modrinth.com/data/wYSKV506/versions/H592Npj8/screenshot_overhaul-0.2.3-26.2-fabric.jar"
+artifact-sha512 = "e6cc2455fd9ab1f1567ea226d20948973a6e947fba1cf97d0411fbe7c7bf6b34b4ceb419e5c10e5d469143e39e24c9998e7144ed0c96ba6323d1b88018144e24"
+source-commit = "c1676036589ceccd6942d4b5449002baf036753c"
+evidence = ["https://api.modrinth.com/v2/version/H592Npj8", "https://github.com/Azz-9/Screenshot-Overhaul/tree/c1676036589ceccd6942d4b5449002baf036753c", "docs/mod-audit.md#screenshot-experience-evaluation-2026-11-19"]
+checked-at = "2026-11-19"

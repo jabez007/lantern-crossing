@@ -457,3 +457,12 @@ behavior is not inferred. Food Effect Tooltips remains the consume/death-effect
 provider. See the [exact Prickle audit](mod-audit.md#prickle-environment-classification-review),
 including its disclosed asynchronous HTTP update check and scoped server-label
 exception. No second defaults manager or other tooltip mod is added.
+
+## Screenshot selection reference
+
+This bootstrap does not install Renice Shot or a gallery. The maintained
+26.2 [screenshot review](mod-audit.md#screenshot-experience-evaluation-2026-11-19)
+retains Renice Shot and does not distribute capture preferences, user screenshots
+or metadata databases. No new screenshot defaults are seeded on this branch.
+Keep existing player images and preferences when eventually migrating; do not
+copy development overrides onto a personal maintained instance.
