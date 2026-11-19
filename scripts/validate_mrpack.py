@@ -11,6 +11,7 @@ import zipfile
 from pathlib import Path
 
 from pack_model import ROOT, Pack, load_pack, require, safe_path
+from release_metadata import add_context_arguments, context, metadata
 
 
 def read_archive(path: Path) -> dict[str, bytes]:
@@ -35,13 +36,19 @@ def read_archive(path: Path) -> dict[str, bytes]:
     return contents
 
 
-def check_manifest(manifest: dict, pack: Pack) -> None:
+def check_manifest(manifest: dict, pack: Pack, identity: dict, raw: bool) -> None:
     require(
         manifest.get("formatVersion") == 1 and manifest.get("game") == "minecraft",
         "invalid mrpack format/game",
     )
-    require(manifest.get("name") == pack.metadata["name"], "archive pack name mismatch")
-    require(manifest.get("versionId") == pack.metadata["version"], "archive version mismatch")
+    expected_name = pack.metadata["name"] if raw else identity["name"]
+    expected_version = pack.metadata["version"] if raw else identity["artifact-version"]
+    require(manifest.get("name") == expected_name, "archive pack name/channel mismatch")
+    require(manifest.get("versionId") == expected_version, "archive version/channel mismatch")
+    if not raw:
+        require(
+            manifest.get("summary") == identity["summary"], "archive target/channel label mismatch"
+        )
     require(
         manifest.get("dependencies")
         == {
@@ -71,11 +78,13 @@ def check_mods(files: list, pack: Pack) -> None:
     require(seen == expected.keys(), "archive missing baseline project or required dependency")
 
 
-def validate(path: Path, root: Path = ROOT) -> None:
+def validate(path: Path, root: Path = ROOT, *, raw: bool = False, **build_context) -> None:
     pack = load_pack(root)
+    identity = metadata(root, **build_context)
+    require(path.name == identity["archive"], "archive filename/branch/channel mismatch")
     contents = read_archive(path)
     manifest = json.loads(contents.pop("modrinth.index.json"))
-    check_manifest(manifest, pack)
+    check_manifest(manifest, pack, identity, raw)
     check_mods(manifest["files"], pack)
     expected = {"overrides/" + name: data for name, data in pack.overrides.items()}
     # Packwiz emits one empty overrides directory, even when there are no configs.
@@ -90,9 +99,10 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("archive", type=Path)
     parser.add_argument("--root", type=Path, default=ROOT)
+    add_context_arguments(parser)
     args = parser.parse_args()
     try:
-        validate(args.archive, args.root)
+        validate(args.archive, args.root, **context(args))
     except (OSError, ValueError, KeyError, TypeError, zipfile.BadZipFile) as exc:
         print(f"FAIL: {exc}", file=sys.stderr)
         return 1

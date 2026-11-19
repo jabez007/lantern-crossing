@@ -11,11 +11,18 @@ on:
 permissions:
   contents: read
 
+env:
+  PACK_BRANCH: ${{ github.base_ref || (github.ref_type == 'branch' && github.ref_name) || '' }}
+  PACK_CHANNEL: ${{ startsWith(github.ref, 'refs/tags/v') && 'release' || 'development' }}
+  RELEASE_TAG: ${{ startsWith(github.ref, 'refs/tags/v') && github.ref_name || '' }}
+
 jobs:
   validate:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
         with:
           python-version: '3.12.12'
@@ -29,33 +36,35 @@ jobs:
           go install github.com/packwiz/packwiz@170b22d785959dda5876b54b7f16e1b807a57fb6
           echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
       - run: make test lint validate
+      - name: Check artifact identity and release eligibility
+        id: identity
+        run: |
+          python scripts/release_metadata.py --github-output "$GITHUB_OUTPUT"
+          if [ "$PACK_CHANNEL" = release ]; then
+            version_branch="$(python scripts/release_metadata.py --field version-branch)"
+            git merge-base --is-ancestor "$GITHUB_SHA" "origin/$version_branch"
+          fi
       - name: Check generated index consistency
         run: |
           make refresh
           git diff --exit-code -- pack.toml index.toml mods config
-      - name: Verify release tag
-        if: startsWith(github.ref, 'refs/tags/v')
-        env:
-          RELEASE_TAG: ${{ github.ref_name }}
-        run: python scripts/release_metadata.py --tag "$RELEASE_TAG"
       - name: Build release files
-        run: |
-          make export
-          python scripts/release_metadata.py --checksum
+        run: make checksum
       - name: Verify reproducible export and source cleanliness
+        env:
+          ARCHIVE: ${{ steps.identity.outputs.archive }}
         run: |
-          cp dist/*.mrpack build-first.mrpack
+          cp "dist/$ARCHIVE" "$RUNNER_TEMP/first.mrpack"
           make export
-          cmp build-first.mrpack dist/*.mrpack
-          rm build-first.mrpack
+          cmp "$RUNNER_TEMP/first.mrpack" "dist/$ARCHIVE"
           git diff --exit-code
           test -z "$(git status --porcelain)"
       - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5
         with:
-          name: lantern-crossing
+          name: ${{ steps.identity.outputs.artifact-name }}
           path: |
-            dist/*.mrpack
-            dist/*.sha256
+            dist/${{ steps.identity.outputs.archive }}
+            dist/${{ steps.identity.outputs.checksum }}
           if-no-files-found: error
 
   release:
@@ -66,6 +75,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          fetch-depth: 0
       # Rebuild with the same checked sources and exact tooling. This avoids a
       # second action dependency solely to transfer two small release files.
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
@@ -76,24 +87,26 @@ jobs:
           go-version: '1.24.6'
           cache: false
       - name: Build and verify release
-        env:
-          RELEASE_TAG: ${{ github.ref_name }}
+        id: identity
         run: |
           python -m pip install -r requirements-dev.txt
           go install github.com/packwiz/packwiz@170b22d785959dda5876b54b7f16e1b807a57fb6
           packwiz_bin="$(go env GOPATH)/bin"
-          python scripts/release_metadata.py --tag "$RELEASE_TAG"
+          python scripts/release_metadata.py --github-output "$GITHUB_OUTPUT"
+          version_branch="$(python scripts/release_metadata.py --field version-branch)"
+          git merge-base --is-ancestor "$GITHUB_SHA" "origin/$version_branch"
           make release PACKWIZ="$packwiz_bin/packwiz"
       - name: Publish complete release
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          RELEASE_TAG: ${{ github.ref_name }}
+          ARCHIVE: ${{ steps.identity.outputs.archive }}
+          CHECKSUM: ${{ steps.identity.outputs.checksum }}
         run: |
           if gh release view "$RELEASE_TAG" --json isDraft > /tmp/release.json; then
             python -c 'import json; assert json.load(open("/tmp/release.json"))["isDraft"], "Refusing to replace a published release"'
           else
             gh release create "$RELEASE_TAG" --verify-tag --draft --title "Lantern Crossing $RELEASE_TAG" --notes-file docs/release-notes.md
           fi
-          gh release upload "$RELEASE_TAG" dist/*.mrpack dist/*.sha256 --clobber
+          gh release upload "$RELEASE_TAG" "dist/$ARCHIVE" "dist/$CHECKSUM" --clobber
           gh release edit "$RELEASE_TAG" --draft=false

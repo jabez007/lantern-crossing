@@ -17,12 +17,33 @@ A new Minecraft target requires a separately authorized version line.
 baseline. `26.3` is the default development branch for work on Minecraft 26.3.
 The former `main` branch is renamed to `26.2`; it is no longer an update target.
 
-At branch creation, `26.3` inherits the verified 26.2 sources unchanged. Its
-`pack.toml`, pins, validation target, and acceptance evidence still describe
-Minecraft 26.2. Creating the branch does not complete or qualify a 26.3 upgrade.
-Before claiming 26.3 support, audit exact upstream releases and dependencies,
-update the target and its validation together, and repeat export and runtime
-acceptance. Preserve the 26.2 pins on the retained line.
+The 26.3 bootstrap still declares Minecraft 26.2 and pack version 26.2.0.3.0,
+with 30 features. The maintained 26.2 line now has 37 features: the original 30,
+Renice Shot, Sodium Extra, Reese's Sodium Options, Continuity, Cubes Without
+Borders, More Chat History, and the Default Options helper. Shared tooling fixes
+are backported separately; target-specific pins are preserved.
+
+[migration.toml](../migration.toml) tracks all 37 by stable project ID, including
+the six additions after the original baseline and Default Options. Discovery on
+2026-11-19 found a release-designated Fabric 26.3 artifact for every feature.
+These version IDs are discovery evidence, not installed pins or compatibility
+audits. Every migration entry remains `deferred` and runtime `pending`.
+
+Migration status distinguishes `static-verified`, `awaiting-upstream`,
+`replacement-required`, `deferred`, and `manual-acceptance-required`; runtime
+acceptance is recorded separately. Every entry needs a reason and evidence.
+The source line must cover its entire active feature set; the bootstrap may have
+only a subset. Validation rejects claims of migrated static checks while the
+actual target remains 26.2. Refresh discovery explicitly; do not infer migration
+from the existence of a newer upstream file.
+
+To qualify 26.3: separately authorize migration; audit exact release artifacts,
+client-only behavior, native ranges and complete dependency closure for all
+intended selections; resolve each inventory entry; update manifests, target
+validators and pack version together; repeat deterministic exports; then have
+the owner complete runtime acceptance and record its exact pack hash. Missing
+upstream versions require an explicit blocker or reviewed replacement decision.
+No 26.3 compatibility or runtime result is claimed here.
 
 Create topic branches from the intended version branch and target that branch
 in pull requests. Backport shared fixes in separate reviewed changes. Do not
@@ -30,10 +51,23 @@ synchronize the two lines wholesale or merge target-specific dependency updates
 across them. Keep each line's pack version and release tags aligned with its
 actual Minecraft target.
 
-The existing `Validate and release` workflow runs the full validation and export
-checks on pushes to either version branch and pull requests targeting them.
-Topic pushes do not duplicate PR runs. Matching `v*` tags retain the release
-workflow and tag-to-`pack.toml` checks.
+`release-policy.toml` declares the intended version branch. Numeric branch names
+(from Git locally or the PR base/push ref in CI) must agree with that declaration.
+Topic branches inherit their intended line's policy. `pack.toml` always owns the
+actual Minecraft target and its version prefix.
+
+Normal exports use the development channel. Filenames include the actual pack
+version and `-dev-<version branch>`; the archive's `versionId`, name and summary
+also identify development status, actual target and branch. Thus the 26.3
+bootstrap produces `lantern-crossing-26.2.0.3.0-dev-26.3.mrpack`. Renaming the
+file does not change its internal identity, and archive validation checks both.
+Release-channel naming is allowed only after the qualification checks below.
+
+The workflow validates both version branches and PRs targeting them, compares
+two exports byte for byte, and uploads the exact named archive and checksum.
+Matching tags use the release channel, require tag ancestry on the policy's
+remote version branch, and cannot bypass qualification by using a development
+build. Index refresh is checked before export and source cleanliness afterward.
 
 Discover availability for the next target without changing the pack:
 
@@ -108,7 +142,7 @@ Official provenance does not waive a server requirement.
 8. Update `collection.toml`, the dated snapshot, the audit, configuration notes,
    README, release notes, and version. Exact pins remain authoritative in packwiz records. Update
    `required-by` for libraries from the resulting graph. Remove orphan libraries.
-9. Run `make refresh`, `make test lint validate`, and `make release`. A second
+9. Run `make refresh`, `make test lint validate`, and `make checksum`. A second
    `make refresh` must leave `pack.toml` and `index.toml` unchanged. Compare two
    clean exports byte for byte and inspect the archive contents.
 10. Complete the clean-client [acceptance checklist](acceptance-tests.md),
@@ -129,13 +163,32 @@ intent list in the snapshot as part of that reviewed change.
 
 ## Publish a release
 
-Complete review and runtime acceptance before tagging a build intended for
-users. Validate the proposed tag with
-`python3 scripts/release_metadata.py --tag v26.2.0.6.0`.
-Create and push the matching tag only with publication authorization.
-GitHub Actions then checks the same sources, builds the `.mrpack` and checksum,
-and publishes both through a draft release. It refuses to overwrite a published
-release. Correct a published artifact with a new version and tag.
+Complete review and owner-run runtime acceptance before publishing. In
+`release-policy.toml`, record the accepted pack version, SHA-256 of `pack.toml`,
+and the path of the owner-authored acceptance evidence under `docs/`. The pack
+hash binds the loader and complete index, including mod locks and configuration.
+Any subsequent pack/index change invalidates that acceptance. The fields remain
+empty until the owner actually performs the checklist. Static tests never set them.
+
+Check and build a qualified release with:
+
+```sh
+python3 scripts/release_metadata.py --channel release --tag v26.2.0.6.0
+make release RELEASE_TAG=v26.2.0.6.0
+```
+
+Without qualification these commands intentionally fail. Development validation,
+`make export`, and `make checksum` remain available. A qualified release retains
+`lantern-crossing-<version>.mrpack` and `.sha256` names; release tag and pack
+version must match, and the policy branch must equal the actual Minecraft target.
+A migration-line release also requires the entire intended inventory migrated
+and each feature's runtime acceptance recorded.
+The 26.3 bootstrap therefore cannot publish a release in its current state.
+
+Create and push a matching tag only with publication authorization. GitHub Actions
+performs the same checks and confirms that the tag commit belongs to the remote
+version branch before publishing through a draft release. It refuses to replace
+published releases. Correct a published artifact with a new version and tag.
 
 The release format is `.mrpack`. No CurseForge ZIP is produced. Adding another
 format requires a concrete use case and review of its redistribution behavior
