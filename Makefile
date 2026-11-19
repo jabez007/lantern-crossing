@@ -1,11 +1,12 @@
 PYTHON ?= python3
 PACKWIZ ?= packwiz
 RUFF ?= ruff
-PACK_VERSION := $(shell $(PYTHON) scripts/release_metadata.py --field version)
-MRPACK := dist/lantern-crossing-$(PACK_VERSION).mrpack
+PACK_CHANNEL ?= development
+export PACK_CHANNEL
+MRPACK = dist/$(shell $(PYTHON) scripts/release_metadata.py --field archive)
 
 .NOTPARALLEL:
-.PHONY: test lint validate refresh export release clean
+.PHONY: test lint validate refresh export checksum release clean
 
 test:
 	$(PYTHON) -m unittest discover -s tests -v
@@ -28,8 +29,12 @@ export: validate
 	$(PYTHON) scripts/normalize_mrpack.py $(MRPACK)
 	$(PYTHON) scripts/validate_mrpack.py $(MRPACK)
 
-release: test lint export
+checksum: export
 	$(PYTHON) scripts/release_metadata.py --checksum
+
+# An explicit tag and owner-recorded runtime acceptance are required for release.
+release: override PACK_CHANNEL = release
+release: test lint checksum
 
 clean:
 	rm -rf build dist

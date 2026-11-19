@@ -1,16 +1,17 @@
-Lantern Crossing is a Minecraft Java 26.2 Fabric client pack. Server operators
-do not need to install anything.
+This is a development bootstrap for the 26.3 version branch, not a Minecraft
+26.3-compatible release. Its actual target remains Minecraft 26.2, Fabric Loader
+0.20.1, pack 26.2.0.3.0, with the original 30 features and nine libraries.
 
-This development baseline contains all 30 requested features and nine libraries.
-Mod Menu, Sign Tweaks, Iris, and Client Tweaks are active upstream releases.
-Their exact official dependency closure may include prerelease-versioned libraries.
-Light Overlay 2.12.0+26.2 is active from project 8qVa1XCN, with its exact
-OverlayLib 0.12.0+26.2 dependency. Its default F9 toggle is retained.
-See the repository's mod audit for evidence and limitations.
+Shared native dependency checks, artifact naming and release safeguards have
+been backported. No mod pins or configuration payload have changed. Development
+exports are named lantern-crossing-26.2.0.3.0-dev-26.3.mrpack and carry the same
+actual-target/development identity internally. Release publication is blocked.
 
-The .mrpack references pinned upstream artifacts and includes documented
-Mouse Tweaks, Client Tweaks, and Iris configuration. Shaders start disabled and
-no shader pack is included. The .sha256 file verifies the archive bytes.
+The migration inventory tracks all 37 features intended from the maintained
+26.2 line, including its six later additions and Default Options. Their 26.3
+artifacts, dependencies and client-only behavior await a separate migration audit.
+The bootstrap retains older direct config overrides; do not use it to update an
+existing player profile. Use the maintained 26.2 line for its safer defaults.
 
-Static CI checks do not replace the clean-client vanilla-server acceptance
-checklist. Consult docs/verification.md for the recorded runtime test status.
+No Minecraft runtime acceptance has been performed. See verification.md and
+acceptance-tests.md for the remaining owner-run work.

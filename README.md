@@ -21,15 +21,23 @@ Pack version `26.2.0.3.0` is a development baseline, not a runtime qualification
 ## Version branches
 
 - [`26.2`](https://github.com/jabez007/lantern-crossing/tree/26.2) maintains the
-  Minecraft 26.2 pack and its audited 30-feature baseline.
+  Minecraft 26.2 pack and its audited 37-feature baseline.
 - [`26.3`](https://github.com/jabez007/lantern-crossing/tree/26.3) is the default
-  development branch for the next Minecraft version. It initially retains the
-  verified 26.2 sources; the 26.3 dependency audit and migration are pending.
+  development branch for the next Minecraft version. This checkout still targets
+  Minecraft 26.2 with the original 30 features. No 26.3 migration is qualified.
 
 Use `26.2` for Minecraft 26.2 builds. Target pull requests at the intended version
 branch and backport shared fixes deliberately. The branch name does not establish
 Minecraft compatibility or runtime acceptance. `pack.toml` records the actual
 target. See the [version-branch policy](docs/version-policy.md#version-branches).
+
+The maintained line's six later feature additions and Default Options helper
+are tracked by project ID in [migration.toml](migration.toml), not added to this
+bootstrap. All 37 migration entries remain deferred, with runtime acceptance
+pending. Discovery evidence is not an installed pin or compatibility audit.
+The bootstrap retains older direct config overrides: use a disposable fresh
+instance, not an existing player profile. The safe-defaults helper is part of
+the future migration audit.
 
 ## Pack philosophy
 
@@ -71,9 +79,9 @@ It owns exact version IDs, URLs, and SHA-512 hashes. No mod JARs belong in Git.
 
 ## Install an exported pack
 
-1. Obtain `lantern-crossing-26.2.0.3.0.mrpack` and its `.sha256` file from a
-   reviewed release or build them below.
-2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.3.0.sha256`.
+1. Obtain `lantern-crossing-26.2.0.3.0-dev-26.3.mrpack` and its `.sha256` file from a
+   development build below. This is a Minecraft 26.2 development artifact.
+2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.3.0-dev-26.3.sha256`.
 3. Import the `.mrpack` into a launcher that supports Modrinth packs. Use a new
    instance with Java 25 and let the launcher obtain the pinned upstream files.
 4. Start the client and complete the [smoke tests](docs/acceptance-tests.md),
@@ -105,10 +113,11 @@ also recorded in [verification.md](docs/verification.md).
 | --- | --- |
 | `make test` | Offline Python unit tests |
 | `make lint` | Ruff lint, formatting, and complexity check |
-| `make validate` | Source policy, exact pins, dependency closure, and index hashes |
+| `make validate` | Exact pins, native dependency predicates, migration inventory, branch policy and index |
 | `make refresh` | Regenerate packwiz index after an intentional payload edit |
 | `make export` | Validate, export, normalize, and validate the complete `.mrpack` |
-| `make release` | Tests, lint, validated `.mrpack`, and SHA-256 checksum |
+| `make checksum` | Development export and SHA-256 checksum |
+| `make release RELEASE_TAG=v<version>` | Qualified release build; blocked on this bootstrap |
 | `make clean` | Remove generated `build/` and `dist/` files |
 
 `PACKWIZ`, `PYTHON`, and `RUFF` can name explicit local executables.
@@ -116,19 +125,24 @@ Export checks the existing index before packwiz's implicit refresh, so it cannot
 hide stale source metadata. ZIP normalization fixes entry order, timestamps,
 permissions, and JSON encoding. Stored entries avoid compression-version drift.
 
-Release outputs are:
+Development outputs are:
 
 ```text
-dist/lantern-crossing-26.2.0.3.0.mrpack
-dist/lantern-crossing-26.2.0.3.0.sha256
+dist/lantern-crossing-26.2.0.3.0-dev-26.3.mrpack
+dist/lantern-crossing-26.2.0.3.0-dev-26.3.sha256
 ```
 
 GitHub Actions validates pushes to `26.2` and `26.3` and pull requests targeting
 either branch. It checks index consistency, builds twice to compare archive
-bytes, and uploads the artifacts. A matching
-`v26.2.0.3.0` tag also creates a GitHub Release with the archive and checksum.
-The workflow refuses to replace an already published release. Complete manual
-acceptance before tagging a release intended for users.
+bytes, and uploads version/branch/channel-labeled artifacts. The archive itself
+also identifies development status and the actual Minecraft target.
+
+[release-policy.toml](release-policy.toml) records the intended 26.3 line.
+Numeric branch names must match it. Publishing requires a matching actual target,
+tag ancestry on the version branch, and owner runtime acceptance bound to the
+pack hash. This branch still targets 26.2 and cannot publish a release. No
+acceptance result is recorded. Qualified 26.2 releases retain their existing
+names on the maintained branch. See [version policy](docs/version-policy.md).
 
 ## Select and update deliberately
 

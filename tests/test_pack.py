@@ -26,7 +26,14 @@ class PackTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        for name in ("pack.toml", "index.toml", "collection.toml", "candidates.toml"):
+        for name in (
+            "pack.toml",
+            "index.toml",
+            "collection.toml",
+            "candidates.toml",
+            "release-policy.toml",
+            "migration.toml",
+        ):
             shutil.copyfile(ROOT / name, self.root / name)
         for name in ("mods", "config"):
             shutil.copytree(ROOT / name, self.root / name)
@@ -194,7 +201,8 @@ class PackTests(unittest.TestCase):
 
     def test_release_tag_must_match(self):
         self.assertEqual(
-            metadata(self.root, "v26.2.0.3.0")["archive"], "lantern-crossing-26.2.0.3.0.mrpack"
+            metadata(self.root, "v26.2.0.3.0")["archive"],
+            "lantern-crossing-26.2.0.3.0-dev-26.3.mrpack",
         )
         with self.assertRaisesRegex(ValueError, "tag must agree"):
             metadata(self.root, "v26.2.0.3.1")
@@ -259,15 +267,16 @@ class PackTests(unittest.TestCase):
         manifest = {
             "formatVersion": 1,
             "game": "minecraft",
-            "name": pack.metadata["name"],
-            "versionId": pack.metadata["version"],
+            "name": metadata(self.root)["name"],
+            "versionId": metadata(self.root)["artifact-version"],
+            "summary": metadata(self.root)["summary"],
             "dependencies": {"minecraft": "26.2", "fabric-loader": "0.20.1"},
             "files": files,
         }
         return manifest, {"overrides/" + n: data for n, data in pack.overrides.items()}
 
     def write_archive(self, manifest, overrides, extra=None):
-        path = self.root / "test.mrpack"
+        path = self.root / metadata(self.root)["archive"]
         with zipfile.ZipFile(path, "w") as archive:
             archive.writestr("modrinth.index.json", json.dumps(manifest))
             for name, data in overrides.items():
@@ -278,6 +287,19 @@ class PackTests(unittest.TestCase):
 
     def test_complete_archive(self):
         validate(self.write_archive(*self.archive_data()), self.root)
+
+    def test_archive_cannot_hide_its_development_identity(self):
+        manifest, overrides = self.archive_data()
+        manifest["versionId"] = load_toml(self.root / "pack.toml")["version"]
+        with self.assertRaisesRegex(ValueError, "version/channel mismatch"):
+            validate(self.write_archive(manifest, overrides), self.root)
+
+    def test_archive_filename_must_match_version_line_and_channel(self):
+        path = self.write_archive(*self.archive_data())
+        wrong = path.with_name("lantern-crossing-26.3.0.1.0.mrpack")
+        path.rename(wrong)
+        with self.assertRaisesRegex(ValueError, "filename/branch/channel mismatch"):
+            validate(wrong, self.root)
 
     def test_archive_missing_feature_or_dependency(self):
         manifest, overrides = self.archive_data()

@@ -1,5 +1,11 @@
 # Configuration decisions
 
+This 26.3 development bootstrap still targets Minecraft 26.2 and retains its
+original direct configuration overrides. Do not use it to upgrade an existing
+player profile. The maintained 26.2 branch has the safe Default Options integration;
+that helper and its templates await the separate 26.3 migration audit. See
+[the migration inventory](../migration.toml) and [version policy](version-policy.md).
+
 The pack ships `config/MouseTweaks.cfg`, `config/clienttweaks-common.toml`, and
 `config/iris.properties`. Other settings retain upstream defaults.
 User-generated preferences, key bindings, server addresses,
