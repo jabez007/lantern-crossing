@@ -116,7 +116,7 @@ Prism or Modrinth App runtime acceptance was performed.
 | --- | --- | --- | --- |
 | [BetterGrassify](https://modrinth.com/mod/bettergrassify), `m5T5xmUy` | [1.8.7+fabric.26.2, r4yqxYQl](https://api.modrinth.com/v2/version/r4yqxYQl) | Added on 26.2 | Client-only artifact. Local block-model/quad rendering needs no server installation or extra data. Requires existing Fabric API. Fancy grass, resource-pack compatibility mode, paths/farmland/Nether changes disabled, and extra snow layers disabled are initial defaults. |
 | [Controlling](https://modrinth.com/mod/controlling), `xv94TkTM` | [26.2.4, sZHXONgm](https://api.modrinth.com/v2/version/sZHXONgm) | Added on 26.2 | Client-only keybinding screen search, free-key view and conflict filtering. Requires Fabric API and Searchables. Does not assign bindings or resolve conflicts automatically; F7 is unchanged. |
-| [Enchantment Descriptions](https://modrinth.com/mod/enchantment-descriptions), `UVtY3ZAC` | [26.2.0.2, PTAK0HD2](https://api.modrinth.com/v2/version/PTAK0HD2) | Deferred due to compatibility | Client tooltip callback and vanilla translations are local. Required Prickle `aaRl8GiW`, release [26.2.0.3, XdvtdRYJ](https://api.modrinth.com/v2/version/XdvtdRYJ), declares server required in the [project API](https://api.modrinth.com/v2/project/aaRl8GiW). Its universal descriptor and local config implementation contradict that label. No exception to the server-required rejection is added. |
+| [Enchantment Descriptions](https://modrinth.com/mod/enchantment-descriptions), `UVtY3ZAC` | [26.2.0.2, PTAK0HD2](https://api.modrinth.com/v2/version/PTAK0HD2) | Accepted on maintained 26.2 only, review below | Initial metadata-policy deferral. Client tooltip callback and vanilla translations are local. Required Prickle `aaRl8GiW`, release [26.2.0.3, XdvtdRYJ](https://api.modrinth.com/v2/version/XdvtdRYJ), declares server required in the [project API](https://api.modrinth.com/v2/project/aaRl8GiW). Its universal descriptor and local config implementation contradict that label. The maintained line now has an exact-artifact exception; this bootstrap has none. |
 | [Crash Assistant](https://modrinth.com/mod/crash-assistant), `ix1qq8Ux` | [1.11.14, alR3tamq](https://api.modrinth.com/v2/version/alR3tamq) | Deferred due to compatibility | API is client-only; native universal language adapter starts a local child process early enough to diagnose many initialization failures. No required Modrinth projects; embedded application/libraries still need auditing. Launcher logs already provide the basic reporting path. Early privacy-default ordering with Configured Defaults is unresolved. |
 | [Better Block Entities](https://modrinth.com/mod/better-block-entities), `ONZm0H7Y` | [1.3.9+mc26.2, n5mL5flA](https://api.modrinth.com/v2/version/n5mL5flA) | Deferred due to compatibility | Client-only; native Sodium `>=0.9.0`, release changelog supports 0.9.0 through 0.9.2, including our 0.9.2. Open Iris lighting report [#145](https://github.com/EdeenMC/betterblockentities/issues/145), Iris/Xaero shader-toggle map report [#156](https://github.com/EdeenMC/betterblockentities/issues/156), and acknowledged transition-lighting limitation [#7](https://github.com/EdeenMC/betterblockentities/issues/7) prevent promotion without resolving applicability to this stack. |
 | [Ixeris](https://modrinth.com/mod/ixeris), `p8RJPJIC` | [4.6.11+26.2-fabric, qXHd9Vb4](https://api.modrinth.com/v2/version/qXHd9Vb4) | Staged pending benchmarking | Client event polling and Windows buffered raw input. The [upstream benchmarks](https://github.com/decce6/Ixeris/tree/124f06bd5a9530d9af9529d5af885275b8be77b1#benchmarks) are real workload-specific reports, not Lantern Crossing measurements. No required project dependency. |
@@ -148,7 +148,7 @@ evidence; it is not a claim of a reproducible upstream source build.
 - BetterGrassify [release tag 33df4f9](https://github.com/UltimatChamp/BetterGrassify/tree/33df4f9ef7f9bdbacb5b9fade4050542f7dcb2bf), `BetterGrassifyBlockStateModel`, `BetterGrassifyConfig` and Sodium meshing mixin. Client block/tint/light data supplies rendering. Compatibility mode limits replacement to full quads. Sodium, Iris, Continuity and More Culling have no declared hard conflict; visual interaction still needs owner acceptance.
 - Controlling [26.2 source 3521164](https://github.com/jaredlll08/Controlling/tree/3521164fd53771ed95afe4868310ac0f88df8ceb), `NewKeyBindsScreen`, `NewKeyBindsList` and client mixins; Searchables [10cb075](https://github.com/jaredlll08/searchables/tree/10cb075ae5f3526bda799b9a37d8e2769a0277d6). Searches local registered mappings. No companion, handshake, protocol or new keybind is selected.
 - Food Effect Tooltips [26.2 source 27b7894](https://github.com/DaFuqs/FoodEffectTooltips/tree/27b7894278716f5988f6a875bd80483e9e9f3316), `FoodeffecttooltipsClient`, `TooltipHelper` and `FoodEffectsConfig`. Probability is read from `ApplyStatusEffectsConsumeEffect`; no current-player food state is consulted. Vanilla item components support these tooltips on an unmodified server. Plugin behavior absent from those components is unknown and is not advertised.
-- Enchantment Descriptions [df15f5b](https://github.com/Darkhax-Minecraft/Enchantment-Descriptions/tree/df15f5bc42a0d0b74356fec64dcfa4162701d149) loads Prickle config and resolves description translation keys. Prickle [19934df](https://github.com/Darkhax-Minecraft/PrickleMC/tree/19934df33b5f874d5849f272a663f0db97c4c099) uses local JSON file services; no required remote handshake was found. That evidence does not reconcile the API environment contradiction. Vanilla translations are supplied, but plugin-defined enchantments need matching local descriptions; arbitrary plugin behavior cannot be inferred.
+- Enchantment Descriptions [df15f5b](https://github.com/Darkhax-Minecraft/Enchantment-Descriptions/tree/df15f5bc42a0d0b74356fec64dcfa4162701d149) loads Prickle config and resolves description translation keys. Prickle [19934df](https://github.com/Darkhax-Minecraft/PrickleMC/tree/19934df33b5f874d5849f272a663f0db97c4c099) uses local JSON file services; no required remote handshake was found. The subsequent exact-artifact review below resolves the maintained-line deferral. Vanilla translations are supplied, but plugin-defined enchantments need matching local descriptions; arbitrary plugin behavior cannot be inferred.
 - Tooltip Tweaks [5a587ac](https://github.com/lunarbunten/tooltiptweaks-mod/tree/5a587ac31ae8c6f047ce234a52bdf7f4b9c0ae3e), `NutritionTooltips` hard-codes cake saturation `2.4F`; `FoodGuiTooltip` uses `2.8F` and casts saturation to `int`. Ordinary food values use local `FoodProperties`. It could supply hunger-only text, but that does not justify the broad rewrite set for this milestone. Food Effect Tooltips supplies the narrower effect use case with probabilities. No nutritional HUD or substitute is added.
 - Crash Assistant [26.2 entrypoint dd39ca5](https://github.com/KostromDan/Crash-Assistant/tree/dd39ca5c8d2d292cc2c0f8c89123b7df1e3ffc4b) and [shared application 93fd896](https://github.com/KostromDan/Crash-Assistant/tree/93fd8960ed4f9e55a9f5c34ab2f8ce2c4308fc14). The inspected upload path calls `PrivacyPolicyDialog.ensurePrivacyPolicyAccepted`. Uploaded logs may contain file paths, chat, server addresses and account identifiers. `general.send_uploaded_logs_data_to_kostromdan_dev` defaults true and includes UUID metadata after an upload; it can be disabled. No automatic crash-log upload was found in the inspected path. `DefaultConfigModsCompatibility` seeds only YOSBR and Config Manager directories. Adding direct live overrides to force privacy defaults would violate Lantern Crossing's settings policy. Child-process/launcher interaction and exact embedded-code correspondence remain unaudited, so no diagnostics mod, telemetry, upload service or support link is installed. Use launcher-local logs and review/redact before deliberately sharing them.
 
@@ -173,3 +173,146 @@ Controlling and Food Effect Tooltips are independent QoL selections.
 AppleSkin, Jade, WTHIT, SimpleCoords, Overlay Stats and InventoryHUD+ are not
 added or replaced in this milestone. No shaders, standalone resource packs,
 server artifacts or content mods are introduced. All runtime results stay pending.
+
+## Prickle environment classification review
+
+This disposition applies only to the maintained 26.2 artifact pair. Neither mod
+nor the exception is installed on this bootstrap. A new 26.3 pair needs its own
+source/artifact review and dependency closure; no compatibility is inferred.
+
+The original deferral was overly conservative. It reproduced a metadata-policy
+rejection, not a Fabric version incompatibility or demonstrated server companion
+requirement. Exact artifact/source inspection supports independent client use
+of the pair below. Runtime acceptance is still uncompleted.
+
+| Artifact | Project/version IDs | Published release and environment | Selected use |
+| --- | --- | --- | --- |
+| [Enchantment Descriptions 26.2.0.2](https://api.modrinth.com/v2/version/PTAK0HD2) | `UVtY3ZAC` / `PTAK0HD2` | Fabric 26.2 release; API client required/server optional; native `client`. | Local descriptions of standard vanilla enchantments. Active feature. |
+| [Prickle 26.2.0.3](https://api.modrinth.com/v2/version/XdvtdRYJ) | `aaRl8GiW` / `XdvtdRYJ` | Fabric 26.2 release; [project API](https://api.modrinth.com/v2/project/aaRl8GiW) client required/server required; native `*`. | Local configuration library. Active resolved dependency, not a feature or remote companion. |
+
+Enchantment Descriptions' Modrinth edge and native `prickle: "*"` do not specify
+an exact library version. Its build compiles against 26.2.0.2; Packwiz resolved
+the newest stable Fabric 26.2 release, 26.2.0.3. The used configuration methods
+exist in that artifact. Both JARs require Loader `>=0.19.3`, Java `>=25`,
+Minecraft `>=26.2` and Fabric API. The pack's 0.20.1/25/26.2/existing Fabric API
+pins satisfy the complete native graph. Neither artifact bundles libraries.
+No earlier mod version changed. Every download/export remains client-only.
+
+### Reproduced rejection and release correspondence
+
+Before the change, isolated `check_mod()` fixtures accepted the Enchantment
+Descriptions artifact and rejected Prickle with `unsupported client or mandatory
+server requirement`. The same proposed artifacts passed native dependency
+identity, version and hard-break checks alongside the maintained baseline.
+The rejected field is project-level `server_side`; Modrinth v2 version responses
+provide no separate environment override. No other dependency caused the rejection.
+
+Both SHA-512-verified Modrinth binaries are byte-identical to their published
+[Maven Prickle binary](https://maven.blamejared.com/net/darkhax/pricklemc/prickle-fabric-26.2/26.2.0.3/prickle-fabric-26.2-26.2.0.3.jar)
+and [Maven Enchantment Descriptions binary](https://maven.blamejared.com/net/darkhax/enchdesc/enchdesc-fabric-26.2/26.2.0.2/enchdesc-fabric-26.2-26.2.0.2.jar).
+Their versioned source JARs match the inspected immutable Git revisions:
+
+- [Prickle fabric sources 26.2.0.3](https://maven.blamejared.com/net/darkhax/pricklemc/prickle-fabric-26.2/26.2.0.3/prickle-fabric-26.2-26.2.0.3-sources.jar): all 36 Java source files match [19934df](https://github.com/Darkhax-Minecraft/PrickleMC/tree/19934df33b5f874d5849f272a663f0db97c4c099). That commit precedes publication by 45 seconds and its change matches the release notes.
+- [Enchantment Descriptions fabric sources 26.2.0.2](https://maven.blamejared.com/net/darkhax/enchdesc/enchdesc-fabric-26.2/26.2.0.2/enchdesc-fabric-26.2-26.2.0.2-sources.jar): all seven Java files match [df15f5b](https://github.com/Darkhax-Minecraft/Enchantment-Descriptions/tree/df15f5bc42a0d0b74356fec64dcfa4162701d149). Its translation fix precedes publication by 117 seconds. All 25 artifact language maps equal the source maps after JSON parsing.
+
+`javap -p -c -verbose` inspected all 46 Prickle and seven Enchantment Descriptions
+classes, including private methods and constant-pool references. The artifact
+entrypoints/configuration/tooltip code agrees with the sources above. Binary
+hashes, source URLs/SHA-256, class counts and source-match evidence are recorded
+in [the maintained snapshot](https://github.com/jabez007/lantern-crossing/blob/377c699/docs/upstream-metadata.json). This is strong release
+correspondence, not a claim of a signed or independently reproducible upstream
+build. No Minecraft class was executed and neither launcher was run.
+
+### Implementation findings
+
+Prickle is a shared local configuration library. Its main initializer logs
+initialization and schedules an update check; the client initializer is empty.
+Both native mixin files have empty common, client and server lists. Its Fabric
+service supplies `FabricLoader.getConfigDir()` to JSON configuration loading.
+The other service supplies Minecraft value codecs. References under
+`net.minecraft.network.chat` serialize text/style values; they register no packets.
+There are no Minecraft networking registrations, server lifecycle hooks,
+server-only mixins, companion handshakes or server-state reads in the inspected
+artifact. Being usable in either environment does not require a paired install.
+
+The library does make an asynchronous HTTP `HEAD` request to
+`https://updates.blamejared.com/get?n=prickle&gv=<game-version>&ml=fabric`.
+The daemon task has five-second connect/read timeouts and catches exceptions.
+Its result is only logged; it does not gate configuration or tooltip display,
+fetch executable code, or upload logs. The endpoint receives normal connection
+metadata and game/mod-loader query values. No switch disabling this request was
+found in this exact release. This external version check is disclosed, not
+misrepresented as zero network activity or a Minecraft server protocol.
+
+Enchantment Descriptions has a no-op common initializer and a logging client
+initializer. Its three actual mixins are in the client-only list. They capture
+the tooltip item and insert descriptions after vanilla enchantment lines.
+`ENCHANTMENTS`/`STORED_ENCHANTMENTS` components and locally available registry
+identifiers supply the input; local language keys supply the prose. The artifact
+contains 43 vanilla enchantment description keys in English, with more languages
+and optional mod translations. Unknown descriptions are skipped and logged,
+not inferred from arbitrary server plugin behavior. There is no custom networking
+or synchronized mod data. Only standard vanilla enchantments are selected here.
+
+Prickle reads valid saved values and writes its canonical config, including
+metadata/default fields. It may rewrite file formatting. Malformed files receive
+an upstream backup/default recovery path. Configured Defaults seeds our minimal
+shift-gated template only when `config/enchdesc.json` is absent; it does not
+replace existing valid user choices. Food Effect Tooltips handles consumable and
+death-protection effects, while Enchantment Descriptions handles enchantments.
+Tooltip Tweaks remains inactive. No duplicate tooltip provider or key mapping is
+introduced.
+
+### Exact metadata exception
+
+Option B is selected. `environment_exceptions` in the existing upstream snapshot
+retains the original required/required labels and records the source evidence.
+It authorizes only Prickle `aaRl8GiW`/`XdvtdRYJ` with its exact filename/SHA-512
+and canonical stored Fabric-descriptor SHA-256, on Fabric 26.2, required by the
+exact `UVtY3ZAC`/`PTAK0HD2` feature filename/SHA-512. Every incoming parent must
+match that context and its real upstream dependency edge. No project-specific
+parser condition or unbounded allowlist is added.
+
+The only overridden interpretation is Modrinth's project-level server label.
+Unsupported clients, native server-only modules, artifact identity/integrity,
+release designation, dependency presence/ranges and client-only export remain
+mandatory. Changed pins/descriptors/parents or corrected metadata fail pending
+re-evaluation. Orphan/duplicate audits fail. Both validation CLIs print the audit
+notice. This reviewed source finding is not a runtime compatibility proof.
+
+### Upstream intent and clarification draft, not submitted
+
+The README describes a reusable JSON configuration library. Its build marks the
+mod as non-client-exclusive, consistent with universal native metadata. That
+explains multi-environment publication but does not establish a companion-server
+requirement. [Issue #6](https://github.com/Darkhax-Minecraft/PrickleMC/issues/6)
+previously asked to mark the project optional; it is closed with no comments.
+No maintainer confirmation of a publishing error or correction was found.
+A project-label correction remains preferable. Nothing was posted or sent.
+
+Proposed issue title: **Clarify independent client/server use and Modrinth environment labels**
+
+> Modrinth project `aaRl8GiW` currently reports client and server required. For
+> Fabric 26.2, version `XdvtdRYJ`, the published artifact has environment `*`,
+> empty mixin lists and a local configuration service. Its initializer's HTTP
+> update check is asynchronous and does not expect a Minecraft server companion.
+> Enchantment Descriptions `PTAK0HD2` uses this library for local tooltip config.
+> Could you confirm independent client-only use on vanilla servers and clarify
+> whether the project labels can express that? The exact binaries match the
+> versioned Maven artifacts; source revisions are `19934df` and `df15f5b`.
+> The earlier optional-label question is #6. This request concerns environment
+> classification, not removing the library dependency from Enchantment Descriptions.
+
+### Simpler alternatives considered
+
+| Option and exact Fabric 26.2 discovery | Assessment |
+| --- | --- |
+| Existing pack | Food Effect Tooltips supplies effect data; Shulker Box Tooltip supplies container previews. Neither explains enchantments. Tooltip Tweaks' enchantment layout is not a description provider. |
+| [Enchantment Insights 26.2.3, P8CPaUO3](https://api.modrinth.com/v2/version/P8CPaUO3) | Client-only, maintained, but introduces Puzzles Lib, Forge Config API Port and bundled Tooltip Insights. Its larger UI/library scope is not a simpler replacement for one audited configuration library. Not installed or runtime-qualified. |
+| [Item Tooltips 26.2-r1.1-fabric, E3Go08VW](https://api.modrinth.com/v2/version/E3Go08VW) | Adds Unified alongside existing Cloth Config/Fabric API and broader item/attribute/wrapping behavior. More overlap/configuration than the focused selected feature. Not installed or runtime-qualified. |
+| [Enchant Description resource pack 0.3, Wo3GpQmN](https://api.modrinth.com/v2/version/Wo3GpQmN) | API lists 26.2, but its ZIP declares pack format 9, has only English, and replaces global enchantment names/level text. It lacks separate shift-gated description lines and requires resource-pack activation/order management. Not selected or runtime-qualified. |
+
+No alternative is added. The 26.3 discovery entry is pending a separate exact
+feature/library audit; this 26.2 exception cannot authorize different artifacts.
+The [owner checklist](acceptance-tests.md#enchantment-descriptions-acceptance)
+remains entirely uncompleted.

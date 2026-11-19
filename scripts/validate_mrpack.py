@@ -10,7 +10,7 @@ import sys
 import zipfile
 from pathlib import Path
 
-from pack_model import ROOT, Pack, load_pack, require, safe_path
+from pack_model import ROOT, Pack, environment_notices, load_pack, require, safe_path
 from release_metadata import add_context_arguments, context, metadata
 
 
@@ -78,7 +78,8 @@ def check_mods(files: list, pack: Pack) -> None:
     require(seen == expected.keys(), "archive missing baseline project or required dependency")
 
 
-def validate(path: Path, root: Path = ROOT, *, raw: bool = False, **build_context) -> None:
+def validate(path: Path, root: Path = ROOT, *, raw: bool = False, **build_context) -> Pack:
+    """Return the checked source contract only after the complete archive passes."""
     pack = load_pack(root)
     identity = metadata(root, **build_context)
     require(path.name == identity["archive"], "archive filename/branch/channel mismatch")
@@ -93,6 +94,7 @@ def validate(path: Path, root: Path = ROOT, *, raw: bool = False, **build_contex
         contents == expected,
         "archive overrides missing, changed, staged, or server-only; only repository configs are allowed",
     )
+    return pack
 
 
 def main() -> int:
@@ -102,10 +104,12 @@ def main() -> int:
     add_context_arguments(parser)
     args = parser.parse_args()
     try:
-        validate(args.archive, args.root, **context(args))
+        pack = validate(args.archive, args.root, **context(args))
     except (OSError, ValueError, KeyError, TypeError, zipfile.BadZipFile) as exc:
         print(f"FAIL: {exc}", file=sys.stderr)
         return 1
+    for notice in environment_notices(pack):
+        print(notice)
     print(
         f"PASS: {args.archive.name}: exact client baseline, dependencies, hashes, environments, and config bytes"
     )

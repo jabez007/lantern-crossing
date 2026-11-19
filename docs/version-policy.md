@@ -14,20 +14,20 @@ A new Minecraft target requires a separately authorized version line.
 
 ## Version branches
 
-`26.2` maintains the Minecraft 26.2 pack, including the audited 40-feature
+`26.2` maintains the Minecraft 26.2 pack, including the audited 41-feature
 baseline. `26.3` is the default development branch for work on Minecraft 26.3.
 The former `main` branch is renamed to `26.2`; it is no longer an update target.
 
 The 26.3 bootstrap still declares Minecraft 26.2 and pack version 26.2.0.3.0,
-with 30 features. The maintained 26.2 line now has 40 features: the original 30,
+with 30 features. The maintained 26.2 line now has 41 features: the original 30,
 Renice Shot, Sodium Extra, Reese's Sodium Options, Continuity, Cubes Without
 Borders, More Chat History, the Configured Defaults helper, BetterGrassify,
-Controlling and Food Effect Tooltips. Shared tooling fixes
+Controlling, Food Effect Tooltips and Enchantment Descriptions. Shared tooling fixes
 are backported separately; target-specific pins are preserved.
 
-[migration.toml](../migration.toml) tracks all 40 by stable project ID, including
+[migration.toml](../migration.toml) tracks all 41 by stable project ID, including
 the six additions after the original baseline, Configured Defaults and the
-three QoL refinements. Discovery on
+three QoL refinements and Enchantment Descriptions. Discovery on
 2026-11-19 found a release-designated Fabric 26.3 artifact for every feature.
 These version IDs are discovery evidence, not installed pins or compatibility
 audits. Every migration entry remains `deferred` and runtime `pending`.
@@ -226,3 +226,21 @@ Offline conformance fixtures record results from Loader's public API and the
 exact Maven artifact SHA-256. The small Java adapter in `tests/fixtures/` allows
 maintainers to regenerate that evidence outside Minecraft; normal tests require
 neither Java, downloaded JARs, nor network access.
+
+## Project environment metadata disagreements
+
+A contradictory Modrinth server label can be corrected only by an explicit
+`environment_exceptions` audit in the existing upstream snapshot. The audit must
+name a resolved dependency, its exact project/version, filename, SHA-512,
+canonical Fabric-descriptor SHA-256, Minecraft target, loader and observed labels.
+It also binds every requiring feature's exact version and artifact identity and
+requires the real upstream required-project edge. Evidence links, review reference
+and a reason are mandatory. Repository and archive CLI checks print `AUDIT` notices.
+
+The exception applies only to Modrinth's project-level `server_side` label.
+Unsupported clients, native server-only modules, download integrity, required
+version ranges, complete closure and client-only export rules remain enforced.
+Changed pins, descriptors, parents or metadata require re-evaluation. Duplicate,
+orphan and stale audits fail; a corrected upstream label requires removing the
+obsolete exception. This is a human-reviewed source/artifact finding, not a
+mechanical proof of runtime behavior or permission to allow other server mods.

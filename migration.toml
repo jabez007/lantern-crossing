@@ -3,7 +3,7 @@ schema = 1
 source = "26.2"
 target = "26.3"
 checked = "2026-11-19"
-source-baseline = "5577d195d5be8d78ca42c78cbafdc51fa9904797"
+source-baseline = "59373adef15addf3703264ddd66812fcc50bbb13"
 
 [[feature]]
 project-id = "AANobbMI"
@@ -524,3 +524,16 @@ discovery-version-id = "kbNgzPtF"
 discovery-version = "2.1.2+26.3"
 reason = "Awaiting the separately authorized 26.3 artifact, dependency, client-only, and configuration audit."
 evidence = "https://api.modrinth.com/v2/version/kbNgzPtF"
+
+[[feature]]
+project-id = "UVtY3ZAC"
+slug = "enchantment-descriptions"
+name = "Enchantment Descriptions"
+cohort = "qol-refinement"
+status = "deferred"
+runtime = "pending"
+availability = "release-found"
+discovery-version-id = "uZf2qbql"
+discovery-version = "26.3.0.2"
+reason = "Audit the 26.3 feature and Prickle artifacts separately; the 26.2-only environment exception cannot authorize them."
+evidence = "https://api.modrinth.com/v2/version/uZf2qbql"

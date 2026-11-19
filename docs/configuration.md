@@ -426,3 +426,34 @@ configs. An upgrade does not merge fields into an existing mod config. Use the
 [deliberate adoption procedure](#deliberately-adopt-updated-defaults) to reset only
 one chosen file. Both launchers, including App sync behavior, still need manual
 acceptance; no launcher-specific setting is distributed.
+
+## Enchantment descriptions
+
+The following default applies only on maintained 26.2. This bootstrap ships no
+Enchantment Descriptions/Prickle artifact or template. Verify the exact future
+artifacts and preserve Configured Defaults safeguards before migration.
+
+`configureddefaults/config/enchdesc.json` seeds only
+`"require_keybind": {"value": true}` in Prickle's documented property format.
+Hold Shift while hovering an enchanted item or book to expand the descriptions.
+Upstream prompt text and dark-gray styling remain unchanged. No new key mapping,
+resource pack or live config override is shipped.
+
+Configured Defaults skips an existing `config/enchdesc.json`. Prickle then reads
+valid saved values and writes canonical metadata/default fields, so formatting
+may change while valid customized values remain. Its own malformed-file recovery
+backs up bad JSON and uses defaults. A legacy manually installed mod's incompatible
+config format is not guaranteed to migrate. Back up that file and review it
+against the pinned release's format before adopting defaults.
+
+To deliberately change the behavior, edit the live `require_keybind.value` with
+the game closed, or use the selective adoption procedure above for this file.
+Do not reset all player options/configs during an upgrade. App synchronization
+can also supply a saved mod configuration; validate that separately from the
+copy-if-missing behavior. Both launchers remain pending owner acceptance.
+
+Only vanilla enchantment explanations are selected. Unknown custom/plugin
+behavior is not inferred. Food Effect Tooltips remains the consume/death-effect
+provider. See the [exact Prickle audit](mod-audit.md#prickle-environment-classification-review),
+including its disclosed asynchronous HTTP update check and scoped server-label
+exception. No second defaults manager or other tooltip mod is added.

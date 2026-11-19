@@ -48,19 +48,6 @@ evidence = ["https://api.modrinth.com/v2/version/50uUra83", "https://modrinth.co
 checked-at = "2026-11-19"
 
 [[candidate]]
-project-id = "UVtY3ZAC"
-slug = "enchantment-descriptions"
-category = "information"
-rationale = "Explain vanilla enchantments using local translations."
-status = "blocked"
-client-only = "Feature artifact is client-only and uses local tooltip callbacks; required Prickle project aaRl8GiW declares server required, contradicting its local configuration source and universal native descriptor."
-target-support = "Release 26.2.0.2 (PTAK0HD2), Fabric 26.2; requires Fabric API and Prickle."
-blockers = ["Resolve Prickle environment metadata with upstream. The unchanged validator rejects required-server dependencies."]
-promotion-criteria = ["Reconcile upstream metadata and re-audit exact Prickle closure without a server-required exception.", "Prefer shift-gated descriptions; verify ordinary vanilla enchantments without server support."]
-evidence = ["https://api.modrinth.com/v2/version/PTAK0HD2", "https://api.modrinth.com/v2/project/UVtY3ZAC", "https://github.com/Darkhax-Minecraft/Enchantment-Descriptions/tree/df15f5bc42a0d0b74356fec64dcfa4162701d149", "docs/mod-audit.md#qol-and-performance-refinement-2026-11-19"]
-checked-at = "2026-11-19"
-
-[[candidate]]
 project-id = "ix1qq8Ux"
 slug = "crash-assistant"
 category = "pack-management"

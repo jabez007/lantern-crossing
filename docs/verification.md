@@ -5,6 +5,28 @@ release: `pack.toml` still declares Minecraft 26.2, Fabric Loader 0.20.1 and pac
 26.2.0.3.0. It retains the original 30 features and nine libraries.
 No Minecraft client has been launched. All runtime acceptance remains open.
 
+## Exact environment review backport, 2026-11-19
+
+The maintained line's `377c699` adds Enchantment Descriptions and Prickle with
+an exact Fabric 26.2 metadata audit. This bootstrap receives the generic
+validation/reporting mechanism, sixteen offline policy regressions, the source
+review and all 41 future feature identities. No actual audit record or either
+artifact/template is installed here. The 26.2 exception cannot approve a future
+26.3 feature/library pair; both still need an exact source/dependency audit.
+
+Observed `make test lint validate` passed with 103 tests and the same single
+intentional absent-helper skip. `make refresh`, `make checksum`, repeated
+`make export`, archive `cmp` and checksum verification passed using the recorded
+Packwiz override. The archive remains byte-identical to the preceding bootstrap
+hash. Actionlint, complexity threshold 8 and `git diff --check` passed. A byte
+diff against `e4bcdeb` confirms unchanged locks, configs, collection, pack/index,
+upstream snapshot, workflow and release policy. No AUDIT notice is emitted for
+the actual bootstrap because no environment exception is active.
+
+Source findings, alternatives and an unsubmitted upstream clarification draft
+are in the appended Prickle review. No maintainer was contacted and no Minecraft
+or launcher runtime test was performed. Every acceptance result remains pending.
+
 ## QoL refinement planning backport, 2026-11-19
 
 The maintained 26.2 milestone `59373ad` has 40 features and ten libraries.
@@ -56,8 +78,8 @@ from the maintained 26.2 line. All 39 bootstrap locks and the configuration
 payload remain unchanged from `3ed86e5`. No missing later feature was added to
 this branch merely to match the maintained line's count.
 
-The maintained line has 40 features. Its six post-baseline additions, Configured
-Defaults helper and three QoL refinements are tracked in [migration.toml](../migration.toml). All entries
+The maintained line now has 41 features. Its six post-baseline additions, Configured
+Defaults helper, three QoL refinements and Enchantment Descriptions are tracked in [migration.toml](../migration.toml). All entries
 remain deferred with runtime pending. Discovery on 2026-11-19 found a Fabric
 26.3 release for each feature, but did not audit those versions or their closure.
 The older direct mod configuration overrides remain on this bootstrap; the

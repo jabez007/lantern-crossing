@@ -215,3 +215,31 @@ file state, archive hash and actual upgrade method in the matrix above.
 BBE, Ixeris, ModernFix-mVUS and Tooltip Tweaks are inactive. Their candidate
 benchmarks and rendering gates in the audit apply only to a separately prepared
 future evaluation profile, not to this milestone's acceptance result.
+
+## Enchantment Descriptions acceptance
+
+Prospective checklist only. This bootstrap has neither artifact. Run these after
+the separately authorized target/version/dependency audit. No 26.3 runtime result
+is claimed by copying this matrix.
+
+All results are uncompleted. Run each case in Prism Launcher and Modrinth App,
+with App sync disabled and enabled where the installed version supports it.
+Use disposable instances and record the pack version/hash, launcher, Java and
+observed results. Static source inspection does not complete any row.
+
+| Case | Prism | Modrinth App | Expected result |
+| --- | --- | --- | --- |
+| Fresh `.mrpack` import and launch | [ ] | [ ] | Enchantment Descriptions and Prickle initialize without missing dependencies or a server companion warning. |
+| Enchanted book and vanilla enchanted tool/armor | [ ] | [ ] | A local prompt appears while collapsed; Shift reveals the relevant descriptions beside ordinary enchantment names/levels. Check common and stored enchantments. |
+| Several enchantments and another supported language | [ ] | [ ] | Descriptions remain readable; scrolling/wrapping and translated text cause no tooltip errors. |
+| Food/container/vanilla tooltips | [ ] | [ ] | Food Effect Tooltips and Shulker Box Tooltip keep their own information without duplicate enchantment explanations or missing ordinary lines. |
+| Customized valid `enchdesc.json` | [ ] | [ ] | An existing `require_keybind.value = false` remains false through launch/restart/upgrade. Prickle may normalize formatting and add default metadata. Other mod configs, keybindings and resource-pack choices remain unchanged. |
+| Real pack upgrade from 26.2.0.8.0 | [ ] | [ ] | The new template seeds only an absent file. Existing graphics, sound, accessibility, controls and mod preferences survive under the recorded App sync choices. |
+| Deliberate adoption/reset of this file only | [ ] | [ ] | With the game closed and a backup retained, move only the live file aside. Next launch seeds Shift mode without resetting other settings. |
+| Completely unmodified vanilla 26.2 server | [ ] | [ ] | Join/rejoin normally; ordinary enchanted item/book descriptions work with nothing installed server-side and no custom packet/companion warning. |
+| Update host unavailable, optional disposable network test | [ ] | [ ] | Prickle may log its version-check warning; initialization/configuration/tooltips still work after the bounded asynchronous check. This is distinct from Minecraft server connectivity. |
+
+No accurate custom server/plugin enchantment semantics are promised. Do not
+install anything on the vanilla server to resolve a client acceptance failure.
+Legacy config recovery and actual launcher upgrade/sync behavior require owner
+observation, not a Python approximation.
