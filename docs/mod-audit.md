@@ -373,3 +373,159 @@ No alternative is added. The 26.3 discovery entry is pending a separate exact
 feature/library audit; this 26.2 exception cannot authorize different artifacts.
 The [owner checklist](acceptance-tests.md#enchantment-descriptions-acceptance)
 remains entirely uncompleted.
+
+## Screenshot experience evaluation, 2026-11-19
+
+Decision: retain Renice Shot alone. Neither gallery is installed. This review
+changes no feature count, pin, defaults template, pack version or player file.
+The maintained baseline remains 41 features and eleven libraries, pack
+26.2.0.9.0. Both candidates remain outside the collection, index and export.
+
+### Exact artifacts and source correspondence
+
+| Project | Evaluated Fabric 26.2 artifact | Source and dependencies |
+| --- | --- | --- |
+| Renice Shot, `ZDCwiIc3` | Release `1.2.1+mc26.2`, version `roOTvshj`, retained | [Release tag](https://github.com/wechirok/renice-shot/tree/bca7c14881a592ca3df2d309968cb29bdaa32728). Required Fabric API and optional Mod Menu/Cloth Config are already installed. No bundled libraries. |
+| Screenshot Viewer, `laNoi025` | Release `26.2-fabric-1`, native version `1.3.6-fabric-mc26.2`, version `id6Yni9S` | [Release commit](https://github.com/LGatodu47/ScreenshotViewer/tree/82dd0b8be130f5832badeeac9a9df74b2c4fd91a), committed 16 seconds before publication with matching version/changelog. Bundles CatConfigMC `0.2.1`, which bundles CatConfig `0.3.0`. No external API dependencies declared by Modrinth/native metadata; implementation uses the already installed Fabric API. |
+| Screenshot Overhaul, `wYSKV506` | Alpha `0.2.3-26.2`, version `H592Npj8` | [26.2 release-time commit](https://github.com/Azz-9/Screenshot-Overhaul/tree/c1676036589ceccd6942d4b5449002baf036753c), matching version/changelog, committed 23 minutes before publication. Required Fabric API is already installed. No bundled libraries. The generic `v0.2.3` tag targets 26.3; it is not the source used for this 26.2 review. |
+
+The [version API](https://api.modrinth.com/v2/version/id6Yni9S) and
+[Overhaul version API](https://api.modrinth.com/v2/version/H592Npj8) identify the
+exact files. `candidates.toml` records their URLs, SHA-512 hashes and immutable
+source commits. Downloads matched these hashes. `javap -p -c -verbose` inspected
+all 55 Viewer, 185 Overhaul and 17 Renice Shot top-level-JAR classes, including
+private methods and constants. Published descriptors and the decision-relevant
+methods/constants agree with the referenced sources. This is source/release
+correspondence, not a reproducible upstream build or runtime proof. Current
+Viewer master is unreleased 1.3.7 with additional options/fixes; those are not
+attributed to the evaluated 1.3.6 artifact.
+
+All three project labels are client required/server unsupported. All three
+native root descriptors declare `environment = "client"`. Viewer has a client
+entrypoint and client mixins; its bundled config libraries have no server
+entrypoint/requirement. Overhaul's main entrypoint initializes client facilities.
+No custom game packet protocol, remote sharing/upload client or mandatory
+server companion was found in the reviewed implementation. Overhaul's Fabric
+connection events refresh local state; they do not add a server protocol.
+`net.minecraft.network.chat` references represent text, not a custom connection.
+This audit covers these screenshot mods, not outbound behavior of unrelated
+pack libraries such as the separately disclosed Prickle update check.
+
+Isolated native graph checks passed for each candidate against all 52 existing
+pins, including Java 25, Loader 0.20.1, Sodium 0.9.2 and Iris 1.11.4. Viewer also
+passed the existing exact-feature check. Overhaul was rejected as an intentional
+alpha selection. Its substantive privacy/deletion risks independently prevent
+promotion; the alpha label alone did not decide the outcome. No policy or
+metadata exception was added. Successful descriptor checks do not prove mixin
+application, renderer compatibility or launcher behavior.
+
+### Capabilities and limitations
+
+V = verified supported by the exact source/artifact; C = supported with caveats;
+N = not supported; U = unknown, requires runtime acceptance. V never means an
+observed Minecraft result.
+
+| Capability | Renice Shot | Screenshot Viewer | Screenshot Overhaul |
+| --- | --- | --- | --- |
+| Capture | V: normal F2 retained, separate F9 3840x2160 PNG; custom dimensions, optional HUD hiding/delay | N: no high-resolution capture of its own; modifies vanilla saved-message click behavior | V: normal capture, optional custom resolution/HUD/chat/hand hiding, previews and six-face panoramas; U: renderer restoration under failure |
+| Files and naming | V: default `screenshots/huge_<time>.png`; custom `%time%` and `%world%`; PNG/JPG/TGA/BMP | C: existing lowercase `.png`, `.jpg`, `.jpeg`, including `huge_` names; not TGA/BMP | C: existing `.png` only, including `huge_`; custom token names/subdirectories and output root; no JPG/TGA/BMP capture selection found |
+| Locations | V: instance screenshots directory | C: one configurable root, nonrecursive; release config UI expects absolute paths | C: recursive custom root and watch service; symlink traversal not guaranteed |
+| Gallery and organization | N: use launcher/OS folder | V: title/pause buttons, enlargement/navigation, filename order forward/reverse, rename/open/copy; N: search, favorites or map integration | V: title/pause gallery, search, sort/filter/favorites and local `screenshot-states.json`; image metadata editing |
+| Controls | V: F9 capture; Light Overlay seeded F7 | V: gallery shortcut initially unbound, menu buttons remain discoverable | C: F9 panorama collides with Renice Shot; no distinct bound gallery shortcut found |
+| Large libraries | V: no library index/cache | C: eagerly creates a widget for every file; default `NONE` compression queues every full original decode when gallery opens and retains images until close | C: background recursive metadata scan/watchers; on-demand texture caches bounded by entry count, not image bytes |
+| Images and thumbnails | C: capture limit depends on GPU/available memory | C: optional HALF/QUARTER/EIGHTH disk thumbnails; generation decodes full originals and queues the whole collection during initialization/config changes; no LRU or pixel budget | C: small/normal/full-view LRU limits 128/64/6, widths 128/512/1920; each load first decodes original; no disk thumbnail cache found |
+| Arbitrary huge dimensions | U: hardware dependent | U: full native decode and GPU texture limits apply, not arbitrary-size support | U: downscaled presentation still needs original decode; full view is not a lossless 4K inspection tool |
+| Deletion | N: no gallery delete operation | V: single/batch deletion confirmation enabled by default; disabling it changes safety | C: reviewed gallery and preview actions call deletion directly; no confirmation option found |
+| Privacy | V: default time-only filename; no location metadata writer or automatic sharing found | V: no location metadata writer or automatic uploads found; explicit clipboard/open operations | C: capture unconditionally inserts location/server metadata into PNG; no capture-time opt-out found |
+| Sodium/Iris | U: existing owner acceptance remains open | U: gallery plus capture/message/native-image mixins need runtime checks | C: built against Sodium 0.9.2 and Iris 1.11.4; local Iris shader-name lookup; U: actual capture/rendering compatibility |
+| Prism and Modrinth App | C: ordinary client JAR/local instance paths; U: live launch/capture | C: ordinary client JAR, AWT and custom path behavior need acceptance | C: ordinary client JAR, AWT/path behavior need acceptance; existing symlink issue below |
+
+Viewer's default full-image retention can be expensive even with background
+loading. For scale only, 500 decoded 3840x2160 RGBA images require about 15.4 GiB
+of pixel storage before other allocations. This is arithmetic, not a benchmark
+or measured peak. Enabling EIGHTH thumbnails lowers retained preview size but
+still queues the whole collection, decodes full images during generation, and
+can fall back to original decoding while a thumbnail is pending. There is no
+bounded visible-window image cache. It also globally redirects NativeImage's
+PNG header validation and enables AWT on non-macOS systems. Neither can be
+removed with an ordinary defaults template. Those costs are excessive for the
+focused capture/gallery separation sought here, even though installation is
+statically eligible. Revisit after bounded loading evidence or an upstream fix.
+
+### Xaero integration and privacy
+
+Overhaul places image thumbnails at stored X/Z coordinates and opens them from
+the world map. It uses Xaero render interfaces plus mixins into
+`MapElementRenderHandler.Builder.build`, `GuiMap` mouse/render methods and a
+private `viewed` field accessor. Its Fabric plugin checks only whether
+`xaeroworldmap` is installed. There is no declared version range protecting
+these internal targets. No Minimap-specific integration was found.
+
+The evaluated build compiles against World Map 1.46.1. Lantern Crossing pins
+World Map 1.47.2 (`W8qSt5Gs`) and Minimap 26.6.2 (`kYWdcLLn`). Static inspection
+of the hash-verified pinned map JAR found the named primary mixin targets and
+field, but this does not prove all inherited interfaces, mixin application or
+behavior. The integration is not qualified against our exact pins.
+
+World matching uses a singleplayer save-folder ID or the literal multiplayer
+server address, then filters dimension. It has no server-provided unique world
+ID. It cannot reliably distinguish separate worlds behind one address or a
+server reset, and different addresses can split one world. Old Renice Shot PNGs
+can appear in the gallery but lack coordinates/world metadata and cannot acquire
+accurate map positions retroactively.
+
+[MetadataUtils](https://github.com/Azz-9/Screenshot-Overhaul/blob/c1676036589ceccd6942d4b5449002baf036753c/common/src/main/java/me/Azz_9/screenshot_overhaul/client/metadata/MetadataUtils.java)
+collects X/Y/Z, dimension, biome, singleplayer seed/save identity/world name,
+multiplayer server address, game version, resource-pack names, active shader and
+timestamp. No player UUID/name or multiplayer seed fetch was found. The
+[Screenshot mixin](https://github.com/Azz-9/Screenshot-Overhaul/blob/c1676036589ceccd6942d4b5449002baf036753c/common/src/main/java/me/Azz_9/screenshot_overhaul/mixin/ScreenshotMixin.java)
+unconditionally writes these as PNG `tEXt` chunks. Sharing the original PNG
+therefore shares the data even without any automatic upload. Hiding an image
+from the map changes local state, not its embedded metadata. UI editing is not
+a preventative default and metadata update strips all text chunks, including
+unrelated existing text. No setting separates private local map association
+from a shareable metadata-free original. Disabling the whole mod removes the
+intended functionality. This fails the selected privacy requirement.
+
+### Release maturity and architecture decision
+
+Viewer's Fabric 26.2 release dates to June 26. Its July development fixes are
+unreleased; requests for 26.3 remain open. [Issue 74](https://github.com/LGatodu47/ScreenshotViewer/issues/74)
+requests subfolder support. [Issue 75](https://github.com/LGatodu47/ScreenshotViewer/issues/75)
+reports custom click-event serialization with Chat Patches, which this pack does
+not install. Do not generalize that report into a reproduced pack conflict.
+
+Overhaul has five Fabric 26.2 alpha releases from July through October, most
+recently October 20. Its optional photo-mode work remains experimental. No
+runtime result or stable-API commitment was found. [Issue 2](https://github.com/Azz-9/Screenshot-Overhaul/issues/2)
+reports an empty gallery with a symlinked screenshot root on Linux/Prism/26.3.
+The reviewed 26.2 code also walks paths without following links; the 26.2 effect
+is a source-based risk, not a reproduced bug. An open issue is not evidence that
+it has been fixed. No upstream contact was made.
+
+Weights remain the requested 25/15/20/15/10/10/5 percent. Scores below use 1 to 5
+as engineering judgments about reviewed evidence, not runtime measurements.
+A hard privacy/stability requirement cannot be traded for a higher total.
+
+| Architecture | Stability 25 | Capture 15 | Gallery 20 | Exploration 15 | Privacy 10 | Memory 10 | Maintenance 5 | Weighted / 5 | Disposition |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| A: Renice Shot + Viewer | 3 | 5 | 3 | 1 | 5 | 1 | 3 | 3.00 | Defer: useful local gallery, but unbounded loading and broad image/AWT hooks are not justified for large high-resolution collections. |
+| B: Renice Shot + Overhaul | 1 | 3 | 4 | 3 | 1 | 3 | 1 | 2.40 | Reject this combination: two F9 actions and overlapping capture/filename wrappers; metadata/deletion blockers persist. |
+| C: Overhaul alone | 2 | 3 | 4 | 3 | 1 | 3 | 2 | 2.70 | Defer: useful gallery/map features, but privacy/deletion and maturity requirements unmet; loses Renice's separate F9 workflow, extra output formats and proven-in-source queue/error-restoration paths. |
+| Retained: Renice Shot alone | 4 | 5 | 1 | 1 | 5 | 5 | 5 | 3.35 | Selected: established capture architecture; gallery, favorites, map pins and panoramas remain absent. Runtime qualification is still pending. |
+
+A is the simpler future gallery direction if its memory behavior improves.
+B does not become safe merely by rebinding panorama: both wrap
+`Screenshot.grab` and `takeScreenshot` and control filenames. Renice Shot's
+ordinary F9 task writes through its own framebuffer writer, so a directory
+watcher can discover it but Overhaul's vanilla-save metadata hook cannot be
+assumed to annotate it. No combined mixin test was performed and no crash is
+claimed. C's custom-resolution path lacks the same explicit queued
+capture/failure-restoration structure and does not establish a safer replacement.
+
+No screenshot manager configuration, live preferences, screenshot folder,
+metadata database or user image is packaged. Existing Configured Defaults
+behavior remains unchanged. There is no gallery migration or user cleanup.
+The 26.3 bootstrap receives shared documentation safeguards and candidate
+findings only; its 30 installed features and 41 future identities stay unchanged.
+Neither candidate is promoted there or claimed compatible with 26.3.

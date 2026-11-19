@@ -409,6 +409,33 @@ Capture temporarily changes render resolution and restores it afterward. Test
 that restoration with Sodium and Iris, initially with shaders disabled. Shader
 capture behavior remains part of manual acceptance.
 
+The [screenshot evaluation](mod-audit.md#screenshot-experience-evaluation-2026-11-19)
+retains Renice Shot alone. There is no in-game gallery, favorites, screenshot
+search, panorama key or Xaero screenshot overlay in Lantern Crossing. Open the
+instance's `screenshots` directory through the launcher or OS to revisit images.
+Prism and Modrinth App keep separate instance storage; importing a new instance
+does not transfer images automatically. Copy your images deliberately when
+moving instances. Pack upgrades must preserve this directory and your existing
+`config/renice-shot.properties`; no capture config template is shipped.
+
+F2 captures the current window normally. F9 requests a separate high-resolution
+capture. F7 is seeded for Light Overlay only when its binding is absent; an
+existing customized binding still wins. Use Controlling to check conflicts.
+No gallery shortcut is bound. Default Renice filenames contain time, not the
+world/server name. Opting into `%world%` adds the local world name or multiplayer
+server display name to filenames. The mod's default pixel writer adds no
+coordinate/server metadata, and no upload/share integration is selected.
+Visible coordinates, chat, player names and maps can still appear in the image
+itself. Review pixels and filenames before deliberately sharing them.
+
+Renice Shot can optionally hide HUD, change resolution/delay/format or override
+normal/mod-requested screenshots through its config UI. Those remain upstream
+player choices. Large captures can exhaust GPU/memory limits. No screenshot
+files are renamed, moved, deleted or indexed by the repository/build workflow.
+Screenshot Viewer is staged for memory/loading improvements; Screenshot Overhaul
+is deferred for embedded metadata and deletion safety, as well as release and
+capture-integration concerns. No user file needs removal after this review.
+
 ## FO graphics controls and window behavior
 
 [Sodium Extra](https://modrinth.com/mod/sodium-extra) adds graphics controls to

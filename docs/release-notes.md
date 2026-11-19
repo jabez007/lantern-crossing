@@ -23,3 +23,10 @@ This development build is not runtime-qualified. Prism, Modrinth App, real
 upgrades and vanilla-server acceptance remain owner work in acceptance-tests.md.
 The 26.3 bootstrap receives shared validation and future intent only. No 26.3
 artifact or exception is approved by this 26.2 review. No release is published.
+
+The subsequent screenshot review retains Renice Shot 1.2.1+mc26.2 alone.
+Screenshot Viewer remains staged for bounded image-loading evidence. Screenshot
+Overhaul remains deferred for unconditionally embedded sensitive PNG metadata,
+delete safety and capture integration. No artifact, default or version changed.
+Release-facing documentation now has an automated version/artifact consistency
+check. Owner screenshot acceptance remains open in both launchers.

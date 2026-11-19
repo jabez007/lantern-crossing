@@ -92,6 +92,13 @@ ModernFix-mVUS remain inactive for the reasons in the
 FO is a reference for performance decisions; these additions make no universal
 FPS claim and do not imply FO endorsement.
 
+Renice Shot remains the only screenshot mod: F2 takes normal captures, F9 takes
+4K PNGs, and Light Overlay receives F7 when no binding exists. Revisit images in
+the instance's `screenshots` folder. Both gallery candidates remain inactive after
+[source, memory and privacy review](docs/mod-audit.md#screenshot-experience-evaluation-2026-11-19).
+No screenshot metadata or gallery migration is introduced. See the
+[storage and sharing guidance](docs/configuration.md#screenshots).
+
 ## Install an exported pack
 
 1. Obtain a reviewed release, or build the development artifact below. Current

@@ -93,6 +93,32 @@ class PackTests(unittest.TestCase):
         self.assertEqual(config, {"require_keybind": {"value": True}})
         self.assertFalse((self.root / "config/enchdesc.json").exists())
 
+    def test_screenshot_selection_retains_capture_without_staged_galleries(self):
+        pack = load_pack(self.root)
+        self.assertEqual(pack.projects["ZDCwiIc3"]["role"], "feature")
+        self.assertEqual(pack.mods["ZDCwiIc3"]["update"]["modrinth"]["version"], "roOTvshj")
+        self.assertTrue({"laNoi025", "wYSKV506"}.isdisjoint(pack.projects))
+        candidates = load_toml(self.root / "candidates.toml")["candidate"]
+        staged = {p["project-id"] for p in candidates}
+        self.assertTrue({"laNoi025", "wYSKV506"} <= staged)
+        options = dict(
+            line.split(":", 1)
+            for line in (self.root / "configureddefaults/options.txt").read_text().splitlines()
+        )
+        self.assertEqual(options["key_key.light-overlay.toggle"], "key.keyboard.f7")
+        # Keep the existing capture preferences under player control.
+        self.assertFalse(any("renice-shot" in name for name in pack.overrides))
+
+    def test_pack_validation_preserves_existing_player_screenshots(self):
+        screenshots = self.root / "screenshots"
+        screenshots.mkdir()
+        image = screenshots / "huge_old_adventure.png"
+        original = b"isolated player-file fixture, not an image decoding test"
+        image.write_bytes(original)
+        pack = load_pack(self.root)
+        self.assertEqual(image.read_bytes(), original)
+        self.assertFalse(any("screenshots/" in name for name in pack.overrides))
+
     def test_controlling_rejects_present_but_incompatible_searchables(self):
         path = self.root / "docs/upstream-metadata.json"
         data = json.loads(path.read_text())
@@ -487,6 +513,10 @@ class PackTests(unittest.TestCase):
             "overrides/server.properties",
             "server-overrides/config/a.cfg",
             "overrides/mods/a.jar",
+            "overrides/screenshots/huge_adventure.png",
+            "overrides/screenshots/screenshot-states.json",
+            "overrides/config/screenshot_viewer.json",
+            "overrides/config/screenshot_overhaul.json",
             "../escape",
             "overrides/config/link",
         ):

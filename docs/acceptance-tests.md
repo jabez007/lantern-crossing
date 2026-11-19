@@ -186,6 +186,36 @@ Do not remove live preferences as a normal upgrade step. See [adoption instructi
 - [ ] The F7 overlay binding persists after restarting the client.
 - [ ] Optionally test capture with a separately installed known-good shader pack.
 
+## Screenshot owner acceptance matrix
+
+All results below are uncompleted. Run on the maintained 26.2 artifact in both
+launchers, with Modrinth App settings synchronization tested separately where
+available. The expected architecture is Renice Shot alone. Neither evaluated
+gallery is installed. Source inspection and archive validation are not observed
+launcher or rendering results. Use copies of screenshots for destructive tests.
+
+| Owner check | Prism | Modrinth App, sync off | Modrinth App, sync on | Expected result, not observed |
+| --- | --- | --- | --- | --- |
+| Fresh `.mrpack` import and first launch | [ ] | [ ] | [ ] | Renice Shot initializes; no gallery, new sharing prompt or missing-server-mod warning. Configured Defaults keeps its documented behavior. |
+| Controls and configuration | [ ] | [ ] | [ ] | F2 remains normal capture, F9 is high resolution, an absent Light Overlay binding receives F7. Controlling finds no unexpected conflict; existing customized bindings survive. Mod Menu opens Renice Shot configuration. |
+| F2 and repeated F9 captures | [ ] | [ ] | [ ] | Normal image has window dimensions; default F9 PNG has 3840x2160 pixels and a `huge_` time-based filename in this instance's screenshots folder. Existing names are not overwritten. |
+| HUD, window and resolution restoration | [ ] | [ ] | [ ] | Test fullscreen/windowed capture and repeated captures. If opting into HUD hiding, it restores afterward. No persistent resize or hidden-HUD regression. |
+| Existing screenshots and large collection | [ ] | [ ] | [ ] | Before installation, keep a backup and hash a representative selection. Old names, bytes, subfolders and custom formats survive launches/upgrades. Hundreds/thousands of controlled-copy images remain accessible through the launcher/OS folder. No in-game library is expected or benchmark claim made. |
+| High-resolution/custom format files | [ ] | [ ] | [ ] | Open default 4K PNGs externally. Optionally test a safe larger size, JPG/TGA/BMP and HUD-hidden capture through Renice Shot. Check restoration and readability; respect hardware limits. |
+| Gallery, sorting, favorites and deletion | [ ] | [ ] | [ ] | No gallery UI/key, favorites database, automatic sorting or in-game deletion is installed. Browse/copy/share deliberately with launcher/OS tools. Check any external deletion only on a disposable copy, then restore it. |
+| Privacy before sharing | [ ] | [ ] | [ ] | Inspect a new original PNG's text metadata and default filename for unexpected coordinates, world/server identifiers or uploads. Review visible chat, maps and coordinates in the pixels. `%world%` naming, if personally enabled, exposes that name intentionally. |
+| Xaero and panoramas | [ ] | [ ] | [ ] | Normal maps still work. No screenshot pins/map association, panorama capture or second F9 action is expected. |
+| Sodium and Iris | [ ] | [ ] | [ ] | F2/F9 and restoration work with shaders disabled, without corrupted images or rendering. Optionally repeat with one separately installed known-good shader pack. No shader is supplied by this pack. |
+| Vanilla server and existing world | [ ] | [ ] | [ ] | Capture after singleplayer load and on a completely unmodified vanilla 26.2 server; disconnect/rejoin normally. No server mod/plugin/protocol is needed. |
+| Upgrade and repeat launch | [ ] | [ ] | [ ] | Upgrade an existing Lantern Crossing instance. Old screenshots, custom capture settings, keybindings and other preferences remain intact. New captures work and originals' hashes remain unchanged. Importing into a separate instance does not automatically move old screenshots. |
+
+Future gallery promotion requires a separate disposable-profile evaluation of
+old `huge_` images, custom/symlinked paths, arbitrary dimensions, bounded memory
+with a large library, confirmation and cancellation of deletion, sorting and
+favorites if offered, metadata privacy and exact Xaero world/dimension matching.
+Neither candidate is installed merely to run that evaluation. These are open
+promotion criteria, not claimed current features or completed acceptance.
+
 ## Social and resource behavior
 
 - [ ] Chat Heads displays the correct head for ordinary vanilla player messages.

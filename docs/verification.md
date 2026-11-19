@@ -151,3 +151,62 @@ tooltip readability, existing valid settings, real upgrades and vanilla-server
 connectivity all remain uncompleted. Treat custom server/plugin semantics,
 legacy configuration formats and launcher/App sync behavior as limits requiring
 separate observation. No runtime success is implied by the automated results.
+
+## Screenshot review, 2026-11-19
+
+The [candidate and architecture matrix](mod-audit.md#screenshot-experience-evaluation-2026-11-19)
+retains Renice Shot `roOTvshj` alone. Screenshot Viewer `id6Yni9S` is eligible
+under the current artifact/environment rules but deferred for whole-library
+image loading, missing memory bounds and broad image/AWT hooks. Screenshot
+Overhaul `H592Npj8` passes native dependency-range checks but fails intentional
+release designation and independently fails the selected metadata/deletion
+safety requirements. No exception was created. Neither candidate is installed.
+
+Exact SHA-512-verified candidate binaries and release-time source were inspected
+outside Git. All top-level-JAR classes were disassembled without executing mod
+code. The pinned Xaero World Map JAR was hash-verified and its primary mixin
+signatures inspected. This does not qualify optional map integration or a
+combined capture pipeline. No Minecraft, launcher, rendering, screenshot
+capture, large-gallery benchmark or user-file migration was performed.
+
+Observed checks for this pass:
+
+| Command/check | Observed result |
+| --- | --- |
+| Baseline `make test lint validate` | Passed, 116 tests; both existing branch CI tips green. |
+| Isolated candidate `check_mod()` and native graph checks | Viewer accepted; Overhaul rejected as selected alpha. Both native graphs passed with the existing 52 pins. No installation or general policy change. |
+| New documentation regression before implementation | Failed because the checker was absent. Current-document check then failed until its explicit version statement was added. Stale version/branch and pack-advance fixtures are rejected. |
+| `make test lint validate` | Passed, 121 offline tests, 41 features and eleven libraries; existing exact Prickle AUDIT notice unchanged. |
+| `make refresh PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'` | Passed; index, manifest and payload unchanged. |
+| `make checksum` followed by a second `make export`, using the same Packwiz override | Passed; archive validation and `cmp` passed. |
+| `(cd dist && sha256sum --check lantern-crossing-26.2.0.9.0-dev-26.2.sha256)` | Passed. The complete archive still has the hash recorded above. |
+| `python3 scripts/check_target_readiness.py --offline` | Passed. Discovery is not runtime proof. |
+| `/tmp/lantern-bin/actionlint .github/workflows/validate.yml` | Passed; workflow unchanged. |
+| `ruff check scripts tests --select C90 --config 'lint.mccabe.max-complexity=8'` | Passed; configured threshold remains 10. No changed function exceeds 8, and no cleanup/refactor was required. |
+| `git diff --check` and tracked JAR scan | Passed; no JARs in Git. |
+| Baseline comparison | Pack/index, all 52 locks/project evidence records, six defaults, collection, migration inventory and release gates unchanged. |
+
+`check_documentation()` reuses `artifact_names()` in the release metadata module.
+The metadata CLI now checks explicit current-version statements in README and
+this record, their development archive names, and the release-notes lead. It
+checks development instructions even for a release-channel invocation. Historical
+review versions remain valid evidence. Three tests cover current/stale identity
+and a pack advance without matching docs. No extra maintenance command exists;
+`make validate`, CI and the export workflow use the existing CLI.
+
+Two additional pack tests bind the retained capture/staged-gallery selection
+and verify that repository validation leaves a disposable existing screenshot
+file byte-identical and outside overrides. Existing archive-negative tests now
+also reject screenshots, screenshot state and unselected gallery configs.
+Candidate export leakage was already checked generically and now covers both
+new staging entries. These fixtures test repository packaging, not gallery
+indexing, image decoding, launcher upgrade behavior or deletion inside Minecraft.
+
+No payload changed, so pack version 26.2.0.9.0 intentionally remains unchanged.
+The normalized archive remains 30,899 bytes, with 52 downloads and six templates,
+SHA-256 `3c3c1614b1f41e63f9a04121653c24c8c739705996c9634abdcf01b0cd2c27d8`.
+The 26.3 line remains a 30-feature Minecraft 26.2 bootstrap with 41 future feature
+identities; no screenshot artifact is promoted there. Runtime acceptance and
+release publication remain gated on the owner. Complete the new
+[screenshot matrix](acceptance-tests.md#screenshot-owner-acceptance-matrix) in
+both launchers. All results remain uncompleted.
