@@ -16,22 +16,29 @@ The target is Minecraft **26.2**, Fabric Loader **0.20.1**, and Java **25**.
 The loader pin comes from Fabric's [26.2 compatibility
 API](https://meta.fabricmc.net/v2/versions/loader/26.2), checked on 2026-11-17.
 The checked evidence is in [upstream-metadata.json](docs/upstream-metadata.json).
-Pack version `26.2.0.9.0` is a development baseline, not a runtime qualification.
+Pack version `26.2.0.10.0` is a development baseline, not a runtime qualification.
 
-## Version branches
+## Version branches and feature freeze
 
-- [`26.2`](https://github.com/jabez007/lantern-crossing/tree/26.2) maintains the
-  Minecraft 26.2 pack and its audited 41-feature baseline.
-- [`26.3`](https://github.com/jabez007/lantern-crossing/tree/26.3) is the default
-  development branch for the next Minecraft version. It still targets 26.2 with
-  the original 30 features; the six later additions, Configured Defaults and
-  three QoL refinements and Enchantment Descriptions are tracked in
-  [migration.toml](migration.toml). The 26.3 dependency audit is pending.
+[`26.2`](https://github.com/jabez007/lantern-crossing/tree/26.2) is the authoritative
+baseline. Feature selection is frozen at 41 Fabric feature mods, eleven libraries
+and two optional shader choices pending owner runtime acceptance and release
+qualification. Follow-up work addresses bugs, compatibility, privacy/security,
+dependencies, incorrect configuration, documentation, tests and acceptance findings.
+Speculative feature additions wait until after the qualified 26.2 release.
 
-Use `26.2` for Minecraft 26.2 builds. Target pull requests at the intended version
-branch and backport shared fixes deliberately. The branch name does not establish
-Minecraft compatibility or runtime acceptance. `pack.toml` records the actual
-target. See the [version-branch policy](docs/version-policy.md#version-branches).
+[`26.3`](https://github.com/jabez007/lantern-crossing/tree/26.3) is a future forward
+migration target, not a parallel release baseline. GitHub's default branch remains
+26.3 at the owner's request; explicitly check out 26.2 for current work. The
+older 26.3 bootstrap still targets Minecraft 26.2 with 30 features. It is not
+qualified and receives no automatic synchronization or shader additions here.
+
+After accepting and releasing 26.2, start migration from its accepted inventory.
+Reevaluate every mod, shader and dependency for 26.3, resolve blockers, rerun
+static/reproducibility checks and complete separate runtime qualification.
+The earlier application of shared changes to 26.3 was forward preparation.
+The [branch policy](docs/version-policy.md#version-branches) replaces the earlier
+incorrect terminology. `pack.toml` always records the actual Minecraft target.
 
 ## Pack philosophy
 
@@ -39,11 +46,11 @@ target. See the [version-branch policy](docs/version-policy.md#version-branches)
 reference for performance and visual conveniences.
 Lantern Crossing combines those priorities with a pinned QoL selection and
 documented defaults, so a new Prism Launcher instance starts with the tools you
-normally add by hand. Add your own shader packs to the imported instance.
+normally add by hand. Two optional shaders are available through the existing Iris interface.
 
 Lantern Crossing keeps vanilla progression, content, and server mechanics.
 It supplies no blocks, items, mobs, dimensions, recipes, gameplay data packs,
-server companions, shader packs, or standalone resource packs. Continuity's two
+server companions or standalone resource packs. Shaders are optional local visuals. Continuity's two
 built-in visual packs are seeded when their options entry is absent. Upstream
 defaults otherwise apply except for the documented [configuration and keybinding overrides](docs/configuration.md).
 
@@ -51,7 +58,8 @@ defaults otherwise apply except for the documented [configuration and keybinding
 
 All 30 original features, Renice Shot, five FO-inspired additions, Configured Defaults,
 three QoL refinements and Enchantment Descriptions are active: 41 intentional
-features plus eleven libraries in [collection.toml](collection.toml).
+Fabric mod features plus eleven libraries and two separate shader choices in
+[collection.toml](collection.toml).
 
 | Category | Selected projects |
 | --- | --- |
@@ -99,12 +107,42 @@ the instance's `screenshots` folder. Both gallery candidates remain inactive aft
 No screenshot metadata or gallery migration is introduced. See the
 [storage and sharing guidance](docs/configuration.md#screenshots).
 
+## Optional shader choices
+
+Both shader ZIPs download from official Modrinth versions into `shaderpacks/`.
+They are installed choices, not automatically enabled effects. A new instance
+without saved Iris preferences starts with shaders disabled. Existing Iris preferences and per-shader presets
+are not supplied or replaced by the pack.
+
+| Choice | Release | Intended use |
+| --- | --- | --- |
+| [Complementary Reimagined](https://modrinth.com/shader/complementary-reimagined) | r5.10, `RKfUB9VC` | Featured atmospheric visuals that retain Minecraft's visual style. Try an appropriate Low or Medium preset before raising quality. |
+| [MakeUp - Ultra Fast](https://modrinth.com/shader/makeup-ultra-fast-shaders) | 9.6, `t4YRxQug` | Adjustable alternative with shadowless and lower-effect profiles. Its name is not a measured speed guarantee. |
+| Shaders disabled | Existing Iris option | Preserve the optimized vanilla rendering baseline and avoid shader rendering costs. |
+
+Open **Options > Video Settings > Shader Packs**, choose a ZIP, adjust its
+**Shader Pack Settings**, and apply. Use Iris's shader toggle to disable shaders.
+Menu labels can vary by language. No shader-specific preset or new keybind is
+shipped. Rendering, frame times and GPU memory still need owner acceptance on
+your hardware in both launchers. See the [configuration guide](docs/configuration.md#optional-shaders)
+and [source/license audit](docs/mod-audit.md#optional-shaders-and-distribution-2026-11-19).
+
+Credits: Complementary Reimagined by EminGT / [Complementary Development](https://www.complementary.dev/),
+under the release's Complementary License Agreement 1.8. MakeUp - Ultra Fast by
+Javier Garduño / [javiergcim](https://github.com/javiergcim/MakeUpUltraFast), under
+[LGPL-3.0-or-later](https://www.gnu.org/licenses/lgpl-3.0.html) as designated upstream.
+Lantern Crossing is responsible for problems arising from its shader integration.
+Both official ZIPs and their internal licenses/notices remain unmodified. We
+reference Modrinth downloads, do not upload shader ZIPs ourselves, and do not
+relicense either shader under the repository's MIT license. Retain these credits
+on any future distribution description page.
+
 ## Install an exported pack
 
 1. Obtain a reviewed release, or build the development artifact below. Current
-   development output is `lantern-crossing-26.2.0.9.0-dev-26.2.mrpack` with its
+   development output is `lantern-crossing-26.2.0.10.0-dev-26.2.mrpack` with its
    matching `.sha256`. A development build still requires manual acceptance.
-2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.9.0-dev-26.2.sha256`.
+2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.10.0-dev-26.2.sha256`.
 3. Import the `.mrpack` into a launcher that supports Modrinth packs. Use a new
    instance with Java 25 and let the launcher obtain the pinned upstream files.
 4. Start the client and complete the [smoke tests](docs/acceptance-tests.md),
@@ -127,8 +165,16 @@ minimaps or inventory assistance even though they require no server mods.
 ## Build and validate
 
 The scripts use Python 3.11 or newer and its standard library. Unit tests and
-repository validation work offline. Export needs access to the pinned mod URLs
+repository validation work offline. Export needs access to the pinned artifact URLs
 unless packwiz's external download cache already contains them.
+
+For a fresh source checkout, select the authoritative branch explicitly because
+GitHub's default remains the future migration branch:
+
+```sh
+git clone --branch 26.2 https://github.com/jabez007/lantern-crossing.git
+cd lantern-crossing
+```
 
 Install the exact development tools from the repository root:
 
@@ -150,7 +196,7 @@ also recorded in [verification.md](docs/verification.md).
 | `make refresh` | Regenerate packwiz index after an intentional payload edit |
 | `make export` | Validate, export, normalize, and validate the complete `.mrpack` |
 | `make checksum` | Development export and SHA-256 checksum |
-| `make release RELEASE_TAG=v26.2.0.9.0` | Release build, requiring owner-recorded runtime qualification |
+| `make release RELEASE_TAG=v26.2.0.10.0` | Release build, requiring owner-recorded runtime qualification |
 | `make clean` | Remove generated `build/` and `dist/` files |
 
 `PACKWIZ`, `PYTHON`, and `RUFF` can name explicit local executables.
@@ -161,8 +207,8 @@ permissions, and JSON encoding. Stored entries avoid compression-version drift.
 Default development outputs are:
 
 ```text
-dist/lantern-crossing-26.2.0.9.0-dev-26.2.mrpack
-dist/lantern-crossing-26.2.0.9.0-dev-26.2.sha256
+dist/lantern-crossing-26.2.0.10.0-dev-26.2.mrpack
+dist/lantern-crossing-26.2.0.10.0-dev-26.2.sha256
 ```
 
 GitHub Actions validates pushes to `26.2` and `26.3` and pull requests targeting
@@ -181,7 +227,7 @@ be replaced. See [release eligibility](docs/version-policy.md#publish-a-release)
 ## Select and update deliberately
 
 Version numbers follow `<Minecraft version>.<pack major>.<pack minor>.<pack patch>`.
-`26.2.0.9.0` means Minecraft 26.2 and pack revision 0.9.0. Tags must match
+The final three components identify the pack revision. Tags must match
 `pack.toml` exactly with a `v` prefix.
 
 Use exact upstream version IDs and repeat the client-only audit for updates.
@@ -198,9 +244,9 @@ python3 scripts/check_target_readiness.py --scope requested
 python3 scripts/check_target_readiness.py --offline
 ```
 
-The default checks active features and libraries. The requested scope covers
-all 41 selected features. Both scopes currently report release availability for
-the complete baseline.
+The default checks active Fabric features/libraries and the two Iris shader
+choices. The requested scope covers 41 mod features plus both shaders, excluding
+libraries. Both scopes report release availability for this recorded baseline.
 Discovery does not qualify a dependency closure, audit a pinned artifact, or
 replace runtime testing.
 
@@ -216,6 +262,6 @@ validation, and release naming. Lantern Crossing implements a smaller client
 workflow. It contains no server deployment or runtime management system.
 
 Repository-authored scripts and documentation use the [MIT license](LICENSE).
-That license does not relicense Minecraft or any mod. Each mod retains its own
-upstream license. Packwiz references upstream artifacts rather than vendoring
-their JARs. The `.mrpack` contains download references and the documented config.
+That license does not relicense Minecraft, mods or shaders. Each upstream artifact
+retains its own license. Packwiz references official downloads rather than
+vendoring JARs or shader ZIPs. The `.mrpack` contains download references and the documented config.

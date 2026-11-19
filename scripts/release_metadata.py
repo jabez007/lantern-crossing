@@ -127,6 +127,18 @@ def check_documentation(root: Path, version_branch: str) -> None:
         .startswith(f"Lantern Crossing {info['version']} "),
         "docs/release-notes.md: current-version documentation disagrees with pack.toml",
     )
+    policy = (root / "docs/version-policy.md").read_text()
+    require(
+        all(
+            statement in policy
+            for statement in (
+                f"The current development baseline is `{info['version']}`.",
+                f"--tag v{info['version']}",
+                f"make release RELEASE_TAG=v{info['version']}",
+            )
+        ),
+        "docs/version-policy.md: current-version/release-example documentation disagrees with pack.toml",
+    )
 
 
 def write_checksum(root: Path = ROOT, **build_context) -> Path:

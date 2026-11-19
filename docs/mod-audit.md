@@ -1,4 +1,4 @@
-# Client-only mod audit
+# Client-only mod and shader audit
 
 Evidence checked on 2026-11-17 against the [Modrinth API](https://docs.modrinth.com/api/) and the exact downloaded Fabric artifacts. [The offline snapshot](upstream-metadata.json) records project/version identity, compatibility declarations, files, dependency edges, and recursive Fabric descriptors. Download hashes were checked during the audit and again by packwiz export.
 
@@ -12,6 +12,7 @@ The other 45 locks are unchanged from the preceding baseline. There are still
 The refinement below adds three features and Searchables, bringing the maintained
 26.2 line to 40 features and ten libraries. The subsequent Prickle classification
 review below adds Enchantment Descriptions, reaching 41 features and eleven libraries.
+The shader milestone adds two separate optional shader resources and changes no mod pins.
 
 The question for every row is whether the selected functionality works entirely on the client while connected to an unmodified vanilla 26.2 server. An optional server label alone is insufficient evidence. No runtime multiplayer acceptance has been performed.
 
@@ -378,8 +379,9 @@ remains entirely uncompleted.
 
 Decision: retain Renice Shot alone. Neither gallery is installed. This review
 changes no feature count, pin, defaults template, pack version or player file.
-The maintained baseline remains 41 features and eleven libraries, pack
-26.2.0.9.0. Both candidates remain outside the collection, index and export.
+At the screenshot review, the maintained baseline was 41 features and eleven
+libraries, pack 26.2.0.9.0. Both candidates remain outside the collection, index
+and export. The later shader milestone is recorded separately below.
 
 ### Exact artifacts and source correspondence
 
@@ -526,6 +528,141 @@ capture/failure-restoration structure and does not establish a safer replacement
 No screenshot manager configuration, live preferences, screenshot folder,
 metadata database or user image is packaged. Existing Configured Defaults
 behavior remains unchanged. There is no gallery migration or user cleanup.
-The 26.3 bootstrap receives shared documentation safeguards and candidate
-findings only; its 30 installed features and 41 future identities stay unchanged.
-Neither candidate is promoted there or claimed compatible with 26.3.
+The earlier screenshot review applied shared documentation guards and candidate
+findings to the future 26.3 bootstrap as forward preparation. Its 30 installed
+features and 41 future identities did not change. Current policy ends automatic
+propagation; the shader milestone leaves 26.3 untouched. Neither screenshot
+candidate is promoted there or claimed compatible with 26.3.
+
+## Optional shaders and distribution, 2026-11-19
+
+Decision: option A, Complementary Reimagined r5.10 plus MakeUp - Ultra Fast 9.6.
+Both are installed choices and remain disabled in a clean instance. The pack
+retains 41 Fabric feature mods and eleven libraries; the two shaders are visual
+resources, recorded under `[[shader]]` separately from those mod selections.
+There are 54 upstream downloads. No supporting mod or prior pin is changed.
+The 26.2 inventory is frozen pending owner runtime acceptance and qualification.
+
+### Selection and evidence matrix
+
+V = supported by official metadata or inspected release source. C = supported
+with caveats. U = unverified runtime/GPU behavior. No cell records an in-game
+result or an independent performance measurement. Requested weights are retained.
+
+| Criterion | Weight | Complementary Reimagined | MakeUp - Ultra Fast |
+| --- | --- | --- | --- |
+| Iris/rendering stack | 25% | V: release lists Iris/26.2. Optional CUSTOM_IMAGES, SSBO, BLOCK_EMISSION_ATTRIBUTE, FADE_VARIABLE and ENTITY_TRANSLUCENT flags exist in pinned Iris 1.11.4; no required flag list found. U: compilation/rendering on owner's GPU. | V: release lists Iris/26.2; included README requires Iris >=1.5.1, satisfied by 1.11.4. U: exact driver/rendering acceptance. |
+| Visual style | 20% | Featured choice: upstream Reimagined defaults preserve blocky Minecraft styling with atmospheric lighting/clouds. Unbound differs mainly in defaults and would be redundant here. Appearance is owner-assessed, not observed in this audit. | Alternative color schemes and modular effects; vanilla-like restraint depends on chosen options. Not presented as identical to Reimagined or photorealism. |
+| Performance accessibility | 20% | V: Potato/Very Low/Low/Medium/High/Very High/Ultra and additional high-end profiles. Higher colored-light/reflection settings use more resources. U: measured frame times/VRAM. | V: no-effects, three shadowless profiles, Low/Medium/High/Extreme+. Shadows, reflection, clouds, bloom and depth of field are configurable. U: faster than Complementary on the owner's hardware. |
+| Stability/maintenance | 15% | Long-maintained project, current release dated November 18. New r5.10 lighting changes warrant acceptance. Open reports include water/weather artifacts and culling/skin/transparency scenarios. | Release 9.6 dated October 19; recent releases address Iris enchantment glint and End rendering. Open reports include translucency, fog compilation and optional DoF on Apple Silicon. None reproduced here. |
+| Licensing/distribution | 10% | V: release's Complementary License Agreement 1.8 explicitly permits unmodified modpack use through platform systems; official Modrinth reference selected. | V: upstream LGPL-3.0-or-later designation, LGPL v3 text and copyright/source notices inside official ZIP. Unmodified official reference selected. |
+| Distinct value | 10% | Main atmospheric, Minecraft-styled experience with integrated material/light effects. | Adjustable alternative emphasizing lower-effect/shadowless choices and its own color treatment; offers a different starting point without another renderer. |
+
+A qualifies statically and gives a clear featured/adjustable choice. C would
+omit that alternative without resolving a known hard compatibility problem.
+Miniature is considered only as the fallback for an unsuitable or redundant
+primary candidate. Neither condition was established, so B needs no deeper
+artifact audit and Miniature is not installed. D is unnecessary because the two
+selected releases have verifiable platform distribution grants and Iris support.
+No controlled comparative benchmark was found in the reviewed release materials.
+No benchmark ranks the shaders. Keep shaders disabled for the optimized vanilla
+baseline; the word "Ultra Fast" is an upstream name, not a pack guarantee.
+
+### Exact releases and source correspondence
+
+| Project | Exact release | Official artifact and integrity |
+| --- | --- | --- |
+| [Complementary Reimagined](https://modrinth.com/shader/complementary-reimagined), `HVnmMxH1` | `r5.10`, `RKfUB9VC`, release, Iris, Minecraft 26.2 listed | [ComplementaryReimagined_r5.10.zip](https://cdn.modrinth.com/data/HVnmMxH1/versions/RKfUB9VC/ComplementaryReimagined_r5.10.zip), 567,387 bytes. SHA-512 `edced01fb330af215ac73b8d9d31011565089f971f87145b87f413f40ee2128b48970aed26f8e5e879899647ec847b3eefca64bfc013aabbcf25275a207f663d`. |
+| [MakeUp - Ultra Fast](https://modrinth.com/shader/makeup-ultra-fast-shaders), `izsIPI7a` | `9.6`, `t4YRxQug`, release, Iris, Minecraft 26.2 listed | [MakeUp-UltraFast-9.6.zip](https://cdn.modrinth.com/data/izsIPI7a/versions/t4YRxQug/MakeUp-UltraFast-9.6.zip), 406,830 bytes. SHA-512 `fa7af14ac14bd77bc1c5d8abf5243e9f3dae08777272790de62b9f388db2f5383f8b00c61da358a356a43635afb7cab80ea7196ffd3a97e22d3184b76e9f3fd3`. |
+
+Hashes matched the downloaded official ZIPs during inspection. Complementary's
+447 archived files match [source revision e10d27d](https://github.com/ComplementaryDevelopment/ComplementaryReimagined/tree/e10d27dec5acfb18509fdcc3cda704152dc2f7df)
+after normalizing CRLF/LF for comparison only. MakeUp's 344 shader files, README
+and LICENSE match [source revision fed6d05](https://github.com/javiergcim/MakeUpUltraFast/tree/fed6d05f841389fb5981f078e2fcac8dfb9c0080)
+byte-for-byte. No downloaded file or ZIP was modified. No Fabric descriptor,
+Java mod, installer or server companion was substituted for a shader resource.
+Neither release declares required Modrinth dependency projects. Iris is the
+already-selected renderer, not a new transitive mod. The native Fabric graph and
+all 52 prior locks remain unchanged. Project environment labels are client
+required/server unsupported, and every shader lock explicitly uses client side.
+
+Iris `gxZWWnKH`, 1.11.4, and Sodium `xJZxADzI`, 0.9.2, remain pinned. The inspected
+Iris binary contains Complementary's optional flags, but their usability also
+depends on hardware. The exact shader/renderer artifacts are bound in the
+snapshot's distribution audit; an Iris pin change requires re-review. Metadata
+and recognized flags cannot prove GLSL compilation or GPU compatibility.
+Packwiz's pinned executable reports the newer shader environment enum as unknown
+and initially writes both-side records. The two generated records were set to
+`side = "client"` and `pin = true`, consistent with the audited v2 labels and
+existing export contract. No general environment or prerelease exception changed.
+
+### Distribution gate and attribution
+
+Complementary's [release license](https://github.com/ComplementaryDevelopment/ComplementaryReimagined/blob/e10d27dec5acfb18509fdcc3cda704152dc2f7df/License.txt)
+is Agreement 1.8. ZIP member `License.txt` has SHA-256
+`2d2f14f4e04e9a19ea11bb67c13cabe1ef458113320c02bbae87527b862266b6`.
+Section 1.2 permits modpack inclusion through Modrinth/CurseForge systems,
+requires unmodified contents and pack-author responsibility for integration
+problems, and prohibits direct file uploads. Visible credit is mandatory when
+enabled by default; Lantern Crossing credits EminGT / Complementary Development
+with the official link even though it starts disabled. Lantern Crossing accepts
+responsibility for problems arising from this integration. Changes to shader
+code/variables or standalone redistribution are outside this chosen grant.
+The license also restricts AI-training use; repository MIT terms do not override
+any shader terms. No special installer, automatic patcher or modified shader is
+included. The `.mrpack` contains official Modrinth download references only.
+
+MakeUp's [release LICENSE](https://github.com/javiergcim/MakeUpUltraFast/blob/fed6d05f841389fb5981f078e2fcac8dfb9c0080/LICENSE)
+is LGPL v3, with ZIP-member SHA-256
+`e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118`.
+Modrinth designates LGPL-3.0-or-later. The release includes readable shader source,
+copyright notices and a README requesting credit and official links. README now
+credits Javier Garduño / javiergcim and links the official project/source plus
+[LGPL](https://www.gnu.org/licenses/lgpl-3.0.html); the incorporated
+[GPL terms](https://www.gnu.org/licenses/gpl-3.0.html) remain applicable as upstream
+specifies. We reference the complete unmodified upstream ZIP, retain its notices,
+and distribute no compiled derivative or copied source tree. No further
+release-specific modpack restriction was found in the exact ZIP/README. Automatic
+launcher downloading uses Modrinth's ordinary modpack file mechanism.
+
+No extra license notice payload is needed for this reference-only architecture;
+original notices travel inside upstream ZIPs. Any future pack description page
+must retain the credits/links and integration responsibility stated in README.
+No modpack-level MIT permission is asserted over shaders. Each audit is tied to
+its exact release ID, artifact SHA-512, release-license fingerprint and Iris pin.
+Future changes require a fresh distribution/compatibility review.
+
+### Rendering caveats and owner acceptance
+
+Both packs operate on the client-visible world and need no vanilla-server mod,
+plugin, custom protocol or unavailable server data. Their visuals are not
+server-side light/spawn state. No network/upload feature or extra launcher
+integration is selected. Ordinary Iris loading from `shaderpacks/` is the static
+Prism/Modrinth interoperability basis, not an observed launcher result.
+
+Continuity CTM and BetterGrassify remain unchanged; no custom textures/PBR pack
+is installed. More Culling and Entity Culling can interact with shader shadows,
+foliage and translucent surfaces. Check these with actual movement and lighting.
+LambDynamicLights remains the no-shader light provider. Complementary has held
+and optional colored dynamic lighting; MakeUp also shades held-light information.
+Do not globally disable existing lighting or force a shader profile to avoid a
+runtime interaction that has not been observed. The owner should check doubled
+hand/entity brightness and preserve the useful no-shader behavior when adjusting.
+
+Relevant reports are evidence for focused tests, not reproduced pack failures:
+[MakeUp 208](https://github.com/javiergcim/MakeUpUltraFast/issues/208) describes
+optional DoF edge artifacts on Apple Silicon with 26.3/Iris 1.11.7, not our exact
+stack; DoF is off in the inspected ordinary defaults. [MakeUp 207](https://github.com/javiergcim/MakeUpUltraFast/issues/207)
+reports a fog compile error without enough environment detail to establish its
+scope. [LambDynamicLights 383](https://github.com/LambdAurora/LambDynamicLights/issues/383)
+reports bright player models with Photon, not either selected shader. Review
+water/rain, translucent player skins, signs, portals, leaves and all dimensions.
+No source issue is silently treated as fixed by metadata compatibility.
+
+Configured Defaults still seeds only `enableShaders=false` if the entire Iris
+config is absent. It does not replace an existing active shader or user preset.
+ZIP option sidecars are never shipped. Defaults, screenshots, worlds and existing
+mod versions are unchanged. Complete the new owner matrix in both launchers;
+no Minecraft, GPU benchmark, shader compilation or runtime acceptance was run.
+This milestone leaves the 26.3 branch and hosting default untouched. Forward
+migration begins from the accepted 26.2 inventory after its qualification/release.

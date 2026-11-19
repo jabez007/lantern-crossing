@@ -7,3 +7,6 @@
 # Packwiz reads pack.toml/index.toml itself, not as overrides.
 !configureddefaults/
 !configureddefaults/**
+# Shader metadata references official downloads; validation forbids local ZIPs.
+!shaderpacks/
+!shaderpacks/**

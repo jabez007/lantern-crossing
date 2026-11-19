@@ -12363,5 +12363,293 @@
     "UVtY3ZAC"
   ],
   "schema": 1,
+  "shader_projects": {
+    "HVnmMxH1": {
+      "checked_at": "2026-11-19",
+      "client_side": "required",
+      "license": {
+        "id": "LicenseRef-Custom",
+        "name": "",
+        "url": "https://github.com/ComplementaryDevelopment/ComplementaryReimagined/blob/main/License.txt"
+      },
+      "name": "Complementary Shaders - Reimagined",
+      "project_type": "shader",
+      "server_side": "unsupported",
+      "slug": "complementary-reimagined",
+      "source_url": "https://github.com/ComplementaryDevelopment/ComplementaryReimagined",
+      "versions": [
+        {
+          "author_id": "O8iu3LjK",
+          "changelog": "This major update brings a vast amount of new features, with the biggest one being the addition of \"Dynamic Colored Lighting\" that allows dropped items and a lot of special entities to cast colored lighting. Additionality; r5.10 brings full support for Minecraft 26.4 features like special atmosphere for the Ice Caves, support for remaining 26.3 features, a rework to held lighting, several mod support features, a bunch of new settings, a ton of bug fixes and improvements as usual.\n\nThe full list of changes can be found at https://www.complementary.dev/changelogs",
+          "changelog_url": null,
+          "date_published": "2026-11-18T17:18:09.316616Z",
+          "dependencies": [],
+          "distribution_audit": {
+            "artifact": {
+              "filename": "ComplementaryReimagined_r5.10.zip",
+              "sha512": "edced01fb330af215ac73b8d9d31011565089f971f87145b87f413f40ee2128b48970aed26f8e5e879899647ec847b3eefca64bfc013aabbcf25275a207f663d"
+            },
+            "evidence": [
+              "https://api.modrinth.com/v2/version/RKfUB9VC",
+              "https://github.com/ComplementaryDevelopment/ComplementaryReimagined/blob/e10d27dec5acfb18509fdcc3cda704152dc2f7df/License.txt"
+            ],
+            "license_file": "License.txt",
+            "license_id": "LicenseRef-Custom",
+            "license_sha256": "2d2f14f4e04e9a19ea11bb67c13cabe1ef458113320c02bbae87527b862266b6",
+            "mode": "modrinth-reference",
+            "renderer": {
+              "artifact": {
+                "filename": "iris-fabric-1.11.4+mc26.2.jar",
+                "sha512": "dee955580976aebc92373f5c2d88398ad1019b043c6254a41fe7ab8a6ca3a5ff29d58df2b22ec43a31198beb769e814658eef06fbf980066a2e2c216eeafd32a"
+              },
+              "project_id": "YL57xq9U",
+              "version_id": "gxZWWnKH"
+            },
+            "review": "docs/mod-audit.md#optional-shaders-and-distribution-2026-11-19",
+            "source_commit": "e10d27dec5acfb18509fdcc3cda704152dc2f7df",
+            "source_correspondence": "All shader files match the source commit; Complementary normalizes CRLF/LF only. No modification of the official ZIP.",
+            "version_id": "RKfUB9VC"
+          },
+          "downloads": 78773,
+          "environment": "unknown",
+          "featured": false,
+          "files": [
+            {
+              "file_type": null,
+              "filename": "ComplementaryReimagined_r5.10.zip",
+              "hashes": {
+                "sha1": "ce5f303920c12f858c6b4c27a521fe7a1ba70aea",
+                "sha512": "edced01fb330af215ac73b8d9d31011565089f971f87145b87f413f40ee2128b48970aed26f8e5e879899647ec847b3eefca64bfc013aabbcf25275a207f663d"
+              },
+              "id": "DKmw7B7Y",
+              "primary": true,
+              "size": 567387,
+              "url": "https://cdn.modrinth.com/data/HVnmMxH1/versions/RKfUB9VC/ComplementaryReimagined_r5.10.zip"
+            }
+          ],
+          "game_versions": [
+            "26.3",
+            "26.2",
+            "26.1.2",
+            "26.1.1",
+            "26.1",
+            "1.21.11",
+            "1.21.10",
+            "1.21.9",
+            "1.21.8",
+            "1.21.7",
+            "1.21.6",
+            "1.21.5",
+            "1.21.4",
+            "1.21.3",
+            "1.21.2",
+            "1.21.1",
+            "1.21",
+            "1.20.6",
+            "1.20.5",
+            "1.20.4",
+            "1.20.3",
+            "1.20.2",
+            "1.20.1",
+            "1.20",
+            "1.19.4",
+            "1.19.3",
+            "1.19.2",
+            "1.19.1",
+            "1.19",
+            "1.18.2",
+            "1.18.1",
+            "1.18",
+            "1.17.1",
+            "1.17",
+            "1.16.5",
+            "1.16.4",
+            "1.16.3",
+            "1.16.2",
+            "1.16.1",
+            "1.16",
+            "1.15.2",
+            "1.15.1",
+            "1.15",
+            "1.14.4",
+            "1.14.3",
+            "1.14.2",
+            "1.14.1",
+            "1.14",
+            "1.13.2",
+            "1.13.1",
+            "1.13",
+            "1.12.2",
+            "1.12.1",
+            "1.12",
+            "1.11.2",
+            "1.11.1",
+            "1.11",
+            "1.10.2",
+            "1.10.1",
+            "1.10",
+            "1.9.4",
+            "1.9.3",
+            "1.9.2",
+            "1.9.1",
+            "1.9",
+            "1.8.9",
+            "1.8.8",
+            "1.8.7",
+            "1.8.6",
+            "1.8.5",
+            "1.8.4",
+            "1.8.3",
+            "1.8.2",
+            "1.8.1",
+            "1.8",
+            "1.7.10"
+          ],
+          "id": "RKfUB9VC",
+          "loaders": [
+            "iris",
+            "optifine"
+          ],
+          "name": "r5.10",
+          "project_id": "HVnmMxH1",
+          "requested_status": null,
+          "status": "listed",
+          "version_number": "r5.10",
+          "version_type": "release"
+        }
+      ]
+    },
+    "izsIPI7a": {
+      "checked_at": "2026-11-19",
+      "client_side": "required",
+      "license": {
+        "id": "LGPL-3.0-or-later",
+        "name": "GNU Lesser General Public License v3.0 or later",
+        "url": null
+      },
+      "name": "MakeUp - Ultra Fast",
+      "project_type": "shader",
+      "server_side": "unsupported",
+      "slug": "makeup-ultra-fast-shaders",
+      "source_url": "https://github.com/javiergcim/MakeUpUltraFast",
+      "versions": [
+        {
+          "author_id": "VoROpsYm",
+          "changelog": "# Changes\n\n* Added selective temporal supersampling as an alternative to reduce or eliminate the ghosting effect caused by entities. Contributed by Dantar.\n* Fixed a previously introduced bug that prevented the shader from running on Minecraft 1.12.2 (OptiFine).\n* Updated some strings in the Russian translation. Contributed by ShallIMove.\n* Reorganized the options on the settings screen.",
+          "changelog_url": null,
+          "date_published": "2026-10-19T23:41:30.199784Z",
+          "dependencies": [],
+          "distribution_audit": {
+            "artifact": {
+              "filename": "MakeUp-UltraFast-9.6.zip",
+              "sha512": "fa7af14ac14bd77bc1c5d8abf5243e9f3dae08777272790de62b9f388db2f5383f8b00c61da358a356a43635afb7cab80ea7196ffd3a97e22d3184b76e9f3fd3"
+            },
+            "evidence": [
+              "https://api.modrinth.com/v2/version/t4YRxQug",
+              "https://github.com/javiergcim/MakeUpUltraFast/blob/fed6d05f841389fb5981f078e2fcac8dfb9c0080/LICENSE"
+            ],
+            "license_file": "LICENSE",
+            "license_id": "LGPL-3.0-or-later",
+            "license_sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118",
+            "mode": "modrinth-reference",
+            "renderer": {
+              "artifact": {
+                "filename": "iris-fabric-1.11.4+mc26.2.jar",
+                "sha512": "dee955580976aebc92373f5c2d88398ad1019b043c6254a41fe7ab8a6ca3a5ff29d58df2b22ec43a31198beb769e814658eef06fbf980066a2e2c216eeafd32a"
+              },
+              "project_id": "YL57xq9U",
+              "version_id": "gxZWWnKH"
+            },
+            "review": "docs/mod-audit.md#optional-shaders-and-distribution-2026-11-19",
+            "source_commit": "fed6d05f841389fb5981f078e2fcac8dfb9c0080",
+            "source_correspondence": "All shader files match the source commit; Complementary normalizes CRLF/LF only. No modification of the official ZIP.",
+            "version_id": "t4YRxQug"
+          },
+          "downloads": 575676,
+          "environment": "unknown",
+          "featured": false,
+          "files": [
+            {
+              "file_type": null,
+              "filename": "MakeUp-UltraFast-9.6.zip",
+              "hashes": {
+                "sha1": "e2a930f1ffb7ca6a56cf466c13c9e36193425a38",
+                "sha512": "fa7af14ac14bd77bc1c5d8abf5243e9f3dae08777272790de62b9f388db2f5383f8b00c61da358a356a43635afb7cab80ea7196ffd3a97e22d3184b76e9f3fd3"
+              },
+              "id": "GImDAUmk",
+              "primary": true,
+              "size": 406830,
+              "url": "https://cdn.modrinth.com/data/izsIPI7a/versions/t4YRxQug/MakeUp-UltraFast-9.6.zip"
+            }
+          ],
+          "game_versions": [
+            "1.12.2",
+            "1.13",
+            "1.13.1",
+            "1.13.2",
+            "1.14",
+            "1.14.1",
+            "1.14.2",
+            "1.14.3",
+            "1.14.4",
+            "1.15",
+            "1.15.1",
+            "1.15.2",
+            "1.16",
+            "1.16.1",
+            "1.16.2",
+            "1.16.3",
+            "1.16.4",
+            "1.16.5",
+            "1.17",
+            "1.17.1",
+            "1.18",
+            "1.18.1",
+            "1.18.2",
+            "1.19",
+            "1.19.1",
+            "1.19.2",
+            "1.19.3",
+            "1.19.4",
+            "1.20",
+            "1.20.1",
+            "1.20.2",
+            "1.20.3",
+            "1.20.4",
+            "1.20.5",
+            "1.20.6",
+            "1.21",
+            "1.21.1",
+            "1.21.10",
+            "1.21.11",
+            "1.21.2",
+            "1.21.3",
+            "1.21.4",
+            "1.21.5",
+            "1.21.6",
+            "1.21.7",
+            "1.21.8",
+            "1.21.9",
+            "26.1",
+            "26.1.1",
+            "26.1.2",
+            "26.2",
+            "26.3"
+          ],
+          "id": "t4YRxQug",
+          "loaders": [
+            "iris",
+            "optifine"
+          ],
+          "name": "MakeUp - Ultra Fast 9.6",
+          "project_id": "izsIPI7a",
+          "requested_status": null,
+          "status": "listed",
+          "version_number": "9.6",
+          "version_type": "release"
+        }
+      ]
+    }
+  },
   "target": "26.2"
 }

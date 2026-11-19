@@ -1,13 +1,115 @@
 # Verification record
 
-Pack version `26.2.0.9.0` remains the current development baseline.
+Pack version `26.2.0.10.0` is the 26.2 feature-freeze baseline pending owner
+runtime acceptance. Target: Minecraft 26.2, Fabric Loader 0.20.1, Java 25.
+The baseline has 41 Fabric feature mods, eleven libraries and two optional shader
+choices, 54 upstream downloads. Current development archive:
+`lantern-crossing-26.2.0.10.0-dev-26.2.mrpack`.
+
+No Minecraft, Prism Launcher, Modrinth App, GPU benchmark or shader runtime test
+was performed. All results in the shader owner matrix remain uncompleted.
+The preserved 26.3 branch is a future forward migration target, not a parallel
+release baseline. GitHub's default remains unchanged by owner choice.
+
+## Shader milestone checks
+
+The [exact source/license audit](mod-audit.md#optional-shaders-and-distribution-2026-11-19)
+selects Complementary Reimagined r5.10 / RKfUB9VC and MakeUp 9.6 / t4YRxQug.
+Both official ZIPs matched SHA-512. Complementary source correspondence was
+confirmed with line-ending normalization for comparison only; MakeUp shader
+files and notices matched byte-for-byte. No upstream ZIP was altered. Iris's
+pinned feature enum recognizes Complementary's optional flags. These observations
+establish packaging/static eligibility, not GLSL compilation or GPU acceptance.
+
+Shader locks/evidence are distinct from native Fabric mod metadata. Validation
+requires exact official references and renderer-bound distribution audits, a
+client-only shader destination and disabled-only Iris defaults. Required or incompatible shader
+project dependencies fail explicitly for separate closure review. No such edge
+exists in these releases. Existing Fabric native requirements, client-only
+rules and the exact Prickle environment audit remain intact.
+
+All 52 existing mod locks and their evidence dictionaries, six defaults, native
+dependency inventory, Loader/Java versions, release policy and GitHub workflow
+remain unchanged from 2add0bf. Only the two shader references are added to index.
+The pack version advances by one minor step for the optional visual additions.
+No actual shader presets or live settings are shipped. The 26.3 branch is not
+modified or synchronized by this milestone; its tip remains b5b1262.
+
+Observed automated checks:
+
+| Command/check | Observed result |
+| --- | --- |
+| Baseline `make test lint validate` | Passed, 121 tests. Starting hosted CI at 2add0bf was green. |
+| Pre-change validator against the new shader index | Rejected the shader metadata as an unexpected indexed file. Shader artifacts needed a separate typed path. |
+| Extended model with no shader selections | All 121 prior tests passed before integration. |
+| `make test lint validate` | Passed, 138 offline tests, including 16 focused shader tests and a release-example documentation regression; formatting/lint and all prior native/client-only regressions pass. |
+| `make refresh PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'` | Passed; final manifest/index consistent. |
+| First uncached export without network access | Packwiz omitted the two failed downloads but reported success. Archive validation rejected the missing shader set. Resolved by rerunning with network access; validation was not relaxed. |
+| `make checksum` and repeated `make export` with the same Packwiz override | Passed; complete archive validation, byte comparison and checksum verification passed. |
+| `python3 scripts/check_target_readiness.py --offline` | Passed for all 52 Fabric records and both Iris choices; discovery is not runtime proof. |
+| `/tmp/lantern-bin/actionlint .github/workflows/validate.yml` | Passed; workflow/tool pins unchanged. |
+| `ruff check scripts tests --select C90 --config 'lint.mccabe.max-complexity=8'` | Passed; configured maximum stays 10. No changed function exceeds 8. |
+| Old lock/default/evidence comparison | All 52 mod locks, six templates, prior project snapshots and both exception sets unchanged from 2add0bf. |
+| Source review and `git diff --check` | Passed. No tracked JAR/ZIP, generated source junk, shader preset or unapproved payload. |
+| Version-branch check | 26.3 remains at b5b12628561c2a4d78854b1244d58133dfad54aa; no commit or synchronization there. Hosting default remains 26.3. |
+
+Exact final build commands:
+
+```sh
+make test lint validate
+make refresh PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
+make checksum PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
+cp dist/lantern-crossing-26.2.0.10.0-dev-26.2.mrpack /tmp/lantern-shaders/first.mrpack
+make export PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
+cmp /tmp/lantern-shaders/first.mrpack dist/lantern-crossing-26.2.0.10.0-dev-26.2.mrpack
+(cd dist && sha256sum --check lantern-crossing-26.2.0.10.0-dev-26.2.sha256)
+python3 scripts/check_target_readiness.py --offline
+/tmp/lantern-bin/actionlint .github/workflows/validate.yml
+ruff check scripts tests --select C90 --config 'lint.mccabe.max-complexity=8'
+git diff --check
+git ls-files '*.jar' '*.JAR' '*.zip' '*.ZIP'
+```
+
+The normalized artifact is 31,990 bytes with 54 pinned client downloads and six
+Configured Defaults overrides. Both shaders install through manifest entries
+under `shaderpacks/`; no JAR/ZIP is embedded, and every download remains
+client-required/server-unsupported. SHA-256:
+
+```text
+fe76538fbf180eee4837cbebb44344792295992369ff26fb63b606fbfc30dea1
+```
+
+Shader tests cover mod-declared shader incompatibility, exact identities/roles/paths, missing/duplicate/unapproved
+records, side/pin/hash/URL enforcement, native metadata separation, release and
+environment checks, stale distribution/renderer reviews, unreviewed dependency
+edges, disabled-only defaults, no copied ZIP/preset payloads, complete exports
+and Iris-aware discovery. Existing normalization tests now exercise the shader
+entries too. They do not simulate Iris/GPU/launcher behavior. Native Fabric
+predicate support remains conservative and partial as documented below; it is
+not repurposed as a shader compiler.
+
+A documentation regression exposed stale release-example tags in version policy.
+The old guard accepted that file's stale baseline/examples; the new tests failed
+before the fix. The existing release metadata check now also checks its current
+baseline statement and both release-command examples. README and current release
+records match pack.toml; historical verification versions remain dated evidence.
+
+No release is runtime-qualified or published. Complete the
+[shader owner matrix](acceptance-tests.md#shader-owner-acceptance-matrix), alongside
+the existing full acceptance checklist in Prism and Modrinth App, then record
+actual owner results and the final pack hash through the existing release gate.
+Resolve failures through scoped fixes while feature additions remain frozen.
+
+## Prior verification, pack 26.2.0.9.0
+
+At that earlier review, pack version `26.2.0.9.0` was the current development baseline.
 
 The Prickle environment review completed on 2026-11-19 for development pack
 `26.2.0.9.0`, Minecraft 26.2, Fabric Loader 0.20.1 and Java 25. No Minecraft,
 Prism Launcher or Modrinth App runtime acceptance was performed. All owner
 results remain uncompleted. Prior refinement evidence is in Git at `59373ad`.
 
-## Verdict and artifact correspondence
+### Verdict and artifact correspondence
 
 The original Enchantment Descriptions deferral was overly conservative. An
 isolated invocation of the original `check_mod()` accepted Enchantment
@@ -34,7 +136,7 @@ opt-out are disclosed in the audit. Enchantment Descriptions reads standard
 client-visible components and local translations; plugin behavior is outside
 selection. Food-effect/container tooltip providers remain separate.
 
-## Implementation and policy
+### Implementation and policy
 
 A generic `environment_exceptions` mechanism extends the existing evidence
 snapshot. The one active audit retains Prickle's original labels and binds its
@@ -64,7 +166,7 @@ No upstream issue or comment was submitted. The existing optional-label issue
 has no maintainer clarification; a concise draft is recorded in the audit.
 Alternative mods/resource packs were compared and not installed.
 
-## Observed automated checks
+### Observed automated checks
 
 Tools match the established suite: Python 3.12.12, Ruff 0.16.4 and packwiz commit
 `170b22d785959dda5876b54b7f16e1b807a57fb6`. Actionlint is 1.7.12.
@@ -122,7 +224,7 @@ The Fabric predicate evaluator remains conservative and partial, with unsupporte
 or ambiguous semantics failing explicitly. Neither it nor source inspection
 proves mixin application or a successful vanilla-server join on an owner's JVM.
 
-## Artifact and branch state
+### Artifact and branch state
 
 `dist/lantern-crossing-26.2.0.9.0-dev-26.2.mrpack` is 30,899 bytes with 52 pinned
 client downloads and six templates under `overrides/configureddefaults/`.
@@ -142,7 +244,7 @@ future features remain deferred/runtime pending. The 26.2 audit cannot qualify
 matching tag, ancestry and owner evidence bound to the exact pack hash.
 No tag or release is created by this review.
 
-## Owner handoff
+### Owner handoff
 
 Complete the [enchantment matrix](acceptance-tests.md#enchantment-descriptions-acceptance)
 in both launchers, alongside the existing configuration/vanilla-server checklist.
@@ -152,7 +254,7 @@ connectivity all remain uncompleted. Treat custom server/plugin semantics,
 legacy configuration formats and launcher/App sync behavior as limits requiring
 separate observation. No runtime success is implied by the automated results.
 
-## Screenshot review, 2026-11-19
+### Screenshot review, 2026-11-19
 
 The [candidate and architecture matrix](mod-audit.md#screenshot-experience-evaluation-2026-11-19)
 retains Renice Shot `roOTvshj` alone. Screenshot Viewer `id6Yni9S` is eligible
@@ -202,7 +304,7 @@ Candidate export leakage was already checked generically and now covers both
 new staging entries. These fixtures test repository packaging, not gallery
 indexing, image decoding, launcher upgrade behavior or deletion inside Minecraft.
 
-No payload changed, so pack version 26.2.0.9.0 intentionally remains unchanged.
+No payload changed in that screenshot review, so pack version 26.2.0.9.0 remained unchanged then.
 The normalized archive remains 30,899 bytes, with 52 downloads and six templates,
 SHA-256 `3c3c1614b1f41e63f9a04121653c24c8c739705996c9634abdcf01b0cd2c27d8`.
 The 26.3 line remains a 30-feature Minecraft 26.2 bootstrap with 41 future feature

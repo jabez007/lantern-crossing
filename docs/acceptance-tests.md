@@ -292,3 +292,36 @@ No accurate custom server/plugin enchantment semantics are promised. Do not
 install anything on the vanilla server to resolve a client acceptance failure.
 Legacy config recovery and actual launcher upgrade/sync behavior require owner
 observation, not a Python approximation.
+
+## Shader owner acceptance matrix
+
+Every result is uncompleted. Run against the final 26.2 archive in Prism Launcher
+and Modrinth App, with sync enabled/disabled where supported. Record pack/hash,
+launcher, Java, OS, GPU/driver, resolution, render distance, shader/version/profile
+and actual observations. Test each shader separately and retain a no-shader
+comparison. Do not infer GPU performance or visual compatibility from static CI.
+Use disposable copies of existing instances for upgrade tests.
+
+| Owner scenario | Prism | Modrinth App, sync off | Modrinth App, sync on | Expected result, not observed |
+| --- | --- | --- | --- | --- |
+| Fresh `.mrpack` import | [ ] | [ ] | [ ] | Exactly the two official shader ZIPs install under shaderpacks/. No supporting mods or copied ZIP override appears; no installation/dependency error. |
+| First launch and Iris UI | [ ] | [ ] | [ ] | Without an existing/synced Iris config, shaders start disabled. Otherwise record and preserve the existing choice. The pack does not select a shader. Both named choices appear in Iris. Existing no-shader rendering and controls work; no new startup prompt/keybind is introduced by pack configuration. |
+| Complementary Reimagined | [ ] | [ ] | [ ] | Select r5.10, choose a sensible Low/Medium profile for the hardware, apply, and inspect rendering. Record compile/log errors; increase quality only deliberately. |
+| MakeUp alternative | [ ] | [ ] | [ ] | Select 9.6 and an appropriate low/shadowless profile; verify optional shadows, reflections, bloom and clouds respond to settings. Do not assume it is faster by name. |
+| Terrain and transitions | [ ] | [ ] | [ ] | Grass/dirt paths, slopes, water edges and changing biomes render correctly. BetterGrassify's configured grass works; its snow mode remains OFF. Test snow visuals separately if enabled personally. |
+| Continuity and culling | [ ] | [ ] | [ ] | Connected glass, bookshelves, sandstone, leaves, signs, chests, beds, item frames and entities/shadows stay correct from multiple angles. No missing faces or unexpected translucent surfaces. |
+| Dynamic and shader lighting | [ ] | [ ] | [ ] | Held/dropped lights and other players render without doubled brightness. Compare LambDynamicLights behavior with shaders off and each shader on. Any local lighting adjustment preserves the useful no-shader behavior. |
+| Weather, water and visibility | [ ] | [ ] | [ ] | Inspect clouds, rain, shadows, nighttime, caves, underwater and water transitions. Visibility remains usable; visual light is not mistaken for server spawn/light rules. |
+| Dimensions and travel | [ ] | [ ] | [ ] | Overworld, Nether and End terrain, fog, portals and loading transitions remain correct. Existing worlds open normally. |
+| Maps and overlays | [ ] | [ ] | [ ] | Xaero minimap/world map, waypoints and Light Overlay remain readable with each shader. Check overlay toggling, maps and water/sky interactions without promising screenshot-map integration. |
+| Shader switching/reloading | [ ] | [ ] | [ ] | Switch off, to each shader and back repeatedly. Resource reloads, resizing, focus changes and fullscreen restore normally, with no persistent corruption or runaway memory growth. |
+| Performance measurements | [ ] | [ ] | [ ] | Record a repeatable no-shader route, FPS/frame-time behavior and VRAM where available; repeat with both chosen profiles and high render distances. Choose acceptable settings from observed results, not upstream names or universal FPS claims. |
+| Restart and preferences | [ ] | [ ] | [ ] | Active shader, custom preset and disabled state each persist across restarts when deliberately selected. Existing player settings/resource-pack ordering remain authoritative. |
+| Upgrade from existing 26.2 pack | [ ] | [ ] | [ ] | Existing Iris config and per-shader .zip.txt preferences survive; active/disabled choice does not change unexpectedly. Both new downloads appear. Record launcher-specific behavior and any old ZIP filename migration. |
+| Screenshots | [ ] | [ ] | [ ] | Renice Shot F9 and normal F2 captures are correct with each shader; resolution/HUD restore. Pre-existing screenshot names/bytes and worlds remain unchanged. Neither gallery is expected. |
+| Unmodified vanilla server | [ ] | [ ] | [ ] | Join/rejoin a completely vanilla 26.2 server, switch visual choices locally, and use ordinary inventory/rendering features without server mods/plugins or missing-component warnings. |
+
+Resolve runtime findings through scoped fixes during the feature freeze. Repeat
+affected acceptance after any pack/index change. Record actual owner acceptance
+and the final pack hash through the existing release policy before publishing.
+No unchecked box is a pass, and 26.2 acceptance does not qualify a future 26.3 pack.

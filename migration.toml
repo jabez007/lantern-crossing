@@ -1,4 +1,6 @@
-# Availability discovery only. No 26.3 artifact below is an installed pin.
+# Fabric feature-mod availability discovery only. No 26.3 artifact below is an installed pin.
+# Frozen shader intent is separate in collection.toml. Audit it when beginning
+# forward migration from the qualified 26.2 baseline; no shader discovery is approved here.
 schema = 1
 source = "26.2"
 target = "26.3"

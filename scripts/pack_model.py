@@ -77,6 +77,8 @@ class Pack:
     mods: dict
     versions: dict
     overrides: dict[str, bytes]
+    shaders: dict
+    shader_versions: dict
 
 
 def entries_by_id(entries: list) -> dict:
@@ -104,11 +106,13 @@ def check_collection(collection: dict, evidence: dict) -> dict:
     selected = collection.get("selected", [])
     dependencies = collection.get("resolved-dependency", [])
     excluded = collection.get("excluded", [])
-    all_projects = entries_by_id(selected + dependencies + excluded)
+    shaders = collection.get("shader", [])
+    all_projects = entries_by_id(selected + dependencies + excluded + shaders)
     require(
         all(e["role"] in {"feature", "selected-library"} for e in selected), "invalid selected role"
     )
     require(all(e["role"] == "dependency" for e in dependencies), "invalid dependency role")
+    require(all(e["role"] == "shader" for e in shaders), "invalid shader role")
     require(
         all(e.get("reason") and e["role"] == "feature" for e in excluded),
         "excluded features need reasons",
@@ -118,7 +122,7 @@ def check_collection(collection: dict, evidence: dict) -> dict:
         requested == set(evidence["requested"]),
         "all requested features must be selected or explicitly excluded",
     )
-    return {pid: e for pid, e in all_projects.items() if e not in excluded}
+    return {pid: e for pid, e in all_projects.items() if e in selected + dependencies}
 
 
 def check_candidates(root: Path, projects: dict) -> None:
@@ -316,6 +320,126 @@ def check_mod(path: Path, projects: dict, evidence: dict) -> tuple[str, dict, di
     return pid, lock, version
 
 
+def check_shader(path: Path, projects: dict, evidence: dict, mods: dict) -> tuple[str, dict, dict]:
+    """Check a shader ZIP reference without inventing native Fabric metadata."""
+    lock = load_toml(path)
+    pid = lock["update"]["modrinth"]["mod-id"]
+    require(pid in projects, f"unexpected shader project: {pid}")
+    project = projects[pid]
+    upstream = evidence[pid]
+    require(
+        path.name == project["slug"] + ".pw.toml"
+        and upstream["slug"] == project["slug"]
+        and upstream["name"] == project["name"] == lock["name"],
+        "shader collection/lock/upstream identity mismatch",
+    )
+    require(
+        lock.get("side") == "client"
+        and lock.get("pin") is True
+        and not lock.get("option", {}).get("optional"),
+        "shader references must be pinned and client-only",
+    )
+    require(
+        safe_path(lock["filename"])
+        and "/" not in lock["filename"]
+        and lock["filename"].endswith(".zip"),
+        "shader filename must be a ZIP basename",
+    )
+    versions = [v for v in upstream["versions"] if v["id"] == lock["update"]["modrinth"]["version"]]
+    require(len(versions) == 1, "pinned shader version absent from upstream evidence")
+    version = versions[0]
+    require(
+        upstream["project_type"] == "shader"
+        and upstream["client_side"] == "required"
+        and upstream["server_side"] == "unsupported",
+        "shader must be an upstream client-only shader project",
+    )
+    require(
+        version["project_id"] == pid
+        and TARGET in version["game_versions"]
+        and "iris" in version["loaders"]
+        and stable(version),
+        "shader pin must be release-designated for Iris and Minecraft 26.2",
+    )
+    require("fabric_descriptor" not in version, "shader must not use fabricated Fabric metadata")
+    require(
+        not any(
+            d["dependency_type"] in {"required", "incompatible"} for d in version["dependencies"]
+        ),
+        "shader has required/incompatible upstream dependencies that need explicit closure review",
+    )
+    check_download(lock, version, pid)
+    check_shader_audit(lock, project, upstream, version, mods)
+    return pid, lock, version
+
+
+def check_shader_audit(
+    lock: dict, project: dict, upstream: dict, version: dict, mods: dict
+) -> None:
+    audit = version["distribution_audit"]
+    renderer = project["renderer-project"]
+    require(renderer in mods, "shader requires its selected Iris renderer")
+    expected = {
+        "version_id": version["id"],
+        "artifact": artifact_identity(lock),
+        "mode": "modrinth-reference",
+        "license_id": upstream["license"]["id"],
+        "renderer": {
+            "project_id": renderer,
+            "version_id": mods[renderer]["update"]["modrinth"]["version"],
+            "artifact": artifact_identity(mods[renderer]),
+        },
+    }
+    require(
+        all(audit.get(k) == value for k, value in expected.items()),
+        "shader distribution/rendering audit needs re-evaluation for changed pins or license",
+    )
+    require(
+        audit.get("review")
+        and safe_path(audit.get("license_file", ""))
+        and re.fullmatch(r"[0-9a-f]{64}", audit.get("license_sha256", ""))
+        and audit.get("evidence"),
+        "shader audit needs release license fingerprint and source evidence",
+    )
+    for url in audit["evidence"]:
+        require(urlsplit(url).scheme == "https" and urlsplit(url).netloc, "invalid shader evidence")
+
+
+def check_shaders(root: Path, collection: dict, evidence: dict, mods: dict) -> tuple[dict, dict]:
+    projects = entries_by_id(collection.get("shader", []))
+    require(
+        projects.keys() == evidence.get("shader_projects", {}).keys(),
+        "shader selections disagree with upstream evidence",
+    )
+    locks, versions = {}, {}
+    for path in sorted((root / "shaderpacks").glob("*.pw.toml")):
+        pid, lock, version = check_shader(path, projects, evidence["shader_projects"], mods)
+        require(pid not in locks, "duplicate shader project ID")
+        locks[pid], versions[pid] = lock, version
+    require(locks.keys() == projects.keys(), "selected shader absent from pack")
+    require(len({m["filename"] for m in locks.values()}) == len(locks), "duplicate shader filename")
+    if projects:
+        require(
+            all(p["renderer-project"] == "YL57xq9U" for p in projects.values()),
+            "shader renderer must identify the selected Iris project",
+        )
+        check_shader_preferences(root)
+    return locks, versions
+
+
+def check_shader_preferences(root: Path) -> None:
+    path = root / "configureddefaults/config/iris.properties"
+    require(path.is_file(), "shaders require the existing disabled-by-default Iris template")
+    settings = [
+        line.strip()
+        for line in path.read_text().splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    require(
+        settings == ["enableShaders=false"], "shader defaults must only seed enableShaders=false"
+    )
+
+
 def check_dependencies(projects: dict, versions: dict, evidence: dict, runtime: dict) -> None:
     check_dependency_stability(projects, versions)
     parents = {pid: set() for pid in projects}
@@ -469,18 +593,25 @@ def check_defaults_templates(defaults: Path) -> None:
 
 def payload_files(root: Path) -> tuple[set[str], dict[str, bytes]]:
     require(
-        not any((root / name).is_symlink() for name in ("mods", "config", "configureddefaults")),
+        not any(
+            (root / name).is_symlink()
+            for name in ("mods", "shaderpacks", "config", "configureddefaults")
+        ),
         "payload directory symlink",
     )
     for name in ("options.txt", "servers.dat", "defaultoptions.journal.json"):
         path = root / name
         require(not path.is_symlink(), f"payload symlink: {path}")
         require(not path.exists(), f"runtime preferences must not be distributed: {name}")
-    mods = {p.relative_to(root).as_posix() for p in (root / "mods").glob("*.pw.toml")}
+    metafiles = {
+        p.relative_to(root).as_posix()
+        for directory in ("mods", "shaderpacks")
+        for p in (root / directory).glob("*.pw.toml")
+    }
     defaults = (root / "configureddefaults").exists()
     if defaults:
         require(
-            "mods/configured-defaults.pw.toml" in mods,
+            "mods/configured-defaults.pw.toml" in metafiles,
             "Configured Defaults templates require the pinned helper",
         )
     configs = {}
@@ -490,7 +621,7 @@ def payload_files(root: Path) -> tuple[set[str], dict[str, bytes]]:
             if path.is_file():
                 relative = path.relative_to(root).as_posix()
                 require(
-                    not relative.lower().endswith((".jar", ".pw.toml")),
+                    not relative.lower().endswith((".jar", ".zip", ".zip.txt", ".pw.toml")),
                     "unexpected config artifact",
                 )
                 require(
@@ -510,7 +641,7 @@ def payload_files(root: Path) -> tuple[set[str], dict[str, bytes]]:
                     f"config must use copy-if-missing defaults, not direct overrides: {relative}",
                 )
                 configs[relative] = path.read_bytes()
-    return mods, configs
+    return metafiles, configs
 
 
 def check_index(root: Path, pack: dict) -> dict[str, bytes]:
@@ -521,21 +652,23 @@ def check_index(root: Path, pack: dict) -> dict[str, bytes]:
     require(digest(root / "index.toml") == pack["index"]["hash"], "stale pack index hash")
     index = load_toml(root / "index.toml")
     require(index.get("hash-format") == "sha256", "index must use SHA-256")
-    mods, configs = payload_files(root)
+    metafiles, configs = payload_files(root)
     found = set()
     for entry in index.get("files", []):
         relative = entry["file"]
         require(safe_path(relative) and relative not in found, "unsafe or duplicate index path")
-        require(relative in mods | configs.keys(), f"unexpected indexed file: {relative}")
+        require(relative in metafiles | configs.keys(), f"unexpected indexed file: {relative}")
         path = root / relative
         require(
             not path.is_symlink() and digest(path) == entry["hash"],
             f"stale index entry: {relative}",
         )
-        require(bool(entry.get("metafile")) == (relative in mods), "index metafile flag disagrees")
+        require(
+            bool(entry.get("metafile")) == (relative in metafiles), "index metafile flag disagrees"
+        )
         require(entry.get("alias") is None, "index aliases are not supported")
         found.add(relative)
-    require(found == mods | configs.keys(), "index omits pack payload; run make refresh")
+    require(found == metafiles | configs.keys(), "index omits pack payload; run make refresh")
     return configs
 
 
@@ -545,11 +678,11 @@ def check_repository_files(root: Path) -> None:
         relative = path.relative_to(root)
         if set(relative.parts) & ignored:
             continue
-        require(path.suffix.lower() != ".jar", f"local JAR in source: {relative}")
-        if relative.parts[0] == "mods" and len(relative.parts) > 1:
+        require(path.suffix.lower() not in {".jar", ".zip"}, f"local JAR/ZIP in source: {relative}")
+        if relative.parts[0] in {"mods", "shaderpacks"} and len(relative.parts) > 1:
             require(
                 path.is_file() and not path.is_symlink() and path.name.endswith(".pw.toml"),
-                f"unexpected mod payload: {relative}",
+                f"unexpected mod/shader payload: {relative}",
             )
 
 
@@ -577,7 +710,7 @@ def load_pack(root: Path = ROOT) -> Pack:
     )
     projects = check_collection(collection, evidence)
     check_defaults_manager(root, projects)
-    check_candidates(root, projects)
+    check_candidates(root, projects | entries_by_id(collection.get("shader", [])))
     mods, versions = {}, {}
     for path in sorted((root / "mods").glob("*.pw.toml")):
         pid, lock, version = check_mod(path, projects, evidence)
@@ -587,7 +720,7 @@ def load_pack(root: Path = ROOT) -> Pack:
         mods.keys() == projects.keys(), "selected project or dependency absent from active pack"
     )
     require(len({m["filename"] for m in mods.values()}) == len(mods), "duplicate mod filename")
-    evidence["active_ids"] = list(mods)
+    evidence["active_ids"] = list(mods) + [p["project-id"] for p in collection.get("shader", [])]
     check_environment_context(projects, mods, versions, evidence)
     runtime = {
         "minecraft": TARGET,
@@ -595,6 +728,18 @@ def load_pack(root: Path = ROOT) -> Pack:
         "java": collection["java"],
     }
     check_dependencies(projects, versions, evidence, runtime)
+    shaders, shader_versions = check_shaders(root, collection, evidence, mods)
     check_repository_files(root)
     overrides = check_index(root, pack)
-    return Pack(root, pack, collection, evidence, projects, mods, versions, overrides)
+    return Pack(
+        root,
+        pack,
+        collection,
+        evidence,
+        projects,
+        mods,
+        versions,
+        overrides,
+        shaders,
+        shader_versions,
+    )

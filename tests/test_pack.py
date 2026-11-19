@@ -37,7 +37,7 @@ class PackTests(unittest.TestCase):
             shutil.copyfile(ROOT / name, self.root / name)
         if (ROOT / "options.txt").exists():
             shutil.copyfile(ROOT / "options.txt", self.root / "options.txt")
-        for name in ("mods", "config", "configureddefaults"):
+        for name in ("mods", "shaderpacks", "config", "configureddefaults"):
             if (ROOT / name).exists():
                 shutil.copytree(ROOT / name, self.root / name)
         (self.root / "config").mkdir(exist_ok=True)
@@ -396,25 +396,31 @@ class PackTests(unittest.TestCase):
             active = discover(self.root, "26.2", "active", snapshot)
             requested = discover(self.root, "26.2", "requested", snapshot)
         self.assertTrue(all(r["ready"] for r in active))
-        self.assertEqual(len(requested), len(snapshot["requested"]))
+        self.assertEqual(
+            len(requested), len(snapshot["requested"]) + len(snapshot.get("shader_projects", {}))
+        )
         self.assertTrue(all(r["ready"] for r in requested))
 
     def archive_data(self):
         pack = load_pack(self.root)
         files = []
-        for pid, lock in pack.mods.items():
-            upstream = next(
-                f for f in pack.versions[pid]["files"] if f["filename"] == lock["filename"]
-            )
-            files.append(
-                {
-                    "path": "mods/" + lock["filename"],
-                    "hashes": upstream["hashes"],
-                    "env": {"client": "required", "server": "unsupported"},
-                    "downloads": [lock["download"]["url"]],
-                    "fileSize": upstream["size"],
-                }
-            )
+        for directory, locks, versions in (
+            ("mods", pack.mods, pack.versions),
+            ("shaderpacks", pack.shaders, pack.shader_versions),
+        ):
+            for pid, lock in locks.items():
+                upstream = next(
+                    f for f in versions[pid]["files"] if f["filename"] == lock["filename"]
+                )
+                files.append(
+                    {
+                        "path": directory + "/" + lock["filename"],
+                        "hashes": upstream["hashes"],
+                        "env": {"client": "required", "server": "unsupported"},
+                        "downloads": [lock["download"]["url"]],
+                        "fileSize": upstream["size"],
+                    }
+                )
         manifest = {
             "formatVersion": 1,
             "game": "minecraft",

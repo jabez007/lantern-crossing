@@ -1,32 +1,37 @@
-Lantern Crossing 26.2.0.9.0 adds Enchantment Descriptions 26.2.0.2 and its
-Prickle 26.2.0.3 configuration library. The maintained target stays Minecraft
-26.2, Fabric Loader 0.20.1 and Java 25, with 41 features and eleven libraries.
-All 50 earlier artifact pins and five earlier defaults templates are unchanged.
+Lantern Crossing 26.2.0.10.0 adds two optional Iris shader choices and freezes
+Minecraft 26.2 feature selection pending owner runtime acceptance. The baseline
+has 41 Fabric feature mods, eleven libraries and two separately modeled shaders.
+All 52 prior mod locks and six configuration templates are unchanged. Minecraft
+26.2, Fabric Loader 0.20.1, Java 25, Iris 1.11.4 and Sodium 0.9.2 remain pinned.
 
-The previous deferral was a metadata-policy rejection. Exact binary, published
-source and bytecode inspection found no companion-server requirement. Prickle's
-Modrinth required/required labels remain recorded; a documented exception binds
-this exact dependency and requiring feature to both hashes, version IDs, native
-descriptor and Fabric 26.2 context. Validation reports the audit explicitly.
-Unrelated server-required mods, actual server-only modules, dependency ranges,
-integrity and client-only export rules remain enforced. Different artifacts or
-metadata require review. The upstream clarification draft was not submitted.
+Complementary Reimagined r5.10 is the featured atmospheric choice. MakeUp - Ultra
+Fast 9.6 is an adjustable alternative with low and shadowless profiles. Both are
+release-designated official Modrinth ZIP downloads into shaderpacks/, referenced
+by exact version IDs and hashes. No ZIP is embedded or directly reuploaded.
+Shaders start disabled in a clean instance. No active shader, shader preset,
+resource-pack order or existing player preference is overwritten by a template.
 
-A minimal Configured Defaults template selects Shift to expand descriptions.
-Existing valid Prickle config values remain authoritative. No extra resource
-pack, key mapping, tooltip provider or configuration manager is installed.
-Only standard vanilla enchantments are selected. Custom plugin behavior is not
-inferred from local descriptions. Prickle's asynchronous HTTP version check is
-disclosed in the audit; it does not gate local tooltip functionality.
+Complementary is by EminGT / Complementary Development and retains Complementary
+License Agreement 1.8. MakeUp is by Javier Garduño / javiergcim and retains its
+upstream LGPL-3.0-or-later designation and included notices. The source/license
+links and attribution are in README.md and docs/mod-audit.md. Lantern Crossing is
+responsible for problems arising from its shader integration. The repository's
+MIT license does not relicense either shader. Future publication descriptions
+must retain the upstream credits and official links.
 
-This development build is not runtime-qualified. Prism, Modrinth App, real
-upgrades and vanilla-server acceptance remain owner work in acceptance-tests.md.
-The 26.3 bootstrap receives shared validation and future intent only. No 26.3
-artifact or exception is approved by this 26.2 review. No release is published.
+The validator distinguishes shader ZIP references from Fabric mods, checks exact
+Iris-bound distribution reviews and rejects copied ZIPs, selected/enabled shader
+defaults, unreviewed required/incompatible dependencies and shader files under mods/. Native
+Fabric checks, the exact Prickle environment audit, client-only exports, archive
+integrity, reproducibility and owner qualification gates remain enforced.
+Renice Shot remains the only screenshot mod. Neither gallery is installed.
 
-The subsequent screenshot review retains Renice Shot 1.2.1+mc26.2 alone.
-Screenshot Viewer remains staged for bounded image-loading evidence. Screenshot
-Overhaul remains deferred for unconditionally embedded sensitive PNG metadata,
-delete safety and capture integration. No artifact, default or version changed.
-Release-facing documentation now has an automated version/artifact consistency
-check. Owner screenshot acceptance remains open in both launchers.
+26.2 is authoritative. Complete runtime acceptance and qualify/release it before
+starting the forward migration from that accepted inventory to Minecraft 26.3.
+The future branch and GitHub default setting are untouched by this milestone.
+No automatic synchronization or 26.3 compatibility claim is made.
+
+All Minecraft, Prism, Modrinth App and GPU tests remain uncompleted. The owner
+must test the no-shader baseline, both shaders, lighting/culling/textures/maps,
+all dimensions, captures, switching, frame times/VRAM and upgrade preservation.
+Static success does not qualify a release. No tag or release is created here.

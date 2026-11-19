@@ -21,7 +21,7 @@ def main() -> int:
     for notice in environment_notices(pack):
         print(notice)
     print(
-        f"PASS: {features} features, {len(pack.mods) - features} libraries, all client-only; exact Fabric 26.2 pins and index checked"
+        f"PASS: {features} mod features, {len(pack.mods) - features} libraries, {len(pack.shaders)} optional shader choices, all client-only; exact Fabric 26.2 pins and index checked"
     )
     return 0
 

@@ -309,17 +309,72 @@ differs from Sodium's coarse checks. Their presence together does not establish
 runtime compatibility. Check moving entities, signs, leaves, glass, item frames,
 and block entities from several angles before accepting a build.
 
-LambDynamicLights supplies local dynamic lighting. No second dynamic-lighting
-implementation is included. Dynamic lights do not change server-side spawning
+With shaders disabled, LambDynamicLights supplies local dynamic lighting.
+Optional shader packs can also provide held or entity lighting. Dynamic lights do not change server-side spawning
 or block light levels. BadOptimizations' lightmap caching and the rendering stack
 need visual testing when a held light, weather, or status effect changes.
 
 Iris 1.11.4 is active with Sodium 0.9.2. The Iris template sets
 `enableShaders=false` so the clean baseline starts with vanilla rendering.
-The shader-selection UI remains available. No shader pack is bundled.
-Check shader-disabled rendering, resizing, and interactions with dynamic lighting
-before accepting the build. If a player adds a shader pack, review its own
-dynamic-lighting behavior to avoid enabling the same effect twice.
+The shader-selection UI remains available with the two optional choices below.
+Check shader-disabled rendering, resizing, and dynamic lighting before accepting
+the build. Shader-enabled lighting needs a separate check for duplicate effects.
+
+## Optional shaders
+
+Complementary Reimagined r5.10 is the featured atmospheric choice. MakeUp 9.6 is
+an adjustable alternative with low and shadowless profiles. Both are official
+Modrinth downloads referenced under `shaderpacks/`, separate from Fabric JARs.
+No extra renderer, configuration manager, resource pack or shader-support mod is
+added. Iris 1.11.4, Sodium 0.9.2, Continuity 3.0.1, BetterGrassify 1.8.7 and
+LambDynamicLights 4.12.4 keep their existing pins and defaults.
+
+A clean instance still seeds only `enableShaders=false` through the existing
+Configured Defaults template. No `shaderPack` property or per-ZIP `.zip.txt`
+settings are packaged. An existing `config/iris.properties` is skipped as an
+entire existing file, so an already enabled or disabled shader is not reset on
+upgrade. Player presets, resource-pack selections and keybindings are not
+pack-managed. No live `options.txt` or Iris config override is distributed.
+
+Open Iris from **Options > Video Settings > Shader Packs**. Select either ZIP,
+open **Shader Pack Settings**, choose an appropriate profile, and apply. Disable
+shaders with Iris's toggle if performance or visibility is unsuitable. Menu
+labels vary by locale. The two packs remain available without enabling either.
+No first-launch prompt or new keybind is added. Shaders disabled remains the
+lowest-overhead baseline; no relative FPS claim is established for either shader.
+
+Complementary offers Potato through Ultra and additional high-end profiles.
+The official Reimagined ZIP uses the vanilla-styled defaults; Unbound is not a
+second installation because it uses the same shader family with different
+settings. MakeUp's source defaults include shadows, reflections, volumetric
+clouds and bloom. Its name does not imply those are free. Try `shadowless_low`
+or `low` for a lighter setup; costly effects remain individually adjustable.
+No profile is selected on the player's behalf. Keep upstream ZIPs unmodified
+and use Iris's ordinary per-shader controls for personal settings.
+
+Complementary has its own held/dynamic colored lighting, especially at higher
+profiles. LambDynamicLights remains useful without shaders. Check held items,
+dropped lights and other players for doubled or excessively bright lighting
+with each shader. Adjust one provider locally if needed, then verify the
+no-shader mode still behaves correctly. No global lighting disable is imposed
+because it would affect players who keep shaders off. Shader visual light does
+not change a vanilla server's spawn rules; Light Overlay and dynamic lighting
+must not be interpreted as server-side light changes.
+
+Test Continuity's connected glass and the culling fix, BetterGrassify's grass,
+leaves/culling, entity and block-entity rendering, maps, water and all dimensions.
+BetterGrassify's packaged snow mode stays OFF; test snow effects separately only
+if the player chooses to enable them. Shader water/sky can differ from vanilla
+and resource-pack expectations. No custom PBR texture pack or preset is supplied.
+
+Upgrades introduce only pinned ZIP downloads. No images or existing world files
+are touched by repository tooling. Back up an instance before launcher upgrades
+and verify both launchers preserve user-created Iris option files. A future
+shader version can have a new ZIP filename; an old per-ZIP preset or selected
+filename may require deliberate user adoption. The pack must not force that
+adoption by rewriting live settings. Shader runtime acceptance remains open.
+See the [license/source record](mod-audit.md#optional-shaders-and-distribution-2026-11-19)
+and [owner matrix](acceptance-tests.md#shader-owner-acceptance-matrix).
 
 ## Maps and information
 

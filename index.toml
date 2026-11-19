@@ -283,3 +283,13 @@ metafile = true
 file = "mods/zoomify.pw.toml"
 hash = "e656e41df4fc2ff1431fe3dcf01590c345da8de6928ca37e871b475993a1d107"
 metafile = true
+
+[[files]]
+file = "shaderpacks/complementary-reimagined.pw.toml"
+hash = "7187d93700de6998de331cd3b0c10fd8317c014df4db1cf9e41c08840f8a4bd0"
+metafile = true
+
+[[files]]
+file = "shaderpacks/makeup-ultra-fast-shaders.pw.toml"
+hash = "12f413a860bfcaa0dc9b0c193c4ff16ffb43d8b5977c62f7236f431b58288972"
+metafile = true
