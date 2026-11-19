@@ -2,6 +2,7 @@
 schema = 1
 minecraft = "26.2"
 loader = "fabric"
+java = "25"
 excluded = []
 
 [[selected]]

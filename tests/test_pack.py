@@ -224,6 +224,15 @@ class PackTests(unittest.TestCase):
                 )
                 self.assertIn("AANobbMI", {d["project_id"] for d in addon["client_required"]})
 
+    def test_required_native_version_range_is_enforced(self):
+        def incompatible_loader(snapshot):
+            self.evidence_version(snapshot, "AANobbMI")["fabric_descriptor"]["depends"][
+                "fabricloader"
+            ] = ">=999"
+
+        self.edit_evidence(incompatible_loader)
+        self.invalid(r"sodium@.*requires fabricloader '>=999'; installed version: 0.20.1")
+
     def test_continuity_defaults_enable_only_bundled_visual_packs(self):
         options = dict(
             line.split(":", 1)

@@ -10,6 +10,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
+from native_dependencies import validate_native_dependencies
+
 ROOT = Path(__file__).resolve().parents[1]
 TARGET = "26.2"
 REJECTED = {
@@ -213,7 +215,7 @@ def check_mod(path: Path, projects: dict, evidence: dict) -> tuple[str, dict, di
     return pid, lock, version
 
 
-def check_dependencies(projects: dict, versions: dict, evidence: dict) -> None:
+def check_dependencies(projects: dict, versions: dict, evidence: dict, runtime: dict) -> None:
     check_dependency_stability(projects, versions)
     parents = {pid: set() for pid in projects}
     for pid, version in versions.items():
@@ -241,7 +243,7 @@ def check_dependencies(projects: dict, versions: dict, evidence: dict) -> None:
                 reached.add(dep["project_id"])
                 pending.append(dep["project_id"])
     require(reached == set(projects), "orphan dependency outside selected closure")
-    check_native_requirements(versions)
+    check_native_requirements(versions, runtime)
 
 
 def upstream_dependency_pin(parent: dict, project_id: str, version: dict) -> bool:
@@ -281,7 +283,7 @@ def fabric_modules(descriptor: dict) -> list[dict]:
     ]
 
 
-def check_native_requirements(versions: dict) -> None:
+def check_native_requirements(versions: dict, runtime: dict) -> None:
     """Also check dependencies omitted from the upstream project metadata."""
     modules = {pid: fabric_modules(v["fabric_descriptor"]) for pid, v in versions.items()}
     supplied = {
@@ -298,6 +300,7 @@ def check_native_requirements(versions: dict) -> None:
                 not missing,
                 f"Fabric module dependencies missing for {module['id']}: {sorted(missing)}",
             )
+    validate_native_dependencies(modules, runtime)
 
 
 def check_upstream_requirements(
@@ -431,6 +434,10 @@ def load_pack(root: Path = ROOT) -> Pack:
         "Fabric pin disagrees with stable compatibility evidence",
     )
     collection = load_toml(root / "collection.toml")
+    require(
+        isinstance(collection.get("java"), str) and collection["java"].isdecimal(),
+        "collection must declare the client Java major version",
+    )
     projects = check_collection(collection, evidence)
     check_candidates(root, projects)
     mods, versions = {}, {}
@@ -443,7 +450,12 @@ def load_pack(root: Path = ROOT) -> Pack:
     )
     require(len({m["filename"] for m in mods.values()}) == len(mods), "duplicate mod filename")
     evidence["active_ids"] = list(mods)
-    check_dependencies(projects, versions, evidence)
+    runtime = {
+        "minecraft": TARGET,
+        "fabricloader": pack["versions"]["fabric"],
+        "java": collection["java"],
+    }
+    check_dependencies(projects, versions, evidence, runtime)
     check_repository_files(root)
     overrides = check_index(root, pack)
     return Pack(root, pack, collection, evidence, projects, mods, versions, overrides)
