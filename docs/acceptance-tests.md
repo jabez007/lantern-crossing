@@ -171,3 +171,47 @@ Do not remove live preferences as a normal upgrade step. See [adoption instructi
 If a selected feature needs server installation or meaningful server-assisted
 behavior to pass its test, exclude it and record the blocker. Do not fix a client
 acceptance failure by modifying the vanilla test server.
+
+## QoL refinement acceptance
+
+Prospective checks only. The new QoL mods and Configured Defaults are not active
+in this bootstrap. Run these after the separately authorized target migration
+and dependency audit. No 26.3 or launcher compatibility is claimed.
+
+All results are uncompleted. Run these on Prism and Modrinth App, with App sync
+disabled and enabled where supported. Record each launcher version, pre-launch
+file state, archive hash and actual upgrade method in the matrix above.
+
+- [ ] Fresh import initializes BetterGrassify, Controlling, Searchables and Food
+      Effect Tooltips without missing dependencies or server warnings.
+- [ ] Controls search finds Light Overlay, Zoomify, Iris and Xaero bindings.
+      Conflict-only and free-key views work. F7 overlay and F9 capture stay separate.
+- [ ] A previously customized overlay binding and graphics/resource-pack order
+      survive repeat launches and a real upgrade. Controlling does not rebind them.
+- [ ] BetterGrassify's absent live config receives the documented fancy grass
+      settings. Paths, farmland, Nether extensions and extra snow layers stay off.
+- [ ] A pre-existing customized BetterGrassify config survives upgrade/restart.
+      Disabling the effect in its UI persists without resetting other mod configs.
+- [ ] Grass, slopes, podzol, mycelium, snowy grass and glass panes render correctly
+      with Sodium, Continuity, More Culling, Entity Culling and dynamic lights.
+      Resource reload, dimension changes and world reload leave no missing faces.
+- [ ] Iris UI and Sodium settings work. With shaders disabled there is no visual
+      corruption. Optionally test one separately installed known-good shader and
+      toggling it while viewing terrain and Xaero maps. No shader is supplied.
+- [ ] Food-effect tooltips show vanilla golden-apple effects, rotten-flesh chance,
+      milk clearing, honey poison removal, chorus teleport and totem effects.
+      They remain readable with Shulker Box Tooltip and ordinary enchantment lines.
+- [ ] Suspicious-stew information stays hidden under the retained default.
+      No current saturation/exhaustion or plugin-only data is presented as known.
+- [ ] Confirm ordinary enchanted items remain readable. Enchantment Descriptions
+      is deferred, so descriptive enchantment text is not an expected pack feature.
+- [ ] Existing singleplayer worlds load and save normally. Join/rejoin a completely
+      unmodified vanilla 26.2 server and exercise the new controls/rendering/tooltips
+      without any server mod, plugin, protocol or companion.
+- [ ] Launcher-local crash logs remain accessible. Before sharing any log, review
+      paths, chat, server addresses and identifiers. Crash Assistant is not installed;
+      no new crash UI or automatic upload is expected.
+
+BBE, Ixeris, ModernFix-mVUS and Tooltip Tweaks are inactive. Their candidate
+benchmarks and rendering gates in the audit apply only to a separately prepared
+future evaluation profile, not to this milestone's acceptance result.

@@ -21,7 +21,7 @@ Pack version `26.2.0.3.0` is a development baseline, not a runtime qualification
 ## Version branches
 
 - [`26.2`](https://github.com/jabez007/lantern-crossing/tree/26.2) maintains the
-  Minecraft 26.2 pack and its audited 37-feature baseline.
+  Minecraft 26.2 pack and its audited 40-feature baseline.
 - [`26.3`](https://github.com/jabez007/lantern-crossing/tree/26.3) is the default
   development branch for the next Minecraft version. This checkout still targets
   Minecraft 26.2 with the original 30 features. No 26.3 migration is qualified.
@@ -31,16 +31,19 @@ branch and backport shared fixes deliberately. The branch name does not establis
 Minecraft compatibility or runtime acceptance. `pack.toml` records the actual
 target. See the [version-branch policy](docs/version-policy.md#version-branches).
 
-The maintained line's six later feature additions and Configured Defaults helper
-are tracked by project ID in [migration.toml](migration.toml), not added to this
-bootstrap. All 37 migration entries remain deferred, with runtime acceptance
+The maintained line's six later features, Configured Defaults, BetterGrassify,
+Controlling and Food Effect Tooltips are tracked by project ID in [migration.toml](migration.toml), not added to this
+bootstrap. All 40 migration entries remain deferred, with runtime acceptance
 pending. Discovery evidence is not an installed pin or compatibility audit.
 The bootstrap retains older direct config overrides: use a disposable fresh
 instance, not an existing player profile. The safe-defaults helper is part of
 the future migration audit. The [configuration evaluation](docs/configuration.md#defaults-manager-evaluation-2026-11-19)
 selects Configured Defaults on the maintained line; shared checks now reject competing
 managers, unsafe replacement/reset payloads and live root preference files.
-No manager or target-specific default is promoted here.
+No manager or target-specific default is promoted here. The
+[nine-candidate refinement evaluation](docs/mod-audit.md#qol-and-performance-refinement-2026-11-19)
+is shared for migration planning. The three new QoL selections remain exclusive
+to the maintained line until their target-specific audit.
 
 ## Pack philosophy
 

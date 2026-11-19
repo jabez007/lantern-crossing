@@ -14,18 +14,20 @@ A new Minecraft target requires a separately authorized version line.
 
 ## Version branches
 
-`26.2` maintains the Minecraft 26.2 pack, including the audited 37-feature
+`26.2` maintains the Minecraft 26.2 pack, including the audited 40-feature
 baseline. `26.3` is the default development branch for work on Minecraft 26.3.
 The former `main` branch is renamed to `26.2`; it is no longer an update target.
 
 The 26.3 bootstrap still declares Minecraft 26.2 and pack version 26.2.0.3.0,
-with 30 features. The maintained 26.2 line now has 37 features: the original 30,
+with 30 features. The maintained 26.2 line now has 40 features: the original 30,
 Renice Shot, Sodium Extra, Reese's Sodium Options, Continuity, Cubes Without
-Borders, More Chat History, and the Configured Defaults helper. Shared tooling fixes
+Borders, More Chat History, the Configured Defaults helper, BetterGrassify,
+Controlling and Food Effect Tooltips. Shared tooling fixes
 are backported separately; target-specific pins are preserved.
 
-[migration.toml](../migration.toml) tracks all 37 by stable project ID, including
-the six additions after the original baseline and Configured Defaults. Discovery on
+[migration.toml](../migration.toml) tracks all 40 by stable project ID, including
+the six additions after the original baseline, Configured Defaults and the
+three QoL refinements. Discovery on
 2026-11-19 found a release-designated Fabric 26.3 artifact for every feature.
 These version IDs are discovery evidence, not installed pins or compatibility
 audits. Every migration entry remains `deferred` and runtime `pending`.

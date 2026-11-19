@@ -1,10 +1,100 @@
 # Staging never adds a project to packwiz. Promotion requires an audit, an exact
 # stable Fabric 26.2 pin, dependency closure, and a deliberate collection edit.
 schema = 1
-candidate = []
 
 # Future [[candidate]] tables require:
 # project-id, slug, category, rationale, status, client-only, target-support,
 # blockers, promotion-criteria. Use nonempty strings or lists for those fields.
 # Example status values: proposed, blocked, ready-for-review.
 # Excluded requested features are recorded in collection.toml, not staged here.
+
+[[candidate]]
+project-id = "jlNms3Jp"
+slug = "configmanager"
+category = "pack-management"
+rationale = "Ship first-install defaults without overwriting personal settings on pack updates."
+status = "blocked"
+client-only = "Unresolved metadata conflict: native Fabric environment is universal and source copies local files; Modrinth v2 marks client unsupported and server required."
+target-support = "Release 1.1.4 (okecULrz) lists Fabric 26.2; native Minecraft range is >=26.1."
+blockers = ["Reconcile upstream client/server metadata before activation; do not bypass the current client-only validator.", "Verify first-install, existing-file preservation, and explicit update/reset behavior in a disposable profile."]
+promotion-criteria = ["Exact release and official dependency closure pass the unchanged client-only checks.", "Move intended defaults under config/modpack_defaults and verify updates preserve personal settings."]
+evidence = ["https://api.modrinth.com/v2/project/jlNms3Jp", "https://api.modrinth.com/v2/version/okecULrz", "https://modrinth.com/mod/configmanager", "docs/mod-audit.md#staged-investigations", "docs/configuration.md#defaults-manager-evaluation-2026-11-19"]
+checked-at = "2026-11-19"
+
+[[candidate]]
+project-id = "p8RJPJIC"
+slug = "ixeris"
+category = "performance"
+rationale = "Reduce event-polling overhead and mouse-movement frame drops, especially with high-polling-rate mice."
+status = "staged-pending-benchmarking"
+client-only = "Static audit passed: project and native Fabric artifact are client-only; event polling and buffered input are local."
+target-support = "Release 4.6.11+26.2-fabric (qXHd9Vb4) targets exactly Minecraft 26.2."
+blockers = ["Measure a benefit on the intended OS/input hardware.", "Test threaded event polling with Sodium, Iris, borderless fullscreen, Dynamic FPS, and screenshot capture."]
+promotion-criteria = ["Measured frame-time or input benefit without regressions.", "Clean-client and vanilla-server acceptance pass with the exact audited release."]
+evidence = ["https://api.modrinth.com/v2/version/qXHd9Vb4", "https://modrinth.com/mod/ixeris", "docs/mod-audit.md#staged-investigations"]
+checked-at = "2026-11-19"
+
+[[candidate]]
+project-id = "TjSm1wrD"
+slug = "modernfix-mvus"
+category = "performance"
+rationale = "Evaluate local startup, model-loading, and memory improvements beyond the existing optimizations."
+status = "staged-pending-benchmarking"
+client-only = "Local client initialization exists and project permits independent client/server use. Universal artifact also contains server fixes; no server contribution is selected."
+target-support = "Release 5.27.19-build.2 (50uUra83) lists Fabric 26.2; native range is ~26.2-."
+blockers = ["Keep the broad patch set inactive until workload-specific startup/memory benefit and rendering compatibility are measured.", "Review overlaps with Debugify, FerriteCore, BadOptimizations, and the rendering/resource reload stack.", "Measure startup/memory benefit and test resource reloads, shader-disabled rendering, and vanilla-server use."]
+promotion-criteria = ["Selected optimizations work independently of server installation and close the exact dependency graph.", "Default behavior shows a measured benefit without conflicts; retain optional experimental optimizations disabled."]
+evidence = ["https://api.modrinth.com/v2/version/50uUra83", "https://modrinth.com/mod/modernfix-mvus", "docs/mod-audit.md#staged-investigations"]
+checked-at = "2026-11-19"
+
+[[candidate]]
+project-id = "UVtY3ZAC"
+slug = "enchantment-descriptions"
+category = "information"
+rationale = "Explain vanilla enchantments using local translations."
+status = "blocked"
+client-only = "Feature artifact is client-only and uses local tooltip callbacks; required Prickle project aaRl8GiW declares server required, contradicting its local configuration source and universal native descriptor."
+target-support = "Release 26.2.0.2 (PTAK0HD2), Fabric 26.2; requires Fabric API and Prickle."
+blockers = ["Resolve Prickle environment metadata with upstream. The unchanged validator rejects required-server dependencies."]
+promotion-criteria = ["Reconcile upstream metadata and re-audit exact Prickle closure without a server-required exception.", "Prefer shift-gated descriptions; verify ordinary vanilla enchantments without server support."]
+evidence = ["https://api.modrinth.com/v2/version/PTAK0HD2", "https://api.modrinth.com/v2/project/UVtY3ZAC", "https://github.com/Darkhax-Minecraft/Enchantment-Descriptions/tree/df15f5bc42a0d0b74356fec64dcfa4162701d149", "docs/mod-audit.md#qol-and-performance-refinement-2026-11-19"]
+checked-at = "2026-11-19"
+
+[[candidate]]
+project-id = "ix1qq8Ux"
+slug = "crash-assistant"
+category = "pack-management"
+rationale = "Evaluate an early standalone crash UI beyond launcher logs."
+status = "deferred-due-to-compatibility"
+client-only = "API is client required/server unsupported. Language adapter launches local child diagnostics; uploads are user/consent gated, but optional uploaded-log UUID metadata is enabled by default."
+target-support = "Release 1.11.14 (alR3tamq), Fabric 26.2 and 26.3; no required Modrinth projects."
+blockers = ["Early config compatibility explicitly handles YOSBR/Config Manager directories, not configureddefaults; initialization ordering for privacy defaults is unverified.", "Resolve launcher child-process/log handling and deliberately reviewed sharing UX before adding another diagnostics interface."]
+promotion-criteria = ["Demonstrate privacy defaults apply before early initialization without live config overrides or a second defaults manager.", "Audit exact embedded diagnostics payload; test both launchers with no automatic sharing."]
+evidence = ["https://api.modrinth.com/v2/version/alR3tamq", "https://api.modrinth.com/v2/project/ix1qq8Ux", "https://github.com/KostromDan/Crash-Assistant/tree/dd39ca5c8d2d292cc2c0f8c89123b7df1e3ffc4b", "docs/mod-audit.md#qol-and-performance-refinement-2026-11-19"]
+checked-at = "2026-11-19"
+
+[[candidate]]
+project-id = "ONZm0H7Y"
+slug = "better-block-entities"
+category = "performance"
+rationale = "Batch static supported block entities into terrain meshes while retaining animated rendering."
+status = "deferred-due-to-compatibility"
+client-only = "Project and native artifact are client-only; no server counterpart."
+target-support = "Release 1.3.9+mc26.2 (n5mL5flA); changelog supports Sodium 0.9.0-0.9.2, including current 0.9.2."
+blockers = ["Open 26.2 Iris lighting report #145 and Iris/Xaero map toggle report #156; applicability to the exact current stack is unresolved.", "Upstream also records animation-transition lighting limitations in #7."]
+promotion-criteria = ["Resolve relevant rendering reports or obtain owner acceptance of explicitly reproduced limitations.", "Benchmark a block-entity-heavy scene and check animation/culling, resource reload, maps, and shaders."]
+evidence = ["https://api.modrinth.com/v2/version/n5mL5flA", "https://api.modrinth.com/v2/project/ONZm0H7Y", "https://github.com/ceeden/betterblockentities/tree/e308cb4c06ba3bec0e07fdf95b9593238469a960", "docs/mod-audit.md#qol-and-performance-refinement-2026-11-19"]
+checked-at = "2026-11-19"
+
+[[candidate]]
+project-id = "evJ7VC0w"
+slug = "tooltiptweaks"
+category = "information"
+rationale = "Evaluate food nutrition from client item components instead of server-assisted player-state HUDs."
+status = "deferred-due-to-compatibility"
+client-only = "Client-only FOOD/CONSUMABLE reads; no accurate current-player saturation/exhaustion claim."
+target-support = "Release 3.0.1 (mo7PzvJD), Fabric 26.2; existing Fabric API and YACL satisfy ranges. No Fabric 26.3 release found."
+blockers = ["Text cake saturation is hard-coded 2.4 while icon mode uses 2.8 and truncates fractional saturation to int.", "Broad enchantment, container, map and effect rewrites overlap dedicated mods; Food Effect Tooltips now owns consume-effect descriptions."]
+promotion-criteria = ["Resolve nutrition inconsistencies and verify a narrow accurate configuration against the exact artifact.", "Reconsider only a distinct nutrition gap; do not install duplicate effect/container tooltips."]
+evidence = ["https://api.modrinth.com/v2/version/mo7PzvJD", "https://api.modrinth.com/v2/project/evJ7VC0w", "https://github.com/lunarbunten/tooltiptweaks-mod/tree/5a587ac31ae8c6f047ce234a52bdf7f4b9c0ae3e", "docs/mod-audit.md#qol-and-performance-refinement-2026-11-19"]
+checked-at = "2026-11-19"

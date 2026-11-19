@@ -103,3 +103,73 @@ with zero blocked features.
 AppleSkin, Jade, Easy Shulker Boxes, Bookshelf Inspector, and Client Sort are rejected regardless of target availability. AppleSkin and the rejected inspector/container tools do not meet the selected strict server-independence policy. Jade is deliberately excluded. IPN owns sorting, so Client Sort is not selected. The source checker rejects their IDs or slugs, and an undeclared lock also fails the active-set check.
 
 No substitute, shader pack, resource pack, gameplay content, or server companion has been added. See [configuration decisions](configuration.md) and [runtime acceptance](acceptance-tests.md).
+
+## QoL and performance refinement, 2026-11-19
+
+Only the maintained 26.2 branch installs the following three additions. The 26.3
+bootstrap receives migration intent and this evaluation, not these artifacts.
+The maintained baseline is 40 features and ten libraries. All 46 preceding
+artifact locks and their upstream project records remain unchanged. No Minecraft,
+Prism or Modrinth App runtime acceptance was performed.
+
+| Candidate | Audited Fabric 26.2 release | Disposition | Evidence and scope |
+| --- | --- | --- | --- |
+| [BetterGrassify](https://modrinth.com/mod/bettergrassify), `m5T5xmUy` | [1.8.7+fabric.26.2, r4yqxYQl](https://api.modrinth.com/v2/version/r4yqxYQl) | Added on 26.2 | Client-only artifact. Local block-model/quad rendering needs no server installation or extra data. Requires existing Fabric API. Fancy grass, resource-pack compatibility mode, paths/farmland/Nether changes disabled, and extra snow layers disabled are initial defaults. |
+| [Controlling](https://modrinth.com/mod/controlling), `xv94TkTM` | [26.2.4, sZHXONgm](https://api.modrinth.com/v2/version/sZHXONgm) | Added on 26.2 | Client-only keybinding screen search, free-key view and conflict filtering. Requires Fabric API and Searchables. Does not assign bindings or resolve conflicts automatically; F7 is unchanged. |
+| [Enchantment Descriptions](https://modrinth.com/mod/enchantment-descriptions), `UVtY3ZAC` | [26.2.0.2, PTAK0HD2](https://api.modrinth.com/v2/version/PTAK0HD2) | Deferred due to compatibility | Client tooltip callback and vanilla translations are local. Required Prickle `aaRl8GiW`, release [26.2.0.3, XdvtdRYJ](https://api.modrinth.com/v2/version/XdvtdRYJ), declares server required in the [project API](https://api.modrinth.com/v2/project/aaRl8GiW). Its universal descriptor and local config implementation contradict that label. No exception to the server-required rejection is added. |
+| [Crash Assistant](https://modrinth.com/mod/crash-assistant), `ix1qq8Ux` | [1.11.14, alR3tamq](https://api.modrinth.com/v2/version/alR3tamq) | Deferred due to compatibility | API is client-only; native universal language adapter starts a local child process early enough to diagnose many initialization failures. No required Modrinth projects; embedded application/libraries still need auditing. Launcher logs already provide the basic reporting path. Early privacy-default ordering with Configured Defaults is unresolved. |
+| [Better Block Entities](https://modrinth.com/mod/better-block-entities), `ONZm0H7Y` | [1.3.9+mc26.2, n5mL5flA](https://api.modrinth.com/v2/version/n5mL5flA) | Deferred due to compatibility | Client-only; native Sodium `>=0.9.0`, release changelog supports 0.9.0 through 0.9.2, including our 0.9.2. Open Iris lighting report [#145](https://github.com/EdeenMC/betterblockentities/issues/145), Iris/Xaero shader-toggle map report [#156](https://github.com/EdeenMC/betterblockentities/issues/156), and acknowledged transition-lighting limitation [#7](https://github.com/EdeenMC/betterblockentities/issues/7) prevent promotion without resolving applicability to this stack. |
+| [Ixeris](https://modrinth.com/mod/ixeris), `p8RJPJIC` | [4.6.11+26.2-fabric, qXHd9Vb4](https://api.modrinth.com/v2/version/qXHd9Vb4) | Staged pending benchmarking | Client event polling and Windows buffered raw input. The [upstream benchmarks](https://github.com/decce6/Ixeris/tree/124f06bd5a9530d9af9529d5af885275b8be77b1#benchmarks) are real workload-specific reports, not Lantern Crossing measurements. No required project dependency. |
+| [ModernFix-mVUS](https://modrinth.com/mod/modernfix-mvus), `TjSm1wrD` | [5.27.19-build.2, 50uUra83](https://api.modrinth.com/v2/version/50uUra83) | Staged pending benchmarking | Independent local startup/model/memory fixes are eligible in principle; server fixes confer no remote benefit. Required Fabric API is present; native Minecraft `~26.2-` and Loader `>=0.16.10` fit. Broad patch interactions and benefit remain unqualified. |
+| [Tooltip Tweaks](https://modrinth.com/mod/tooltiptweaks), `evJ7VC0w` | [3.0.1, mo7PzvJD](https://api.modrinth.com/v2/version/mo7PzvJD) | Deferred due to compatibility | Reads client FOOD/CONSUMABLE components, not authoritative current saturation/exhaustion. Fabric API `>=0.154.1` and YACL `>=3.9.5` are satisfied. Source has inconsistent cake saturation and truncated fractional icons; broad container/map/enchantment/effect rewrites also overlap dedicated tools. No 26.3 Fabric release found. |
+| [Food Effect Tooltips](https://modrinth.com/mod/foodeffecttooltips), `GGfyJWnG` | [2.1.2+26.2, aXyL1zFA](https://api.modrinth.com/v2/version/aXyL1zFA) | Added on 26.2 | Client-only callback reads vanilla CONSUMABLE and DEATH_PROTECTION components, including effect duration, amplifier and probability. No player saturation/exhaustion estimate or extra server data. Suspicious-stew reveal stays off. No duplicate Tooltip Tweaks installation. |
+
+### Source and dependency evidence
+
+The hash-verified new artifact descriptors are in [the maintained-line upstream snapshot](https://github.com/jabez007/lantern-crossing/blob/59373ad/docs/upstream-metadata.json).
+All new packwiz entries are pinned and `side = "client"`. Required libraries
+remain separate from features. Searchables [1.0.1, bvFby61J](https://api.modrinth.com/v2/version/bvFby61J),
+project `fuuu3xnx`, is the sole new library, with a client-only native descriptor
+and no bundled JAR. Its Modrinth-required Fabric API edge is recorded even though
+native metadata only recommends Fabric API. Controlling's native Searchables
+`>=1.0.1`, Java `>=25`, Loader `>=0.19.3` and exact Minecraft `26.2` all pass.
+No new selected artifact or dependency is a prerelease.
+
+Food Effect Tooltips lists no dependencies in the Modrinth version response.
+Its exact artifact's `fabric.mod.json` requires Fabric API and Cloth Config.
+Those edges are recorded in `client_required` with artifact URL and native-field
+provenance, and their reverse parents are reconciled in `collection.toml`.
+Packwiz's native download metadata remains unchanged apart from required pinning.
+No guessed or optional library is installed.
+
+Source inspection used these revisions. A version-branch inspection is supporting
+evidence; it is not a claim of a reproducible upstream source build.
+
+- BetterGrassify [release tag 33df4f9](https://github.com/UltimatChamp/BetterGrassify/tree/33df4f9ef7f9bdbacb5b9fade4050542f7dcb2bf), `BetterGrassifyBlockStateModel`, `BetterGrassifyConfig` and Sodium meshing mixin. Client block/tint/light data supplies rendering. Compatibility mode limits replacement to full quads. Sodium, Iris, Continuity and More Culling have no declared hard conflict; visual interaction still needs owner acceptance.
+- Controlling [26.2 source 3521164](https://github.com/jaredlll08/Controlling/tree/3521164fd53771ed95afe4868310ac0f88df8ceb), `NewKeyBindsScreen`, `NewKeyBindsList` and client mixins; Searchables [10cb075](https://github.com/jaredlll08/searchables/tree/10cb075ae5f3526bda799b9a37d8e2769a0277d6). Searches local registered mappings. No companion, handshake, protocol or new keybind is selected.
+- Food Effect Tooltips [26.2 source 27b7894](https://github.com/DaFuqs/FoodEffectTooltips/tree/27b7894278716f5988f6a875bd80483e9e9f3316), `FoodeffecttooltipsClient`, `TooltipHelper` and `FoodEffectsConfig`. Probability is read from `ApplyStatusEffectsConsumeEffect`; no current-player food state is consulted. Vanilla item components support these tooltips on an unmodified server. Plugin behavior absent from those components is unknown and is not advertised.
+- Enchantment Descriptions [df15f5b](https://github.com/Darkhax-Minecraft/Enchantment-Descriptions/tree/df15f5bc42a0d0b74356fec64dcfa4162701d149) loads Prickle config and resolves description translation keys. Prickle [19934df](https://github.com/Darkhax-Minecraft/PrickleMC/tree/19934df33b5f874d5849f272a663f0db97c4c099) uses local JSON file services; no required remote handshake was found. That evidence does not reconcile the API environment contradiction. Vanilla translations are supplied, but plugin-defined enchantments need matching local descriptions; arbitrary plugin behavior cannot be inferred.
+- Tooltip Tweaks [5a587ac](https://github.com/lunarbunten/tooltiptweaks-mod/tree/5a587ac31ae8c6f047ce234a52bdf7f4b9c0ae3e), `NutritionTooltips` hard-codes cake saturation `2.4F`; `FoodGuiTooltip` uses `2.8F` and casts saturation to `int`. Ordinary food values use local `FoodProperties`. It could supply hunger-only text, but that does not justify the broad rewrite set for this milestone. Food Effect Tooltips supplies the narrower effect use case with probabilities. No nutritional HUD or substitute is added.
+- Crash Assistant [26.2 entrypoint dd39ca5](https://github.com/KostromDan/Crash-Assistant/tree/dd39ca5c8d2d292cc2c0f8c89123b7df1e3ffc4b) and [shared application 93fd896](https://github.com/KostromDan/Crash-Assistant/tree/93fd8960ed4f9e55a9f5c34ab2f8ce2c4308fc14). The inspected upload path calls `PrivacyPolicyDialog.ensurePrivacyPolicyAccepted`. Uploaded logs may contain file paths, chat, server addresses and account identifiers. `general.send_uploaded_logs_data_to_kostromdan_dev` defaults true and includes UUID metadata after an upload; it can be disabled. No automatic crash-log upload was found in the inspected path. `DefaultConfigModsCompatibility` seeds only YOSBR and Config Manager directories. Adding direct live overrides to force privacy defaults would violate Lantern Crossing's settings policy. Child-process/launcher interaction and exact embedded-code correspondence remain unaudited, so no diagnostics mod, telemetry, upload service or support link is installed. Use launcher-local logs and review/redact before deliberately sharing them.
+
+### Performance mechanisms and selection
+
+[FO at ef27a0b](https://github.com/Fabulously-Optimized/fabulously-optimized/tree/ef27a0ba425721fdaa8255251f01ed1301249cf4/Packwiz/26.2)
+uses the same BetterGrassify, BBE, Ixeris, ModernFix-mVUS and Crash Assistant
+artifacts audited here. Its BetterGrassify template sets `betterGrassMode` OFF;
+Lantern Crossing deliberately selects restrained fancy grass instead. FO's
+ModernFix template disables branding, measurement, telemetry-removal and snapshot
+easter-egg patches. Those are FO choices, not measured compatibility fixes for
+Lantern Crossing. We do not copy FO's `side = "both"` labels or its diagnostics
+configuration. FO supplies comparison evidence and does not endorse this pack.
+Controlling and Food Effect Tooltips are independent QoL selections.
+
+| Performance candidate | Mechanism and bottleneck | Evidence quality | Overlap and risk | Measurable next gate |
+| --- | --- | --- | --- | --- |
+| Better Block Entities | Moves static chests, signs, beds and other supported block entities into terrain meshes; uses immediate rendering while animating. Reduces block-entity-heavy CPU submission/draw overhead. | Upstream shows a chest-heavy comparison; FO uses the exact release. No Lantern Crossing measurement. | Complements culling rather than replacing it; renderer, Iris, lighting, resource-pack models, visibility and animation transitions remain sensitive. Reports above are unresolved for our exact stack, not confirmed reproductions here. | Resolve relevant reports, then compare a fixed block-entity-heavy scene, transitions, resource reloads, maps and shader toggles. Deferred. |
+| Ixeris | Polls events on the main thread, renders separately, and batches Windows raw mouse input. Targets high-polling input/JNI cost. | Upstream supplies OS/polling-rate benchmarks with large Windows gains and smaller Linux gains. These are conditional reports, not universal FPS promises. | Thread/context/focus handling touches Dynamic FPS, borderless fullscreen, Iris and screenshot capture. It does not replace Sodium's chunk renderer. | Owner compares frame-time distribution and input correctness with fixed OS, device polling rate, FPS cap and scene. Remains staged. |
+| ModernFix-mVUS | Local startup, resource/model caches, memory use and bug fixes. Targets loading/allocation bottlenecks. | General upstream claims largely cover other versions and heavier packs. No controlled measurement for this restrained 26.2 pack. | Some scope overlaps FerriteCore memory, Lithium caches, Debugify bugs and ImmediatelyFast/BadOptimizations rendering work. [82fd9db](https://github.com/coredex-source/ModernFix---mVUS/tree/82fd9dbff079b58aeae447fefb3dbaac4e78dc68) disables its item-cache patch when Lithium is present; dynamic resources default off. That is not a complete conflict proof. | Owner compares cold/warm startup, heap after GC and resource reloads before considering a separate exact-build promotion. Keep experimental model loading off. Remains staged. |
+
+AppleSkin, Jade, WTHIT, SimpleCoords, Overlay Stats and InventoryHUD+ are not
+added or replaced in this milestone. No shaders, standalone resource packs,
+server artifacts or content mods are introduced. All runtime results stay pending.

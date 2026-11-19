@@ -393,3 +393,36 @@ component. This establishes static eligibility, not rendering acceptance.
 Test toggling and persistence with Sodium, Iris, and LambDynamicLights installed,
 starting with shaders disabled. Dynamic lighting does not change server-side
 block light or spawn rules.
+
+## QoL refinement defaults
+
+These defaults apply only on the maintained 26.2 line. They are not shipped by
+this bootstrap. Audit and pin the target artifacts before migrating them.
+
+`configureddefaults/config/bettergrass.json` selects FANCY better grass and keeps
+resource-pack compatibility mode on. Path, farmland and both Nether nylium
+changes are off; extra snow/carpet/petal layers are off. Ordinary grass, snowy
+grass, podzol and mycelium retain upstream behavior. This is deliberately more
+visible than FO's disabled better-grass setting, with fewer effects than the
+upstream default. No resource pack or pack-order change is needed. Configure or
+disable effects through its Mod Menu/Sodium UI. Existing `config/bettergrass.json`
+files are preserved whole, including settings from a previous manual install.
+
+Controlling uses upstream defaults and adds no keybinding. Its conflict search
+helps locate saved F7/F9 collisions; it does not fix them automatically. The
+Configured Defaults F7 template and all previous settings templates are unchanged.
+Existing custom bindings remain authoritative in Prism and Modrinth App.
+
+Food Effect Tooltips uses upstream defaults with no pack config. Suspicious-stew
+reveal remains disabled. It reads effects, duration, amplifier and probability
+from available vanilla item components, including consume and death protection
+behavior. It supplies no hunger/saturation HUD, current exhaustion estimate or
+plugin-specific promises. Tooltip Tweaks and Enchantment Descriptions are not
+installed, so there is no duplicate effect/enchantment tooltip configuration.
+See the [candidate decisions](mod-audit.md#qol-and-performance-refinement-2026-11-19).
+
+The new template has the same copy-if-missing contract as the existing mod
+configs. An upgrade does not merge fields into an existing mod config. Use the
+[deliberate adoption procedure](#deliberately-adopt-updated-defaults) to reset only
+one chosen file. Both launchers, including App sync behavior, still need manual
+acceptance; no launcher-specific setting is distributed.

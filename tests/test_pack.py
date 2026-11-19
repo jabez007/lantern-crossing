@@ -131,7 +131,6 @@ class PackTests(unittest.TestCase):
         self.invalid("Fabric")
 
     def test_candidate_cannot_be_active(self):
-        self.replace("candidates.toml", "candidate = []", "")
         with (self.root / "candidates.toml").open("a") as handle:
             handle.write(
                 '\n[[candidate]]\nproject-id = "AANobbMI"\nslug = "sodium"\ncategory = "performance"\nrationale = "test"\nstatus = "proposed"\nclient-only = "verified"\ntarget-support = "ready"\nblockers = ["review"]\npromotion-criteria = "review"\n'
@@ -212,12 +211,13 @@ class PackTests(unittest.TestCase):
         self.invalid("symlink")
 
     def test_release_tag_must_match(self):
+        version = load_toml(self.root / "pack.toml")["version"]
         self.assertEqual(
-            metadata(self.root, "v26.2.0.3.0")["archive"],
-            "lantern-crossing-26.2.0.3.0-dev-26.3.mrpack",
+            metadata(self.root, "v" + version)["archive"],
+            f"lantern-crossing-{version}-dev-26.3.mrpack",
         )
         with self.assertRaisesRegex(ValueError, "tag must agree"):
-            metadata(self.root, "v26.2.0.3.1")
+            metadata(self.root, "v" + version + ".1")
 
     def test_release_checksum(self):
         (self.root / "dist").mkdir()

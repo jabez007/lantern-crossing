@@ -7,11 +7,15 @@ been backported. No mod pins or configuration payload have changed. Development
 exports are named lantern-crossing-26.2.0.3.0-dev-26.3.mrpack and carry the same
 actual-target/development identity internally. Release publication is blocked.
 
-The migration inventory tracks all 37 features intended from the maintained
-26.2 line, including its six later additions and Configured Defaults. Their 26.3
+The migration inventory tracks all 40 features intended from the maintained
+26.2 line, including its six later additions, Configured Defaults, BetterGrassify,
+Controlling and Food Effect Tooltips. Their 26.3
 artifacts, dependencies and client-only behavior await a separate migration audit.
 The bootstrap retains older direct config overrides; do not use it to update an
 existing player profile. Use the maintained 26.2 line for its safer defaults.
 
 No Minecraft runtime acceptance has been performed. See verification.md and
 acceptance-tests.md for the remaining owner-run work.
+
+The nine-candidate QoL/performance evaluation is shared as documentation only.
+No new mod, library or default template is installed on this branch.
