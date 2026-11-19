@@ -11,6 +11,39 @@ substantial sets of mod updates. Increment patch for scoped fixes, config
 corrections, or small compatible updates. The Minecraft prefix stays 26.2.
 A new Minecraft target requires a separately authorized version line.
 
+## Version branches
+
+`26.2` maintains the Minecraft 26.2 pack, including the audited 30-feature
+baseline. `26.3` is the default development branch for work on Minecraft 26.3.
+The former `main` branch is renamed to `26.2`; it is no longer an update target.
+
+At branch creation, `26.3` inherits the verified 26.2 sources unchanged. Its
+`pack.toml`, pins, validation target, and acceptance evidence still describe
+Minecraft 26.2. Creating the branch does not complete or qualify a 26.3 upgrade.
+Before claiming 26.3 support, audit exact upstream releases and dependencies,
+update the target and its validation together, and repeat export and runtime
+acceptance. Preserve the 26.2 pins on the retained line.
+
+Create topic branches from the intended version branch and target that branch
+in pull requests. Backport shared fixes in separate reviewed changes. Do not
+synchronize the two lines wholesale or merge target-specific dependency updates
+across them. Keep each line's pack version and release tags aligned with its
+actual Minecraft target.
+
+The existing `Validate and release` workflow runs the full validation and export
+checks on pushes to either version branch and pull requests targeting them.
+Topic pushes do not duplicate PR runs. Matching `v*` tags retain the release
+workflow and tag-to-`pack.toml` checks.
+
+Discover availability for the next target without changing the pack:
+
+```sh
+python3 scripts/check_target_readiness.py --minecraft 26.3 --scope requested
+```
+
+This online discovery check does not audit dependency closure or prove runtime
+compatibility. The offline snapshot remains evidence for its recorded target.
+
 ## Selection stability and upstream dependencies
 
 Lantern Crossing selects release-designated feature versions. Upstream-declared
@@ -48,7 +81,8 @@ Official provenance does not waive a server requirement.
 
 ## Update the pack
 
-1. Work on a topic branch and inspect the current collection and audit.
+1. Create a topic branch from the intended version branch and inspect the
+   current collection and audit. Target that version branch in the pull request.
 2. Run `python3 scripts/check_target_readiness.py`. Query `--scope requested`
    when reviewing excluded requested features. This is availability discovery.
 3. Inspect the exact project's Modrinth version metadata and release notes.

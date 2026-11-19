@@ -2,7 +2,10 @@ name: Validate and release
 
 on:
   push:
+    branches: ['26.2', '26.3']
+    tags: ['v*']
   pull_request:
+    branches: ['26.2', '26.3']
   workflow_dispatch:
 
 permissions:

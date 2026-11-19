@@ -18,6 +18,19 @@ API](https://meta.fabricmc.net/v2/versions/loader/26.2), checked on 2026-11-17.
 The checked evidence is in [upstream-metadata.json](docs/upstream-metadata.json).
 Pack version `26.2.0.3.0` is a development baseline, not a runtime qualification.
 
+## Version branches
+
+- [`26.2`](https://github.com/jabez007/lantern-crossing/tree/26.2) maintains the
+  Minecraft 26.2 pack and its audited 30-feature baseline.
+- [`26.3`](https://github.com/jabez007/lantern-crossing/tree/26.3) is the default
+  development branch for the next Minecraft version. It initially retains the
+  verified 26.2 sources; the 26.3 dependency audit and migration are pending.
+
+Use `26.2` for Minecraft 26.2 builds. Target pull requests at the intended version
+branch and backport shared fixes deliberately. The branch name does not establish
+Minecraft compatibility or runtime acceptance. `pack.toml` records the actual
+target. See the [version-branch policy](docs/version-policy.md#version-branches).
+
 ## Pack philosophy
 
 Lantern Crossing keeps vanilla progression, content, and server mechanics.
@@ -110,8 +123,9 @@ dist/lantern-crossing-26.2.0.3.0.mrpack
 dist/lantern-crossing-26.2.0.3.0.sha256
 ```
 
-GitHub Actions validates pushes and pull requests, checks index consistency,
-builds twice to compare archive bytes, and uploads the artifacts. A matching
+GitHub Actions validates pushes to `26.2` and `26.3` and pull requests targeting
+either branch. It checks index consistency, builds twice to compare archive
+bytes, and uploads the artifacts. A matching
 `v26.2.0.3.0` tag also creates a GitHub Release with the archive and checksum.
 The workflow refuses to replace an already published release. Complete manual
 acceptance before tagging a release intended for users.
