@@ -182,6 +182,18 @@ class PackTests(unittest.TestCase):
             handle.write("\n# changed\n")
         self.invalid("stale index entry")
 
+    def test_root_runtime_preferences_cannot_be_distributed(self):
+        for name in ("options.txt", "servers.dat", "defaultoptions.journal.json"):
+            path = self.root / name
+            path.write_text("runtime")
+            with self.subTest(name=name):
+                self.invalid("runtime preferences")
+            path.unlink()
+
+    def test_helper_templates_require_the_selected_artifact(self):
+        (self.root / "config/defaultoptions").mkdir()
+        self.invalid("templates require the pinned helper")
+
     def test_new_config_requires_refresh(self):
         (self.root / "config/new.cfg").write_text("new")
         self.invalid("index omits")

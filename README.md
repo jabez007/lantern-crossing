@@ -37,7 +37,10 @@ bootstrap. All 37 migration entries remain deferred, with runtime acceptance
 pending. Discovery evidence is not an installed pin or compatibility audit.
 The bootstrap retains older direct config overrides: use a disposable fresh
 instance, not an existing player profile. The safe-defaults helper is part of
-the future migration audit.
+the future migration audit. The [configuration evaluation](docs/configuration.md#defaults-manager-evaluation-2026-11-19)
+retains Default Options on the maintained line; shared checks now reject competing
+managers, unsafe replacement/reset payloads and live root preference files.
+No manager or target-specific default is promoted here.
 
 ## Pack philosophy
 

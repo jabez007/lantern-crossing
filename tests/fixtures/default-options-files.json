@@ -1,0 +1,173 @@
+{
+  "scope": "Unmodified upstream file handlers only; no Minecraft initialization, key mapping, resource repository or launcher executed.",
+  "source-commit": "062c71b734be32ee1af29015fab2ab0aa89e6e8e",
+  "version-id": "hS9ZtUOA",
+  "artifact-sha512": "e605c02dd4899c582678472a1f4651d34a229d671f7a60dd06587eb1c4ed2e73fcbd109746aa449a32616014c478583fb28dd855f3c6d8805fb8a0bc1c9562b0",
+  "jdk": "openjdk version \"17.0.21.1\" 2026-11-17",
+  "support": "Only logging, a fail-on-use Minecraft class for deprecated interface defaults, and a nullability annotation were stubbed. Real Apache Commons IO 2.20.0 performed file copies.",
+  "commons-io-sha512": "fea08e150473673b0608eaee3ae1cb4e73834039db80d3b758710d6baf3a5840a0878a4eb64739ae9bb21ccc7148c8520fe873616a3f6d5cdb4305deabdd015c",
+  "sources-sha256": {
+    "net/blay09/mods/defaultoptions/DefaultOptionsContext.java": "0717714a72dfd48a62f7699379ca6f84a7e1e22a3f0969410f8d7daa0ba0b967",
+    "net/blay09/mods/defaultoptions/DefaultOptionsHandlerException.java": "32ede36ce9b3f7fc378e601e85975688cb644ecd8c91005c2acd550382563a59",
+    "net/blay09/mods/defaultoptions/SimpleDefaultOptionsFileHandler.java": "7415ead8942db082c9e6efcc85f247ef341db6f2c54c5169854f0734daecec4f",
+    "net/blay09/mods/defaultoptions/ExtraDefaultOptionsHandler.java": "ff7076c612cfd0b83d848b9ece5dbc0d183dee131f6c25fc31efc92ea9532fe7",
+    "net/blay09/mods/defaultoptions/api/DefaultOptionsHandler.java": "fa91134ab420b228f8904fbd8f3a11c45a97aeb131db55fe3510bc70c7b8f825",
+    "net/blay09/mods/defaultoptions/api/SimpleDefaultOptionsHandler.java": "b81016d857770a1659f88da18923888156c8b01f7256586986300d15b156f43f",
+    "net/blay09/mods/defaultoptions/api/DefaultOptionsCategory.java": "4196c78c824e1e7df8356f91650902a4b380870c8b093212c105c5b58268bbfe",
+    "net/blay09/mods/defaultoptions/api/DefaultOptionsLoadStage.java": "e0c6639893c3f81d8e97d48ff726206cc87dfc1add45a444d23503ef013988bc"
+  },
+  "templates-sha256": {
+    "config/defaultoptions/options.txt": "89816c433da6e64f9f767b7a2e8845f890719d819f7dd9c56a1585bc58265c1e",
+    "config/defaultoptions/keybindings.txt": "8e6eff2b4ed649e1bd497bc79218a8c9a8f2413f3c49c07f47fbf614c82ed7c2",
+    "config/defaultoptions/extra/config/MouseTweaks.cfg": "7bd34c13dff656651a30814a2db4aded8ed607f1bfdb8e66ba4194ef3e00a152",
+    "config/defaultoptions/extra/config/iris.properties": "839d34c5b794e53e3e0155f87632026f1d5354f3dd55854d51e990d04d2c92a3",
+    "config/defaultoptions/extra/config/clienttweaks-common.toml": "1d128fe9f9d07d7c7adec3d2ec8d6ca19cd21da9eaf9e762f053c5e8729e4f20"
+  },
+  "observations": [
+    {
+      "scenario": "fresh",
+      "before": {},
+      "after-initial-copy": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"continuity:glass_pane_culling_fix\",\"continuity:default\"]\n",
+        "config/MouseTweaks.cfg": "# IPN owns shift-drag and scroll transfers; Mouse Tweaks supplies other drags.\nRMBTweak=1\nLMBTweakWithItem=1\nLMBTweakWithoutItem=0\nWheelTweak=0\n",
+        "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
+        "config/clienttweaks-common.toml": "# Better Mount HUD owns mount/player HUD presentation.\n[ui]\nalwaysPrioritizeExperienceBar = false\n\n# IPN owns inventory refill and tool replacement assistance.\n[mining]\ndoNotUseLastMending = false\n"
+      },
+      "after": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"continuity:glass_pane_culling_fix\",\"continuity:default\"]\n",
+        "config/MouseTweaks.cfg": "# IPN owns shift-drag and scroll transfers; Mouse Tweaks supplies other drags.\nRMBTweak=1\nLMBTweakWithItem=1\nLMBTweakWithoutItem=0\nWheelTweak=0\n",
+        "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
+        "config/clienttweaks-common.toml": "# Better Mount HUD owns mount/player HUD presentation.\n[ui]\nalwaysPrioritizeExperienceBar = false\n\n# IPN owns inventory refill and tool replacement assistance.\n[mining]\ndoNotUseLastMending = false\n"
+      }
+    },
+    {
+      "scenario": "launcher-created-options",
+      "before": {
+        "options.txt": "version:4903\nfullscreen:true\n"
+      },
+      "after-initial-copy": {
+        "options.txt": "version:4903\nfullscreen:true\n",
+        "config/MouseTweaks.cfg": "# IPN owns shift-drag and scroll transfers; Mouse Tweaks supplies other drags.\nRMBTweak=1\nLMBTweakWithItem=1\nLMBTweakWithoutItem=0\nWheelTweak=0\n",
+        "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
+        "config/clienttweaks-common.toml": "# Better Mount HUD owns mount/player HUD presentation.\n[ui]\nalwaysPrioritizeExperienceBar = false\n\n# IPN owns inventory refill and tool replacement assistance.\n[mining]\ndoNotUseLastMending = false\n"
+      },
+      "after": {
+        "options.txt": "version:4903\nfullscreen:true\n",
+        "config/MouseTweaks.cfg": "# IPN owns shift-drag and scroll transfers; Mouse Tweaks supplies other drags.\nRMBTweak=1\nLMBTweakWithItem=1\nLMBTweakWithoutItem=0\nWheelTweak=0\n",
+        "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
+        "config/clienttweaks-common.toml": "# Better Mount HUD owns mount/player HUD presentation.\n[ui]\nalwaysPrioritizeExperienceBar = false\n\n# IPN owns inventory refill and tool replacement assistance.\n[mining]\ndoNotUseLastMending = false\n"
+      }
+    },
+    {
+      "scenario": "customized-instance",
+      "before": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/iris.properties": "enableShaders=true\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      },
+      "after-initial-copy": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/iris.properties": "enableShaders=true\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      },
+      "after": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/iris.properties": "enableShaders=true\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      }
+    },
+    {
+      "scenario": "repeat-launch",
+      "before": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/iris.properties": "enableShaders=true\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      },
+      "after-initial-copy": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/iris.properties": "enableShaders=true\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      },
+      "after": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/iris.properties": "enableShaders=true\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      }
+    },
+    {
+      "scenario": "pack-update",
+      "before": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/iris.properties": "enableShaders=true\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      },
+      "after-initial-copy": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/iris.properties": "enableShaders=true\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      },
+      "after": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/new-fixture.cfg": "new-default=true\n",
+        "config/iris.properties": "enableShaders=true\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      }
+    },
+    {
+      "scenario": "custom-resource-packs-no-journal",
+      "before": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/iris.properties": "enableShaders=true\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      },
+      "after-initial-copy": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/iris.properties": "enableShaders=true\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      },
+      "after": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/iris.properties": "enableShaders=true\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      }
+    },
+    {
+      "scenario": "existing-default-options-and-explicit-adoption",
+      "before": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "defaultoptions.journal.json": "{\"journal\":[{\"id\":\"resource-packs\"}]}\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/iris.properties": "enableShaders=true\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      },
+      "after-initial-copy": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "defaultoptions.journal.json": "{\"journal\":[{\"id\":\"resource-packs\"}]}\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/iris.properties": "enableShaders=true\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      },
+      "after": {
+        "options.txt": "resourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "defaultoptions.journal.json": "{\"journal\":[{\"id\":\"resource-packs\"}]}\n",
+        "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/iris.properties.user-save": "enableShaders=true\n",
+        "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
+        "config/clienttweaks-common.toml": "personal = true\n"
+      }
+    }
+  ],
+  "adapter-sha256": "5cb5aad6a6b55b7286eb06570ff2715ce0f57b9b9e5cde1916cadaccc90bc2f0"
+}

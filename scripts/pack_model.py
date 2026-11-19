@@ -332,12 +332,60 @@ def check_upstream_requirements(
             )
 
 
+def check_defaults_manager(root: Path, projects: dict) -> None:
+    """Enforce the selected defaults strategy without simulating mod behavior."""
+    managers = {"WEg59z5b", "jlNms3Jp", "SISoSFPP", "WwbubTsV"} & projects.keys()
+    require(len(managers) <= 1, f"competing defaults managers: {sorted(managers)}")
+    for name in ("configureddefaults", "config/modpack_defaults", "config/yosbr"):
+        require(not (root / name).exists(), f"unselected defaults layout: {name}")
+    for path in (root / "config").rglob("*"):
+        require(
+            path.name.casefold() not in {"config_manager_update_flag", "config_manager_reset_flag"},
+            f"forced defaults reset/update must not be packaged: {path.name}",
+        )
+        require(
+            path.name.casefold() != "defaultoptions-common.toml",
+            "resource-pack replacement handler must stay unconfigured; preserve player selections",
+        )
+    if "WEg59z5b" in managers:
+        defaults = root / "config/defaultoptions"
+        require(defaults.is_dir(), "Default Options requires its templates directory")
+        check_defaults_templates(defaults)
+
+
+def check_defaults_templates(defaults: Path) -> None:
+    for path in defaults.rglob("*"):
+        if not path.is_file():
+            continue
+        parts = path.relative_to(defaults).parts
+        if parts[0] == "extra":
+            require(
+                len(parts) > 2 and parts[1] == "config",
+                f"extra defaults must target mod config files: {path.name}",
+            )
+        else:
+            require(
+                len(parts) == 1 and parts[0] in {"options.txt", "keybindings.txt"},
+                f"unsupported Default Options template: {path.name}",
+            )
+
+
 def payload_files(root: Path) -> tuple[set[str], dict[str, bytes]]:
     require(
         not (root / "mods").is_symlink() and not (root / "config").is_symlink(),
         "payload directory symlink",
     )
+    for name in ("options.txt", "servers.dat", "defaultoptions.journal.json"):
+        path = root / name
+        require(not path.is_symlink(), f"payload symlink: {path}")
+        require(not path.exists(), f"runtime preferences must not be distributed: {name}")
     mods = {p.relative_to(root).as_posix() for p in (root / "mods").glob("*.pw.toml")}
+    defaults = (root / "config/defaultoptions").exists()
+    if defaults:
+        require(
+            "mods/default-options.pw.toml" in mods,
+            "Default Options templates require the pinned helper",
+        )
     configs = {}
     for path in (root / "config").rglob("*"):
         require(not path.is_symlink(), f"payload symlink: {path}")
@@ -348,8 +396,19 @@ def payload_files(root: Path) -> tuple[set[str], dict[str, bytes]]:
             )
             require(
                 not set(path.relative_to(root).parts)
-                & {"staged", "server-overrides", "server.properties", "eula.txt"},
+                & {
+                    "staged",
+                    "server-overrides",
+                    "server.properties",
+                    "eula.txt",
+                    "servers.dat",
+                    "defaultoptions.journal.json",
+                },
                 "staged or server-only config artifact",
+            )
+            require(
+                not defaults or relative.startswith("config/defaultoptions/"),
+                f"config must use copy-if-missing defaults, not direct overrides: {relative}",
             )
             configs[relative] = path.read_bytes()
     return mods, configs
@@ -418,6 +477,7 @@ def load_pack(root: Path = ROOT) -> Pack:
         "collection must declare the client Java major version",
     )
     projects = check_collection(collection, evidence)
+    check_defaults_manager(root, projects)
     check_candidates(root, projects)
     mods, versions = {}, {}
     for path in sorted((root / "mods").glob("*.pw.toml")):
