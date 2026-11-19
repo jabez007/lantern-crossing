@@ -1,10 +1,48 @@
 # Staging never adds a project to packwiz. Promotion requires an audit, an exact
 # stable Fabric 26.2 pin, dependency closure, and a deliberate collection edit.
 schema = 1
-candidate = []
 
 # Future [[candidate]] tables require:
 # project-id, slug, category, rationale, status, client-only, target-support,
 # blockers, promotion-criteria. Use nonempty strings or lists for those fields.
 # Example status values: proposed, blocked, ready-for-review.
 # Excluded requested features are recorded in collection.toml, not staged here.
+
+[[candidate]]
+project-id = "jlNms3Jp"
+slug = "configmanager"
+category = "pack-management"
+rationale = "Ship first-install defaults without overwriting personal settings on pack updates."
+status = "blocked"
+client-only = "Unresolved metadata conflict: native Fabric environment is universal and source copies local files; Modrinth v2 marks client unsupported and server required."
+target-support = "Release 1.1.4 (okecULrz) lists Fabric 26.2; native Minecraft range is >=26.1."
+blockers = ["Reconcile upstream client/server metadata before activation; do not bypass the current client-only validator.", "Verify first-install, existing-file preservation, and explicit update/reset behavior in a disposable profile."]
+promotion-criteria = ["Exact release and official dependency closure pass the unchanged client-only checks.", "Move intended defaults under config/modpack_defaults and verify updates preserve personal settings."]
+evidence = ["https://api.modrinth.com/v2/project/jlNms3Jp", "https://api.modrinth.com/v2/version/okecULrz", "https://modrinth.com/mod/configmanager", "docs/mod-audit.md#staged-investigations"]
+checked-at = "2026-11-18"
+
+[[candidate]]
+project-id = "p8RJPJIC"
+slug = "ixeris"
+category = "performance"
+rationale = "Reduce event-polling overhead and mouse-movement frame drops, especially with high-polling-rate mice."
+status = "ready-for-review"
+client-only = "Static audit passed: project and native Fabric artifact are client-only; event polling and buffered input are local."
+target-support = "Release 4.6.11+26.2-fabric (qXHd9Vb4) targets exactly Minecraft 26.2."
+blockers = ["Measure a benefit on the intended OS/input hardware.", "Test threaded event polling with Sodium, Iris, borderless fullscreen, Dynamic FPS, and screenshot capture."]
+promotion-criteria = ["Measured frame-time or input benefit without regressions.", "Clean-client and vanilla-server acceptance pass with the exact audited release."]
+evidence = ["https://api.modrinth.com/v2/version/qXHd9Vb4", "https://modrinth.com/mod/ixeris", "docs/mod-audit.md#staged-investigations"]
+checked-at = "2026-11-18"
+
+[[candidate]]
+project-id = "TjSm1wrD"
+slug = "modernfix-mvus"
+category = "performance"
+rationale = "Evaluate local startup, model-loading, and memory improvements beyond the existing optimizations."
+status = "under-investigation"
+client-only = "Local client initialization exists and project permits independent client/server use. Universal artifact also contains server fixes; no server contribution is selected."
+target-support = "Release 5.27.19-build.2 (50uUra83) lists Fabric 26.2; native range is ~26.2-."
+blockers = ["Complete exact-build client-function and version-range audit before promotion.", "Review overlaps with Debugify, FerriteCore, BadOptimizations, and the rendering/resource reload stack.", "Measure startup/memory benefit and test resource reloads, shader-disabled rendering, and vanilla-server use."]
+promotion-criteria = ["Selected optimizations work independently of server installation and close the exact dependency graph.", "Default behavior shows a measured benefit without conflicts; retain optional experimental optimizations disabled."]
+evidence = ["https://api.modrinth.com/v2/version/50uUra83", "https://modrinth.com/mod/modernfix-mvus", "docs/mod-audit.md#staged-investigations"]
+checked-at = "2026-11-18"

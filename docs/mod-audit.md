@@ -3,7 +3,10 @@
 Evidence checked on 2026-11-17 against the [Modrinth API](https://docs.modrinth.com/api/) and the exact downloaded Fabric artifacts. [The offline snapshot](upstream-metadata.json) records project/version identity, compatibility declarations, files, dependency edges, and recursive Fabric descriptors. Download hashes were checked during the audit and again by packwiz export.
 
 Renice Shot was added and audited on 2026-11-18. The prior 39 artifact pins are
-unchanged. The baseline now contains all 30 original features plus Renice Shot.
+unchanged. That addition completed the 30 original features plus Renice Shot.
+
+Five FO-inspired additions were audited later on 2026-11-18. All 40 prior pins
+remain unchanged; the active baseline now has 36 intentional features.
 
 The question for every row is whether the selected functionality works entirely on the client while connected to an unmodified vanilla 26.2 server. An optional server label alone is insufficient evidence. No runtime multiplayer acceptance has been performed.
 
@@ -42,6 +45,11 @@ The question for every row is whether the selected functionality works entirely 
 | [Iris Shaders](https://modrinth.com/mod/iris) | [1.11.4+26.2-fabric](https://modrinth.com/mod/iris/version/gxZWWnKH), release-designated | Local shader loading, shader selection, and rendering. Starts with shaders disabled. | Client rendering only. Exact upstream Sodium pin xJZxADzI is already selected. Bundled glsl-transformer 3.0.0-pre3 is part of this hash-pinned upstream release. | Active |
 | [Mod Menu](https://modrinth.com/mod/modmenu) | [20.0.3](https://modrinth.com/mod/modmenu/version/iRo7AZXf), release-designated | Installed mod list and local configuration screens. | Client initializer only. Requires Fabric API and Text Placeholder API 3.1.0-beta.1+26.2, exactly as the release build declares. No server counterpart or server data needed. | Active |
 | [Renice Shot](https://modrinth.com/mod/renice-shot), ID `ZDCwiIc3` | [1.2.1+mc26.2](https://modrinth.com/mod/renice-shot/version/roOTvshj), release-designated, Fabric 26.2 | Local high-resolution framebuffer capture and file saving. F9 captures at 3840 by 2160 by default. | Project is client required/server unsupported; the exact native descriptor is client-only. Requires existing Fabric API. Optional Mod Menu and Cloth Config are already present. No server counterpart or server data needed. | Active |
+| [Sodium Extra](https://modrinth.com/mod/sodium-extra), ID `PtjYWJkn` | [mc26.2-0.9.5+fabric](https://modrinth.com/mod/sodium-extra/version/GJjGKm2A), release-designated, Fabric 26.2 | Local graphics controls and visual options. Extra HUD overlays remain disabled by default. | Project and native artifact are client-only. Requires the existing Sodium 0.9.2+mc26.2. Greenlight API 0.1.0+mc26.2 is bundled and hash-pinned. No server requirement. | Active |
+| [Reese's Sodium Options](https://modrinth.com/mod/reeses-sodium-options), ID `Bh37bMuy` | [mc26.2-2.2.4+fabric](https://modrinth.com/mod/reeses-sodium-options/version/nnz8j4Hu), release-designated, Fabric 26.2 | Alternative Sodium options layout, search, and navigation. | Project and native artifact are client-only. Native Sodium requirement is exactly 0.9.2+mc26.2. Optional integrations do not require installation on the server. | Active |
+| [Continuity](https://modrinth.com/mod/continuity), ID `1IjD5062` | [3.0.1+26.2](https://modrinth.com/mod/continuity/version/mgUN5Xz2), release-designated, Fabric 26.2 | Local connected textures and stacked glass-pane visual fix using its built-in packs. | Project and native artifact are client-only. Requires existing Fabric API; no server component or extra server data. Built-in texture assets are part of the pinned mod artifact. | Active |
+| [Cubes Without Borders](https://modrinth.com/mod/cubes-without-borders), ID `ETlrkaYF` | [5.0.0+26.2](https://modrinth.com/mod/cubes-without-borders/version/ZM0HUAhK), release-designated, Fabric 26.2 | Borderless/windowed fullscreen and local window settings. | Project and native artifact are client-only. No required project dependency; optional config libraries are already present. None of its declared incompatible projects is active. No server component. | Active |
+| [More Chat History](https://modrinth.com/mod/morechathistory), ID `8qkXwOnk` | [2.0.0](https://modrinth.com/mod/morechathistory/version/qpDhYv1Y), release-designated, Fabric 26.2 | Retain more already-received messages in local chat scrollback. | Project and native artifact are client-only, with no required project dependency. Does not add server-side history or require altered chat packets. | Active |
 
 ## Dependency audit
 
@@ -67,7 +75,7 @@ Zoomify version `D64cvU6G` is universal. Its Modrinth record lists KotlinLangFor
 
 ## Upstream release and dependency provenance
 
-All 31 active features use upstream release-designated Fabric 26.2 versions.
+All 36 active features use upstream release-designated Fabric 26.2 versions.
 The same release requirement applies to explicitly selected Fabric API.
 Resolved and bundled libraries remain part of the selected releases' official
 closure, even when their version identifiers look like prereleases. This is not
@@ -118,8 +126,29 @@ is required. Existing Mod Menu and Cloth Config supply the optional config UI.
 The F9 collision with Light Overlay is resolved by the documented F7 override.
 Runtime screenshot capture and resolution restoration remain untested.
 
+## Staged investigations
+
+These projects are recorded only in `candidates.toml`. They have no active
+packwiz records and are absent from exports. Downloaded artifacts were
+SHA-512 verified outside the repository. Static findings do not establish
+runtime compatibility or a performance benefit.
+
+| Candidate and audited release | Findings | Decision and next gate |
+| --- | --- | --- |
+| [Config Manager](https://modrinth.com/mod/configmanager), `jlNms3Jp`, [1.1.4](https://api.modrinth.com/v2/version/okecULrz), release | Native Fabric environment is `*`, with a client initializer, local file-copy startup adapter, and optional native Mod Menu UI. The Modrinth version declares Mod Menu required, already available. However, [project API metadata](https://api.modrinth.com/v2/project/jlNms3Jp) declares client unsupported and server required, contradicting the client-facing description and native artifact. | Blocked. Do not bypass the client-only validator. Reconcile upstream metadata, then test first-install defaults, preservation of existing files, and explicit update/reset in a disposable profile. |
+| [Ixeris](https://modrinth.com/mod/ixeris), `p8RJPJIC`, [4.6.11+26.2-fabric](https://api.modrinth.com/v2/version/qXHd9Vb4), release | Project and native artifact are client-only, Minecraft exactly 26.2, Loader >=0.16.0, and no required project dependencies. [Release-tagged source](https://github.com/decce6/ixeris/tree/124f06bd5a9530d9af9529d5af885275b8be77b1) changes local event polling and input. Buffered raw input is Windows-specific; benefit depends on OS and polling hardware. | Ready for review, inactive. Measure frame times/input behavior and test threading with Sodium, Iris, borderless mode, focus changes, and screenshots before promotion. |
+| [ModernFix-mVUS](https://modrinth.com/mod/modernfix-mvus), `TjSm1wrD`, [5.27.19-build.2](https://api.modrinth.com/v2/version/50uUra83), release | Universal Fabric artifact has common/client initializers and bundled MixinExtras 0.5.4. Native Minecraft range is `~26.2-`; API lists Fabric 26.2 and requires existing Fabric API. Local startup/model/memory optimizations are the proposed selection; server fixes are outside it. | Under investigation, inactive. Complete exact-build client-function/range and overlap audits, then benchmark startup/memory and test resource reloads, rendering, and a vanilla-server join. No performance claim is established. |
+
+Config Manager's current [source inspection](https://github.com/TheBossMagnus/Config-Manager/tree/adf332de967b8eef237fa5ffb0f020688548dcc0)
+shows the usual copy path skips existing files. Startup also supports explicit
+update/reset flags. This is promising for preserving personal preferences, but
+it does not resolve the upstream environment disagreement. Defaults remain in
+the current pack locations until an approved promotion and migration pass.
+ModernFix's inspected source and native mixin lists include both client and
+server work; finding a client initializer alone is insufficient for promotion.
+
 ## Intentional rejections
 
 AppleSkin, Jade, Easy Shulker Boxes, Bookshelf Inspector, and Client Sort are rejected regardless of target availability. AppleSkin and the rejected inspector/container tools do not meet the selected strict server-independence policy. Jade is deliberately excluded. IPN owns sorting, so Client Sort is not selected. The source checker rejects their IDs or slugs, and an undeclared lock also fails the active-set check.
 
-No substitute, shader pack, resource pack, gameplay content, or server companion has been added. See [configuration decisions](configuration.md) and [runtime acceptance](acceptance-tests.md).
+No substitute, shader pack, standalone resource pack, gameplay content, or server companion has been added. Continuity's two built-in visual packs are enabled. See [configuration decisions](configuration.md) and [runtime acceptance](acceptance-tests.md).

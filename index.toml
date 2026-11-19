@@ -58,6 +58,16 @@ hash = "e941d956c9f691031c2362afcbd8ba13e17fa52e3e493bb9cb5442bf34491de3"
 metafile = true
 
 [[files]]
+file = "mods/continuity.pw.toml"
+hash = "66854cbf5ff362326ff8abca8581413fd5cb4ada83393f33d923472f2a9cf9d6"
+metafile = true
+
+[[files]]
+file = "mods/cubes-without-borders.pw.toml"
+hash = "426aceacf9dfb1c868330aa67a81bd7976e4dba372ad03591aaebe515d224bed"
+metafile = true
+
+[[files]]
 file = "mods/debugify.pw.toml"
 hash = "23be1be6e51abfaf0b25ae58549cbd3decd94be3d3be1e13df356636cb6bb160"
 metafile = true
@@ -138,6 +148,11 @@ hash = "1d4ac7b422964eb9611c59bf5ca09546c4e33c378063d9b558dc0f1a091c3c04"
 metafile = true
 
 [[files]]
+file = "mods/morechathistory.pw.toml"
+hash = "0e0b0e75a0de3f2def038cbcf4ab6c32c4b7a2add2fa30be37d1f178ae668dac"
+metafile = true
+
+[[files]]
 file = "mods/moreculling.pw.toml"
 hash = "24c284a21179f59332a88cf78248028731c8b6e49d11702495d94b5ab0a697d1"
 metafile = true
@@ -163,6 +178,11 @@ hash = "62d51e5faa7530ff3eccac2210513dd848f2208ab6c32273772b28f2442f8359"
 metafile = true
 
 [[files]]
+file = "mods/reeses-sodium-options.pw.toml"
+hash = "d47037d3c00d810267553c08cdc0125057a03500948ced656c0a381c61016a64"
+metafile = true
+
+[[files]]
 file = "mods/renice-shot.pw.toml"
 hash = "7bf33e58e03cbb559c64e9b587515572b6bfb707508f0a8aa516e6e0df4c76a4"
 metafile = true
@@ -175,6 +195,11 @@ metafile = true
 [[files]]
 file = "mods/signtweaks.pw.toml"
 hash = "4a56d54d8dda5d20ca21720689e35ad41a78b68cab4ff41ffcbc37a3c1753956"
+metafile = true
+
+[[files]]
+file = "mods/sodium-extra.pw.toml"
+hash = "52abedd8d544cfe4bc625d3ec3bf5aacf60ae33c73db342fcb430b4f6b0cf0ed"
 metafile = true
 
 [[files]]
@@ -214,4 +239,4 @@ metafile = true
 
 [[files]]
 file = "options.txt"
-hash = "e25c72bac08a54aafb056aba377c4eb37e4a1becde69270d8b2f6d902068e086"
+hash = "fda8eb75be15a6ff0ccd6ee27f4956d0cd7c5380fac9e1bb9477fbe52d7429b0"

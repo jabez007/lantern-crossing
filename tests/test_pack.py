@@ -49,7 +49,7 @@ class PackTests(unittest.TestCase):
 
     def test_repository_contract(self):
         pack = load_pack(self.root)
-        self.assertEqual(len(pack.evidence["requested"]), 31)
+        self.assertEqual(len(pack.evidence["requested"]), 36)
         features = {pid for pid, project in pack.projects.items() if project["role"] == "feature"}
         self.assertEqual(features, set(pack.evidence["requested"]))
         self.assertFalse(pack.collection.get("excluded"))
@@ -126,7 +126,6 @@ class PackTests(unittest.TestCase):
         self.invalid("Fabric")
 
     def test_candidate_cannot_be_active(self):
-        self.replace("candidates.toml", "candidate = []", "")
         with (self.root / "candidates.toml").open("a") as handle:
             handle.write(
                 '\n[[candidate]]\nproject-id = "AANobbMI"\nslug = "sodium"\ncategory = "performance"\nrationale = "test"\nstatus = "proposed"\nclient-only = "verified"\ntarget-support = "ready"\nblockers = ["review"]\npromotion-criteria = "review"\n'
@@ -198,16 +197,36 @@ class PackTests(unittest.TestCase):
         self.replace("options.txt", "key.keyboard.f7", "key.keyboard.f8")
         self.invalid("stale index entry")
 
+    def test_fo_sodium_addons_match_pinned_sodium(self):
+        snapshot = json.loads((self.root / "docs/upstream-metadata.json").read_text())
+        sodium = self.evidence_version(snapshot, "AANobbMI")["fabric_descriptor"]["version"]
+        for pid in ("PtjYWJkn", "Bh37bMuy"):
+            with self.subTest(project=pid):
+                addon = self.evidence_version(snapshot, pid)
+                self.assertEqual(
+                    addon["fabric_descriptor"]["depends"]["sodium"].removeprefix("="), sodium
+                )
+                self.assertIn("AANobbMI", {d["project_id"] for d in addon["client_required"]})
+
+    def test_continuity_defaults_enable_only_bundled_visual_packs(self):
+        options = dict(
+            line.split(":", 1) for line in (self.root / "options.txt").read_text().splitlines()
+        )
+        self.assertEqual(
+            json.loads(options.get("resourcePacks", "[]")),
+            ["vanilla", "continuity:glass_pane_culling_fix", "continuity:default"],
+        )
+
     def test_symlink_payload_is_rejected(self):
         (self.root / "config/link.cfg").symlink_to(self.root / "pack.toml")
         self.invalid("symlink")
 
     def test_release_tag_must_match(self):
         self.assertEqual(
-            metadata(self.root, "v26.2.0.4.0")["archive"], "lantern-crossing-26.2.0.4.0.mrpack"
+            metadata(self.root, "v26.2.0.5.0")["archive"], "lantern-crossing-26.2.0.5.0.mrpack"
         )
         with self.assertRaisesRegex(ValueError, "tag must agree"):
-            metadata(self.root, "v26.2.0.4.1")
+            metadata(self.root, "v26.2.0.5.1")
 
     def test_release_checksum(self):
         (self.root / "dist").mkdir()
@@ -299,6 +318,20 @@ class PackTests(unittest.TestCase):
                 self.assertRaisesRegex(ValueError, "missing baseline"),
             ):
                 validate(self.write_archive(changed, overrides), self.root)
+
+    def test_archive_rejects_investigation_candidates(self):
+        candidates = load_toml(self.root / "candidates.toml")["candidate"]
+        self.assertTrue(candidates)
+        for candidate in candidates:
+            manifest, overrides = self.archive_data()
+            staged = copy.deepcopy(manifest["files"][0])
+            staged["path"] = "mods/" + candidate["slug"] + ".jar"
+            manifest["files"].append(staged)
+            with (
+                self.subTest(candidate=candidate["slug"]),
+                self.assertRaisesRegex(ValueError, "unexpected/duplicate exported mod"),
+            ):
+                validate(self.write_archive(manifest, overrides), self.root)
 
     def test_archive_rejects_wrong_environment_url_hash_size(self):
         manifest, overrides = self.archive_data()

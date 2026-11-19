@@ -185,7 +185,7 @@ slug = "fabric-api"
 name = "Fabric API"
 category = "platform"
 role = "selected-library"
-required-by = ["1bokaNcj", "1eAoo2KR", "2M01OLQq", "8qVa1XCN", "8shC1gFX", "Eldc1g37", "LQ3K71Q1", "M1B8mLoH", "MBAkmtvl", "NNAgCjsB", "NcUtCpym", "O7RBXm3n", "QwxR6Gcd", "ZDCwiIc3", "aC3cM3Vq", "c7xDMxha", "mOgUt4GM", "n6PXGAoM", "onSQdWhM", "pJogNFap", "skd7t7zC", "uLbm7CG6", "vPNqo58Q", "w7ThoJFB", "x1hIzbuY", "yBW8D80W"]
+required-by = ["1IjD5062", "1bokaNcj", "1eAoo2KR", "2M01OLQq", "8qVa1XCN", "8shC1gFX", "Eldc1g37", "LQ3K71Q1", "M1B8mLoH", "MBAkmtvl", "NNAgCjsB", "NcUtCpym", "O7RBXm3n", "QwxR6Gcd", "ZDCwiIc3", "aC3cM3Vq", "c7xDMxha", "mOgUt4GM", "n6PXGAoM", "onSQdWhM", "pJogNFap", "skd7t7zC", "uLbm7CG6", "vPNqo58Q", "w7ThoJFB", "x1hIzbuY", "yBW8D80W"]
 
 [[selected]]
 project-id = "vPNqo58Q"
@@ -226,6 +226,41 @@ role = "feature"
 project-id = "ZDCwiIc3"
 slug = "renice-shot"
 name = "Renice Shot"
+category = "visual-social"
+role = "feature"
+
+[[selected]]
+project-id = "PtjYWJkn"
+slug = "sodium-extra"
+name = "Sodium Extra"
+category = "visual-social"
+role = "feature"
+
+[[selected]]
+project-id = "Bh37bMuy"
+slug = "reeses-sodium-options"
+name = "Reese's Sodium Options"
+category = "interface"
+role = "feature"
+
+[[selected]]
+project-id = "1IjD5062"
+slug = "continuity"
+name = "Continuity"
+category = "visual-social"
+role = "feature"
+
+[[selected]]
+project-id = "ETlrkaYF"
+slug = "cubes-without-borders"
+name = "Cubes Without Borders"
+category = "interface"
+role = "feature"
+
+[[selected]]
+project-id = "8qkXwOnk"
+slug = "morechathistory"
+name = "More Chat History"
 category = "visual-social"
 role = "feature"
 

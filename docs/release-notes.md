@@ -1,21 +1,23 @@
-Lantern Crossing is a Minecraft Java 26.2 Fabric client pack. Server operators
-do not need to install anything.
+Lantern Crossing 26.2.0.5.0 is a Minecraft Java 26.2 Fabric client pack.
+Server operators do not need to install anything.
 
-This development baseline contains the original 30 features plus Renice Shot,
-for 31 intentional features and nine libraries.
-Mod Menu, Sign Tweaks, Iris, and Client Tweaks are active upstream releases.
-Their exact official dependency closure may include prerelease-versioned libraries.
-Light Overlay 2.12.0+26.2 is active from project 8qVa1XCN, with its exact
-OverlayLib 0.12.0+26.2 dependency. Renice Shot 1.2.1+mc26.2 supplies the F9
-high-resolution screenshot workflow used by Fabulously Optimized for 26.2.
-Light Overlay moves to F7 to avoid the collision. No existing mod pin changes
-and no additional library is required.
-See the repository's mod audit for evidence and limitations.
+The baseline now contains 36 intentional features and nine libraries. This
+revision adds Sodium Extra, Reese's Sodium Options, Continuity, Cubes Without
+Borders, and More Chat History. All five use exact upstream release-designated
+Fabric 26.2 artifacts, and all 40 existing mod pins remain unchanged. No new
+library download is required. Sodium 0.9.2 and Iris 1.11.4 stay pinned.
 
-The .mrpack references pinned upstream artifacts and includes documented
-Mouse Tweaks, Client Tweaks, Iris, and the single Light Overlay keybinding override.
-Shaders start disabled and no shader pack is included. The .sha256 file verifies
-the archive bytes.
+Continuity's built-in connected-texture and glass-pane packs are enabled using
+the same ordering as FO 14.1.2. No standalone resource pack or shader is added.
+Other new mod settings retain upstream defaults. Light Overlay stays on F7 and
+Renice Shot screenshots stay on F9; Iris starts with shaders disabled.
 
-Static CI checks do not replace the clean-client vanilla-server acceptance
-checklist. Consult docs/verification.md for the recorded runtime test status.
+Config Manager, Ixeris, and ModernFix-mVUS were investigated and remain staged.
+Config Manager has contradictory upstream environment metadata; the other two
+still need the documented review, measurements, and runtime checks. None is
+included in this release artifact.
+
+The .mrpack contains pinned download references and documented configuration.
+The .sha256 file verifies the archive bytes. Static CI does not replace the
+clean-client and vanilla-server acceptance checklist. Runtime acceptance is
+still outstanding; see docs/verification.md and docs/acceptance-tests.md.

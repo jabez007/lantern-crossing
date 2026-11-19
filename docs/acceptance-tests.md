@@ -59,6 +59,23 @@ and account information out of committed logs.
 - [ ] Better Statistics Screen searches and sorts the player's vanilla statistics.
 - [ ] Mod Menu opens, lists installed configurable mods, and opens their config screens.
 - [ ] Mod Menu reports no missing dependency warnings.
+- [ ] Reese's Sodium Options opens, navigates, searches, and changes Sodium settings.
+- [ ] Sodium Extra's graphics pages load; optional FPS/coordinate overlays stay off.
+- [ ] More Chat History retains over 100 local messages without affecting vanilla chat.
+
+## Default visuals and fullscreen
+
+- [ ] Continuity's connected-texture and glass-pane packs are enabled after a fresh import.
+- [ ] Connected glass, sandstone, bookshelves, and vertically stacked panes render correctly.
+- [ ] Toggle each built-in pack in Resource Packs and reload without rendering corruption.
+- [ ] With Sodium, Iris, More Culling, and Light Overlay active, repeat those visual checks
+      with shaders disabled. No extra resource or shader pack is needed.
+- [ ] Cubes Without Borders exposes its fullscreen choices through the settings UI.
+- [ ] F11, Alt-Tab, window resizing, and multiple monitors work as expected.
+- [ ] Dynamic FPS responds correctly to focus/minimize changes in borderless mode.
+- [ ] Renice Shot restores the selected fullscreen mode and resolution after F9 capture.
+- [ ] Connect to the unmodified vanilla 26.2 server and use all five new features
+      without missing-server-component warnings.
 
 ## Client Tweaks
 

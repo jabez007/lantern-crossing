@@ -1,8 +1,9 @@
 # Configuration decisions
 
 The pack ships `config/MouseTweaks.cfg`, `config/clienttweaks-common.toml`, and
-`config/iris.properties`, plus a single keybinding in `options.txt`. Other
-settings retain upstream defaults. User-generated preferences, server addresses,
+`config/iris.properties`, plus the Light Overlay keybinding and Continuity's
+built-in pack selection in `options.txt`. Other settings retain upstream defaults.
+User-generated preferences, server addresses,
 map caches, and waypoints do not belong in the repository or release archive.
 
 ## Inventory gestures
@@ -113,8 +114,9 @@ catalog but does not assign it to an action by default. User-customized bindings
 verify the new instance's Controls screen during acceptance.
 
 Import into a clean launcher instance. The shipped `options.txt` contains only
-that keybinding; it supplies no graphics, audio, accessibility, or personal
-settings. Minecraft fills omitted settings with its defaults. Do not copy this
+that keybinding and the built-in resource-pack selection described below. It
+supplies no other video, audio, accessibility, or personal settings.
+Minecraft fills omitted settings with its defaults. Do not copy this
 file over an existing instance's `options.txt`; change the binding in Controls
 instead. The pack's key file is build input, not a place to save runtime options.
 
@@ -138,3 +140,51 @@ provide its optional local configuration screen.
 Capture temporarily changes render resolution and restores it afterward. Test
 that restoration with Sodium and Iris, initially with shaders disabled. Shader
 capture behavior remains part of manual acceptance.
+
+## FO graphics controls and window behavior
+
+[Sodium Extra](https://modrinth.com/mod/sodium-extra) adds graphics controls to
+the existing Sodium renderer. [Reese's Sodium Options](https://modrinth.com/mod/reeses-sodium-options)
+supplies the alternative settings layout. Their exact native
+descriptors require Sodium `0.9.2+mc26.2`, which remains pinned unchanged. Iris
+also retains its existing compatible pin. No additional renderer is installed.
+
+Sodium Extra retains its [release defaults](https://github.com/FlashyReese/sodium-extra-fabric/blob/6a1779fc751f27d91ee4387f5cf74e8cd7469bd3/common/src/main/java/me/flashyreese/mods/sodiumextra/client/config/SodiumExtraGameOptions.java).
+Its FPS and coordinate overlays are
+disabled by default, so they do not add another HUD over BetterF3 and the maps.
+The release also leaves shader prevention, alternate projection, and optional
+fog overrides disabled. No Sodium Extra or Reese's settings file is shipped.
+
+[Cubes Without Borders](https://modrinth.com/mod/cubes-without-borders) retains
+its defaults. It adds borderless/windowed
+fullscreen choices and prefers borderless mode when fullscreen is toggled.
+Test F11, Alt-Tab, resizing, multiple monitors, Renice Shot resolution restoration,
+and Dynamic FPS focus detection together. No custom window settings are shipped.
+
+[More Chat History](https://modrinth.com/mod/morechathistory) raises local
+scrollback retention. It changes neither the
+server's chat protocol nor server-side history. No custom chat config is needed.
+
+## Default resource packs
+
+The visible default resource-pack behavior selected from FO is Continuity's
+connected textures and glass-pane culling fix. Both are already bundled inside
+the exact Continuity mod artifact. Its hash-verified release sources register
+them as optional built-in packs, so `options.txt` explicitly enables them:
+
+```text
+resourcePacks:["vanilla","continuity:glass_pane_culling_fix","continuity:default"]
+```
+
+This follows FO 14.1.2's ordering for those two packs. Connected glass,
+sandstone, bookshelves, and stacked glass panes need visual acceptance with
+Sodium, Iris, More Culling, and Light Overlay. Both packs can be disabled locally
+from Minecraft's Resource Packs screen. No standalone textures or shaders are
+downloaded for this choice.
+
+FO also enables Sodium translation, chat-reporting, and Mod Menu helper packs.
+Those helper packs are not included here. Animatica, Polytone, custom entity
+models/textures, and custom sky support remain outside this addition.
+Config Manager is still staged, so importing into a fresh instance remains the
+supported installation path; automatic preservation of personal settings during
+an in-place pack update has not been implemented.
