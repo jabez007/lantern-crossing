@@ -13,83 +13,40 @@ A new Minecraft target requires a separately authorized version line.
 
 ## Version branches
 
-Minecraft 26.2 is the authoritative baseline. Finish feature selection,
-static validation and reproducible packaging, then complete owner runtime
-acceptance and qualify/release 26.2 before beginning the forward migration to
-Minecraft 26.3. The 26.3 branch is a future upgrade target, not a parallel release
-baseline. Changes from 26.2 to 26.3 are forward migration or forward preparation.
-The earlier terminology was incorrect.
+**Primary branch: `26.3`. Maintenance branch: `26.2`.** GitHub defaults to 26.3.
+This branch retains actual Minecraft 26.2, pack 26.2.0.10.0, its existing dependency
+pins, release sequence and independent owner acceptance record. Use 26.3 for new
+development and the authoritative active feature inventory. Its completed source
+migration accounts for all 41 mod features, eleven libraries and two shaders.
+No 26.3 runtime qualification is implied by static success on either branch.
 
-GitHub's default branch remains 26.3 at the owner's request. This is a hosting
-setting, not a compatibility or authority claim. Current topic branches and
-pull requests should start from and target 26.2. Do not automatically synchronize
-ongoing 26.2 additions or cherry-pick them into 26.3. This shader milestone leaves
-both the contents and tip of the 26.3 branch untouched.
+Backport important relevant 26.3 bug, security/privacy, configuration, packaging,
+installation, validation and documentation fixes selectively. Review compatibility
+on 26.2 and rerun its own tests, refresh, export and byte comparison. Do not
+backport unrelated feature additions or upstream upgrades automatically. Never
+merge the 26.3 dependency graph wholesale into this branch. Published branch
+history is preserved; no force-push or branch deletion is needed.
 
-The preserved 26.3 bootstrap still declares Minecraft 26.2 and pack version
-26.2.0.3.0 with 30 features. It has not completed migration or runtime acceptance.
-The maintained line has 41 Fabric feature mods, eleven libraries and two shader
-choices, recorded separately in `collection.toml`. The original 30 remain active.
+Both numeric branches must target their own Minecraft version in development
+and release channels. Topic PRs target the intended version branch. Tags must
+match the pack version and belong to that remote branch. Owner acceptance is
+branch-specific and bound to its actual pack/index hash. Passing CI only prepares
+a development artifact for manual testing.
 
-[migration.toml](../migration.toml) retains earlier availability discovery for
-41 Fabric feature mods. Those IDs are not approved or installed 26.3 pins.
-No 26.3 shader artifact is audited by this milestone. Once 26.2 is qualified,
-start the forward audit from the accepted collection, including both shaders,
-and update this inventory as part of that separately authorized migration.
-Recheck upstream availability then; do not infer support from today's labels.
+## Maintenance feature freeze
 
-Migration status distinguishes `static-verified`, `awaiting-upstream`,
-`replacement-required`, `deferred`, and `manual-acceptance-required`, with runtime
-acceptance tracked separately. Reevaluate exact versions, client independence,
-licenses, replacements, native dependency ranges and closure. Update target,
-validators and manifests together, repeat deterministic exports, then perform
-separate owner runtime acceptance bound to the final pack hash. A successful
-26.2 acceptance cannot qualify 26.3.
+26.2 remains frozen at its existing inventory. Work here addresses important
+bugs, compatibility, privacy/security, dependencies, configuration, tests and
+release documentation. No speculative QoL or optimization additions.
+`migration.toml` on this maintenance branch records historical forward-discovery
+intent only. The complete migrated artifact matrix and target pins live on 26.3;
+do not copy those pins or acceptance states into 26.2.
 
-## 26.2 feature freeze
-
-Version 26.2.0.10.0 closes feature selection pending owner runtime acceptance.
-No speculative QoL, performance or visual additions are planned before the
-qualified 26.2 release. Permitted follow-ups primarily fix bugs, compatibility,
-security/privacy, dependencies, configuration, release documentation, tests and
-issues found during acceptance. A necessary change invalidates any acceptance
-whose pack/index hash no longer matches. Do not mark acceptance complete or
-publish a release without the owner's actual runtime evidence.
-
-Shaders use release-designated Iris versions listing the target Minecraft version.
-They are separate visual resources, not Fabric mod features or dependencies.
-Their `shaderpacks/*.pw.toml` records own exact versions, URLs and SHA-512 hashes.
-The upstream snapshot binds each release's license/distribution review and the
-exact reviewed Iris artifact. Changes to those pins require a new review. Only
-official unmodified Modrinth ZIP references are accepted. No direct ZIP upload,
-shader option sidecar or enabled/selected shader default is distributed.
-
-`release-policy.toml` declares the intended version branch. Numeric branch names
-(from Git locally or the PR base/push ref in CI) must agree with that declaration.
-Topic branches inherit their intended line's policy. `pack.toml` always owns the
-actual Minecraft target and its version prefix.
-
-Normal exports use the development channel. Filenames include the actual pack
-version and `-dev-<version branch>`; the archive's `versionId`, name and summary
-also identify development status, actual target and branch. Thus the 26.3
-bootstrap produces `lantern-crossing-26.2.0.3.0-dev-26.3.mrpack`. Renaming the
-file does not change its internal identity, and archive validation checks both.
-Release-channel naming is allowed only after the qualification checks below.
-
-The workflow validates both version branches and PRs targeting them, compares
-two exports byte for byte, and uploads the exact named archive and checksum.
-Matching tags use the release channel, require tag ancestry on the policy's
-remote version branch, and cannot bypass qualification by using a development
-build. Index refresh is checked before export and source cleanliness afterward.
-
-Discover availability for the next target without changing the pack:
-
-```sh
-python3 scripts/check_target_readiness.py --minecraft 26.3 --scope requested
-```
-
-This online discovery check does not audit dependency closure or prove runtime
-compatibility. The offline snapshot remains evidence for its recorded target.
+Shader selection, Iris defaults, resource-pack order and all player-preference
+safeguards remain unchanged. The development artifact remains
+`lantern-crossing-26.2.0.10.0-dev-26.2.mrpack`. Both shader choices download through
+official Modrinth references and remain disabled on a clean instance. Existing
+Iris choices and presets remain authoritative.
 
 ## Selection stability and upstream dependencies
 
@@ -196,7 +153,8 @@ Without qualification these commands intentionally fail. Development validation,
 version must match, and the policy branch must equal the actual Minecraft target.
 A migration-line release also requires the entire intended inventory migrated
 and each feature's runtime acceptance recorded.
-The 26.3 bootstrap therefore cannot publish a release in its current state.
+The primary 26.3 branch uses its own migration and owner-acceptance gates. This
+maintenance release cannot inherit that qualification.
 
 Create and push a matching tag only with publication authorization. GitHub Actions
 performs the same checks and confirms that the tag commit belongs to the remote

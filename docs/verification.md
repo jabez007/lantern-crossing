@@ -1,5 +1,27 @@
 # Verification record
 
+## Maintenance transition, 2026-11-19
+
+26.2 is now legacy maintenance; 26.3 is primary development and GitHub default.
+Only the P3 shader acceptance correction, branch/target guard, generic docs
+regressions, Node 24 artifact Action and explicit shader/default index drift paths
+are applied here. No mod/shader lock, pack/index, config template, library pin or
+acceptance field changes. The 26.2 archive remains the same 54-download baseline.
+The earlier records below retain their milestone-specific branch observations;
+they are historical and do not override the current branch policy.
+
+Observed maintenance checks: `make test lint validate` passed 141 offline tests,
+Ruff and the 26.2 metadata checks. `make refresh`, `make checksum`, `make export`
+(with the pinned Packwiz/cache arguments) passed. The two exports were
+byte-identical, and the 54-download archive is unchanged from the previous
+26.2 milestone: SHA-256
+`fe76538fbf180eee4837cbebb44344792295992369ff26fb63b606fbfc30dea1`.
+`git diff --exit-code a189c7a -- pack.toml index.toml mods shaderpacks configureddefaults docs/upstream-metadata.json release-policy.toml`
+passed, confirming no dependency/payload/qualification drift. Actionlint and
+`git diff --check` passed. All Minecraft/launcher acceptance remains pending.
+
+## Historical 26.2 shader verification
+
 Pack version `26.2.0.10.0` is the 26.2 feature-freeze baseline pending owner
 runtime acceptance. Target: Minecraft 26.2, Fabric Loader 0.20.1, Java 25.
 The baseline has 41 Fabric feature mods, eleven libraries and two optional shader

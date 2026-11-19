@@ -26,10 +26,11 @@ Fabric checks, the exact Prickle environment audit, client-only exports, archive
 integrity, reproducibility and owner qualification gates remain enforced.
 Renice Shot remains the only screenshot mod. Neither gallery is installed.
 
-26.2 is authoritative. Complete runtime acceptance and qualify/release it before
-starting the forward migration from that accepted inventory to Minecraft 26.3.
-The future branch and GitHub default setting are untouched by this milestone.
-No automatic synchronization or 26.3 compatibility claim is made.
+26.2 is now the legacy maintenance branch with independent pins and acceptance
+records. 26.3 is primary development and GitHub default. Backport relevant
+compatibility, privacy, packaging, configuration and validation fixes selectively;
+do not merge the 26.3 dependency graph or automatically add its new features.
+The complete inventory migrated forward under separate audits and release gates.
 
 All Minecraft, Prism, Modrinth App and GPU tests remain uncompleted. The owner
 must test the no-shader baseline, both shaders, lighting/culling/textures/maps,

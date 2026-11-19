@@ -66,16 +66,16 @@ class ReleaseTests(unittest.TestCase):
         self.assertEqual(info["archive"], f"lantern-crossing-{self.version}-dev-{self.line}.mrpack")
         self.assertIn("development", info["name"])
 
-    def test_migration_branch_keeps_actual_target_in_development_name(self):
+    def test_version_branch_cannot_mask_a_different_minecraft_target(self):
         self.replace(
             "release-policy.toml", f'version-branch = "{self.line}"', 'version-branch = "26.3"'
         )
-        info = metadata(self.root, branch="26.3")
-        self.assertEqual(info["minecraft"], "26.2")
-        self.assertIn("26.2.", info["archive"])
-        self.assertIn("dev-26.3", info["archive"])
-        with self.assertRaisesRegex(ValueError, "migration branch cannot publish"):
-            metadata(self.root, "v" + self.version, branch="26.3", channel="release")
+        for channel in ("development", "release"):
+            with (
+                self.subTest(channel=channel),
+                self.assertRaisesRegex(ValueError, "own Minecraft release"),
+            ):
+                metadata(self.root, "v" + self.version, branch="26.3", channel=channel)
 
     def test_numeric_branch_must_agree_with_policy(self):
         wrong = "26.3" if self.line == "26.2" else "26.2"

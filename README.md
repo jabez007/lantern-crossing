@@ -20,25 +20,23 @@ Pack version `26.2.0.10.0` is a development baseline, not a runtime qualificatio
 
 ## Version branches and feature freeze
 
-[`26.2`](https://github.com/jabez007/lantern-crossing/tree/26.2) is the authoritative
-baseline. Feature selection is frozen at 41 Fabric feature mods, eleven libraries
-and two optional shader choices pending owner runtime acceptance and release
-qualification. Follow-up work addresses bugs, compatibility, privacy/security,
-dependencies, incorrect configuration, documentation, tests and acceptance findings.
-Speculative feature additions wait until after the qualified 26.2 release.
+This is the **Minecraft 26.2 maintenance branch**. It keeps its independently
+validated 26.2 pins, pack versions, shaders and acceptance records. Its inventory
+remains 41 Fabric feature mods, eleven libraries and two optional shader choices.
+Runtime acceptance is still pending; static checks do not qualify a release.
 
-[`26.3`](https://github.com/jabez007/lantern-crossing/tree/26.3) is a future forward
-migration target, not a parallel release baseline. GitHub's default branch remains
-26.3 at the owner's request; explicitly check out 26.2 for current work. The
-older 26.3 bootstrap still targets Minecraft 26.2 with 30 features. It is not
-qualified and receives no automatic synchronization or shader additions here.
+[`26.3`](https://github.com/jabez007/lantern-crossing/tree/26.3) is now the primary
+development and release-candidate branch, GitHub default and authoritative active
+inventory. The complete source inventory was migrated there under separate pins
+and renewed audits. See that branch for current development; these install/build
+commands intentionally produce the legacy Minecraft 26.2 pack.
 
-After accepting and releasing 26.2, start migration from its accepted inventory.
-Reevaluate every mod, shader and dependency for 26.3, resolve blockers, rerun
-static/reproducibility checks and complete separate runtime qualification.
-The earlier application of shared changes to 26.3 was forward preparation.
-The [branch policy](docs/version-policy.md#version-branches) replaces the earlier
-incorrect terminology. `pack.toml` always records the actual Minecraft target.
+Backport relevant 26.3 bug, privacy/security, configuration, installation,
+packaging, validation and documentation fixes selectively after a 26.2 review.
+Do not automatically backport features, shaders or upstream version updates, or
+merge the 26.3 dependency graph wholesale. Feature additions to 26.2 remain
+frozen. Each branch must pass its own CI, deterministic export and owner runtime
+acceptance. See the [branch policy](docs/version-policy.md#version-branches).
 
 ## Pack philosophy
 
@@ -214,8 +212,9 @@ dist/lantern-crossing-26.2.0.10.0-dev-26.2.sha256
 GitHub Actions validates pushes to `26.2` and `26.3` and pull requests targeting
 either branch. It checks index consistency, builds twice to compare archive
 bytes, and uploads artifacts labeled with their version, branch and channel.
-The archive itself also identifies development builds. The 26.3 bootstrap exports
-its actual **26.2** target with `-dev-26.3`, never as a 26.3-compatible release.
+The archive identifies development status and this maintenance branch. Numeric
+version branches must match their own Minecraft target, even for development
+exports. A 26.3 success does not qualify 26.2 or vice versa.
 
 Release publication requires a matching tag on the declared version branch,
 agreement with the actual Minecraft target, and an owner acceptance record bound
