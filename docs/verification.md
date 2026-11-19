@@ -1,5 +1,7 @@
 # Verification record
 
+Pack version `26.2.0.9.0` remains the current development baseline.
+
 The Prickle environment review completed on 2026-11-19 for development pack
 `26.2.0.9.0`, Minecraft 26.2, Fabric Loader 0.20.1 and Java 25. No Minecraft,
 Prism Launcher or Modrinth App runtime acceptance was performed. All owner
