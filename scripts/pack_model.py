@@ -334,7 +334,17 @@ def payload_files(root: Path) -> tuple[set[str], dict[str, bytes]]:
         not (root / "mods").is_symlink() and not (root / "config").is_symlink(),
         "payload directory symlink",
     )
+    for name in ("options.txt", "servers.dat", "defaultoptions.journal.json"):
+        path = root / name
+        require(not path.is_symlink(), f"payload symlink: {path}")
+        require(not path.exists(), f"runtime preferences must not be distributed: {name}")
     mods = {p.relative_to(root).as_posix() for p in (root / "mods").glob("*.pw.toml")}
+    defaults = (root / "config/defaultoptions").exists()
+    if defaults:
+        require(
+            "mods/default-options.pw.toml" in mods,
+            "Default Options templates require the pinned helper",
+        )
     configs = {}
     for path in (root / "config").rglob("*"):
         require(not path.is_symlink(), f"payload symlink: {path}")
@@ -345,15 +355,21 @@ def payload_files(root: Path) -> tuple[set[str], dict[str, bytes]]:
             )
             require(
                 not set(path.relative_to(root).parts)
-                & {"staged", "server-overrides", "server.properties", "eula.txt"},
+                & {
+                    "staged",
+                    "server-overrides",
+                    "server.properties",
+                    "eula.txt",
+                    "servers.dat",
+                    "defaultoptions.journal.json",
+                },
                 "staged or server-only config artifact",
             )
+            require(
+                not defaults or relative.startswith("config/defaultoptions/"),
+                f"config must use copy-if-missing defaults, not direct overrides: {relative}",
+            )
             configs[relative] = path.read_bytes()
-    # Minecraft stores keybindings outside config/. Ship only deliberate defaults.
-    options = root / "options.txt"
-    require(not options.is_symlink(), f"payload symlink: {options}")
-    if options.is_file():
-        configs["options.txt"] = options.read_bytes()
     return mods, configs
 
 

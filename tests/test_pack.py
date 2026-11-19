@@ -49,7 +49,7 @@ class PackTests(unittest.TestCase):
 
     def test_repository_contract(self):
         pack = load_pack(self.root)
-        self.assertEqual(len(pack.evidence["requested"]), 36)
+        self.assertEqual(len(pack.evidence["requested"]), 37)
         features = {pid for pid, project in pack.projects.items() if project["role"] == "feature"}
         self.assertEqual(features, set(pack.evidence["requested"]))
         self.assertFalse(pack.collection.get("excluded"))
@@ -172,19 +172,35 @@ class PackTests(unittest.TestCase):
         self.invalid("stale pack index hash")
 
     def test_changed_config_requires_refresh(self):
-        with (self.root / "config/MouseTweaks.cfg").open("a") as handle:
+        with (self.root / "config/defaultoptions/extra/config/MouseTweaks.cfg").open("a") as handle:
             handle.write("\n# changed\n")
         self.invalid("stale index entry")
 
     def test_new_config_requires_refresh(self):
-        (self.root / "config/new.cfg").write_text("new")
+        (self.root / "config/defaultoptions/extra/config/new.cfg").write_text("new")
         self.invalid("index omits")
 
-    def test_keybinding_override_is_pack_payload(self):
-        settings = b"key_key.light-overlay.toggle:key.keyboard.f7\n"
-        (self.root / "options.txt").write_bytes(settings)
-        _, overrides = payload_files(self.root)
-        self.assertEqual(overrides.get("options.txt"), settings)
+    def test_direct_mod_config_cannot_override_preferences(self):
+        (self.root / "config/iris.properties").write_text("enableShaders=false\n")
+        self.invalid("copy-if-missing defaults")
+
+    def test_runtime_journal_cannot_be_shipped(self):
+        (self.root / "defaultoptions.journal.json").write_text("{}")
+        self.invalid("runtime preferences")
+
+    def test_templates_preserve_default_options_key_format(self):
+        pack = load_pack(self.root)
+        self.assertNotIn("options.txt", pack.overrides)
+        self.assertEqual(
+            pack.overrides["config/defaultoptions/keybindings.txt"],
+            b"key_key.light-overlay.toggle:key.keyboard.f7:\n",
+        )
+        self.assertFalse(any("defaultoptions-common.toml" in p for p in pack.overrides))
+
+    def test_root_options_are_forbidden(self):
+        (self.root / "options.txt").write_text("fov:0.5\n")
+        with self.assertRaisesRegex(ValueError, "runtime preferences"):
+            payload_files(self.root)
 
     def test_keybinding_override_rejects_symlinks(self):
         options = self.root / "options.txt"
@@ -194,7 +210,7 @@ class PackTests(unittest.TestCase):
             payload_files(self.root)
 
     def test_changed_keybinding_requires_refresh(self):
-        self.replace("options.txt", "key.keyboard.f7", "key.keyboard.f8")
+        self.replace("config/defaultoptions/keybindings.txt", "key.keyboard.f7", "key.keyboard.f8")
         self.invalid("stale index entry")
 
     def test_fo_sodium_addons_match_pinned_sodium(self):
@@ -210,7 +226,8 @@ class PackTests(unittest.TestCase):
 
     def test_continuity_defaults_enable_only_bundled_visual_packs(self):
         options = dict(
-            line.split(":", 1) for line in (self.root / "options.txt").read_text().splitlines()
+            line.split(":", 1)
+            for line in (self.root / "config/defaultoptions/options.txt").read_text().splitlines()
         )
         self.assertEqual(
             json.loads(options.get("resourcePacks", "[]")),
@@ -223,10 +240,10 @@ class PackTests(unittest.TestCase):
 
     def test_release_tag_must_match(self):
         self.assertEqual(
-            metadata(self.root, "v26.2.0.5.0")["archive"], "lantern-crossing-26.2.0.5.0.mrpack"
+            metadata(self.root, "v26.2.0.6.0")["archive"], "lantern-crossing-26.2.0.6.0.mrpack"
         )
         with self.assertRaisesRegex(ValueError, "tag must agree"):
-            metadata(self.root, "v26.2.0.5.1")
+            metadata(self.root, "v26.2.0.6.1")
 
     def test_release_checksum(self):
         (self.root / "dist").mkdir()
@@ -511,7 +528,9 @@ class PackTests(unittest.TestCase):
         self.invalid("server-only Fabric module")
 
     def test_client_tweaks_overlap_switches_are_pinned_off(self):
-        config = load_toml(self.root / "config/clienttweaks-common.toml")
+        config = load_toml(
+            self.root / "config/defaultoptions/extra/config/clienttweaks-common.toml"
+        )
         self.assertIs(config["ui"]["alwaysPrioritizeExperienceBar"], False)
         self.assertIs(config["mining"]["doNotUseLastMending"], False)
 

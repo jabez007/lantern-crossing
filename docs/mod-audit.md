@@ -5,8 +5,8 @@ Evidence checked on 2026-11-17 against the [Modrinth API](https://docs.modrinth.
 Renice Shot was added and audited on 2026-11-18. The prior 39 artifact pins are
 unchanged. That addition completed the 30 original features plus Renice Shot.
 
-Five FO-inspired additions were audited later on 2026-11-18. All 40 prior pins
-remain unchanged; the active baseline now has 36 intentional features.
+Five FO-inspired additions were audited later on 2026-11-18. Default Options was added on 2026-11-19 to protect player preferences. All 40 prior pins
+remain unchanged; the active baseline now has 37 intentional features.
 
 The question for every row is whether the selected functionality works entirely on the client while connected to an unmodified vanilla 26.2 server. An optional server label alone is insufficient evidence. No runtime multiplayer acceptance has been performed.
 
@@ -50,6 +50,7 @@ The question for every row is whether the selected functionality works entirely 
 | [Continuity](https://modrinth.com/mod/continuity), ID `1IjD5062` | [3.0.1+26.2](https://modrinth.com/mod/continuity/version/mgUN5Xz2), release-designated, Fabric 26.2 | Local connected textures and stacked glass-pane visual fix using its built-in packs. | Project and native artifact are client-only. Requires existing Fabric API; no server component or extra server data. Built-in texture assets are part of the pinned mod artifact. | Active |
 | [Cubes Without Borders](https://modrinth.com/mod/cubes-without-borders), ID `ETlrkaYF` | [5.0.0+26.2](https://modrinth.com/mod/cubes-without-borders/version/ZM0HUAhK), release-designated, Fabric 26.2 | Borderless/windowed fullscreen and local window settings. | Project and native artifact are client-only. No required project dependency; optional config libraries are already present. None of its declared incompatible projects is active. No server component. | Active |
 | [More Chat History](https://modrinth.com/mod/morechathistory), ID `8qkXwOnk` | [2.0.0](https://modrinth.com/mod/morechathistory/version/qpDhYv1Y), release-designated, Fabric 26.2 | Retain more already-received messages in local chat scrollback. | Project and native artifact are client-only, with no required project dependency. Does not add server-side history or require altered chat packets. | Active |
+| [Default Options](https://modrinth.com/mod/default-options), ID `WEg59z5b` | [26.2.0.3+fabric-26.2](https://modrinth.com/mod/default-options/version/hS9ZtUOA), release-designated Fabric 26.2 | First-install settings and keybinding defaults with saved-preference preservation. | Project is client required/server unsupported. Native environment is universal, but initialization is client-only and local file/key handlers need no server. Requires existing Fabric API and Balm; native Balm minimum is 26.2.0.1, satisfied by 26.2.0.9. No server list is selected. | Active |
 
 ## Dependency audit
 
@@ -63,7 +64,7 @@ Fabric API is an explicitly selected platform library. Eight projects are transi
 | [TCDCommons API](https://modrinth.com/mod/tcdcommons) | dependency | Required by Better Statistics Screen. |
 | [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) | dependency | Required by Inventory Profiles Next, libIPN, Zoomify (Zoom). |
 | [libIPN](https://modrinth.com/mod/libipn) | dependency | Required by Inventory Profiles Next. |
-| [Balm](https://modrinth.com/mod/balm) | dependency | Required by Client Tweaks. |
+| [Balm](https://modrinth.com/mod/balm) | dependency | Required by Client Tweaks and Default Options. |
 | [Text Placeholder API](https://modrinth.com/mod/placeholder-api) | dependency | Required by Mod Menu. |
 | [OverlayLib](https://modrinth.com/mod/overlaylib) | dependency | Required by Light Overlay. |
 
@@ -75,7 +76,7 @@ Zoomify version `D64cvU6G` is universal. Its Modrinth record lists KotlinLangFor
 
 ## Upstream release and dependency provenance
 
-All 36 active features use upstream release-designated Fabric 26.2 versions.
+All 37 active features use upstream release-designated Fabric 26.2 versions.
 The same release requirement applies to explicitly selected Fabric API.
 Resolved and bundled libraries remain part of the selected releases' official
 closure, even when their version identifiers look like prereleases. This is not

@@ -3,7 +3,7 @@
 `pack.toml` owns the pack version. It must use
 `26.2.<pack major>.<pack minor>.<pack patch>`. The initial version is
 `26.2.0.1.0`, and its matching release tag is `v26.2.0.1.0`.
-The current development baseline is `26.2.0.5.0`.
+The current development baseline is `26.2.0.6.0`.
 
 Increment major for intentional policy or selection changes that require users
 to review their setup. Increment minor for compatible feature additions or
@@ -13,7 +13,7 @@ A new Minecraft target requires a separately authorized version line.
 
 ## Version branches
 
-`26.2` maintains the Minecraft 26.2 pack, including the audited 36-feature
+`26.2` maintains the Minecraft 26.2 pack, including the audited 37-feature
 baseline. `26.3` is the default development branch for work on Minecraft 26.3.
 The former `main` branch is renamed to `26.2`; it is no longer an update target.
 
@@ -131,7 +131,7 @@ intent list in the snapshot as part of that reviewed change.
 
 Complete review and runtime acceptance before tagging a build intended for
 users. Validate the proposed tag with
-`python3 scripts/release_metadata.py --tag v26.2.0.5.0`.
+`python3 scripts/release_metadata.py --tag v26.2.0.6.0`.
 Create and push the matching tag only with publication authorization.
 GitHub Actions then checks the same sources, builds the `.mrpack` and checksum,
 and publishes both through a draft release. It refuses to overwrite a published

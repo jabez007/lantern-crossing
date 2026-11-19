@@ -3,6 +3,16 @@
 Verified on 2026-11-18 for pack `26.2.0.5.0`. This record covers source metadata,
 upstream artifact inspection, and export behavior. Minecraft has not been launched.
 
+## Defaults hardening, 2026-11-19
+
+The 26.2.0.6.0 defaults slice passes 57 offline tests, lint, source validation,
+refresh and complete export validation. The original 45 mod records are retained;
+Default Options is the only new artifact. File and key-handling behavior was
+inspected in its exact release source. No Minecraft client was launched.
+Root options and direct mod overrides have been replaced with first-install or
+copy-if-missing templates; runtime journals and server lists are forbidden.
+The earlier verification record below describes the preceding 26.2.0.5.0 build.
+
 ## Tool versions
 
 | Tool | Version and source |

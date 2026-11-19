@@ -1,2 +1,1 @@
-key_key.light-overlay.toggle:key.keyboard.f7
 resourcePacks:["vanilla","continuity:glass_pane_culling_fix","continuity:default"]

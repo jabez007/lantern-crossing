@@ -7890,6 +7890,168 @@
         }
       ]
     },
+    "WEg59z5b": {
+      "checked_at": "2026-11-19",
+      "client_side": "required",
+      "name": "Default Options",
+      "server_side": "unsupported",
+      "slug": "default-options",
+      "source_url": "https://github.com/TwelveIterations/DefaultOptions",
+      "versions": [
+        {
+          "client_required": [
+            {
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            },
+            {
+              "project_id": "MBAkmtvl",
+              "version_id": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "MBAkmtvl",
+              "version_id": null
+            }
+          ],
+          "fabric_descriptor": {
+            "bundled": [],
+            "depends": {
+              "balm-fabric": ">=26.2.0.1",
+              "fabric-api": "*",
+              "fabricloader": ">=0.19.3",
+              "java": ">=25",
+              "minecraft": "~26.2-"
+            },
+            "entrypoints": {
+              "client": [
+                "net.blay09.mods.defaultoptions.fabric.client.FabricDefaultOptionsClient"
+              ],
+              "main": []
+            },
+            "environment": "*",
+            "id": "defaultoptions",
+            "version": "26.2.0.3"
+          },
+          "files": [
+            {
+              "file_type": null,
+              "filename": "defaultoptions-fabric-26.2-26.2.0.3.jar",
+              "hashes": {
+                "sha1": "558a2fd03e3abc5409b9c1fdaa122b68b6c55f4b",
+                "sha512": "e605c02dd4899c582678472a1f4651d34a229d671f7a60dd06587eb1c4ed2e73fcbd109746aa449a32616014c478583fb28dd855f3c6d8805fb8a0bc1c9562b0"
+              },
+              "id": "8HmCmgcu",
+              "primary": true,
+              "size": 108260,
+              "url": "https://cdn.modrinth.com/data/WEg59z5b/versions/hS9ZtUOA/defaultoptions-fabric-26.2-26.2.0.3.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "hS9ZtUOA",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "26.2.0.3+fabric-26.2",
+          "project_id": "WEg59z5b",
+          "version_number": "26.2.0.3+fabric-26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "MBAkmtvl",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "defaultoptions-fabric-26.2-26.2.0.2.jar",
+              "hashes": {
+                "sha1": "c5a5d94cce0d5f51f93b4a38362bcf3c7a699ff8",
+                "sha512": "1afdb44686b70f516cb5d08215a472ff226c3cbe3dd5fdd1580f2e12abd890252b98b81ca5c11923cb8d67684b0e8e9c8b0266be26e4c61b8868fd420023a785"
+              },
+              "id": "DtSdQuQ5",
+              "primary": true,
+              "size": 105108,
+              "url": "https://cdn.modrinth.com/data/WEg59z5b/versions/FDkyniQi/defaultoptions-fabric-26.2-26.2.0.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "FDkyniQi",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "26.2.0.2+fabric-26.2",
+          "project_id": "WEg59z5b",
+          "version_number": "26.2.0.2+fabric-26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "MBAkmtvl",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "defaultoptions-fabric-26.2-26.2.0.1.jar",
+              "hashes": {
+                "sha1": "d438e5e041372ef3bc255be7183035fe40099222",
+                "sha512": "2476235d71a06346c24ebbd2f5808d04f2957ac2d0e1d5d7d407a42e6ecf9db179aff356a9fa1d64e08acb15ddefafcb5c2fa7546e49f2652adcda0439c2a849"
+              },
+              "id": "mE7CyMLi",
+              "primary": true,
+              "size": 98482,
+              "url": "https://cdn.modrinth.com/data/WEg59z5b/versions/USWFHeGZ/defaultoptions-fabric-26.2-26.2.0.1.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "USWFHeGZ",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "26.2.0.1+fabric-26.2",
+          "project_id": "WEg59z5b",
+          "version_number": "26.2.0.1+fabric-26.2",
+          "version_type": "release"
+        }
+      ]
+    },
     "Wb5oqrBJ": {
       "client_side": "required",
       "name": "Chat Heads",
@@ -11687,7 +11849,8 @@
     "Bh37bMuy",
     "1IjD5062",
     "ETlrkaYF",
-    "8qkXwOnk"
+    "8qkXwOnk",
+    "WEg59z5b"
   ],
   "schema": 1,
   "target": "26.2"

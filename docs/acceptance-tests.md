@@ -10,6 +10,23 @@ Fabric Loader 0.20.1, and Java 25. Test against a completely unmodified vanilla
 OS, GPU and driver, and results in `verification.md`. Keep addresses, player data,
 and account information out of committed logs.
 
+## Defaults and upgrade acceptance, owner only
+
+- [ ] Import a fresh pack in Prism without copying an old profile. Check whether
+      the launcher creates `options.txt` before the first launch.
+- [ ] With no prior options file, verify Continuity's two built-in packs are selected
+      and Light Overlay uses F7. Confirm Renice Shot retains F9.
+- [ ] Verify Mouse Tweaks, Client Tweaks and Iris receive their documented initial
+      defaults early enough to affect the first launch. Shaders initially stay disabled.
+- [ ] In a disposable existing profile, set distinctive graphics/audio preferences,
+      another overlay key, resource-pack choices and Iris settings. Install/update
+      the pack and confirm all existing settings remain intact after two restarts.
+- [ ] Repeat the existing-profile check without a Default Options journal; saved
+      options and mod configs must still be preserved.
+- [ ] For existing profiles retaining F9 for Light Overlay, move it to F7 manually
+      to resolve the screenshot collision. Do not reset unrelated settings.
+- [ ] Confirm no server address list or runtime journal was supplied by the archive.
+
 ## Startup
 
 - [ ] Fabric client starts and reaches the main menu without errors.
@@ -81,8 +98,8 @@ and account information out of committed logs.
 
 - [ ] Volume sliders, search retention, and recipe-book navigation work as configured.
 - [ ] Enabled placement and offhand input conveniences behave normally on the vanilla server.
-- [ ] `ui.alwaysPrioritizeExperienceBar=false` leaves the disabled HUD override inactive.
-- [ ] `mining.doNotUseLastMending=false` leaves the disabled durability guard inactive.
+- [ ] On a fresh profile, `ui.alwaysPrioritizeExperienceBar=false` leaves the disabled HUD override inactive.
+- [ ] On a fresh profile, `mining.doNotUseLastMending=false` leaves the disabled durability guard inactive.
 - [ ] No inventory conflict occurs with IPN sorting, refill, or Mouse Tweaks gestures.
 - [ ] No Client Tweaks or Balm warning requests server installation or server data.
 

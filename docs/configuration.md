@@ -1,10 +1,40 @@
 # Configuration decisions
 
-The pack ships `config/MouseTweaks.cfg`, `config/clienttweaks-common.toml`, and
-`config/iris.properties`, plus the Light Overlay keybinding and Continuity's
-built-in pack selection in `options.txt`. Other settings retain upstream defaults.
-User-generated preferences, server addresses,
-map caches, and waypoints do not belong in the repository or release archive.
+## Safe defaults and existing instances
+
+The pinned [Default Options](https://modrinth.com/mod/default-options/version/hS9ZtUOA)
+release `26.2.0.3+fabric-26.2` replaces direct preference overrides. It is installed
+only on the client and reuses the existing Balm and Fabric API pins.
+
+| Template in the repository | Applied to a player instance |
+| --- | --- |
+| `config/defaultoptions/options.txt` | Copies Continuity's resource-pack selection only when root `options.txt` does not exist. |
+| `config/defaultoptions/keybindings.txt` | Sets Light Overlay's F7 default. Bindings already recorded in `options.txt`, including a deliberately retained F9, are respected. |
+| `config/defaultoptions/extra/config/MouseTweaks.cfg` | Copies the inventory defaults only when that mod's config file is absent. |
+| `config/defaultoptions/extra/config/clienttweaks-common.toml` | Copies the two overlap switches only when that config file is absent. |
+| `config/defaultoptions/extra/config/iris.properties` | Starts shaders disabled only when Iris' config file is absent. |
+
+The [exact release source](https://github.com/TwelveIterations/DefaultOptions/tree/062c71b734be32ee1af29015fab2ab0aa89e6e8e)
+checks destination existence before copying normal and extra files. Its early-init
+hook handles extra files; its key handler collects saved keys before applying
+new defaults. These are source-audited behaviors, not Minecraft test results.
+A launcher that pre-populates `options.txt` can suppress the resource-pack
+selection on a nominally fresh import; verify that behavior in Prism.
+
+We intentionally leave Default Options' `defaultResourcePacks` config empty.
+That separate post-load handler replaces the selection once when its journal
+entry is absent, even if player options already exist. The copy-if-absent
+options template preserves existing resource-pack choices instead.
+
+Root `options.txt`, `servers.dat`, the runtime journal, and direct mod-config
+overrides are excluded and rejected by validation. No user preference file or
+journal is shipped. Preserve the player's options, configs and journal during
+an upgrade. Existing files retain their contents, so older instances may need
+F7 or Continuity's two packs selected manually. Review the overlap switches in
+existing Mouse Tweaks and Client Tweaks configs rather than replacing files.
+Already-overwritten preferences from an older installer cannot be reconstructed
+by this change. File copying, key preservation, early-init ordering and Prism's
+handling remain explicit [manual acceptance checks](acceptance-tests.md).
 
 ## Inventory gestures
 
@@ -41,7 +71,7 @@ implementation is included. Dynamic lights do not change server-side spawning
 or block light levels. BadOptimizations' lightmap caching and the rendering stack
 need visual testing when a held light, weather, or status effect changes.
 
-Iris 1.11.4 is active with Sodium 0.9.2. `config/iris.properties` sets
+Iris 1.11.4 is active with Sodium 0.9.2. The Iris template sets
 `enableShaders=false` so the clean baseline starts with vanilla rendering.
 The shader-selection UI remains available. No shader pack is bundled.
 Check shader-disabled rendering, resizing, and interactions with dynamic lighting
@@ -68,7 +98,7 @@ server integrations.
 
 The exact [26.2.0.6 configuration source](https://github.com/TwelveIterations/ClientTweaks/blob/v26.2.0.6/common/src/main/java/net/blay09/mods/clienttweaks/ClientTweaksConfig.java)
 defines these options. The pack pins two existing upstream defaults off in
-`config/clienttweaks-common.toml`:
+the Client Tweaks template:
 
 | Key | Value | Reason |
 | --- | --- | --- |
@@ -100,8 +130,7 @@ Tweaks retain their upstream editing defaults.
 
 Light Overlay retains its upstream behavior defaults. The
 [release's key registrations](https://github.com/lugosieben/lightoverlay/blob/7e7647bb424ca8195329c889ce529c5974d11c21/src/main/java/net/lugo/lightoverlay/registration/KeyMappings.java)
-bind overlay toggling to F9, which conflicts with Renice Shot. The pack's minimal
-`options.txt` changes `key_key.light-overlay.toggle` to `key.keyboard.f7`.
+bind overlay toggling to F9, which conflicts with Renice Shot. The keybindings template changes `key_key.light-overlay.toggle` to `key.keyboard.f7`.
 F9 remains the high-resolution screenshot key familiar from FO.
 Config opening and overlay-mode cycling are unbound.
 The config screen is also available from Mod Menu or the client-local
@@ -113,12 +142,8 @@ Renice Shot, or the other active utility mods. libIPN defines F7 in its key-code
 catalog but does not assign it to an action by default. User-customized bindings can differ;
 verify the new instance's Controls screen during acceptance.
 
-Import into a clean launcher instance. The shipped `options.txt` contains only
-that keybinding and the built-in resource-pack selection described below. It
-supplies no other video, audio, accessibility, or personal settings.
-Minecraft fills omitted settings with its defaults. Do not copy this
-file over an existing instance's `options.txt`; change the binding in Controls
-instead. The pack's key file is build input, not a place to save runtime options.
+The template paths and upgrade behavior are described above. Existing saved
+keybindings retain priority over the pack default.
 
 Light Overlay and OverlayLib declare no conflicts with the selected Iris/Sodium
 stack. The overlay uses client-known world/light data and requires no server
@@ -170,7 +195,7 @@ server's chat protocol nor server-side history. No custom chat config is needed.
 The visible default resource-pack behavior selected from FO is Continuity's
 connected textures and glass-pane culling fix. Both are already bundled inside
 the exact Continuity mod artifact. Its hash-verified release sources register
-them as optional built-in packs, so `options.txt` explicitly enables them:
+them as optional built-in packs, so the first-install options template enables them:
 
 ```text
 resourcePacks:["vanilla","continuity:glass_pane_culling_fix","continuity:default"]
@@ -185,6 +210,5 @@ downloaded for this choice.
 FO also enables Sodium translation, chat-reporting, and Mod Menu helper packs.
 Those helper packs are not included here. Animatica, Polytone, custom entity
 models/textures, and custom sky support remain outside this addition.
-Config Manager is still staged, so importing into a fresh instance remains the
-supported installation path; automatic preservation of personal settings during
-an in-place pack update has not been implemented.
+Config Manager remains staged. Default Options now supplies the selected
+copy-if-missing behavior; do not install two default-setting managers together.

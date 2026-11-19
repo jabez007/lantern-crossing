@@ -12,3 +12,5 @@ __pycache__/
 /screenshots/
 /xaero/
 /servers.dat*
+/options.txt
+/defaultoptions.journal.json

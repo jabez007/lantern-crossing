@@ -1,16 +1,24 @@
 hash-format = "sha256"
 
 [[files]]
-file = "config/MouseTweaks.cfg"
+file = "config/defaultoptions/extra/config/MouseTweaks.cfg"
 hash = "7bd34c13dff656651a30814a2db4aded8ed607f1bfdb8e66ba4194ef3e00a152"
 
 [[files]]
-file = "config/clienttweaks-common.toml"
+file = "config/defaultoptions/extra/config/clienttweaks-common.toml"
 hash = "1d128fe9f9d07d7c7adec3d2ec8d6ca19cd21da9eaf9e762f053c5e8729e4f20"
 
 [[files]]
-file = "config/iris.properties"
+file = "config/defaultoptions/extra/config/iris.properties"
 hash = "839d34c5b794e53e3e0155f87632026f1d5354f3dd55854d51e990d04d2c92a3"
+
+[[files]]
+file = "config/defaultoptions/keybindings.txt"
+hash = "8e6eff2b4ed649e1bd497bc79218a8c9a8f2413f3c49c07f47fbf614c82ed7c2"
+
+[[files]]
+file = "config/defaultoptions/options.txt"
+hash = "89816c433da6e64f9f767b7a2e8845f890719d819f7dd9c56a1585bc58265c1e"
 
 [[files]]
 file = "mods/badoptimizations.pw.toml"
@@ -70,6 +78,11 @@ metafile = true
 [[files]]
 file = "mods/debugify.pw.toml"
 hash = "23be1be6e51abfaf0b25ae58549cbd3decd94be3d3be1e13df356636cb6bb160"
+metafile = true
+
+[[files]]
+file = "mods/default-options.pw.toml"
+hash = "56c01d805086231c245def3cbd3107c490d32aeb5a8cb8bd5c6ad783017a778a"
 metafile = true
 
 [[files]]
@@ -236,7 +249,3 @@ metafile = true
 file = "mods/zoomify.pw.toml"
 hash = "e656e41df4fc2ff1431fe3dcf01590c345da8de6928ca37e871b475993a1d107"
 metafile = true
-
-[[files]]
-file = "options.txt"
-hash = "fda8eb75be15a6ff0ccd6ee27f4956d0cd7c5380fac9e1bb9477fbe52d7429b0"
