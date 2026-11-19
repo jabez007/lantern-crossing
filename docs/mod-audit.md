@@ -1,6 +1,18 @@
-# Client-only mod audit
+# Client-only mod and shader audit
 
 Evidence checked on 2026-11-17 against the [Modrinth API](https://docs.modrinth.com/api/) and the exact downloaded Fabric artifacts. [The offline snapshot](upstream-metadata.json) records project/version identity, compatibility declarations, files, dependency edges, and recursive Fabric descriptors. Download hashes were checked during the audit and again by packwiz export.
+
+Renice Shot was added and audited on 2026-11-18. The prior 39 artifact pins are
+unchanged. That addition completed the 30 original features plus Renice Shot.
+
+Five FO-inspired additions were audited on 2026-11-18. On 2026-11-19, the
+configuration evaluation selected Configured Defaults to replace Default Options.
+The other 45 locks are unchanged from the preceding baseline. There are still
+37 intentional features and nine libraries at that point.
+The refinement below adds three features and Searchables, bringing the maintained
+26.2 line to 40 features and ten libraries. The subsequent Prickle classification
+review below adds Enchantment Descriptions, reaching 41 features and eleven libraries.
+The shader milestone adds two separate optional shader resources and changes no mod pins.
 
 The question for every row is whether the selected functionality works entirely on the client while connected to an unmodified vanilla 26.2 server. An optional server label alone is insufficient evidence. No runtime multiplayer acceptance has been performed.
 
@@ -38,22 +50,31 @@ The question for every row is whether the selected functionality works entirely 
 | [Chat Heads](https://modrinth.com/mod/chat-heads) | [1.3.2](https://modrinth.com/mod/chat-heads/version/rsO6BV1x), release-designated | Render player heads next to chat messages. | No server component. Uses player data already available on vanilla servers. | Active |
 | [Iris Shaders](https://modrinth.com/mod/iris) | [1.11.4+26.2-fabric](https://modrinth.com/mod/iris/version/gxZWWnKH), release-designated | Local shader loading, shader selection, and rendering. Starts with shaders disabled. | Client rendering only. Exact upstream Sodium pin xJZxADzI is already selected. Bundled glsl-transformer 3.0.0-pre3 is part of this hash-pinned upstream release. | Active |
 | [Mod Menu](https://modrinth.com/mod/modmenu) | [20.0.3](https://modrinth.com/mod/modmenu/version/iRo7AZXf), release-designated | Installed mod list and local configuration screens. | Client initializer only. Requires Fabric API and Text Placeholder API 3.1.0-beta.1+26.2, exactly as the release build declares. No server counterpart or server data needed. | Active |
+| [Renice Shot](https://modrinth.com/mod/renice-shot), ID `ZDCwiIc3` | [1.2.1+mc26.2](https://modrinth.com/mod/renice-shot/version/roOTvshj), release-designated, Fabric 26.2 | Local high-resolution framebuffer capture and file saving. F9 captures at 3840 by 2160 by default. | Project is client required/server unsupported; the exact native descriptor is client-only. Requires existing Fabric API. Optional Mod Menu and Cloth Config are already present. No server counterpart or server data needed. | Active |
+| [Sodium Extra](https://modrinth.com/mod/sodium-extra), ID `PtjYWJkn` | [mc26.2-0.9.5+fabric](https://modrinth.com/mod/sodium-extra/version/GJjGKm2A), release-designated, Fabric 26.2 | Local graphics controls and visual options. Extra HUD overlays remain disabled by default. | Project and native artifact are client-only. Requires the existing Sodium 0.9.2+mc26.2. Greenlight API 0.1.0+mc26.2 is bundled and hash-pinned. No server requirement. | Active |
+| [Reese's Sodium Options](https://modrinth.com/mod/reeses-sodium-options), ID `Bh37bMuy` | [mc26.2-2.2.4+fabric](https://modrinth.com/mod/reeses-sodium-options/version/nnz8j4Hu), release-designated, Fabric 26.2 | Alternative Sodium options layout, search, and navigation. | Project and native artifact are client-only. Native Sodium requirement is exactly 0.9.2+mc26.2. Optional integrations do not require installation on the server. | Active |
+| [Continuity](https://modrinth.com/mod/continuity), ID `1IjD5062` | [3.0.1+26.2](https://modrinth.com/mod/continuity/version/mgUN5Xz2), release-designated, Fabric 26.2 | Local connected textures and stacked glass-pane visual fix using its built-in packs. | Project and native artifact are client-only. Requires existing Fabric API; no server component or extra server data. Built-in texture assets are part of the pinned mod artifact. | Active |
+| [Cubes Without Borders](https://modrinth.com/mod/cubes-without-borders), ID `ETlrkaYF` | [5.0.0+26.2](https://modrinth.com/mod/cubes-without-borders/version/ZM0HUAhK), release-designated, Fabric 26.2 | Borderless/windowed fullscreen and local window settings. | Project and native artifact are client-only. No required project dependency; optional config libraries are already present. None of its declared incompatible projects is active. No server component. | Active |
+| [More Chat History](https://modrinth.com/mod/morechathistory), ID `8qkXwOnk` | [2.0.0](https://modrinth.com/mod/morechathistory/version/qpDhYv1Y), release-designated, Fabric 26.2 | Retain more already-received messages in local chat scrollback. | Project and native artifact are client-only, with no required project dependency. Does not add server-side history or require altered chat packets. | Active |
+| [Configured Defaults](https://modrinth.com/mod/configured-defaults), ID `SISoSFPP` | [26.2.0](https://api.modrinth.com/v2/version/oM0C4RRZ), release-designated Fabric 26.2 | Early missing-file defaults and missing-options-key merging. | Client/server installations are independently optional; native environment `*` and the early Fabric adapter perform local file operations. No networking or server contribution is needed. Requires Minecraft `~26.2-` and Loader `>=0.19.0`, satisfied by 0.20.1. No required project dependencies or bundled JARs. | Active |
 
 ## Dependency audit
 
-Fabric API is an explicitly selected platform library. Eight projects are transitive libraries. All nine have exact Fabric 26.2 pins and `side = "client"`. The selected platform library is release-designated. Upstream dependency provenance permits the audited Placeholder API beta-versioned artifact. Their local APIs and configuration functions do not require any remote-server installation. They add no selected gameplay content. Exact parents appear in `collection.toml`; exact versions and hashes remain authoritative in `mods/*.pw.toml`.
+Fabric API is an explicitly selected platform library. Ten projects are transitive libraries. All eleven have exact Fabric 26.2 pins and `side = "client"`. The selected platform library is release-designated. Upstream dependency provenance permits the audited Placeholder API beta-versioned artifact. Their local APIs and configuration functions do not require any remote-server installation. They add no selected gameplay content. Exact parents appear in `collection.toml`; exact versions and hashes remain authoritative in `mods/*.pw.toml`.
 
 | Library | Classification | Client purpose and dependency evidence |
 | --- | --- | --- |
-| [Fabric API](https://modrinth.com/mod/fabric-api) | selected-library | Required by Xaero's Minimap, YetAnotherConfigLib (YACL), Shulker Box Tooltip, Light Overlay, BetterF3, TCDCommons API, Dynamic FPS, OverlayLib, Balm, Entity Culling, Xaero's World Map, Inventory Profiles Next, Debugify, Mouse Tweaks, Sign Tweaks, Mod Menu, Better Statistics Screen, libIPN, Paginated Advancements & Custom Frames, Book Tweaks, Language Reload, Client Tweaks, Zoomify (Zoom), FastQuit, LambDynamicLights - Dynamic Lights. |
+| [Fabric API](https://modrinth.com/mod/fabric-api) | selected-library | Required by Renice Shot, Xaero's Minimap, YetAnotherConfigLib (YACL), Shulker Box Tooltip, Light Overlay, BetterF3, TCDCommons API, Dynamic FPS, OverlayLib, Balm, Entity Culling, Xaero's World Map, Inventory Profiles Next, Debugify, Mouse Tweaks, Sign Tweaks, Mod Menu, Better Statistics Screen, libIPN, Paginated Advancements & Custom Frames, Book Tweaks, Language Reload, Client Tweaks, Zoomify (Zoom), FastQuit, LambDynamicLights - Dynamic Lights, BetterGrassify, Controlling, Searchables, Food Effect Tooltips, Prickle, Enchantment Descriptions. |
 | [YetAnotherConfigLib (YACL)](https://modrinth.com/mod/yacl) | dependency | Required by Light Overlay, Zoomify (Zoom). |
-| [Cloth Config API](https://modrinth.com/mod/cloth-config) | dependency | Required by More Culling, BetterF3, Sign Tweaks, Paginated Advancements & Custom Frames, Status Effect Bars, FastQuit. |
+| [Cloth Config API](https://modrinth.com/mod/cloth-config) | dependency | Required by More Culling, BetterF3, Sign Tweaks, Paginated Advancements & Custom Frames, Status Effect Bars, FastQuit, Food Effect Tooltips. |
 | [TCDCommons API](https://modrinth.com/mod/tcdcommons) | dependency | Required by Better Statistics Screen. |
 | [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) | dependency | Required by Inventory Profiles Next, libIPN, Zoomify (Zoom). |
 | [libIPN](https://modrinth.com/mod/libipn) | dependency | Required by Inventory Profiles Next. |
 | [Balm](https://modrinth.com/mod/balm) | dependency | Required by Client Tweaks. |
 | [Text Placeholder API](https://modrinth.com/mod/placeholder-api) | dependency | Required by Mod Menu. |
 | [OverlayLib](https://modrinth.com/mod/overlaylib) | dependency | Required by Light Overlay. |
+| [Searchables](https://modrinth.com/mod/searchables) | dependency | Required by Controlling. |
+| [Prickle](https://modrinth.com/mod/prickle) | dependency | Local Enchantment Descriptions config. Exact environment classification review below; no server companion. |
 
 Fabric API supplies modules required by Debugify, Book Tweaks, Paginated Advancements, and other artifacts even where their Modrinth records omit that dependency. Sodium bundles the Fabric modules it requires. Cloth Config provides both `cloth-config` and `cloth-config2`. The client closure records these artifact-derived edges as well as upstream required-project edges.
 
@@ -63,7 +84,7 @@ Zoomify version `D64cvU6G` is universal. Its Modrinth record lists KotlinLangFor
 
 ## Upstream release and dependency provenance
 
-All 30 active features use upstream release-designated Fabric 26.2 versions.
+All 41 active features use upstream release-designated Fabric 26.2 versions.
 The same release requirement applies to explicitly selected Fabric API.
 Resolved and bundled libraries remain part of the selected releases' official
 closure, even when their version identifiers look like prereleases. This is not
@@ -95,20 +116,61 @@ The earlier exclusion queried the different Modrinth project `YfOlc91N`, slug
 snapshot identity has been removed. Project-ID substitution regressions now
 reject the similarly named project. The correct release's native Fabric module
 ID and JAR filename still contain `light-overlay`; those are upstream artifact
-identifiers, not its Modrinth project slug. All 30 requested features are active,
+identifiers, not its Modrinth project slug. All 30 original features remain active,
 with zero blocked features.
+
+## Screenshot selection
+
+[FO's version-specific mod list](https://github.com/Fabulously-Optimized/fabulously-optimized/blob/main/INCLUDED-MODS.md)
+uses Renice Shot for 26.2 and Fabrishot on older lines. The selected project is
+Renice Shot `ZDCwiIc3`, version `roOTvshj`, the newest release-designated Fabric
+26.2 artifact when checked. Native requirements are Minecraft `26.2`, Fabric
+Loader `>=0.19.5`, Java `>=25`, and Fabric API. Existing pins satisfy them.
+The artifact has no bundled modules or declared incompatible projects.
+
+The [release source](https://github.com/wechirok/renice-shot/blob/bca7c14881a592ca3df2d309968cb29bdaa32728/src/main/java/me/wechirok/reniceshot/ReniceShot.java)
+registers a local key mapping and captures the client framebuffer to a local
+file. No server handshake, companion, or network data beyond vanilla rendering
+is required. Existing Mod Menu and Cloth Config supply the optional config UI.
+The F9 collision with Light Overlay is resolved by the documented F7 override.
+Runtime screenshot capture and resolution restoration remain untested.
+
+## Staged investigations
+
+These projects are recorded only in `candidates.toml`. They have no active
+packwiz records and are absent from exports. Downloaded artifacts were
+SHA-512 verified outside the repository. Static findings do not establish
+runtime compatibility or a performance benefit.
+
+| Candidate and audited release | Findings | Decision and next gate |
+| --- | --- | --- |
+| [Config Manager](https://modrinth.com/mod/configmanager), `jlNms3Jp`, [1.1.4](https://api.modrinth.com/v2/version/okecULrz), release | Native Fabric environment is `*`, with a client initializer, local file-copy startup adapter, and optional native Mod Menu UI. The Modrinth version declares Mod Menu required, already available. However, [project API metadata](https://api.modrinth.com/v2/project/jlNms3Jp) declares client unsupported and server required, contradicting the client-facing description and native artifact. | Blocked. Do not bypass the client-only validator. Reconcile upstream metadata, then test first-install defaults, preservation of existing files, and explicit update/reset in a disposable profile. |
+| [Ixeris](https://modrinth.com/mod/ixeris), `p8RJPJIC`, [4.6.11+26.2-fabric](https://api.modrinth.com/v2/version/qXHd9Vb4), release | Project and native artifact are client-only, Minecraft exactly 26.2, Loader >=0.16.0, and no required project dependencies. [Release-tagged source](https://github.com/decce6/ixeris/tree/124f06bd5a9530d9af9529d5af885275b8be77b1) changes local event polling and input. Buffered raw input is Windows-specific; benefit depends on OS and polling hardware. | Staged pending benchmarking, inactive. Measure frame times/input behavior and test threading with Sodium, Iris, borderless mode, focus changes, and screenshots before promotion. |
+| [ModernFix-mVUS](https://modrinth.com/mod/modernfix-mvus), `TjSm1wrD`, [5.27.19-build.2](https://api.modrinth.com/v2/version/50uUra83), release | Universal Fabric artifact has common/client initializers and bundled MixinExtras 0.5.4. Native Minecraft range is `~26.2-`; API lists Fabric 26.2 and requires existing Fabric API. Local startup/model/memory optimizations are the proposed selection; server fixes are outside it. | Staged pending benchmarking, inactive. Complete exact-build overlap audits, then benchmark startup/memory and test resource reloads, rendering, and a vanilla-server join. No performance claim is established. |
+
+Config Manager's current [source inspection](https://github.com/TheBossMagnus/Config-Manager/tree/adf332de967b8eef237fa5ffb0f020688548dcc0)
+shows the usual copy path skips existing files. Startup also supports explicit
+update/reset flags. This is promising for preserving personal preferences, but
+it does not resolve the upstream environment disagreement. The 2026-11-19 [configuration evaluation](configuration.md#defaults-manager-evaluation-2026-11-19)
+rechecked that metadata. The final selection is Configured Defaults because it
+can fill missing fields in launcher-created partial options files while
+preserving existing values. It cannot replace a populated resource-pack list or
+change native key reset defaults. Default Options is removed; no competing
+manager is installed.
+ModernFix's inspected source and native mixin lists include both client and
+server work; finding a client initializer alone is insufficient for promotion.
 
 ## Intentional rejections
 
 AppleSkin, Jade, Easy Shulker Boxes, Bookshelf Inspector, and Client Sort are rejected regardless of target availability. AppleSkin and the rejected inspector/container tools do not meet the selected strict server-independence policy. Jade is deliberately excluded. IPN owns sorting, so Client Sort is not selected. The source checker rejects their IDs or slugs, and an undeclared lock also fails the active-set check.
 
-No substitute, shader pack, resource pack, gameplay content, or server companion has been added. See [configuration decisions](configuration.md) and [runtime acceptance](acceptance-tests.md).
+No substitute, shader pack, standalone resource pack, gameplay content, or server companion has been added. Continuity's two built-in visual packs are seeded when options are absent. Existing selections are preserved. See [configuration decisions](configuration.md) and [runtime acceptance](acceptance-tests.md).
 
 ## QoL and performance refinement, 2026-11-19
 
 Only the maintained 26.2 branch installs the following three additions. The 26.3
 bootstrap receives migration intent and this evaluation, not these artifacts.
-The maintained baseline is 40 features and ten libraries. All 46 preceding
+At pack 26.2.0.8.0, the maintained baseline was 40 features and ten libraries. All 46 preceding
 artifact locks and their upstream project records remain unchanged. No Minecraft,
 Prism or Modrinth App runtime acceptance was performed.
 
@@ -116,7 +178,7 @@ Prism or Modrinth App runtime acceptance was performed.
 | --- | --- | --- | --- |
 | [BetterGrassify](https://modrinth.com/mod/bettergrassify), `m5T5xmUy` | [1.8.7+fabric.26.2, r4yqxYQl](https://api.modrinth.com/v2/version/r4yqxYQl) | Added on 26.2 | Client-only artifact. Local block-model/quad rendering needs no server installation or extra data. Requires existing Fabric API. Fancy grass, resource-pack compatibility mode, paths/farmland/Nether changes disabled, and extra snow layers disabled are initial defaults. |
 | [Controlling](https://modrinth.com/mod/controlling), `xv94TkTM` | [26.2.4, sZHXONgm](https://api.modrinth.com/v2/version/sZHXONgm) | Added on 26.2 | Client-only keybinding screen search, free-key view and conflict filtering. Requires Fabric API and Searchables. Does not assign bindings or resolve conflicts automatically; F7 is unchanged. |
-| [Enchantment Descriptions](https://modrinth.com/mod/enchantment-descriptions), `UVtY3ZAC` | [26.2.0.2, PTAK0HD2](https://api.modrinth.com/v2/version/PTAK0HD2) | Accepted on maintained 26.2 only, review below | Initial metadata-policy deferral. Client tooltip callback and vanilla translations are local. Required Prickle `aaRl8GiW`, release [26.2.0.3, XdvtdRYJ](https://api.modrinth.com/v2/version/XdvtdRYJ), declares server required in the [project API](https://api.modrinth.com/v2/project/aaRl8GiW). Its universal descriptor and local config implementation contradict that label. The maintained line now has an exact-artifact exception; this bootstrap has none. |
+| [Enchantment Descriptions](https://modrinth.com/mod/enchantment-descriptions), `UVtY3ZAC` | [26.2.0.2, PTAK0HD2](https://api.modrinth.com/v2/version/PTAK0HD2) | Added after the classification review below | The initial deferral concerned metadata only. Client tooltip callback and vanilla translations are local. Required Prickle `aaRl8GiW`, release [26.2.0.3, XdvtdRYJ](https://api.modrinth.com/v2/version/XdvtdRYJ), declares server required in the [project API](https://api.modrinth.com/v2/project/aaRl8GiW). Its universal descriptor and local config implementation contradict that label. The exact-version exception below resolves this pairing. |
 | [Crash Assistant](https://modrinth.com/mod/crash-assistant), `ix1qq8Ux` | [1.11.14, alR3tamq](https://api.modrinth.com/v2/version/alR3tamq) | Deferred due to compatibility | API is client-only; native universal language adapter starts a local child process early enough to diagnose many initialization failures. No required Modrinth projects; embedded application/libraries still need auditing. Launcher logs already provide the basic reporting path. Early privacy-default ordering with Configured Defaults is unresolved. |
 | [Better Block Entities](https://modrinth.com/mod/better-block-entities), `ONZm0H7Y` | [1.3.9+mc26.2, n5mL5flA](https://api.modrinth.com/v2/version/n5mL5flA) | Deferred due to compatibility | Client-only; native Sodium `>=0.9.0`, release changelog supports 0.9.0 through 0.9.2, including our 0.9.2. Open Iris lighting report [#145](https://github.com/EdeenMC/betterblockentities/issues/145), Iris/Xaero shader-toggle map report [#156](https://github.com/EdeenMC/betterblockentities/issues/156), and acknowledged transition-lighting limitation [#7](https://github.com/EdeenMC/betterblockentities/issues/7) prevent promotion without resolving applicability to this stack. |
 | [Ixeris](https://modrinth.com/mod/ixeris), `p8RJPJIC` | [4.6.11+26.2-fabric, qXHd9Vb4](https://api.modrinth.com/v2/version/qXHd9Vb4) | Staged pending benchmarking | Client event polling and Windows buffered raw input. The [upstream benchmarks](https://github.com/decce6/Ixeris/tree/124f06bd5a9530d9af9529d5af885275b8be77b1#benchmarks) are real workload-specific reports, not Lantern Crossing measurements. No required project dependency. |
@@ -126,7 +188,7 @@ Prism or Modrinth App runtime acceptance was performed.
 
 ### Source and dependency evidence
 
-The hash-verified new artifact descriptors are in [the maintained-line upstream snapshot](https://github.com/jabez007/lantern-crossing/blob/59373ad/docs/upstream-metadata.json).
+The hash-verified new artifact descriptors are in [upstream-metadata.json](upstream-metadata.json).
 All new packwiz entries are pinned and `side = "client"`. Required libraries
 remain separate from features. Searchables [1.0.1, bvFby61J](https://api.modrinth.com/v2/version/bvFby61J),
 project `fuuu3xnx`, is the sole new library, with a client-only native descriptor
@@ -148,7 +210,7 @@ evidence; it is not a claim of a reproducible upstream source build.
 - BetterGrassify [release tag 33df4f9](https://github.com/UltimatChamp/BetterGrassify/tree/33df4f9ef7f9bdbacb5b9fade4050542f7dcb2bf), `BetterGrassifyBlockStateModel`, `BetterGrassifyConfig` and Sodium meshing mixin. Client block/tint/light data supplies rendering. Compatibility mode limits replacement to full quads. Sodium, Iris, Continuity and More Culling have no declared hard conflict; visual interaction still needs owner acceptance.
 - Controlling [26.2 source 3521164](https://github.com/jaredlll08/Controlling/tree/3521164fd53771ed95afe4868310ac0f88df8ceb), `NewKeyBindsScreen`, `NewKeyBindsList` and client mixins; Searchables [10cb075](https://github.com/jaredlll08/searchables/tree/10cb075ae5f3526bda799b9a37d8e2769a0277d6). Searches local registered mappings. No companion, handshake, protocol or new keybind is selected.
 - Food Effect Tooltips [26.2 source 27b7894](https://github.com/DaFuqs/FoodEffectTooltips/tree/27b7894278716f5988f6a875bd80483e9e9f3316), `FoodeffecttooltipsClient`, `TooltipHelper` and `FoodEffectsConfig`. Probability is read from `ApplyStatusEffectsConsumeEffect`; no current-player food state is consulted. Vanilla item components support these tooltips on an unmodified server. Plugin behavior absent from those components is unknown and is not advertised.
-- Enchantment Descriptions [df15f5b](https://github.com/Darkhax-Minecraft/Enchantment-Descriptions/tree/df15f5bc42a0d0b74356fec64dcfa4162701d149) loads Prickle config and resolves description translation keys. Prickle [19934df](https://github.com/Darkhax-Minecraft/PrickleMC/tree/19934df33b5f874d5849f272a663f0db97c4c099) uses local JSON file services; no required remote handshake was found. The subsequent exact-artifact review below resolves the maintained-line deferral. Vanilla translations are supplied, but plugin-defined enchantments need matching local descriptions; arbitrary plugin behavior cannot be inferred.
+- Enchantment Descriptions [df15f5b](https://github.com/Darkhax-Minecraft/Enchantment-Descriptions/tree/df15f5bc42a0d0b74356fec64dcfa4162701d149) loads Prickle config and resolves description translation keys. Prickle [19934df](https://github.com/Darkhax-Minecraft/PrickleMC/tree/19934df33b5f874d5849f272a663f0db97c4c099) uses local JSON file services; no required remote handshake was found. The later exact-artifact review below resolves this metadata-policy deferral. Vanilla translations are supplied, but plugin-defined enchantments need matching local descriptions; arbitrary plugin behavior cannot be inferred.
 - Tooltip Tweaks [5a587ac](https://github.com/lunarbunten/tooltiptweaks-mod/tree/5a587ac31ae8c6f047ce234a52bdf7f4b9c0ae3e), `NutritionTooltips` hard-codes cake saturation `2.4F`; `FoodGuiTooltip` uses `2.8F` and casts saturation to `int`. Ordinary food values use local `FoodProperties`. It could supply hunger-only text, but that does not justify the broad rewrite set for this milestone. Food Effect Tooltips supplies the narrower effect use case with probabilities. No nutritional HUD or substitute is added.
 - Crash Assistant [26.2 entrypoint dd39ca5](https://github.com/KostromDan/Crash-Assistant/tree/dd39ca5c8d2d292cc2c0f8c89123b7df1e3ffc4b) and [shared application 93fd896](https://github.com/KostromDan/Crash-Assistant/tree/93fd8960ed4f9e55a9f5c34ab2f8ce2c4308fc14). The inspected upload path calls `PrivacyPolicyDialog.ensurePrivacyPolicyAccepted`. Uploaded logs may contain file paths, chat, server addresses and account identifiers. `general.send_uploaded_logs_data_to_kostromdan_dev` defaults true and includes UUID metadata after an upload; it can be disabled. No automatic crash-log upload was found in the inspected path. `DefaultConfigModsCompatibility` seeds only YOSBR and Config Manager directories. Adding direct live overrides to force privacy defaults would violate Lantern Crossing's settings policy. Child-process/launcher interaction and exact embedded-code correspondence remain unaudited, so no diagnostics mod, telemetry, upload service or support link is installed. Use launcher-local logs and review/redact before deliberately sharing them.
 
@@ -175,10 +237,6 @@ added or replaced in this milestone. No shaders, standalone resource packs,
 server artifacts or content mods are introduced. All runtime results stay pending.
 
 ## Prickle environment classification review
-
-This disposition applies only to the maintained 26.2 artifact pair. Neither mod
-nor the exception is installed on this bootstrap. A new 26.3 pair needs its own
-source/artifact review and dependency closure; no compatibility is inferred.
 
 The original deferral was overly conservative. It reproduced a metadata-policy
 rejection, not a Fabric version incompatibility or demonstrated server companion
@@ -219,7 +277,7 @@ Their versioned source JARs match the inspected immutable Git revisions:
 classes, including private methods and constant-pool references. The artifact
 entrypoints/configuration/tooltip code agrees with the sources above. Binary
 hashes, source URLs/SHA-256, class counts and source-match evidence are recorded
-in [the maintained snapshot](https://github.com/jabez007/lantern-crossing/blob/377c699/docs/upstream-metadata.json). This is strong release
+in [upstream-metadata.json](upstream-metadata.json). This is strong release
 correspondence, not a claim of a signed or independently reproducible upstream
 build. No Minecraft class was executed and neither launcher was run.
 
@@ -319,16 +377,292 @@ remains entirely uncompleted.
 
 ## Screenshot experience evaluation, 2026-11-19
 
-The [maintained 26.2 review and complete comparison matrix](https://github.com/jabez007/lantern-crossing/blob/2add0bf/docs/mod-audit.md#screenshot-experience-evaluation-2026-11-19)
-retains Renice Shot alone. Viewer `laNoi025` / `id6Yni9S` remains staged for
-bounded image-loading evidence. Overhaul `wYSKV506` / `H592Npj8` remains deferred
-for capture-time sensitive PNG metadata with no opt-out, deletion safety and
-capture integration. Its alpha designation was not the sole decision criterion.
-Candidate URLs/hashes/source commits refer to the evaluated 26.2 artifacts.
-They do not establish 26.3 support or permission to install either mod.
+Decision: retain Renice Shot alone. Neither gallery is installed. This review
+changes no feature count, pin, defaults template, pack version or player file.
+At the screenshot review, the maintained baseline was 41 features and eleven
+libraries, pack 26.2.0.9.0. Both candidates remain outside the collection, index
+and export. The later shader milestone is recorded separately below.
 
-This bootstrap still has 30 installed features, no Renice Shot or gallery, and
-41 future migration identities. No installed artifact, config, upstream lock
-snapshot, index or release qualification changes. The screenshot-owner matrix on
-the maintained line applies to that line only. Any future gallery promotion and
-26.3 migration needs a separate version-specific audit and owner acceptance.
+### Exact artifacts and source correspondence
+
+| Project | Evaluated Fabric 26.2 artifact | Source and dependencies |
+| --- | --- | --- |
+| Renice Shot, `ZDCwiIc3` | Release `1.2.1+mc26.2`, version `roOTvshj`, retained | [Release tag](https://github.com/wechirok/renice-shot/tree/bca7c14881a592ca3df2d309968cb29bdaa32728). Required Fabric API and optional Mod Menu/Cloth Config are already installed. No bundled libraries. |
+| Screenshot Viewer, `laNoi025` | Release `26.2-fabric-1`, native version `1.3.6-fabric-mc26.2`, version `id6Yni9S` | [Release commit](https://github.com/LGatodu47/ScreenshotViewer/tree/82dd0b8be130f5832badeeac9a9df74b2c4fd91a), committed 16 seconds before publication with matching version/changelog. Bundles CatConfigMC `0.2.1`, which bundles CatConfig `0.3.0`. No external API dependencies declared by Modrinth/native metadata; implementation uses the already installed Fabric API. |
+| Screenshot Overhaul, `wYSKV506` | Alpha `0.2.3-26.2`, version `H592Npj8` | [26.2 release-time commit](https://github.com/Azz-9/Screenshot-Overhaul/tree/c1676036589ceccd6942d4b5449002baf036753c), matching version/changelog, committed 23 minutes before publication. Required Fabric API is already installed. No bundled libraries. The generic `v0.2.3` tag targets 26.3; it is not the source used for this 26.2 review. |
+
+The [version API](https://api.modrinth.com/v2/version/id6Yni9S) and
+[Overhaul version API](https://api.modrinth.com/v2/version/H592Npj8) identify the
+exact files. `candidates.toml` records their URLs, SHA-512 hashes and immutable
+source commits. Downloads matched these hashes. `javap -p -c -verbose` inspected
+all 55 Viewer, 185 Overhaul and 17 Renice Shot top-level-JAR classes, including
+private methods and constants. Published descriptors and the decision-relevant
+methods/constants agree with the referenced sources. This is source/release
+correspondence, not a reproducible upstream build or runtime proof. Current
+Viewer master is unreleased 1.3.7 with additional options/fixes; those are not
+attributed to the evaluated 1.3.6 artifact.
+
+All three project labels are client required/server unsupported. All three
+native root descriptors declare `environment = "client"`. Viewer has a client
+entrypoint and client mixins; its bundled config libraries have no server
+entrypoint/requirement. Overhaul's main entrypoint initializes client facilities.
+No custom game packet protocol, remote sharing/upload client or mandatory
+server companion was found in the reviewed implementation. Overhaul's Fabric
+connection events refresh local state; they do not add a server protocol.
+`net.minecraft.network.chat` references represent text, not a custom connection.
+This audit covers these screenshot mods, not outbound behavior of unrelated
+pack libraries such as the separately disclosed Prickle update check.
+
+Isolated native graph checks passed for each candidate against all 52 existing
+pins, including Java 25, Loader 0.20.1, Sodium 0.9.2 and Iris 1.11.4. Viewer also
+passed the existing exact-feature check. Overhaul was rejected as an intentional
+alpha selection. Its substantive privacy/deletion risks independently prevent
+promotion; the alpha label alone did not decide the outcome. No policy or
+metadata exception was added. Successful descriptor checks do not prove mixin
+application, renderer compatibility or launcher behavior.
+
+### Capabilities and limitations
+
+V = verified supported by the exact source/artifact; C = supported with caveats;
+N = not supported; U = unknown, requires runtime acceptance. V never means an
+observed Minecraft result.
+
+| Capability | Renice Shot | Screenshot Viewer | Screenshot Overhaul |
+| --- | --- | --- | --- |
+| Capture | V: normal F2 retained, separate F9 3840x2160 PNG; custom dimensions, optional HUD hiding/delay | N: no high-resolution capture of its own; modifies vanilla saved-message click behavior | V: normal capture, optional custom resolution/HUD/chat/hand hiding, previews and six-face panoramas; U: renderer restoration under failure |
+| Files and naming | V: default `screenshots/huge_<time>.png`; custom `%time%` and `%world%`; PNG/JPG/TGA/BMP | C: existing lowercase `.png`, `.jpg`, `.jpeg`, including `huge_` names; not TGA/BMP | C: existing `.png` only, including `huge_`; custom token names/subdirectories and output root; no JPG/TGA/BMP capture selection found |
+| Locations | V: instance screenshots directory | C: one configurable root, nonrecursive; release config UI expects absolute paths | C: recursive custom root and watch service; symlink traversal not guaranteed |
+| Gallery and organization | N: use launcher/OS folder | V: title/pause buttons, enlargement/navigation, filename order forward/reverse, rename/open/copy; N: search, favorites or map integration | V: title/pause gallery, search, sort/filter/favorites and local `screenshot-states.json`; image metadata editing |
+| Controls | V: F9 capture; Light Overlay seeded F7 | V: gallery shortcut initially unbound, menu buttons remain discoverable | C: F9 panorama collides with Renice Shot; no distinct bound gallery shortcut found |
+| Large libraries | V: no library index/cache | C: eagerly creates a widget for every file; default `NONE` compression queues every full original decode when gallery opens and retains images until close | C: background recursive metadata scan/watchers; on-demand texture caches bounded by entry count, not image bytes |
+| Images and thumbnails | C: capture limit depends on GPU/available memory | C: optional HALF/QUARTER/EIGHTH disk thumbnails; generation decodes full originals and queues the whole collection during initialization/config changes; no LRU or pixel budget | C: small/normal/full-view LRU limits 128/64/6, widths 128/512/1920; each load first decodes original; no disk thumbnail cache found |
+| Arbitrary huge dimensions | U: hardware dependent | U: full native decode and GPU texture limits apply, not arbitrary-size support | U: downscaled presentation still needs original decode; full view is not a lossless 4K inspection tool |
+| Deletion | N: no gallery delete operation | V: single/batch deletion confirmation enabled by default; disabling it changes safety | C: reviewed gallery and preview actions call deletion directly; no confirmation option found |
+| Privacy | V: default time-only filename; no location metadata writer or automatic sharing found | V: no location metadata writer or automatic uploads found; explicit clipboard/open operations | C: capture unconditionally inserts location/server metadata into PNG; no capture-time opt-out found |
+| Sodium/Iris | U: existing owner acceptance remains open | U: gallery plus capture/message/native-image mixins need runtime checks | C: built against Sodium 0.9.2 and Iris 1.11.4; local Iris shader-name lookup; U: actual capture/rendering compatibility |
+| Prism and Modrinth App | C: ordinary client JAR/local instance paths; U: live launch/capture | C: ordinary client JAR, AWT and custom path behavior need acceptance | C: ordinary client JAR, AWT/path behavior need acceptance; existing symlink issue below |
+
+Viewer's default full-image retention can be expensive even with background
+loading. For scale only, 500 decoded 3840x2160 RGBA images require about 15.4 GiB
+of pixel storage before other allocations. This is arithmetic, not a benchmark
+or measured peak. Enabling EIGHTH thumbnails lowers retained preview size but
+still queues the whole collection, decodes full images during generation, and
+can fall back to original decoding while a thumbnail is pending. There is no
+bounded visible-window image cache. It also globally redirects NativeImage's
+PNG header validation and enables AWT on non-macOS systems. Neither can be
+removed with an ordinary defaults template. Those costs are excessive for the
+focused capture/gallery separation sought here, even though installation is
+statically eligible. Revisit after bounded loading evidence or an upstream fix.
+
+### Xaero integration and privacy
+
+Overhaul places image thumbnails at stored X/Z coordinates and opens them from
+the world map. It uses Xaero render interfaces plus mixins into
+`MapElementRenderHandler.Builder.build`, `GuiMap` mouse/render methods and a
+private `viewed` field accessor. Its Fabric plugin checks only whether
+`xaeroworldmap` is installed. There is no declared version range protecting
+these internal targets. No Minimap-specific integration was found.
+
+The evaluated build compiles against World Map 1.46.1. Lantern Crossing pins
+World Map 1.47.2 (`W8qSt5Gs`) and Minimap 26.6.2 (`kYWdcLLn`). Static inspection
+of the hash-verified pinned map JAR found the named primary mixin targets and
+field, but this does not prove all inherited interfaces, mixin application or
+behavior. The integration is not qualified against our exact pins.
+
+World matching uses a singleplayer save-folder ID or the literal multiplayer
+server address, then filters dimension. It has no server-provided unique world
+ID. It cannot reliably distinguish separate worlds behind one address or a
+server reset, and different addresses can split one world. Old Renice Shot PNGs
+can appear in the gallery but lack coordinates/world metadata and cannot acquire
+accurate map positions retroactively.
+
+[MetadataUtils](https://github.com/Azz-9/Screenshot-Overhaul/blob/c1676036589ceccd6942d4b5449002baf036753c/common/src/main/java/me/Azz_9/screenshot_overhaul/client/metadata/MetadataUtils.java)
+collects X/Y/Z, dimension, biome, singleplayer seed/save identity/world name,
+multiplayer server address, game version, resource-pack names, active shader and
+timestamp. No player UUID/name or multiplayer seed fetch was found. The
+[Screenshot mixin](https://github.com/Azz-9/Screenshot-Overhaul/blob/c1676036589ceccd6942d4b5449002baf036753c/common/src/main/java/me/Azz_9/screenshot_overhaul/mixin/ScreenshotMixin.java)
+unconditionally writes these as PNG `tEXt` chunks. Sharing the original PNG
+therefore shares the data even without any automatic upload. Hiding an image
+from the map changes local state, not its embedded metadata. UI editing is not
+a preventative default and metadata update strips all text chunks, including
+unrelated existing text. No setting separates private local map association
+from a shareable metadata-free original. Disabling the whole mod removes the
+intended functionality. This fails the selected privacy requirement.
+
+### Release maturity and architecture decision
+
+Viewer's Fabric 26.2 release dates to June 26. Its July development fixes are
+unreleased; requests for 26.3 remain open. [Issue 74](https://github.com/LGatodu47/ScreenshotViewer/issues/74)
+requests subfolder support. [Issue 75](https://github.com/LGatodu47/ScreenshotViewer/issues/75)
+reports custom click-event serialization with Chat Patches, which this pack does
+not install. Do not generalize that report into a reproduced pack conflict.
+
+Overhaul has five Fabric 26.2 alpha releases from July through October, most
+recently October 20. Its optional photo-mode work remains experimental. No
+runtime result or stable-API commitment was found. [Issue 2](https://github.com/Azz-9/Screenshot-Overhaul/issues/2)
+reports an empty gallery with a symlinked screenshot root on Linux/Prism/26.3.
+The reviewed 26.2 code also walks paths without following links; the 26.2 effect
+is a source-based risk, not a reproduced bug. An open issue is not evidence that
+it has been fixed. No upstream contact was made.
+
+Weights remain the requested 25/15/20/15/10/10/5 percent. Scores below use 1 to 5
+as engineering judgments about reviewed evidence, not runtime measurements.
+A hard privacy/stability requirement cannot be traded for a higher total.
+
+| Architecture | Stability 25 | Capture 15 | Gallery 20 | Exploration 15 | Privacy 10 | Memory 10 | Maintenance 5 | Weighted / 5 | Disposition |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| A: Renice Shot + Viewer | 3 | 5 | 3 | 1 | 5 | 1 | 3 | 3.00 | Defer: useful local gallery, but unbounded loading and broad image/AWT hooks are not justified for large high-resolution collections. |
+| B: Renice Shot + Overhaul | 1 | 3 | 4 | 3 | 1 | 3 | 1 | 2.40 | Reject this combination: two F9 actions and overlapping capture/filename wrappers; metadata/deletion blockers persist. |
+| C: Overhaul alone | 2 | 3 | 4 | 3 | 1 | 3 | 2 | 2.70 | Defer: useful gallery/map features, but privacy/deletion and maturity requirements unmet; loses Renice's separate F9 workflow, extra output formats and proven-in-source queue/error-restoration paths. |
+| Retained: Renice Shot alone | 4 | 5 | 1 | 1 | 5 | 5 | 5 | 3.35 | Selected: established capture architecture; gallery, favorites, map pins and panoramas remain absent. Runtime qualification is still pending. |
+
+A is the simpler future gallery direction if its memory behavior improves.
+B does not become safe merely by rebinding panorama: both wrap
+`Screenshot.grab` and `takeScreenshot` and control filenames. Renice Shot's
+ordinary F9 task writes through its own framebuffer writer, so a directory
+watcher can discover it but Overhaul's vanilla-save metadata hook cannot be
+assumed to annotate it. No combined mixin test was performed and no crash is
+claimed. C's custom-resolution path lacks the same explicit queued
+capture/failure-restoration structure and does not establish a safer replacement.
+
+No screenshot manager configuration, live preferences, screenshot folder,
+metadata database or user image is packaged. Existing Configured Defaults
+behavior remains unchanged. There is no gallery migration or user cleanup.
+The earlier screenshot review applied shared documentation guards and candidate
+findings to the future 26.3 bootstrap as forward preparation. Its 30 installed
+features and 41 future identities did not change. Current policy ends automatic
+propagation; the shader milestone leaves 26.3 untouched. Neither screenshot
+candidate is promoted there or claimed compatible with 26.3.
+
+## Optional shaders and distribution, 2026-11-19
+
+Decision: option A, Complementary Reimagined r5.10 plus MakeUp - Ultra Fast 9.6.
+Both are installed choices and remain disabled in a clean instance. The pack
+retains 41 Fabric feature mods and eleven libraries; the two shaders are visual
+resources, recorded under `[[shader]]` separately from those mod selections.
+There are 54 upstream downloads. No supporting mod or prior pin is changed.
+The 26.2 inventory is frozen pending owner runtime acceptance and qualification.
+
+### Selection and evidence matrix
+
+V = supported by official metadata or inspected release source. C = supported
+with caveats. U = unverified runtime/GPU behavior. No cell records an in-game
+result or an independent performance measurement. Requested weights are retained.
+
+| Criterion | Weight | Complementary Reimagined | MakeUp - Ultra Fast |
+| --- | --- | --- | --- |
+| Iris/rendering stack | 25% | V: release lists Iris/26.2. Optional CUSTOM_IMAGES, SSBO, BLOCK_EMISSION_ATTRIBUTE, FADE_VARIABLE and ENTITY_TRANSLUCENT flags exist in pinned Iris 1.11.4; no required flag list found. U: compilation/rendering on owner's GPU. | V: release lists Iris/26.2; included README requires Iris >=1.5.1, satisfied by 1.11.4. U: exact driver/rendering acceptance. |
+| Visual style | 20% | Featured choice: upstream Reimagined defaults preserve blocky Minecraft styling with atmospheric lighting/clouds. Unbound differs mainly in defaults and would be redundant here. Appearance is owner-assessed, not observed in this audit. | Alternative color schemes and modular effects; vanilla-like restraint depends on chosen options. Not presented as identical to Reimagined or photorealism. |
+| Performance accessibility | 20% | V: Potato/Very Low/Low/Medium/High/Very High/Ultra and additional high-end profiles. Higher colored-light/reflection settings use more resources. U: measured frame times/VRAM. | V: no-effects, three shadowless profiles, Low/Medium/High/Extreme+. Shadows, reflection, clouds, bloom and depth of field are configurable. U: faster than Complementary on the owner's hardware. |
+| Stability/maintenance | 15% | Long-maintained project, current release dated November 18. New r5.10 lighting changes warrant acceptance. Open reports include water/weather artifacts and culling/skin/transparency scenarios. | Release 9.6 dated October 19; recent releases address Iris enchantment glint and End rendering. Open reports include translucency, fog compilation and optional DoF on Apple Silicon. None reproduced here. |
+| Licensing/distribution | 10% | V: release's Complementary License Agreement 1.8 explicitly permits unmodified modpack use through platform systems; official Modrinth reference selected. | V: upstream LGPL-3.0-or-later designation, LGPL v3 text and copyright/source notices inside official ZIP. Unmodified official reference selected. |
+| Distinct value | 10% | Main atmospheric, Minecraft-styled experience with integrated material/light effects. | Adjustable alternative emphasizing lower-effect/shadowless choices and its own color treatment; offers a different starting point without another renderer. |
+
+A qualifies statically and gives a clear featured/adjustable choice. C would
+omit that alternative without resolving a known hard compatibility problem.
+Miniature is considered only as the fallback for an unsuitable or redundant
+primary candidate. Neither condition was established, so B needs no deeper
+artifact audit and Miniature is not installed. D is unnecessary because the two
+selected releases have verifiable platform distribution grants and Iris support.
+No controlled comparative benchmark was found in the reviewed release materials.
+No benchmark ranks the shaders. Keep shaders disabled for the optimized vanilla
+baseline; the word "Ultra Fast" is an upstream name, not a pack guarantee.
+
+### Exact releases and source correspondence
+
+| Project | Exact release | Official artifact and integrity |
+| --- | --- | --- |
+| [Complementary Reimagined](https://modrinth.com/shader/complementary-reimagined), `HVnmMxH1` | `r5.10`, `RKfUB9VC`, release, Iris, Minecraft 26.2 listed | [ComplementaryReimagined_r5.10.zip](https://cdn.modrinth.com/data/HVnmMxH1/versions/RKfUB9VC/ComplementaryReimagined_r5.10.zip), 567,387 bytes. SHA-512 `edced01fb330af215ac73b8d9d31011565089f971f87145b87f413f40ee2128b48970aed26f8e5e879899647ec847b3eefca64bfc013aabbcf25275a207f663d`. |
+| [MakeUp - Ultra Fast](https://modrinth.com/shader/makeup-ultra-fast-shaders), `izsIPI7a` | `9.6`, `t4YRxQug`, release, Iris, Minecraft 26.2 listed | [MakeUp-UltraFast-9.6.zip](https://cdn.modrinth.com/data/izsIPI7a/versions/t4YRxQug/MakeUp-UltraFast-9.6.zip), 406,830 bytes. SHA-512 `fa7af14ac14bd77bc1c5d8abf5243e9f3dae08777272790de62b9f388db2f5383f8b00c61da358a356a43635afb7cab80ea7196ffd3a97e22d3184b76e9f3fd3`. |
+
+Hashes matched the downloaded official ZIPs during inspection. Complementary's
+447 archived files match [source revision e10d27d](https://github.com/ComplementaryDevelopment/ComplementaryReimagined/tree/e10d27dec5acfb18509fdcc3cda704152dc2f7df)
+after normalizing CRLF/LF for comparison only. MakeUp's 344 shader files, README
+and LICENSE match [source revision fed6d05](https://github.com/javiergcim/MakeUpUltraFast/tree/fed6d05f841389fb5981f078e2fcac8dfb9c0080)
+byte-for-byte. No downloaded file or ZIP was modified. No Fabric descriptor,
+Java mod, installer or server companion was substituted for a shader resource.
+Neither release declares required Modrinth dependency projects. Iris is the
+already-selected renderer, not a new transitive mod. The native Fabric graph and
+all 52 prior locks remain unchanged. Project environment labels are client
+required/server unsupported, and every shader lock explicitly uses client side.
+
+Iris `gxZWWnKH`, 1.11.4, and Sodium `xJZxADzI`, 0.9.2, remain pinned. The inspected
+Iris binary contains Complementary's optional flags, but their usability also
+depends on hardware. The exact shader/renderer artifacts are bound in the
+snapshot's distribution audit; an Iris pin change requires re-review. Metadata
+and recognized flags cannot prove GLSL compilation or GPU compatibility.
+Packwiz's pinned executable reports the newer shader environment enum as unknown
+and initially writes both-side records. The two generated records were set to
+`side = "client"` and `pin = true`, consistent with the audited v2 labels and
+existing export contract. No general environment or prerelease exception changed.
+
+### Distribution gate and attribution
+
+Complementary's [release license](https://github.com/ComplementaryDevelopment/ComplementaryReimagined/blob/e10d27dec5acfb18509fdcc3cda704152dc2f7df/License.txt)
+is Agreement 1.8. ZIP member `License.txt` has SHA-256
+`2d2f14f4e04e9a19ea11bb67c13cabe1ef458113320c02bbae87527b862266b6`.
+Section 1.2 permits modpack inclusion through Modrinth/CurseForge systems,
+requires unmodified contents and pack-author responsibility for integration
+problems, and prohibits direct file uploads. Visible credit is mandatory when
+enabled by default; Lantern Crossing credits EminGT / Complementary Development
+with the official link even though it starts disabled. Lantern Crossing accepts
+responsibility for problems arising from this integration. Changes to shader
+code/variables or standalone redistribution are outside this chosen grant.
+The license also restricts AI-training use; repository MIT terms do not override
+any shader terms. No special installer, automatic patcher or modified shader is
+included. The `.mrpack` contains official Modrinth download references only.
+
+MakeUp's [release LICENSE](https://github.com/javiergcim/MakeUpUltraFast/blob/fed6d05f841389fb5981f078e2fcac8dfb9c0080/LICENSE)
+is LGPL v3, with ZIP-member SHA-256
+`e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118`.
+Modrinth designates LGPL-3.0-or-later. The release includes readable shader source,
+copyright notices and a README requesting credit and official links. README now
+credits Javier Garduño / javiergcim and links the official project/source plus
+[LGPL](https://www.gnu.org/licenses/lgpl-3.0.html); the incorporated
+[GPL terms](https://www.gnu.org/licenses/gpl-3.0.html) remain applicable as upstream
+specifies. We reference the complete unmodified upstream ZIP, retain its notices,
+and distribute no compiled derivative or copied source tree. No further
+release-specific modpack restriction was found in the exact ZIP/README. Automatic
+launcher downloading uses Modrinth's ordinary modpack file mechanism.
+
+No extra license notice payload is needed for this reference-only architecture;
+original notices travel inside upstream ZIPs. Any future pack description page
+must retain the credits/links and integration responsibility stated in README.
+No modpack-level MIT permission is asserted over shaders. Each audit is tied to
+its exact release ID, artifact SHA-512, release-license fingerprint and Iris pin.
+Future changes require a fresh distribution/compatibility review.
+
+### Rendering caveats and owner acceptance
+
+Both packs operate on the client-visible world and need no vanilla-server mod,
+plugin, custom protocol or unavailable server data. Their visuals are not
+server-side light/spawn state. No network/upload feature or extra launcher
+integration is selected. Ordinary Iris loading from `shaderpacks/` is the static
+Prism/Modrinth interoperability basis, not an observed launcher result.
+
+Continuity CTM and BetterGrassify remain unchanged; no custom textures/PBR pack
+is installed. More Culling and Entity Culling can interact with shader shadows,
+foliage and translucent surfaces. Check these with actual movement and lighting.
+LambDynamicLights remains the no-shader light provider. Complementary has held
+and optional colored dynamic lighting; MakeUp also shades held-light information.
+Do not globally disable existing lighting or force a shader profile to avoid a
+runtime interaction that has not been observed. The owner should check doubled
+hand/entity brightness and preserve the useful no-shader behavior when adjusting.
+
+Relevant reports are evidence for focused tests, not reproduced pack failures:
+[MakeUp 208](https://github.com/javiergcim/MakeUpUltraFast/issues/208) describes
+optional DoF edge artifacts on Apple Silicon with 26.3/Iris 1.11.7, not our exact
+stack; DoF is off in the inspected ordinary defaults. [MakeUp 207](https://github.com/javiergcim/MakeUpUltraFast/issues/207)
+reports a fog compile error without enough environment detail to establish its
+scope. [LambDynamicLights 383](https://github.com/LambdAurora/LambDynamicLights/issues/383)
+reports bright player models with Photon, not either selected shader. Review
+water/rain, translucent player skins, signs, portals, leaves and all dimensions.
+No source issue is silently treated as fixed by metadata compatibility.
+
+Configured Defaults still seeds only `enableShaders=false` if the entire Iris
+config is absent. It does not replace an existing active shader or user preset.
+ZIP option sidecars are never shipped. Defaults, screenshots, worlds and existing
+mod versions are unchanged. Complete the new owner matrix in both launchers;
+no Minecraft, GPU benchmark, shader compilation or runtime acceptance was run.
+This milestone leaves the 26.3 branch and hosting default untouched. Forward
+migration begins from the accepted 26.2 inventory after its qualification/release.

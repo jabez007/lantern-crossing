@@ -59,23 +59,35 @@ def check_manifest(manifest: dict, pack: Pack, identity: dict, raw: bool) -> Non
     )
 
 
-def check_mods(files: list, pack: Pack) -> None:
-    expected = {"mods/" + m["filename"]: (pid, m) for pid, m in pack.mods.items()}
+def check_downloads(files: list, pack: Pack) -> None:
+    expected = {
+        directory + "/" + lock["filename"]: (lock, versions[pid])
+        for directory, locks, versions in (
+            ("mods", pack.mods, pack.versions),
+            ("shaderpacks", pack.shaders, pack.shader_versions),
+        )
+        for pid, lock in locks.items()
+    }
     seen = set()
     for entry in files:
         path = entry["path"]
-        require(path in expected and path not in seen, f"unexpected/duplicate exported mod: {path}")
-        pid, lock = expected[path]
+        require(
+            path in expected and path not in seen,
+            f"unexpected/duplicate exported mod/shader: {path}",
+        )
+        lock, version = expected[path]
         require(
             entry.get("env") == {"client": "required", "server": "unsupported"},
             f"{path}: expected client required, server unsupported",
         )
         require(entry.get("downloads") == [lock["download"]["url"]], f"{path}: pinned URL mismatch")
-        upstream = next(f for f in pack.versions[pid]["files"] if f["filename"] == lock["filename"])
+        upstream = next(f for f in version["files"] if f["filename"] == lock["filename"])
         require(entry.get("hashes") == upstream["hashes"], f"{path}: exact SHA-1/SHA-512 mismatch")
         require(entry.get("fileSize") == upstream["size"], f"{path}: file size mismatch")
         seen.add(path)
-    require(seen == expected.keys(), "archive missing baseline project or required dependency")
+    require(
+        seen == expected.keys(), "archive missing baseline project, shader or required dependency"
+    )
 
 
 def validate(path: Path, root: Path = ROOT, *, raw: bool = False, **build_context) -> Pack:
@@ -86,7 +98,7 @@ def validate(path: Path, root: Path = ROOT, *, raw: bool = False, **build_contex
     contents = read_archive(path)
     manifest = json.loads(contents.pop("modrinth.index.json"))
     check_manifest(manifest, pack, identity, raw)
-    check_mods(manifest["files"], pack)
+    check_downloads(manifest["files"], pack)
     expected = {"overrides/" + name: data for name, data in pack.overrides.items()}
     # Packwiz emits one empty overrides directory, even when there are no configs.
     contents.pop("overrides/", None)

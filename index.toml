@@ -1,16 +1,28 @@
 hash-format = "sha256"
 
 [[files]]
-file = "config/MouseTweaks.cfg"
+file = "configureddefaults/config/MouseTweaks.cfg"
 hash = "7bd34c13dff656651a30814a2db4aded8ed607f1bfdb8e66ba4194ef3e00a152"
 
 [[files]]
-file = "config/clienttweaks-common.toml"
+file = "configureddefaults/config/bettergrass.json"
+hash = "2cb5f959c9055e88de3b5be671d6168c06af7742de08a83bbc5eef1a4be391bb"
+
+[[files]]
+file = "configureddefaults/config/clienttweaks-common.toml"
 hash = "1d128fe9f9d07d7c7adec3d2ec8d6ca19cd21da9eaf9e762f053c5e8729e4f20"
 
 [[files]]
-file = "config/iris.properties"
+file = "configureddefaults/config/enchdesc.json"
+hash = "24468336c2a7a59b1faaac02b622491e621640a908d2ae0671ff9a55439fecaa"
+
+[[files]]
+file = "configureddefaults/config/iris.properties"
 hash = "839d34c5b794e53e3e0155f87632026f1d5354f3dd55854d51e990d04d2c92a3"
+
+[[files]]
+file = "configureddefaults/options.txt"
+hash = "20f0fa4f40abaa490711e1f0dc932d854583e1d19de1fadc23e326e96e31308b"
 
 [[files]]
 file = "mods/badoptimizations.pw.toml"
@@ -38,6 +50,11 @@ hash = "20191ae45907e9b0c75962d425d794892fabf885832ec79cac075efb1e18350b"
 metafile = true
 
 [[files]]
+file = "mods/bettergrassify.pw.toml"
+hash = "0f8fb805c3fb2a8cd2465324a2c6df9cfde8e7b0403764d852a3d2e5a5d95575"
+metafile = true
+
+[[files]]
 file = "mods/book-tweaks.pw.toml"
 hash = "8d1fd0d270120be5b54995a8d83bbf88cef576a7b70a0fffeba14bfd4fb542cd"
 metafile = true
@@ -58,6 +75,26 @@ hash = "e941d956c9f691031c2362afcbd8ba13e17fa52e3e493bb9cb5442bf34491de3"
 metafile = true
 
 [[files]]
+file = "mods/configured-defaults.pw.toml"
+hash = "6ae9880c479c32fdddb14629a5a58a9033f25f0219c961d0dc5dd9e7f06ebc78"
+metafile = true
+
+[[files]]
+file = "mods/continuity.pw.toml"
+hash = "66854cbf5ff362326ff8abca8581413fd5cb4ada83393f33d923472f2a9cf9d6"
+metafile = true
+
+[[files]]
+file = "mods/controlling.pw.toml"
+hash = "bce7cca555f245153b1b305aa84c4219349c0bf9b11e10b7029f09758d1722c6"
+metafile = true
+
+[[files]]
+file = "mods/cubes-without-borders.pw.toml"
+hash = "426aceacf9dfb1c868330aa67a81bd7976e4dba372ad03591aaebe515d224bed"
+metafile = true
+
+[[files]]
 file = "mods/debugify.pw.toml"
 hash = "23be1be6e51abfaf0b25ae58549cbd3decd94be3d3be1e13df356636cb6bb160"
 metafile = true
@@ -65,6 +102,11 @@ metafile = true
 [[files]]
 file = "mods/dynamic-fps.pw.toml"
 hash = "ce2934ff572e6634f68f7c95146d02c82d863a83f7e6d1bc129060b8a062658c"
+metafile = true
+
+[[files]]
+file = "mods/enchantment-descriptions.pw.toml"
+hash = "411236d3d54c26c448404c738125f946af17e1a289799110308fd64bab67aa8c"
 metafile = true
 
 [[files]]
@@ -90,6 +132,11 @@ metafile = true
 [[files]]
 file = "mods/ferrite-core.pw.toml"
 hash = "7c32f1ee9d011950dd72a6cd671c353cade2894c9d91bdf716ec6882d8275edc"
+metafile = true
+
+[[files]]
+file = "mods/foodeffecttooltips.pw.toml"
+hash = "ad8961c31a09e17d4f3fdda4a3e2d8248befaa5734e95a2b1ea3a67dc1f5be02"
 metafile = true
 
 [[files]]
@@ -138,6 +185,11 @@ hash = "1d4ac7b422964eb9611c59bf5ca09546c4e33c378063d9b558dc0f1a091c3c04"
 metafile = true
 
 [[files]]
+file = "mods/morechathistory.pw.toml"
+hash = "0e0b0e75a0de3f2def038cbcf4ab6c32c4b7a2add2fa30be37d1f178ae668dac"
+metafile = true
+
+[[files]]
 file = "mods/moreculling.pw.toml"
 hash = "24c284a21179f59332a88cf78248028731c8b6e49d11702495d94b5ab0a697d1"
 metafile = true
@@ -163,6 +215,26 @@ hash = "62d51e5faa7530ff3eccac2210513dd848f2208ab6c32273772b28f2442f8359"
 metafile = true
 
 [[files]]
+file = "mods/prickle.pw.toml"
+hash = "126259bdca8f06df3eb4f44f8e600dfc5c5a4b687f438974bfc7de2378e220a5"
+metafile = true
+
+[[files]]
+file = "mods/reeses-sodium-options.pw.toml"
+hash = "d47037d3c00d810267553c08cdc0125057a03500948ced656c0a381c61016a64"
+metafile = true
+
+[[files]]
+file = "mods/renice-shot.pw.toml"
+hash = "7bf33e58e03cbb559c64e9b587515572b6bfb707508f0a8aa516e6e0df4c76a4"
+metafile = true
+
+[[files]]
+file = "mods/searchables.pw.toml"
+hash = "5b1c6d6b07be2a63a67cbd7f8bc196d84950e45b662f4d2182ef06a84f317f4b"
+metafile = true
+
+[[files]]
 file = "mods/shulkerboxtooltip.pw.toml"
 hash = "73f960775a99c8fe5d12ffbf27850c7f84e772d6efefcb416c1e665daae8f1ca"
 metafile = true
@@ -170,6 +242,11 @@ metafile = true
 [[files]]
 file = "mods/signtweaks.pw.toml"
 hash = "4a56d54d8dda5d20ca21720689e35ad41a78b68cab4ff41ffcbc37a3c1753956"
+metafile = true
+
+[[files]]
+file = "mods/sodium-extra.pw.toml"
+hash = "52abedd8d544cfe4bc625d3ec3bf5aacf60ae33c73db342fcb430b4f6b0cf0ed"
 metafile = true
 
 [[files]]
@@ -205,4 +282,14 @@ metafile = true
 [[files]]
 file = "mods/zoomify.pw.toml"
 hash = "e656e41df4fc2ff1431fe3dcf01590c345da8de6928ca37e871b475993a1d107"
+metafile = true
+
+[[files]]
+file = "shaderpacks/complementary-reimagined.pw.toml"
+hash = "7187d93700de6998de331cd3b0c10fd8317c014df4db1cf9e41c08840f8a4bd0"
+metafile = true
+
+[[files]]
+file = "shaderpacks/makeup-ultra-fast-shaders.pw.toml"
+hash = "12f413a860bfcaa0dc9b0c193c4ff16ffb43d8b5977c62f7236f431b58288972"
 metafile = true

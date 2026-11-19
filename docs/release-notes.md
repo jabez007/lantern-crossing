@@ -1,32 +1,37 @@
-Lantern Crossing 26.2.0.3.0 remains a development bootstrap for the 26.3 branch.
+Lantern Crossing 26.2.0.10.0 adds two optional Iris shader choices and freezes
+Minecraft 26.2 feature selection pending owner runtime acceptance. The baseline
+has 41 Fabric feature mods, eleven libraries and two separately modeled shaders.
+All 52 prior mod locks and six configuration templates are unchanged. Minecraft
+26.2, Fabric Loader 0.20.1, Java 25, Iris 1.11.4 and Sodium 0.9.2 remain pinned.
 
-This is a development bootstrap for the 26.3 version branch, not a Minecraft
-26.3-compatible release. Its actual target remains Minecraft 26.2, Fabric Loader
-0.20.1, pack 26.2.0.3.0, with the original 30 features and nine libraries.
+Complementary Reimagined r5.10 is the featured atmospheric choice. MakeUp - Ultra
+Fast 9.6 is an adjustable alternative with low and shadowless profiles. Both are
+release-designated official Modrinth ZIP downloads into shaderpacks/, referenced
+by exact version IDs and hashes. No ZIP is embedded or directly reuploaded.
+Shaders start disabled in a clean instance. No active shader, shader preset,
+resource-pack order or existing player preference is overwritten by a template.
 
-Shared native dependency checks, artifact naming and release safeguards have
-been backported. No mod pins or configuration payload have changed. Development
-exports are named lantern-crossing-26.2.0.3.0-dev-26.3.mrpack and carry the same
-actual-target/development identity internally. Release publication is blocked.
+Complementary is by EminGT / Complementary Development and retains Complementary
+License Agreement 1.8. MakeUp is by Javier Garduño / javiergcim and retains its
+upstream LGPL-3.0-or-later designation and included notices. The source/license
+links and attribution are in README.md and docs/mod-audit.md. Lantern Crossing is
+responsible for problems arising from its shader integration. The repository's
+MIT license does not relicense either shader. Future publication descriptions
+must retain the upstream credits and official links.
 
-The migration inventory tracks all 41 features intended from the maintained
-26.2 line, including its six later additions, Configured Defaults, BetterGrassify,
-Controlling, Food Effect Tooltips and Enchantment Descriptions. Their 26.3
-artifacts, dependencies and client-only behavior await a separate migration audit.
-The bootstrap retains older direct config overrides; do not use it to update an
-existing player profile. Use the maintained 26.2 line for its safer defaults.
+The validator distinguishes shader ZIP references from Fabric mods, checks exact
+Iris-bound distribution reviews and rejects copied ZIPs, selected/enabled shader
+defaults, unreviewed required/incompatible dependencies and shader files under mods/. Native
+Fabric checks, the exact Prickle environment audit, client-only exports, archive
+integrity, reproducibility and owner qualification gates remain enforced.
+Renice Shot remains the only screenshot mod. Neither gallery is installed.
 
-No Minecraft runtime acceptance has been performed. See verification.md and
-acceptance-tests.md for the remaining owner-run work.
+26.2 is authoritative. Complete runtime acceptance and qualify/release it before
+starting the forward migration from that accepted inventory to Minecraft 26.3.
+The future branch and GitHub default setting are untouched by this milestone.
+No automatic synchronization or 26.3 compatibility claim is made.
 
-The nine-candidate QoL/performance evaluation is shared as documentation only.
-No new mod, library or default template is installed on this branch.
-
-The generic exact environment-audit checks are shared. No actual environment
-exception or Enchantment Descriptions/Prickle pin is installed on this bootstrap.
-The maintained-line static review does not approve future 26.3 artifacts.
-
-The screenshot review is shared as future selection evidence only. The maintained
-26.2 line retains Renice Shot alone. Neither gallery nor Renice Shot is added to
-this bootstrap. Documentation identity checks now bind current instructions to
-this branch's actual development artifact. Installed pins/defaults are unchanged.
+All Minecraft, Prism, Modrinth App and GPU tests remain uncompleted. The owner
+must test the no-shader baseline, both shaders, lighting/culling/textures/maps,
+all dimensions, captures, switching, frame times/VRAM and upgrade preservation.
+Static success does not qualify a release. No tag or release is created here.

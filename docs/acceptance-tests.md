@@ -12,9 +12,7 @@ and account information out of committed logs.
 
 ## Launcher configuration acceptance matrix
 
-**All results below are uncompleted.** This is the intended-baseline matrix
-for a future migration after auditing/promoting the helper and later additions.
-Those mods are not installed on this bootstrap, whose actual target is 26.2. Expected behavior comes from source
+**All results below are uncompleted.** Expected behavior comes from source
 inspection and isolated file-method fixtures, not launcher or Minecraft tests.
 Run each column with disposable profiles. Record the launcher version, sync
 controls actually available, pre-launch options contents, archive hash, upgrade
@@ -69,7 +67,7 @@ Do not remove live preferences as a normal upgrade step. See [adoption instructi
 ## Rendering and performance
 
 - [ ] Sodium's video options load.
-- [ ] World renders normally with shaders absent.
+- [ ] World renders normally with shaders disabled.
 - [ ] Held-item and entity dynamic lighting works and updates when the light moves.
 - [ ] Weather, dimension changes, and status effects do not leave stale lighting.
 - [ ] Entity and block culling produce no obvious corruption or missing geometry.
@@ -78,8 +76,8 @@ Do not remove live preferences as a normal upgrade step. See [adoption instructi
 - [ ] Iris UI opens without missing dependencies or server warnings.
 - [ ] Shaders start disabled and ordinary world rendering has no corruption.
 - [ ] Shader-selection UI works and Sodium's options remain functional.
-- [ ] Optionally test one known-good shader pack in a separate test profile,
-      including dynamic lighting. No shader pack is supplied by the pack.
+Use the [shader owner acceptance matrix](#shader-owner-acceptance-matrix) below
+for both bundled shader choices, lighting interactions and preference retention.
 
 ## Inventory
 
@@ -100,13 +98,30 @@ Do not remove live preferences as a normal upgrade step. See [adoption instructi
 - [ ] Better Statistics Screen searches and sorts the player's vanilla statistics.
 - [ ] Mod Menu opens, lists installed configurable mods, and opens their config screens.
 - [ ] Mod Menu reports no missing dependency warnings.
+- [ ] Reese's Sodium Options opens, navigates, searches, and changes Sodium settings.
+- [ ] Sodium Extra's graphics pages load; optional FPS/coordinate overlays stay off.
+- [ ] More Chat History retains over 100 local messages without affecting vanilla chat.
+
+## Default visuals and fullscreen
+
+- [ ] Continuity's connected-texture and glass-pane packs are enabled after a fresh import.
+- [ ] Connected glass, sandstone, bookshelves, and vertically stacked panes render correctly.
+- [ ] Toggle each built-in pack in Resource Packs and reload without rendering corruption.
+- [ ] With Sodium, Iris, More Culling, and Light Overlay active, repeat those visual checks
+      with shaders disabled. No extra resource or shader pack is needed.
+- [ ] Cubes Without Borders exposes its fullscreen choices through the settings UI.
+- [ ] F11, Alt-Tab, window resizing, and multiple monitors work as expected.
+- [ ] Dynamic FPS responds correctly to focus/minimize changes in borderless mode.
+- [ ] Renice Shot restores the selected fullscreen mode and resolution after F9 capture.
+- [ ] Connect to the unmodified vanilla 26.2 server and use all five new features
+      without missing-server-component warnings.
 
 ## Client Tweaks
 
 - [ ] Volume sliders, search retention, and recipe-book navigation work as configured.
 - [ ] Enabled placement and offhand input conveniences behave normally on the vanilla server.
-- [ ] `ui.alwaysPrioritizeExperienceBar=false` leaves the disabled HUD override inactive.
-- [ ] `mining.doNotUseLastMending=false` leaves the disabled durability guard inactive.
+- [ ] On a fresh profile, `ui.alwaysPrioritizeExperienceBar=false` leaves the disabled HUD override inactive.
+- [ ] On a fresh profile, `mining.doNotUseLastMending=false` leaves the disabled durability guard inactive.
 - [ ] No inventory conflict occurs with IPN sorting, refill, or Mouse Tweaks gestures.
 - [ ] No Client Tweaks or Balm warning requests server installation or server data.
 
@@ -133,7 +148,7 @@ Do not remove live preferences as a normal upgrade step. See [adoption instructi
 
 ### Basic overlay
 
-- [ ] Join a Minecraft 26.2 world and activate Light Overlay with F9.
+- [ ] Join a Minecraft 26.2 world and activate Light Overlay with F7.
 - [ ] The overlay renders useful light and spawnability information.
 - [ ] Deactivate it and confirm the overlay disappears cleanly.
 
@@ -151,13 +166,55 @@ Do not remove live preferences as a normal upgrade step. See [adoption instructi
 - [ ] Iris UI works and shaders-disabled rendering has no corruption.
 - [ ] Enabling the overlay causes no obvious rendering corruption.
 - [ ] Disabling it restores normal rendering without leftover overlay geometry.
-- [ ] Optionally test one known-good shader pack separately. Do not add it to the pack.
+- [ ] Repeat overlay toggling with both bundled shaders using the shader matrix below.
 
 ### Configuration
 
 - [ ] Open Light Overlay's config through Mod Menu or `/lightoverlay config`.
-- [ ] F9 works, and the Controls screen shows no new default keybind conflict.
+- [ ] F7 toggles the overlay, and F9 captures a screenshot without toggling it.
+- [ ] Controls shows no conflict between the two bindings.
 - [ ] Configuration changes persist after restarting the client.
+
+## Screenshots
+
+- [ ] Renice Shot's local config opens through Mod Menu.
+- [ ] On a completely vanilla 26.2 server, press F9 and save a 3840 by 2160 PNG
+      under `screenshots` with the `huge_` prefix. No server installation is needed.
+- [ ] F2 still takes a normal screenshot at the current window resolution.
+- [ ] Resolution, fullscreen/windowed state, and HUD state restore after capture.
+- [ ] Repeated captures work with Sodium and Iris installed and shaders disabled.
+- [ ] The F7 overlay binding persists after restarting the client.
+- [ ] Repeat capture with both bundled shaders using the shader matrix below.
+
+## Screenshot owner acceptance matrix
+
+All results below are uncompleted. Run on the maintained 26.2 artifact in both
+launchers, with Modrinth App settings synchronization tested separately where
+available. The expected architecture is Renice Shot alone. Neither evaluated
+gallery is installed. Source inspection and archive validation are not observed
+launcher or rendering results. Use copies of screenshots for destructive tests.
+
+| Owner check | Prism | Modrinth App, sync off | Modrinth App, sync on | Expected result, not observed |
+| --- | --- | --- | --- | --- |
+| Fresh `.mrpack` import and first launch | [ ] | [ ] | [ ] | Renice Shot initializes; no gallery, new sharing prompt or missing-server-mod warning. Configured Defaults keeps its documented behavior. |
+| Controls and configuration | [ ] | [ ] | [ ] | F2 remains normal capture, F9 is high resolution, an absent Light Overlay binding receives F7. Controlling finds no unexpected conflict; existing customized bindings survive. Mod Menu opens Renice Shot configuration. |
+| F2 and repeated F9 captures | [ ] | [ ] | [ ] | Normal image has window dimensions; default F9 PNG has 3840x2160 pixels and a `huge_` time-based filename in this instance's screenshots folder. Existing names are not overwritten. |
+| HUD, window and resolution restoration | [ ] | [ ] | [ ] | Test fullscreen/windowed capture and repeated captures. If opting into HUD hiding, it restores afterward. No persistent resize or hidden-HUD regression. |
+| Existing screenshots and large collection | [ ] | [ ] | [ ] | Before installation, keep a backup and hash a representative selection. Old names, bytes, subfolders and custom formats survive launches/upgrades. Hundreds/thousands of controlled-copy images remain accessible through the launcher/OS folder. No in-game library is expected or benchmark claim made. |
+| High-resolution/custom format files | [ ] | [ ] | [ ] | Open default 4K PNGs externally. Optionally test a safe larger size, JPG/TGA/BMP and HUD-hidden capture through Renice Shot. Check restoration and readability; respect hardware limits. |
+| Gallery, sorting, favorites and deletion | [ ] | [ ] | [ ] | No gallery UI/key, favorites database, automatic sorting or in-game deletion is installed. Browse/copy/share deliberately with launcher/OS tools. Check any external deletion only on a disposable copy, then restore it. |
+| Privacy before sharing | [ ] | [ ] | [ ] | Inspect a new original PNG's text metadata and default filename for unexpected coordinates, world/server identifiers or uploads. Review visible chat, maps and coordinates in the pixels. `%world%` naming, if personally enabled, exposes that name intentionally. |
+| Xaero and panoramas | [ ] | [ ] | [ ] | Normal maps still work. No screenshot pins/map association, panorama capture or second F9 action is expected. |
+| Sodium and Iris | [ ] | [ ] | [ ] | F2/F9 and restoration work with shaders disabled, without corrupted images or rendering. Repeat with both bundled shaders using the shader matrix below. |
+| Vanilla server and existing world | [ ] | [ ] | [ ] | Capture after singleplayer load and on a completely unmodified vanilla 26.2 server; disconnect/rejoin normally. No server mod/plugin/protocol is needed. |
+| Upgrade and repeat launch | [ ] | [ ] | [ ] | Upgrade an existing Lantern Crossing instance. Old screenshots, custom capture settings, keybindings and other preferences remain intact. New captures work and originals' hashes remain unchanged. Importing into a separate instance does not automatically move old screenshots. |
+
+Future gallery promotion requires a separate disposable-profile evaluation of
+old `huge_` images, custom/symlinked paths, arbitrary dimensions, bounded memory
+with a large library, confirmation and cancellation of deletion, sorting and
+favorites if offered, metadata privacy and exact Xaero world/dimension matching.
+Neither candidate is installed merely to run that evaluation. These are open
+promotion criteria, not claimed current features or completed acceptance.
 
 ## Social and resource behavior
 
@@ -173,10 +230,6 @@ behavior to pass its test, exclude it and record the blocker. Do not fix a clien
 acceptance failure by modifying the vanilla test server.
 
 ## QoL refinement acceptance
-
-Prospective checks only. The new QoL mods and Configured Defaults are not active
-in this bootstrap. Run these after the separately authorized target migration
-and dependency audit. No 26.3 or launcher compatibility is claimed.
 
 All results are uncompleted. Run these on Prism and Modrinth App, with App sync
 disabled and enabled where supported. Record each launcher version, pre-launch
@@ -196,15 +249,15 @@ file state, archive hash and actual upgrade method in the matrix above.
       with Sodium, Continuity, More Culling, Entity Culling and dynamic lights.
       Resource reload, dimension changes and world reload leave no missing faces.
 - [ ] Iris UI and Sodium settings work. With shaders disabled there is no visual
-      corruption. Optionally test one separately installed known-good shader and
-      toggling it while viewing terrain and Xaero maps. No shader is supplied.
+      corruption. Test both bundled shaders and switching them while viewing terrain
+      and Xaero maps using the shader matrix below.
 - [ ] Food-effect tooltips show vanilla golden-apple effects, rotten-flesh chance,
       milk clearing, honey poison removal, chorus teleport and totem effects.
       They remain readable with Shulker Box Tooltip and ordinary enchantment lines.
 - [ ] Suspicious-stew information stays hidden under the retained default.
       No current saturation/exhaustion or plugin-only data is presented as known.
-- [ ] Confirm ordinary enchanted items remain readable. Enchantment Descriptions
-      is deferred, so descriptive enchantment text is not an expected pack feature.
+- [ ] Confirm ordinary enchanted items remain readable with Enchantment Descriptions
+      collapsed; hold Shift to expand the locally supplied descriptions.
 - [ ] Existing singleplayer worlds load and save normally. Join/rejoin a completely
       unmodified vanilla 26.2 server and exercise the new controls/rendering/tooltips
       without any server mod, plugin, protocol or companion.
@@ -217,10 +270,6 @@ benchmarks and rendering gates in the audit apply only to a separately prepared
 future evaluation profile, not to this milestone's acceptance result.
 
 ## Enchantment Descriptions acceptance
-
-Prospective checklist only. This bootstrap has neither artifact. Run these after
-the separately authorized target/version/dependency audit. No 26.3 runtime result
-is claimed by copying this matrix.
 
 All results are uncompleted. Run each case in Prism Launcher and Modrinth App,
 with App sync disabled and enabled where the installed version supports it.
@@ -244,12 +293,35 @@ install anything on the vanilla server to resolve a client acceptance failure.
 Legacy config recovery and actual launcher upgrade/sync behavior require owner
 observation, not a Python approximation.
 
-## Future screenshot acceptance
+## Shader owner acceptance matrix
 
-No screenshot mod is introduced into this bootstrap. For the maintained 26.2
-line, the [owner matrix](https://github.com/jabez007/lantern-crossing/blob/2add0bf/docs/acceptance-tests.md#screenshot-owner-acceptance-matrix)
-covers both launchers, normal/4K capture, original-file and preference preservation,
-upgrades, shaders, privacy and vanilla-server connectivity. All results remain
-uncompleted. Gallery sorting/favorites, deletion confirmation, huge image memory
-behavior and Xaero world/dimension matching require separate acceptance only if
-such a mod is deliberately promoted later. No 26.3 compatibility is implied.
+Every result is uncompleted. Run against the final 26.2 archive in Prism Launcher
+and Modrinth App, with sync enabled/disabled where supported. Record pack/hash,
+launcher, Java, OS, GPU/driver, resolution, render distance, shader/version/profile
+and actual observations. Test each shader separately and retain a no-shader
+comparison. Do not infer GPU performance or visual compatibility from static CI.
+Use disposable copies of existing instances for upgrade tests.
+
+| Owner scenario | Prism | Modrinth App, sync off | Modrinth App, sync on | Expected result, not observed |
+| --- | --- | --- | --- | --- |
+| Fresh `.mrpack` import | [ ] | [ ] | [ ] | Exactly the two official shader ZIPs install under shaderpacks/. No supporting mods or copied ZIP override appears; no installation/dependency error. |
+| First launch and Iris UI | [ ] | [ ] | [ ] | Without an existing/synced Iris config, shaders start disabled. Otherwise record and preserve the existing choice. The pack does not select a shader. Both named choices appear in Iris. Existing no-shader rendering and controls work; no new startup prompt/keybind is introduced by pack configuration. |
+| Complementary Reimagined | [ ] | [ ] | [ ] | Select r5.10, choose a sensible Low/Medium profile for the hardware, apply, and inspect rendering. Record compile/log errors; increase quality only deliberately. |
+| MakeUp alternative | [ ] | [ ] | [ ] | Select 9.6 and an appropriate low/shadowless profile; verify optional shadows, reflections, bloom and clouds respond to settings. Do not assume it is faster by name. |
+| Terrain and transitions | [ ] | [ ] | [ ] | Grass/dirt paths, slopes, water edges and changing biomes render correctly. BetterGrassify's configured grass works; its snow mode remains OFF. Test snow visuals separately if enabled personally. |
+| Continuity and culling | [ ] | [ ] | [ ] | Connected glass, bookshelves, sandstone, leaves, signs, chests, beds, item frames and entities/shadows stay correct from multiple angles. No missing faces or unexpected translucent surfaces. |
+| Dynamic and shader lighting | [ ] | [ ] | [ ] | Held/dropped lights and other players render without doubled brightness. Compare LambDynamicLights behavior with shaders off and each shader on. Any local lighting adjustment preserves the useful no-shader behavior. |
+| Weather, water and visibility | [ ] | [ ] | [ ] | Inspect clouds, rain, shadows, nighttime, caves, underwater and water transitions. Visibility remains usable; visual light is not mistaken for server spawn/light rules. |
+| Dimensions and travel | [ ] | [ ] | [ ] | Overworld, Nether and End terrain, fog, portals and loading transitions remain correct. Existing worlds open normally. |
+| Maps and overlays | [ ] | [ ] | [ ] | Xaero minimap/world map, waypoints and Light Overlay remain readable with each shader. Check overlay toggling, maps and water/sky interactions without promising screenshot-map integration. |
+| Shader switching/reloading | [ ] | [ ] | [ ] | Switch off, to each shader and back repeatedly. Resource reloads, resizing, focus changes and fullscreen restore normally, with no persistent corruption or runaway memory growth. |
+| Performance measurements | [ ] | [ ] | [ ] | Record a repeatable no-shader route, FPS/frame-time behavior and VRAM where available; repeat with both chosen profiles and high render distances. Choose acceptable settings from observed results, not upstream names or universal FPS claims. |
+| Restart and preferences | [ ] | [ ] | [ ] | Active shader, custom preset and disabled state each persist across restarts when deliberately selected. Existing player settings/resource-pack ordering remain authoritative. |
+| Upgrade from existing 26.2 pack | [ ] | [ ] | [ ] | Existing Iris config and per-shader .zip.txt preferences survive; active/disabled choice does not change unexpectedly. Both new downloads appear. Record launcher-specific behavior and any old ZIP filename migration. |
+| Screenshots | [ ] | [ ] | [ ] | Renice Shot F9 and normal F2 captures are correct with each shader; resolution/HUD restore. Pre-existing screenshot names/bytes and worlds remain unchanged. Neither gallery is expected. |
+| Unmodified vanilla server | [ ] | [ ] | [ ] | Join/rejoin a completely vanilla 26.2 server, switch visual choices locally, and use ordinary inventory/rendering features without server mods/plugins or missing-component warnings. |
+
+Resolve runtime findings through scoped fixes during the feature freeze. Repeat
+affected acceptance after any pack/index change. Record actual owner acceptance
+and the final pack hash through the existing release policy before publishing.
+No unchecked box is a pass, and 26.2 acceptance does not qualify a future 26.3 pack.

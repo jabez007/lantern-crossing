@@ -1,0 +1,15 @@
+{
+  "general": {
+    "betterGrassMode": "FANCY",
+    "resourcePackCompatibilityMode": true,
+    "blocks": {
+      "dirtPaths": false,
+      "farmLands": false,
+      "crimsonNylium": false,
+      "warpedNylium": false
+    }
+  },
+  "betterSnow": {
+    "betterSnowMode": "OFF"
+  }
+}

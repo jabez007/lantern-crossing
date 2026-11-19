@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 from check_target_readiness import compatible_versions, discover
 from normalize_mrpack import normalize
-from pack_model import ROOT, load_pack, load_toml, stable
+from pack_model import ROOT, load_pack, load_toml, payload_files, stable
 from release_metadata import metadata, write_checksum
 from validate_mrpack import validate
 
@@ -35,8 +35,12 @@ class PackTests(unittest.TestCase):
             "migration.toml",
         ):
             shutil.copyfile(ROOT / name, self.root / name)
-        for name in ("mods", "config"):
-            shutil.copytree(ROOT / name, self.root / name)
+        if (ROOT / "options.txt").exists():
+            shutil.copyfile(ROOT / "options.txt", self.root / "options.txt")
+        for name in ("mods", "shaderpacks", "config", "configureddefaults"):
+            if (ROOT / name).exists():
+                shutil.copytree(ROOT / name, self.root / name)
+        (self.root / "config").mkdir(exist_ok=True)
         (self.root / "docs").mkdir()
         shutil.copyfile(
             ROOT / "docs/upstream-metadata.json", self.root / "docs/upstream-metadata.json"
@@ -52,6 +56,59 @@ class PackTests(unittest.TestCase):
         with self.assertRaisesRegex((ValueError, KeyError), message):
             load_pack(self.root)
 
+    def test_repository_contract(self):
+        pack = load_pack(self.root)
+        self.assertEqual(len(pack.evidence["requested"]), 41)
+        features = {pid for pid, project in pack.projects.items() if project["role"] == "feature"}
+        self.assertEqual(features, set(pack.evidence["requested"]))
+        self.assertFalse(pack.collection.get("excluded"))
+
+    def test_refinement_project_identity_and_dependency_roles(self):
+        pack = load_pack(self.root)
+        for pid in ("m5T5xmUy", "xv94TkTM", "GGfyJWnG"):
+            self.assertEqual(pack.projects[pid]["role"], "feature")
+            self.assertEqual(pack.mods[pid]["side"], "client")
+        self.assertEqual(pack.projects["fuuu3xnx"]["role"], "dependency")
+        self.assertEqual(pack.projects["fuuu3xnx"]["required-by"], ["xv94TkTM"])
+        staged = load_toml(self.root / "candidates.toml")["candidate"]
+        self.assertTrue({p["project-id"] for p in staged}.isdisjoint(pack.projects))
+
+    def test_enchantment_feature_and_exact_prickle_audit(self):
+        pack = load_pack(self.root)
+        self.assertEqual(pack.projects["UVtY3ZAC"]["role"], "feature")
+        self.assertEqual(pack.projects["aaRl8GiW"]["role"], "dependency")
+        self.assertEqual(pack.projects["aaRl8GiW"]["required-by"], ["UVtY3ZAC"])
+        self.assertEqual(pack.mods["UVtY3ZAC"]["side"], "client")
+        self.assertEqual(pack.mods["aaRl8GiW"]["side"], "client")
+        # Preserve the contradiction as evidence rather than editing upstream labels.
+        self.assertEqual(pack.evidence["projects"]["aaRl8GiW"]["server_side"], "required")
+        self.assertEqual(len(pack.evidence["environment_exceptions"]), 1)
+        audit = pack.evidence["environment_exceptions"][0]
+        self.assertEqual(audit["project_id"], "aaRl8GiW")
+        self.assertEqual(audit["version_id"], "XdvtdRYJ")
+        self.assertEqual(audit["required_by"][0]["version_id"], "PTAK0HD2")
+
+    def test_enchantment_defaults_use_prickle_property_format(self):
+        config = json.loads((self.root / "configureddefaults/config/enchdesc.json").read_text())
+        self.assertEqual(config, {"require_keybind": {"value": True}})
+        self.assertFalse((self.root / "config/enchdesc.json").exists())
+
+    def test_screenshot_selection_retains_capture_without_staged_galleries(self):
+        pack = load_pack(self.root)
+        self.assertEqual(pack.projects["ZDCwiIc3"]["role"], "feature")
+        self.assertEqual(pack.mods["ZDCwiIc3"]["update"]["modrinth"]["version"], "roOTvshj")
+        self.assertTrue({"laNoi025", "wYSKV506"}.isdisjoint(pack.projects))
+        candidates = load_toml(self.root / "candidates.toml")["candidate"]
+        staged = {p["project-id"] for p in candidates}
+        self.assertTrue({"laNoi025", "wYSKV506"} <= staged)
+        options = dict(
+            line.split(":", 1)
+            for line in (self.root / "configureddefaults/options.txt").read_text().splitlines()
+        )
+        self.assertEqual(options["key_key.light-overlay.toggle"], "key.keyboard.f7")
+        # Keep the existing capture preferences under player control.
+        self.assertFalse(any("renice-shot" in name for name in pack.overrides))
+
     def test_pack_validation_preserves_existing_player_screenshots(self):
         screenshots = self.root / "screenshots"
         screenshots.mkdir()
@@ -62,12 +119,36 @@ class PackTests(unittest.TestCase):
         self.assertEqual(image.read_bytes(), original)
         self.assertFalse(any("screenshots/" in name for name in pack.overrides))
 
-    def test_repository_contract(self):
-        pack = load_pack(self.root)
-        self.assertEqual(len(pack.evidence["requested"]), 30)
-        features = {pid for pid, project in pack.projects.items() if project["role"] == "feature"}
-        self.assertEqual(features, set(pack.evidence["requested"]))
-        self.assertFalse(pack.collection.get("excluded"))
+    def test_controlling_rejects_present_but_incompatible_searchables(self):
+        path = self.root / "docs/upstream-metadata.json"
+        data = json.loads(path.read_text())
+        data["projects"]["fuuu3xnx"]["versions"][0]["fabric_descriptor"]["version"] = "0.9.0"
+        path.write_text(json.dumps(data))
+        self.invalid("controlling@.*requires searchables.*installed version: 0.9.0")
+
+    def test_food_tooltip_native_dependencies_are_explicit(self):
+        path = self.root / "docs/upstream-metadata.json"
+        data = json.loads(path.read_text())
+        version = data["projects"]["GGfyJWnG"]["versions"][0]
+        # Modrinth omits both edges. The artifact's native Fabric descriptor requires them.
+        self.assertFalse(version["dependencies"])
+        self.assertEqual(
+            {edge["project_id"] for edge in version["client_required"]},
+            {"P7dR8mSH", "9s6osm5g"},
+        )
+        version["client_required"] = [
+            edge for edge in version["client_required"] if edge["project_id"] != "9s6osm5g"
+        ]
+        path.write_text(json.dumps(data))
+        self.invalid("dependency parents disagree|Fabric module dependencies missing")
+
+    def test_bettergrass_defaults_limit_visual_scope(self):
+        config = json.loads((self.root / "configureddefaults/config/bettergrass.json").read_text())
+        self.assertEqual(config["general"]["betterGrassMode"], "FANCY")
+        self.assertIs(config["general"]["resourcePackCompatibilityMode"], True)
+        for block in ("dirtPaths", "farmLands", "crimsonNylium", "warpedNylium"):
+            self.assertIs(config["general"]["blocks"][block], False)
+        self.assertEqual(config["betterSnow"]["betterSnowMode"], "OFF")
 
     def test_side_is_always_explicitly_client(self):
         for side in ('"both"', '"server"', '""'):
@@ -187,25 +268,63 @@ class PackTests(unittest.TestCase):
         self.invalid("stale pack index hash")
 
     def test_changed_config_requires_refresh(self):
-        with (self.root / "config/MouseTweaks.cfg").open("a") as handle:
+        with (self.root / "configureddefaults/config/MouseTweaks.cfg").open("a") as handle:
             handle.write("\n# changed\n")
         self.invalid("stale index entry")
 
-    def test_root_runtime_preferences_cannot_be_distributed(self):
-        for name in ("options.txt", "servers.dat", "defaultoptions.journal.json"):
-            path = self.root / name
-            path.write_text("runtime")
-            with self.subTest(name=name):
-                self.invalid("runtime preferences")
-            path.unlink()
-
-    def test_helper_templates_require_the_selected_artifact(self):
-        (self.root / "configureddefaults").mkdir()
-        self.invalid("templates require the pinned helper")
-
     def test_new_config_requires_refresh(self):
-        (self.root / "config/new.cfg").write_text("new")
+        (self.root / "configureddefaults/config/new.cfg").write_text("new")
         self.invalid("index omits")
+
+    def test_direct_mod_config_cannot_override_preferences(self):
+        (self.root / "config/iris.properties").write_text("enableShaders=false\n")
+        self.invalid("copy-if-missing defaults")
+
+    def test_runtime_journal_cannot_be_shipped(self):
+        (self.root / "defaultoptions.journal.json").write_text("{}")
+        self.invalid("runtime preferences")
+
+    def test_templates_use_normal_minecraft_key_format(self):
+        pack = load_pack(self.root)
+        options = dict(
+            line.split(":", 1)
+            for line in pack.overrides["configureddefaults/options.txt"].decode().splitlines()
+        )
+        self.assertEqual(options["version"], str(pack.evidence["options_data_version"]["value"]))
+        self.assertEqual(pack.evidence["options_data_version"]["minecraft"], "26.2")
+        self.assertNotIn("options.txt", pack.overrides)
+        self.assertIn(
+            b"key_key.light-overlay.toggle:key.keyboard.f7\n",
+            pack.overrides["configureddefaults/options.txt"],
+        )
+        self.assertFalse(any("defaultoptions-common.toml" in p for p in pack.overrides))
+
+    def test_root_options_are_forbidden(self):
+        (self.root / "options.txt").write_text("fov:0.5\n")
+        with self.assertRaisesRegex(ValueError, "runtime preferences"):
+            payload_files(self.root)
+
+    def test_keybinding_override_rejects_symlinks(self):
+        options = self.root / "options.txt"
+        options.unlink(missing_ok=True)
+        options.symlink_to(self.root / "pack.toml")
+        with self.assertRaisesRegex(ValueError, "symlink"):
+            payload_files(self.root)
+
+    def test_changed_keybinding_requires_refresh(self):
+        self.replace("configureddefaults/options.txt", "key.keyboard.f7", "key.keyboard.f8")
+        self.invalid("stale index entry")
+
+    def test_fo_sodium_addons_match_pinned_sodium(self):
+        snapshot = json.loads((self.root / "docs/upstream-metadata.json").read_text())
+        sodium = self.evidence_version(snapshot, "AANobbMI")["fabric_descriptor"]["version"]
+        for pid in ("PtjYWJkn", "Bh37bMuy"):
+            with self.subTest(project=pid):
+                addon = self.evidence_version(snapshot, pid)
+                self.assertEqual(
+                    addon["fabric_descriptor"]["depends"]["sodium"].removeprefix("="), sodium
+                )
+                self.assertIn("AANobbMI", {d["project_id"] for d in addon["client_required"]})
 
     def test_required_native_version_range_is_enforced(self):
         def incompatible_loader(snapshot):
@@ -216,6 +335,16 @@ class PackTests(unittest.TestCase):
         self.edit_evidence(incompatible_loader)
         self.invalid(r"sodium@.*requires fabricloader '>=999'; installed version: 0.20.1")
 
+    def test_continuity_defaults_enable_only_bundled_visual_packs(self):
+        options = dict(
+            line.split(":", 1)
+            for line in (self.root / "configureddefaults/options.txt").read_text().splitlines()
+        )
+        self.assertEqual(
+            json.loads(options.get("resourcePacks", "[]")),
+            ["vanilla", "continuity:glass_pane_culling_fix", "continuity:default"],
+        )
+
     def test_symlink_payload_is_rejected(self):
         (self.root / "config/link.cfg").symlink_to(self.root / "pack.toml")
         self.invalid("symlink")
@@ -224,7 +353,7 @@ class PackTests(unittest.TestCase):
         version = load_toml(self.root / "pack.toml")["version"]
         self.assertEqual(
             metadata(self.root, "v" + version)["archive"],
-            f"lantern-crossing-{version}-dev-26.3.mrpack",
+            f"lantern-crossing-{version}-dev-26.2.mrpack",
         )
         with self.assertRaisesRegex(ValueError, "tag must agree"):
             metadata(self.root, "v" + version + ".1")
@@ -267,25 +396,31 @@ class PackTests(unittest.TestCase):
             active = discover(self.root, "26.2", "active", snapshot)
             requested = discover(self.root, "26.2", "requested", snapshot)
         self.assertTrue(all(r["ready"] for r in active))
-        self.assertEqual(len(requested), len(snapshot["requested"]))
+        self.assertEqual(
+            len(requested), len(snapshot["requested"]) + len(snapshot.get("shader_projects", {}))
+        )
         self.assertTrue(all(r["ready"] for r in requested))
 
     def archive_data(self):
         pack = load_pack(self.root)
         files = []
-        for pid, lock in pack.mods.items():
-            upstream = next(
-                f for f in pack.versions[pid]["files"] if f["filename"] == lock["filename"]
-            )
-            files.append(
-                {
-                    "path": "mods/" + lock["filename"],
-                    "hashes": upstream["hashes"],
-                    "env": {"client": "required", "server": "unsupported"},
-                    "downloads": [lock["download"]["url"]],
-                    "fileSize": upstream["size"],
-                }
-            )
+        for directory, locks, versions in (
+            ("mods", pack.mods, pack.versions),
+            ("shaderpacks", pack.shaders, pack.shader_versions),
+        ):
+            for pid, lock in locks.items():
+                upstream = next(
+                    f for f in versions[pid]["files"] if f["filename"] == lock["filename"]
+                )
+                files.append(
+                    {
+                        "path": directory + "/" + lock["filename"],
+                        "hashes": upstream["hashes"],
+                        "env": {"client": "required", "server": "unsupported"},
+                        "downloads": [lock["download"]["url"]],
+                        "fileSize": upstream["size"],
+                    }
+                )
         manifest = {
             "formatVersion": 1,
             "game": "minecraft",
@@ -325,7 +460,7 @@ class PackTests(unittest.TestCase):
 
     def test_archive_missing_feature_or_dependency(self):
         manifest, overrides = self.archive_data()
-        for needle in ("sodium-", "libIPN-"):
+        for needle in ("sodium-", "libIPN-", "renice-shot-"):
             changed = copy.deepcopy(manifest)
             changed["files"] = [f for f in manifest["files"] if needle not in f["path"]]
             with (
@@ -333,6 +468,20 @@ class PackTests(unittest.TestCase):
                 self.assertRaisesRegex(ValueError, "missing baseline"),
             ):
                 validate(self.write_archive(changed, overrides), self.root)
+
+    def test_archive_rejects_investigation_candidates(self):
+        candidates = load_toml(self.root / "candidates.toml")["candidate"]
+        self.assertTrue(candidates)
+        for candidate in candidates:
+            manifest, overrides = self.archive_data()
+            staged = copy.deepcopy(manifest["files"][0])
+            staged["path"] = "mods/" + candidate["slug"] + ".jar"
+            manifest["files"].append(staged)
+            with (
+                self.subTest(candidate=candidate["slug"]),
+                self.assertRaisesRegex(ValueError, "unexpected/duplicate exported mod"),
+            ):
+                validate(self.write_archive(manifest, overrides), self.root)
 
     def test_archive_rejects_wrong_environment_url_hash_size(self):
         manifest, overrides = self.archive_data()
@@ -516,7 +665,7 @@ class PackTests(unittest.TestCase):
         self.invalid("server-only Fabric module")
 
     def test_client_tweaks_overlap_switches_are_pinned_off(self):
-        config = load_toml(self.root / "config/clienttweaks-common.toml")
+        config = load_toml(self.root / "configureddefaults/config/clienttweaks-common.toml")
         self.assertIs(config["ui"]["alwaysPrioritizeExperienceBar"], False)
         self.assertIs(config["mining"]["doNotUseLastMending"], False)
 

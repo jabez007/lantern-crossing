@@ -1,11 +1,5 @@
 # Configuration decisions
 
-This 26.3 bootstrap still targets Minecraft 26.2 with the original 30 features.
-The maintained-line integration described below is not installed here. Its
-helper and later features remain deferred until a separate migration audit.
-The bootstrap retains its older direct mod configs; do not use it to upgrade an
-existing personal profile.
-
 ## Safe defaults and existing instances
 
 [Configured Defaults 26.2.0](https://modrinth.com/mod/configured-defaults/version/oM0C4RRZ)
@@ -18,6 +12,8 @@ requires no additional library projects, and needs nothing on the server.
 | `configureddefaults/config/MouseTweaks.cfg` | Copies only if the entire live config file is missing. |
 | `configureddefaults/config/clienttweaks-common.toml` | Copies only if the entire live config file is missing. |
 | `configureddefaults/config/iris.properties` | Copies only if the entire live config file is missing. |
+| `configureddefaults/config/bettergrass.json` | Copies only if the entire live config file is missing; limits terrain changes to fancy grass-style surfaces. |
+| `configureddefaults/config/enchdesc.json` | Copies only if missing; selects shift-gated enchantment descriptions using Prickle property wrappers. |
 
 No live `options.txt`, mod config, server list, journal or forced-reset flag is
 exported. The early Fabric language adapter calls the file handler before normal
@@ -313,17 +309,72 @@ differs from Sodium's coarse checks. Their presence together does not establish
 runtime compatibility. Check moving entities, signs, leaves, glass, item frames,
 and block entities from several angles before accepting a build.
 
-LambDynamicLights supplies local dynamic lighting. No second dynamic-lighting
-implementation is included. Dynamic lights do not change server-side spawning
+With shaders disabled, LambDynamicLights supplies local dynamic lighting.
+Optional shader packs can also provide held or entity lighting. Dynamic lights do not change server-side spawning
 or block light levels. BadOptimizations' lightmap caching and the rendering stack
 need visual testing when a held light, weather, or status effect changes.
 
-Iris 1.11.4 is active with Sodium 0.9.2. `config/iris.properties` sets
+Iris 1.11.4 is active with Sodium 0.9.2. The Iris template sets
 `enableShaders=false` so the clean baseline starts with vanilla rendering.
-The shader-selection UI remains available. No shader pack is bundled.
-Check shader-disabled rendering, resizing, and interactions with dynamic lighting
-before accepting the build. If a player adds a shader pack, review its own
-dynamic-lighting behavior to avoid enabling the same effect twice.
+The shader-selection UI remains available with the two optional choices below.
+Check shader-disabled rendering, resizing, and dynamic lighting before accepting
+the build. Shader-enabled lighting needs a separate check for duplicate effects.
+
+## Optional shaders
+
+Complementary Reimagined r5.10 is the featured atmospheric choice. MakeUp 9.6 is
+an adjustable alternative with low and shadowless profiles. Both are official
+Modrinth downloads referenced under `shaderpacks/`, separate from Fabric JARs.
+No extra renderer, configuration manager, resource pack or shader-support mod is
+added. Iris 1.11.4, Sodium 0.9.2, Continuity 3.0.1, BetterGrassify 1.8.7 and
+LambDynamicLights 4.12.4 keep their existing pins and defaults.
+
+A clean instance still seeds only `enableShaders=false` through the existing
+Configured Defaults template. No `shaderPack` property or per-ZIP `.zip.txt`
+settings are packaged. An existing `config/iris.properties` is skipped as an
+entire existing file, so an already enabled or disabled shader is not reset on
+upgrade. Player presets, resource-pack selections and keybindings are not
+pack-managed. No live `options.txt` or Iris config override is distributed.
+
+Open Iris from **Options > Video Settings > Shader Packs**. Select either ZIP,
+open **Shader Pack Settings**, choose an appropriate profile, and apply. Disable
+shaders with Iris's toggle if performance or visibility is unsuitable. Menu
+labels vary by locale. The two packs remain available without enabling either.
+No first-launch prompt or new keybind is added. Shaders disabled remains the
+lowest-overhead baseline; no relative FPS claim is established for either shader.
+
+Complementary offers Potato through Ultra and additional high-end profiles.
+The official Reimagined ZIP uses the vanilla-styled defaults; Unbound is not a
+second installation because it uses the same shader family with different
+settings. MakeUp's source defaults include shadows, reflections, volumetric
+clouds and bloom. Its name does not imply those are free. Try `shadowless_low`
+or `low` for a lighter setup; costly effects remain individually adjustable.
+No profile is selected on the player's behalf. Keep upstream ZIPs unmodified
+and use Iris's ordinary per-shader controls for personal settings.
+
+Complementary has its own held/dynamic colored lighting, especially at higher
+profiles. LambDynamicLights remains useful without shaders. Check held items,
+dropped lights and other players for doubled or excessively bright lighting
+with each shader. Adjust one provider locally if needed, then verify the
+no-shader mode still behaves correctly. No global lighting disable is imposed
+because it would affect players who keep shaders off. Shader visual light does
+not change a vanilla server's spawn rules; Light Overlay and dynamic lighting
+must not be interpreted as server-side light changes.
+
+Test Continuity's connected glass and the culling fix, BetterGrassify's grass,
+leaves/culling, entity and block-entity rendering, maps, water and all dimensions.
+BetterGrassify's packaged snow mode stays OFF; test snow effects separately only
+if the player chooses to enable them. Shader water/sky can differ from vanilla
+and resource-pack expectations. No custom PBR texture pack or preset is supplied.
+
+Upgrades introduce only pinned ZIP downloads. No images or existing world files
+are touched by repository tooling. Back up an instance before launcher upgrades
+and verify both launchers preserve user-created Iris option files. A future
+shader version can have a new ZIP filename; an old per-ZIP preset or selected
+filename may require deliberate user adoption. The pack must not force that
+adoption by rewriting live settings. Shader runtime acceptance remains open.
+See the [license/source record](mod-audit.md#optional-shaders-and-distribution-2026-11-19)
+and [owner matrix](acceptance-tests.md#shader-owner-acceptance-matrix).
 
 ## Maps and information
 
@@ -345,7 +396,7 @@ server integrations.
 
 The exact [26.2.0.6 configuration source](https://github.com/TwelveIterations/ClientTweaks/blob/v26.2.0.6/common/src/main/java/net/blay09/mods/clienttweaks/ClientTweaksConfig.java)
 defines these options. The pack pins two existing upstream defaults off in
-`config/clienttweaks-common.toml`:
+the Client Tweaks template:
 
 | Key | Value | Reason |
 | --- | --- | --- |
@@ -375,17 +426,22 @@ Tweaks retain their upstream editing defaults.
 
 ## Light Overlay
 
-Light Overlay retains its upstream defaults. The
+Light Overlay retains its upstream behavior defaults. The
 [release's key registrations](https://github.com/lugosieben/lightoverlay/blob/7e7647bb424ca8195329c889ce529c5974d11c21/src/main/java/net/lugo/lightoverlay/registration/KeyMappings.java)
-bind overlay toggling to F9. Config opening and overlay-mode cycling are unbound.
+bind overlay toggling to F9, which conflicts with Renice Shot. The options template seeds `key_key.light-overlay.toggle` as `key.keyboard.f7` only when absent.
+F9 remains the high-resolution screenshot key familiar from FO.
+Config opening and overlay-mode cycling are unbound.
 The config screen is also available from Mod Menu or the client-local
-`/lightoverlay config` command. No Light Overlay config or keybind override is shipped.
+`/lightoverlay config` command. No other Light Overlay setting is overridden.
 
-Static inspection of the pinned artifacts found no competing F9 action in
+Static inspection of the pinned artifacts found no competing F7 action in
 Xaero's Minimap, Xaero's World Map, Zoomify, BetterF3, Iris, LambDynamicLights,
-or the other active utility mods. libIPN defines F9 in its key-code catalog but
-does not assign it to an action by default. User-customized bindings can differ;
+Renice Shot, or the other active utility mods. libIPN defines F7 in its key-code
+catalog but does not assign it to an action by default. User-customized bindings can differ;
 verify the new instance's Controls screen during acceptance.
+
+The template paths and upgrade behavior are described above. Existing saved
+keybindings retain priority over the pack default.
 
 Light Overlay and OverlayLib declare no conflicts with the selected Iris/Sodium
 stack. The overlay uses client-known world/light data and requires no server
@@ -394,10 +450,95 @@ Test toggling and persistence with Sodium, Iris, and LambDynamicLights installed
 starting with shaders disabled. Dynamic lighting does not change server-side
 block light or spawn rules.
 
-## QoL refinement defaults
+## Screenshots
 
-These defaults apply only on the maintained 26.2 line. They are not shipped by
-this bootstrap. Audit and pin the target artifacts before migrating them.
+[Renice Shot](https://modrinth.com/mod/renice-shot) is FO's screenshot mod for
+Minecraft 26.2. Its exact release retains F9, a 3840 by 2160 PNG capture, and the
+`huge_` filename prefix in the instance's `screenshots` directory.
+The [release config defaults](https://github.com/wechirok/renice-shot/blob/bca7c14881a592ca3df2d309968cb29bdaa32728/src/main/java/me/wechirok/reniceshot/config/Config.java)
+leave normal F2 screenshots and other mods' screenshot requests unchanged.
+No Renice Shot properties file is shipped. Existing Mod Menu and Cloth Config
+provide its optional local configuration screen.
+
+Capture temporarily changes render resolution and restores it afterward. Test
+that restoration with Sodium and Iris, initially with shaders disabled. Shader
+capture behavior remains part of manual acceptance.
+
+The [screenshot evaluation](mod-audit.md#screenshot-experience-evaluation-2026-11-19)
+retains Renice Shot alone. There is no in-game gallery, favorites, screenshot
+search, panorama key or Xaero screenshot overlay in Lantern Crossing. Open the
+instance's `screenshots` directory through the launcher or OS to revisit images.
+Prism and Modrinth App keep separate instance storage; importing a new instance
+does not transfer images automatically. Copy your images deliberately when
+moving instances. Pack upgrades must preserve this directory and your existing
+`config/renice-shot.properties`; no capture config template is shipped.
+
+F2 captures the current window normally. F9 requests a separate high-resolution
+capture. F7 is seeded for Light Overlay only when its binding is absent; an
+existing customized binding still wins. Use Controlling to check conflicts.
+No gallery shortcut is bound. Default Renice filenames contain time, not the
+world/server name. Opting into `%world%` adds the local world name or multiplayer
+server display name to filenames. The mod's default pixel writer adds no
+coordinate/server metadata, and no upload/share integration is selected.
+Visible coordinates, chat, player names and maps can still appear in the image
+itself. Review pixels and filenames before deliberately sharing them.
+
+Renice Shot can optionally hide HUD, change resolution/delay/format or override
+normal/mod-requested screenshots through its config UI. Those remain upstream
+player choices. Large captures can exhaust GPU/memory limits. No screenshot
+files are renamed, moved, deleted or indexed by the repository/build workflow.
+Screenshot Viewer is staged for memory/loading improvements; Screenshot Overhaul
+is deferred for embedded metadata and deletion safety, as well as release and
+capture-integration concerns. No user file needs removal after this review.
+
+## FO graphics controls and window behavior
+
+[Sodium Extra](https://modrinth.com/mod/sodium-extra) adds graphics controls to
+the existing Sodium renderer. [Reese's Sodium Options](https://modrinth.com/mod/reeses-sodium-options)
+supplies the alternative settings layout. Their exact native
+descriptors require Sodium `0.9.2+mc26.2`, which remains pinned unchanged. Iris
+also retains its existing compatible pin. No additional renderer is installed.
+
+Sodium Extra retains its [release defaults](https://github.com/FlashyReese/sodium-extra-fabric/blob/6a1779fc751f27d91ee4387f5cf74e8cd7469bd3/common/src/main/java/me/flashyreese/mods/sodiumextra/client/config/SodiumExtraGameOptions.java).
+Its FPS and coordinate overlays are
+disabled by default, so they do not add another HUD over BetterF3 and the maps.
+The release also leaves shader prevention, alternate projection, and optional
+fog overrides disabled. No Sodium Extra or Reese's settings file is shipped.
+
+[Cubes Without Borders](https://modrinth.com/mod/cubes-without-borders) retains
+its defaults. It adds borderless/windowed
+fullscreen choices and prefers borderless mode when fullscreen is toggled.
+Test F11, Alt-Tab, resizing, multiple monitors, Renice Shot resolution restoration,
+and Dynamic FPS focus detection together. No custom window settings are shipped.
+
+[More Chat History](https://modrinth.com/mod/morechathistory) raises local
+scrollback retention. It changes neither the
+server's chat protocol nor server-side history. No custom chat config is needed.
+
+## Default resource packs
+
+The visible default resource-pack behavior selected from FO is Continuity's
+connected textures and glass-pane culling fix. Both are already bundled inside
+the exact Continuity mod artifact. Its hash-verified release sources register
+them as optional built-in packs, so the first-install options template enables them:
+
+```text
+resourcePacks:["vanilla","continuity:glass_pane_culling_fix","continuity:default"]
+```
+
+This follows FO 14.1.2's ordering for those two packs. Connected glass,
+sandstone, bookshelves, and stacked glass panes need visual acceptance with
+Sodium, Iris, More Culling, and Light Overlay. Both packs can be disabled locally
+from Minecraft's Resource Packs screen. No standalone textures or shaders are
+downloaded for this choice.
+
+FO also enables Sodium translation, chat-reporting, and Mod Menu helper packs.
+Those helper packs are not included here. Animatica, Polytone, custom entity
+models/textures, and custom sky support remain outside this addition.
+Config Manager remains staged. Configured Defaults now supplies the selected
+copy-if-missing behavior; do not install two default-setting managers together.
+
+## QoL refinement defaults
 
 `configureddefaults/config/bettergrass.json` selects FANCY better grass and keeps
 resource-pack compatibility mode on. Path, farmland and both Nether nylium
@@ -417,8 +558,8 @@ Food Effect Tooltips uses upstream defaults with no pack config. Suspicious-stew
 reveal remains disabled. It reads effects, duration, amplifier and probability
 from available vanilla item components, including consume and death protection
 behavior. It supplies no hunger/saturation HUD, current exhaustion estimate or
-plugin-specific promises. Tooltip Tweaks and Enchantment Descriptions are not
-installed, so there is no duplicate effect/enchantment tooltip configuration.
+plugin-specific promises. Tooltip Tweaks remains inactive. Enchantment Descriptions adds a separate,
+shift-gated enchantment explanation; it does not duplicate food effects.
 See the [candidate decisions](mod-audit.md#qol-and-performance-refinement-2026-11-19).
 
 The new template has the same copy-if-missing contract as the existing mod
@@ -428,10 +569,6 @@ one chosen file. Both launchers, including App sync behavior, still need manual
 acceptance; no launcher-specific setting is distributed.
 
 ## Enchantment descriptions
-
-The following default applies only on maintained 26.2. This bootstrap ships no
-Enchantment Descriptions/Prickle artifact or template. Verify the exact future
-artifacts and preserve Configured Defaults safeguards before migration.
 
 `configureddefaults/config/enchdesc.json` seeds only
 `"require_keybind": {"value": true}` in Prickle's documented property format.
@@ -457,12 +594,3 @@ behavior is not inferred. Food Effect Tooltips remains the consume/death-effect
 provider. See the [exact Prickle audit](mod-audit.md#prickle-environment-classification-review),
 including its disclosed asynchronous HTTP update check and scoped server-label
 exception. No second defaults manager or other tooltip mod is added.
-
-## Screenshot selection reference
-
-This bootstrap does not install Renice Shot or a gallery. The maintained
-26.2 [screenshot review](mod-audit.md#screenshot-experience-evaluation-2026-11-19)
-retains Renice Shot and does not distribute capture preferences, user screenshots
-or metadata databases. No new screenshot defaults are seeded on this branch.
-Keep existing player images and preferences when eventually migrating; do not
-copy development overrides onto a personal maintained instance.

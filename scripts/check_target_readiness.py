@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Discover stable Fabric builds; this does not qualify pinned runtime behavior."""
+"""Discover Fabric mods and Iris shaders; this does not qualify runtime behavior."""
 
 from __future__ import annotations
 
@@ -12,12 +12,14 @@ from pathlib import Path
 from pack_model import ROOT, TARGET, load_toml, stable
 
 
-def compatible_versions(versions: list[dict], target: str, release_only: bool = True) -> list[dict]:
+def compatible_versions(
+    versions: list[dict], target: str, release_only: bool = True, *, loader: str = "fabric"
+) -> list[dict]:
     return [
         v
         for v in versions
         if target in v.get("game_versions", [])
-        and "fabric" in v.get("loaders", [])
+        and loader in v.get("loaders", [])
         and (not release_only or stable(v))
     ]
 
@@ -38,19 +40,25 @@ def discover(
     projects = collection["selected"] + collection["resolved-dependency"]
     if scope == "requested":
         projects = [p for p in projects if p["role"] == "feature"] + collection["excluded"]
+    projects += collection.get("shader", [])
     results = []
     for project in projects:
         pid = project["project-id"]
+        loader = "iris" if project["role"] == "shader" else "fabric"
         try:
             versions = (
-                snapshot["projects"][pid]["versions"]
+                snapshot["shader_projects" if loader == "iris" else "projects"][pid]["versions"]
                 if snapshot is not None
                 else fetch_versions(pid)
             )
-            matches = compatible_versions(versions, target, release_only)
-            results.append({"name": project["name"], "ready": bool(matches), "error": None})
+            matches = compatible_versions(versions, target, release_only, loader=loader)
+            results.append(
+                {"name": project["name"], "loader": loader, "ready": bool(matches), "error": None}
+            )
         except (OSError, urllib.error.URLError, KeyError, ValueError) as exc:
-            results.append({"name": project["name"], "ready": False, "error": str(exc)})
+            results.append(
+                {"name": project["name"], "loader": loader, "ready": False, "error": str(exc)}
+            )
     return results
 
 
@@ -77,9 +85,13 @@ def main() -> int:
         "Discovery only: build availability does not prove dependency closure, client eligibility, or runtime acceptance."
     )
     if snapshot:
-        print("Offline evidence checked on " + snapshot["checked_at"])
+        print(
+            "Offline snapshot base date "
+            + snapshot["checked_at"]
+            + "; later audits use per-project checked_at"
+        )
     for result in results:
-        detail = result["error"] or f"Fabric {args.minecraft} build availability"
+        detail = result["error"] or f"{result['loader']} {args.minecraft} build availability"
         print(f"{'READY' if result['ready'] else 'WAIT'}: {result['name']}: {detail}")
     return 0 if all(r["ready"] for r in results) else 1
 

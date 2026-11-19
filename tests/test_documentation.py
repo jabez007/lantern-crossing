@@ -18,7 +18,13 @@ class DocumentationTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         (self.root / "docs").mkdir()
-        for name in ("pack.toml", "README.md", "docs/release-notes.md", "docs/verification.md"):
+        for name in (
+            "pack.toml",
+            "README.md",
+            "docs/release-notes.md",
+            "docs/verification.md",
+            "docs/version-policy.md",
+        ):
             shutil.copyfile(ROOT / name, self.root / name)
         self.line = load_toml(ROOT / "release-policy.toml")["version-branch"]
 
@@ -27,7 +33,12 @@ class DocumentationTests(unittest.TestCase):
 
     def test_old_version_or_branch_instructions_fail(self):
         version = load_toml(self.root / "pack.toml")["version"]
-        for name in ("README.md", "docs/release-notes.md", "docs/verification.md"):
+        for name in (
+            "README.md",
+            "docs/release-notes.md",
+            "docs/verification.md",
+            "docs/version-policy.md",
+        ):
             path = self.root / name
             original = path.read_text()
             with self.subTest(name=name), self.assertRaisesRegex(ValueError, "documentation"):
@@ -44,3 +55,24 @@ class DocumentationTests(unittest.TestCase):
         path.write_text(path.read_text().replace(version, "26.2.99.99.99"))
         with self.assertRaisesRegex(ValueError, "documentation"):
             check_documentation(self.root, self.line)
+
+    def test_release_example_tag_cannot_lag_the_current_version(self):
+        path = self.root / "docs/version-policy.md"
+        version = load_toml(self.root / "pack.toml")["version"]
+        original = path.read_text()
+        for command in (f"--tag v{version}", f"make release RELEASE_TAG=v{version}"):
+            path.write_text(original.replace(command, command.replace(version, "26.2.99.99.99")))
+            with self.subTest(command=command), self.assertRaisesRegex(ValueError, "documentation"):
+                check_documentation(self.root, self.line)
+
+    def test_shader_acceptance_matches_bundled_choices(self):
+        acceptance = (ROOT / "docs/acceptance-tests.md").read_text().casefold()
+        for obsolete in (
+            "no shader pack is supplied",
+            "no shader is supplied",
+            "separately installed known-good shader",
+            "shaders absent",
+        ):
+            with self.subTest(obsolete=obsolete):
+                self.assertNotIn(obsolete, acceptance)
+        self.assertIn("shader owner acceptance matrix", acceptance)
