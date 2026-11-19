@@ -5,7 +5,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from pack_model import ROOT, load_pack
+from pack_model import ROOT, environment_notices, load_pack
 
 
 def main() -> int:
@@ -18,6 +18,8 @@ def main() -> int:
         print(f"FAIL: {exc}", file=sys.stderr)
         return 1
     features = sum(p["role"] == "feature" for p in pack.projects.values())
+    for notice in environment_notices(pack):
+        print(notice)
     print(
         f"PASS: {features} features, {len(pack.mods) - features} libraries, all client-only; exact Fabric 26.2 pins and index checked"
     )

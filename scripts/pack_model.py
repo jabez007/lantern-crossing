@@ -173,6 +173,110 @@ def check_download(lock: dict, version: dict, pid: str) -> None:
     )
 
 
+def artifact_identity(lock: dict) -> dict:
+    return {"filename": lock["filename"], "sha512": lock["download"]["hash"]}
+
+
+def check_environment(
+    lock: dict, project: dict, upstream: dict, version: dict, evidence: dict
+) -> None:
+    """Only a reviewed exact dependency can correct a project-level server label."""
+    require(upstream.get("client_side") != "unsupported", "unsupported client")
+    audits = [
+        a
+        for a in evidence.get("environment_exceptions", [])
+        if a.get("project_id") == version["project_id"]
+    ]
+    require(len(audits) <= 1, "duplicate environment audit")
+    if audits:
+        check_environment_audit(audits[0], lock, project, upstream, version)
+    else:
+        require(
+            upstream.get("server_side") != "required",
+            f"{project['slug']}: mandatory server requirement in upstream metadata",
+        )
+
+
+def check_environment_audit(
+    audit: dict, lock: dict, project: dict, upstream: dict, version: dict
+) -> None:
+    require(project["role"] == "dependency", "environment audit must name a resolved dependency")
+    descriptor = json.dumps(version["fabric_descriptor"], sort_keys=True, separators=(",", ":"))
+    expected = {
+        "scope": "modrinth-server-side",
+        "project_id": version["project_id"],
+        "version_id": version["id"],
+        "artifact": artifact_identity(lock),
+        "minecraft": TARGET,
+        "loader": "fabric",
+        "descriptor_sha256": hashlib.sha256(descriptor.encode()).hexdigest(),
+        "observed": {"client_side": upstream.get("client_side"), "server_side": "required"},
+    }
+    require(
+        all(audit.get(key) == value for key, value in expected.items())
+        and upstream.get("server_side") == "required",
+        f"{project['slug']}: environment audit needs re-evaluation for changed artifact/metadata",
+    )
+    require(
+        audit.get("reason") and audit.get("review") and audit.get("evidence"),
+        "environment audit needs reason, review and source evidence",
+    )
+    for url in audit["evidence"]:
+        require(
+            urlsplit(url).scheme == "https" and urlsplit(url).netloc,
+            "environment audit evidence must use HTTPS",
+        )
+
+
+def check_environment_context(projects: dict, mods: dict, versions: dict, evidence: dict) -> None:
+    for audit in evidence.get("environment_exceptions", []):
+        pid = audit["project_id"]
+        require(pid in projects, f"orphan environment audit: {pid}")
+        actual = {
+            parent
+            for parent, version in versions.items()
+            if any(d["project_id"] == pid for d in version["client_required"])
+        }
+        parents = audit.get("required_by", [])
+        require(
+            parents
+            and len(parents) == len(actual)
+            and {p["project_id"] for p in parents} == actual,
+            f"{pid}: environment audit parent context needs re-evaluation",
+        )
+        for parent in parents:
+            check_environment_parent(pid, parent, projects, mods, versions)
+
+
+def check_environment_parent(
+    pid: str, parent: dict, projects: dict, mods: dict, versions: dict
+) -> None:
+    parent_id = parent["project_id"]
+    version = versions[parent_id]
+    require(
+        projects[parent_id]["role"] == "feature"
+        and parent.get("version_id") == version["id"]
+        and parent.get("artifact") == artifact_identity(mods[parent_id]),
+        f"{pid}: environment audit parent artifact needs re-evaluation",
+    )
+    require(
+        any(
+            d["project_id"] == pid and d["dependency_type"] == "required"
+            for d in version["dependencies"]
+        ),
+        f"{pid}: environment audit parent must officially require the dependency",
+    )
+
+
+def environment_notices(pack: Pack) -> list[str]:
+    return [
+        f"AUDIT: environment classification for {pack.projects[a['project_id']]['slug']}"
+        f"@{a['version_id']}: Modrinth server_side=required; exact dependency artifact"
+        f" audited for independent client use. Review: {a['review']}"
+        for a in pack.evidence.get("environment_exceptions", [])
+    ]
+
+
 def check_mod(path: Path, projects: dict, evidence: dict) -> tuple[str, dict, dict]:
     lock = load_toml(path)
     pid = lock["update"]["modrinth"]["mod-id"]
@@ -192,10 +296,6 @@ def check_mod(path: Path, projects: dict, evidence: dict) -> tuple[str, dict, di
     )
     upstream = evidence["projects"][pid]
     require(
-        upstream.get("client_side") != "unsupported" and upstream.get("server_side") != "required",
-        f"{project['slug']}: unsupported client or mandatory server requirement",
-    )
-    require(
         upstream["slug"] == project["slug"] and upstream["name"] == project["name"] == lock["name"],
         "collection/lock/upstream identity mismatch",
     )
@@ -212,6 +312,7 @@ def check_mod(path: Path, projects: dict, evidence: dict) -> tuple[str, dict, di
         require(stable(version), f"selected {project['slug']} must be release-designated")
     check_descriptor(version["fabric_descriptor"])
     check_download(lock, version, pid)
+    check_environment(lock, project, upstream, version, evidence)
     return pid, lock, version
 
 
@@ -487,6 +588,7 @@ def load_pack(root: Path = ROOT) -> Pack:
     )
     require(len({m["filename"] for m in mods.values()}) == len(mods), "duplicate mod filename")
     evidence["active_ids"] = list(mods)
+    check_environment_context(projects, mods, versions, evidence)
     runtime = {
         "minecraft": TARGET,
         "fabricloader": pack["versions"]["fabric"],

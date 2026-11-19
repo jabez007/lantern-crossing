@@ -225,3 +225,21 @@ Offline conformance fixtures record results from Loader's public API and the
 exact Maven artifact SHA-256. The small Java adapter in `tests/fixtures/` allows
 maintainers to regenerate that evidence outside Minecraft; normal tests require
 neither Java, downloaded JARs, nor network access.
+
+## Project environment metadata disagreements
+
+A contradictory Modrinth server label can be corrected only by an explicit
+`environment_exceptions` audit in the existing upstream snapshot. The audit must
+name a resolved dependency, its exact project/version, filename, SHA-512,
+canonical Fabric-descriptor SHA-256, Minecraft target, loader and observed labels.
+It also binds every requiring feature's exact version and artifact identity and
+requires the real upstream required-project edge. Evidence links, review reference
+and a reason are mandatory. Repository and archive CLI checks print `AUDIT` notices.
+
+The exception applies only to Modrinth's project-level `server_side` label.
+Unsupported clients, native server-only modules, download integrity, required
+version ranges, complete closure and client-only export rules remain enforced.
+Changed pins, descriptors, parents or metadata require re-evaluation. Duplicate,
+orphan and stale audits fail; a corrected upstream label requires removing the
+obsolete exception. This is a human-reviewed source/artifact finding, not a
+mechanical proof of runtime behavior or permission to allow other server mods.
