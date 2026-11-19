@@ -67,7 +67,7 @@ Do not remove live preferences as a normal upgrade step. See [adoption instructi
 ## Rendering and performance
 
 - [ ] Sodium's video options load.
-- [ ] World renders normally with shaders absent.
+- [ ] World renders normally with shaders disabled.
 - [ ] Held-item and entity dynamic lighting works and updates when the light moves.
 - [ ] Weather, dimension changes, and status effects do not leave stale lighting.
 - [ ] Entity and block culling produce no obvious corruption or missing geometry.
@@ -76,8 +76,8 @@ Do not remove live preferences as a normal upgrade step. See [adoption instructi
 - [ ] Iris UI opens without missing dependencies or server warnings.
 - [ ] Shaders start disabled and ordinary world rendering has no corruption.
 - [ ] Shader-selection UI works and Sodium's options remain functional.
-- [ ] Optionally test one known-good shader pack in a separate test profile,
-      including dynamic lighting. No shader pack is supplied by the pack.
+Use the [shader owner acceptance matrix](#shader-owner-acceptance-matrix) below
+for both bundled shader choices, lighting interactions and preference retention.
 
 ## Inventory
 
@@ -166,7 +166,7 @@ Do not remove live preferences as a normal upgrade step. See [adoption instructi
 - [ ] Iris UI works and shaders-disabled rendering has no corruption.
 - [ ] Enabling the overlay causes no obvious rendering corruption.
 - [ ] Disabling it restores normal rendering without leftover overlay geometry.
-- [ ] Optionally test one known-good shader pack separately. Do not add it to the pack.
+- [ ] Repeat overlay toggling with both bundled shaders using the shader matrix below.
 
 ### Configuration
 
@@ -184,7 +184,7 @@ Do not remove live preferences as a normal upgrade step. See [adoption instructi
 - [ ] Resolution, fullscreen/windowed state, and HUD state restore after capture.
 - [ ] Repeated captures work with Sodium and Iris installed and shaders disabled.
 - [ ] The F7 overlay binding persists after restarting the client.
-- [ ] Optionally test capture with a separately installed known-good shader pack.
+- [ ] Repeat capture with both bundled shaders using the shader matrix below.
 
 ## Screenshot owner acceptance matrix
 
@@ -205,7 +205,7 @@ launcher or rendering results. Use copies of screenshots for destructive tests.
 | Gallery, sorting, favorites and deletion | [ ] | [ ] | [ ] | No gallery UI/key, favorites database, automatic sorting or in-game deletion is installed. Browse/copy/share deliberately with launcher/OS tools. Check any external deletion only on a disposable copy, then restore it. |
 | Privacy before sharing | [ ] | [ ] | [ ] | Inspect a new original PNG's text metadata and default filename for unexpected coordinates, world/server identifiers or uploads. Review visible chat, maps and coordinates in the pixels. `%world%` naming, if personally enabled, exposes that name intentionally. |
 | Xaero and panoramas | [ ] | [ ] | [ ] | Normal maps still work. No screenshot pins/map association, panorama capture or second F9 action is expected. |
-| Sodium and Iris | [ ] | [ ] | [ ] | F2/F9 and restoration work with shaders disabled, without corrupted images or rendering. Optionally repeat with one separately installed known-good shader pack. No shader is supplied by this pack. |
+| Sodium and Iris | [ ] | [ ] | [ ] | F2/F9 and restoration work with shaders disabled, without corrupted images or rendering. Repeat with both bundled shaders using the shader matrix below. |
 | Vanilla server and existing world | [ ] | [ ] | [ ] | Capture after singleplayer load and on a completely unmodified vanilla 26.2 server; disconnect/rejoin normally. No server mod/plugin/protocol is needed. |
 | Upgrade and repeat launch | [ ] | [ ] | [ ] | Upgrade an existing Lantern Crossing instance. Old screenshots, custom capture settings, keybindings and other preferences remain intact. New captures work and originals' hashes remain unchanged. Importing into a separate instance does not automatically move old screenshots. |
 
@@ -249,8 +249,8 @@ file state, archive hash and actual upgrade method in the matrix above.
       with Sodium, Continuity, More Culling, Entity Culling and dynamic lights.
       Resource reload, dimension changes and world reload leave no missing faces.
 - [ ] Iris UI and Sodium settings work. With shaders disabled there is no visual
-      corruption. Optionally test one separately installed known-good shader and
-      toggling it while viewing terrain and Xaero maps. No shader is supplied.
+      corruption. Test both bundled shaders and switching them while viewing terrain
+      and Xaero maps using the shader matrix below.
 - [ ] Food-effect tooltips show vanilla golden-apple effects, rotten-flesh chance,
       milk clearing, honey poison removal, chorus teleport and totem effects.
       They remain readable with Shulker Box Tooltip and ordinary enchantment lines.

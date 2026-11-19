@@ -64,3 +64,15 @@ class DocumentationTests(unittest.TestCase):
             path.write_text(original.replace(command, command.replace(version, "26.2.99.99.99")))
             with self.subTest(command=command), self.assertRaisesRegex(ValueError, "documentation"):
                 check_documentation(self.root, self.line)
+
+    def test_shader_acceptance_matches_bundled_choices(self):
+        acceptance = (ROOT / "docs/acceptance-tests.md").read_text().casefold()
+        for obsolete in (
+            "no shader pack is supplied",
+            "no shader is supplied",
+            "separately installed known-good shader",
+            "shaders absent",
+        ):
+            with self.subTest(obsolete=obsolete):
+                self.assertNotIn(obsolete, acceptance)
+        self.assertIn("shader owner acceptance matrix", acceptance)
