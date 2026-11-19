@@ -42,6 +42,9 @@ Iris 1.11.7. New shader compilation, transparency, GPU support, frame times,
 Wayland/windowing, input and actual vanilla26.3 server joins remain owner tests.
 No Minecraft launch, GPU benchmark, launcher test or multiplayer acceptance was
 performed. No acceptance record or runtime state has been marked complete.
+MakeUp issue #208 is still open and now describes this exact 26.3 rendering
+stack on Apple Silicon. The optional DoF feature is off upstream; owner checks
+record this limitation separately. No shader ZIP is patched or preset forced.
 
 ## Automated migration checks
 

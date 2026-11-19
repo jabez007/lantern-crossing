@@ -178,6 +178,15 @@ or user screenshot is overwritten. Review dynamic-light overlap, transparent
 surfaces, CTM/grass/culling, maps, dimensions and screenshots in both launchers.
 The [owner checklist](acceptance-tests.md#263-migration-acceptance) is uncompleted.
 
+[MakeUp issue #208](https://github.com/javiergcim/MakeUpUltraFast/issues/208)
+remains open and reports depth-of-field focus-edge artifacts on Apple Silicon
+with this exact Minecraft 26.3 / Loader 0.20.1 / Iris 1.11.7 / Sodium 0.9.2 /
+MakeUp 9.6 combination. This is an upstream report, not our reproduced result.
+DoF is off in the original release defaults. Leave it off if affected and record
+any deliberate DoF test separately. Do not patch or reupload the shader ZIP as
+an incidental workaround. This does not block the no-shader or default-profile
+acceptance route, but it is a concrete opt-in rendering limitation.
+
 ## Historical 26.2 selection investigations
 
 The following material records the original version-specific feature selection,
