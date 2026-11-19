@@ -67,7 +67,7 @@ class EnvironmentPolicyTests(unittest.TestCase):
             "scope": "modrinth-server-side",
             "project_id": pid,
             "version_id": version["id"],
-            "minecraft": "26.2",
+            "minecraft": "26.3",
             "loader": "fabric",
             "artifact": {"filename": artifact["filename"], "sha512": artifact["hashes"]["sha512"]},
             "descriptor_sha256": hashlib.sha256(

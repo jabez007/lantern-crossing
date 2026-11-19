@@ -85,8 +85,8 @@ class PackTests(unittest.TestCase):
         self.assertEqual(len(pack.evidence["environment_exceptions"]), 1)
         audit = pack.evidence["environment_exceptions"][0]
         self.assertEqual(audit["project_id"], "aaRl8GiW")
-        self.assertEqual(audit["version_id"], "XdvtdRYJ")
-        self.assertEqual(audit["required_by"][0]["version_id"], "PTAK0HD2")
+        self.assertEqual(audit["version_id"], "aPdekuq6")
+        self.assertEqual(audit["required_by"][0]["version_id"], "uZf2qbql")
 
     def test_enchantment_defaults_use_prickle_property_format(self):
         config = json.loads((self.root / "configureddefaults/config/enchdesc.json").read_text())
@@ -96,7 +96,7 @@ class PackTests(unittest.TestCase):
     def test_screenshot_selection_retains_capture_without_staged_galleries(self):
         pack = load_pack(self.root)
         self.assertEqual(pack.projects["ZDCwiIc3"]["role"], "feature")
-        self.assertEqual(pack.mods["ZDCwiIc3"]["update"]["modrinth"]["version"], "roOTvshj")
+        self.assertEqual(pack.mods["ZDCwiIc3"]["update"]["modrinth"]["version"], "cqRSJ7PC")
         self.assertTrue({"laNoi025", "wYSKV506"}.isdisjoint(pack.projects))
         candidates = load_toml(self.root / "candidates.toml")["candidate"]
         staged = {p["project-id"] for p in candidates}
@@ -214,8 +214,8 @@ class PackTests(unittest.TestCase):
 
     def test_target_cannot_change_in_both_manifests(self):
         for name in ("pack.toml", "collection.toml"):
-            self.replace(name, 'minecraft = "26.2"', 'minecraft = "26.3"')
-        self.invalid("exactly Minecraft 26.2")
+            self.replace(name, 'minecraft = "26.3"', 'minecraft = "26.2"')
+        self.invalid("exactly Minecraft 26.3")
 
     def test_loader_cannot_change(self):
         self.replace("pack.toml", 'fabric = "0.20.1"', 'quilt = "0.20.1"')
@@ -248,7 +248,7 @@ class PackTests(unittest.TestCase):
         self.invalid("identity mismatch")
 
     def test_wrong_hash_or_version(self):
-        self.replace("mods/sodium.pw.toml", 'version = "xJZxADzI"', 'version = "unknown1"')
+        self.replace("mods/sodium.pw.toml", 'version = "bAZQdGpg"', 'version = "unknown1"')
         self.invalid("pinned version missing")
 
     def test_required_by_cannot_hide_missing_edge(self):
@@ -291,7 +291,7 @@ class PackTests(unittest.TestCase):
             for line in pack.overrides["configureddefaults/options.txt"].decode().splitlines()
         )
         self.assertEqual(options["version"], str(pack.evidence["options_data_version"]["value"]))
-        self.assertEqual(pack.evidence["options_data_version"]["minecraft"], "26.2")
+        self.assertEqual(pack.evidence["options_data_version"]["minecraft"], "26.3")
         self.assertNotIn("options.txt", pack.overrides)
         self.assertIn(
             b"key_key.light-overlay.toggle:key.keyboard.f7\n",
@@ -353,7 +353,7 @@ class PackTests(unittest.TestCase):
         version = load_toml(self.root / "pack.toml")["version"]
         self.assertEqual(
             metadata(self.root, "v" + version)["archive"],
-            f"lantern-crossing-{version}-dev-26.2.mrpack",
+            f"lantern-crossing-{version}-dev-26.3.mrpack",
         )
         with self.assertRaisesRegex(ValueError, "tag must agree"):
             metadata(self.root, "v" + version + ".1")
@@ -371,14 +371,14 @@ class PackTests(unittest.TestCase):
                 self.assertTrue(stable({"version_type": "release", "version_number": name}))
         for kind in ("alpha", "beta"):
             self.assertFalse(stable({"version_type": kind, "version_number": "1.0"}))
-        self.assertTrue(stable({"version_type": "release", "version_number": "fabric-26.2-2.3.8"}))
+        self.assertTrue(stable({"version_type": "release", "version_number": "fabric-26.3-2.3.8"}))
 
     def test_readiness_filters_target_loader_and_stability(self):
         base = {
             "version_type": "release",
             "version_number": "1.0",
             "loaders": ["fabric"],
-            "game_versions": ["26.2"],
+            "game_versions": ["26.3"],
         }
         variants = [
             base,
@@ -386,15 +386,15 @@ class PackTests(unittest.TestCase):
             base | {"game_versions": ["26.1"]},
             base | {"version_type": "beta"},
         ]
-        self.assertEqual(compatible_versions(variants, "26.2"), [base])
+        self.assertEqual(compatible_versions(variants, "26.3"), [base])
 
     def test_offline_readiness_never_fetches(self):
         snapshot = json.loads((self.root / "docs/upstream-metadata.json").read_text())
         with patch(
             "check_target_readiness.fetch_versions", side_effect=AssertionError("network forbidden")
         ):
-            active = discover(self.root, "26.2", "active", snapshot)
-            requested = discover(self.root, "26.2", "requested", snapshot)
+            active = discover(self.root, "26.3", "active", snapshot)
+            requested = discover(self.root, "26.3", "requested", snapshot)
         self.assertTrue(all(r["ready"] for r in active))
         self.assertEqual(
             len(requested), len(snapshot["requested"]) + len(snapshot.get("shader_projects", {}))
@@ -427,7 +427,7 @@ class PackTests(unittest.TestCase):
             "name": metadata(self.root)["name"],
             "versionId": metadata(self.root)["artifact-version"],
             "summary": metadata(self.root)["summary"],
-            "dependencies": {"minecraft": "26.2", "fabric-loader": "0.20.1"},
+            "dependencies": {"minecraft": "26.3", "fabric-loader": "0.20.1"},
             "files": files,
         }
         return manifest, {"overrides/" + n: data for n, data in pack.overrides.items()}
@@ -500,8 +500,8 @@ class PackTests(unittest.TestCase):
     def test_archive_rejects_target_and_loader_changes(self):
         manifest, overrides = self.archive_data()
         for dependencies in (
-            {"minecraft": "26.3", "fabric-loader": "0.20.1"},
-            {"minecraft": "26.2", "quilt-loader": "0.20.1"},
+            {"minecraft": "26.2", "fabric-loader": "0.20.1"},
+            {"minecraft": "26.3", "quilt-loader": "0.20.1"},
         ):
             with (
                 self.subTest(dependencies=dependencies),
@@ -561,7 +561,7 @@ class PackTests(unittest.TestCase):
         path = self.root / "docs/upstream-metadata.json"
         snapshot = json.loads(path.read_text())
         version = next(
-            v for v in snapshot["projects"]["AANobbMI"]["versions"] if v["id"] == "xJZxADzI"
+            v for v in snapshot["projects"]["AANobbMI"]["versions"] if v["id"] == "bAZQdGpg"
         )
         version["fabric_descriptor"]["bundled"][0]["version"] = "3.0.0-pre3"
         path.write_text(json.dumps(snapshot))
@@ -682,6 +682,35 @@ class PackTests(unittest.TestCase):
     def test_server_config_cannot_be_shipped(self):
         (self.root / "config/server.properties").write_text("server-port=25565")
         self.invalid("server-only config")
+
+    def test_loader_supplies_its_pinned_mixinextras(self):
+        from pack_model import loader_libraries
+
+        pack = load_pack(self.root)
+        libraries = loader_libraries(
+            pack.evidence, {"fabricloader": pack.metadata["versions"]["fabric"]}
+        )
+        self.assertEqual(libraries["mixinextras"], "0.5.5")
+        self.assertFalse(any(p["slug"] == "mixinextras" for p in pack.projects.values()))
+
+    def test_loader_library_still_must_satisfy_native_requirements(self):
+        self.edit_evidence(
+            lambda s: self.evidence_version(s, "gvQqBUqZ")["fabric_descriptor"]["depends"].update(
+                mixinextras=">=999"
+            )
+        )
+        self.invalid("lithium@.*requires mixinextras '>=999'; installed version: 0.5.5")
+
+    def test_loader_audit_is_bound_to_descriptor_and_runtime_pin(self):
+        original = (self.root / "docs/upstream-metadata.json").read_text()
+        for change in (
+            lambda s: s["loader_artifact"].update(url="https://example.invalid/fake.jar"),
+            lambda s: s["loader_artifact"]["descriptor"].update(version="999"),
+            lambda s: s["loader_artifact"]["descriptor"]["bundled"][0].update(version="999"),
+        ):
+            self.edit_evidence(change)
+            self.invalid("loader artifact audit|loader descriptor")
+            (self.root / "docs/upstream-metadata.json").write_text(original)
 
 
 if __name__ == "__main__":

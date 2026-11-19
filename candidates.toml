@@ -1,6 +1,8 @@
 # Staging never adds a project to packwiz. Promotion requires an audit, an exact
-# stable Fabric 26.2 pin, dependency closure, and a deliberate collection edit.
+# stable Fabric 26.3 pin, dependency closure, and a deliberate collection edit.
 schema = 1
+# Evaluated versions below are historical 26.2 findings, not 26.3 authorization.
+# Feature additions stay frozen; reevaluate target support before any promotion.
 
 # Future [[candidate]] tables require:
 # project-id, slug, category, rationale, status, client-only, target-support,

@@ -72,6 +72,7 @@ def metadata(
         policy.get("schema") == 1 and re.fullmatch(r"[0-9]+\.[0-9]+", line),
         "invalid version branch policy",
     )
+    require(line == target, "version branch must target its own Minecraft release")
     actual_branch = branch or current_branch(root)
     require(
         not actual_branch

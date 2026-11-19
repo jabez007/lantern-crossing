@@ -1,6 +1,6 @@
 # Lantern Crossing
 
-A reproducible Fabric client pack for Minecraft Java 26.2 focused on performance,
+A reproducible Fabric client pack for Minecraft Java 26.3 focused on performance,
 navigation, quality-of-life improvements, and better interfaces while remaining
 compatible with unmodified vanilla servers.
 
@@ -12,33 +12,32 @@ documents that decision for all 41 selected features. Static checks enforce the
 packaging contract. A clean-client vanilla-server join still needs
 [runtime acceptance](docs/acceptance-tests.md).
 
-The target is Minecraft **26.2**, Fabric Loader **0.20.1**, and Java **25**.
-The loader pin comes from Fabric's [26.2 compatibility
-API](https://meta.fabricmc.net/v2/versions/loader/26.2), checked on 2026-11-17.
+The target is Minecraft **26.3**, Fabric Loader **0.20.1**, and Java **25**.
+The loader pin comes from Fabric's [26.3 compatibility
+API](https://meta.fabricmc.net/v2/versions/loader/26.3), checked on 2026-11-19.
 The checked evidence is in [upstream-metadata.json](docs/upstream-metadata.json).
-Pack version `26.2.0.10.0` is a development baseline, not a runtime qualification.
+Pack version `26.3.0.1.0` is a development baseline, not a runtime qualification.
 
 ## Version branches and feature freeze
 
-[`26.2`](https://github.com/jabez007/lantern-crossing/tree/26.2) is the authoritative
-baseline. Feature selection is frozen at 41 Fabric feature mods, eleven libraries
-and two optional shader choices pending owner runtime acceptance and release
-qualification. Follow-up work addresses bugs, compatibility, privacy/security,
-dependencies, incorrect configuration, documentation, tests and acceptance findings.
-Speculative feature additions wait until after the qualified 26.2 release.
+[`26.3`](https://github.com/jabez007/lantern-crossing/tree/26.3) is the primary
+development and release-candidate branch and GitHub default. It owns the active
+feature inventory and targets Minecraft 26.3. The complete 26.2 inventory was
+migrated: 41 Fabric feature mods, eleven libraries and two optional shaders.
+The [artifact matrix](docs/mod-audit.md#263-artifact-migration-matrix) records
+all 54 source artifacts and the [migration inventory](migration.toml) checks
+exact target pins and dependency relationships. Runtime acceptance is pending.
 
-[`26.3`](https://github.com/jabez007/lantern-crossing/tree/26.3) is a future forward
-migration target, not a parallel release baseline. GitHub's default branch remains
-26.3 at the owner's request; explicitly check out 26.2 for current work. The
-older 26.3 bootstrap still targets Minecraft 26.2 with 30 features. It is not
-qualified and receives no automatic synchronization or shader additions here.
+[`26.2`](https://github.com/jabez007/lantern-crossing/tree/26.2) is the legacy
+maintenance branch. It retains its independent Minecraft 26.2 pins, releases and
+acceptance records. Review applicable 26.3 bug, privacy/security, configuration,
+packaging, validation and documentation fixes for selective backporting. Do not
+merge the 26.3 dependency graph or automatically backport new features or updates.
 
-After accepting and releasing 26.2, start migration from its accepted inventory.
-Reevaluate every mod, shader and dependency for 26.3, resolve blockers, rerun
-static/reproducibility checks and complete separate runtime qualification.
-The earlier application of shared changes to 26.3 was forward preparation.
-The [branch policy](docs/version-policy.md#version-branches) replaces the earlier
-incorrect terminology. `pack.toml` always records the actual Minecraft target.
+Feature selection remains frozen during migration and owner acceptance. Changes
+address compatibility, defects, dependencies, configuration, tests and release
+documentation. New feature work starts on 26.3 after this baseline is qualified.
+See the [branch and release policy](docs/version-policy.md#version-branches).
 
 ## Pack philosophy
 
@@ -125,7 +124,7 @@ Open **Options > Video Settings > Shader Packs**, choose a ZIP, adjust its
 Menu labels can vary by language. No shader-specific preset or new keybind is
 shipped. Rendering, frame times and GPU memory still need owner acceptance on
 your hardware in both launchers. See the [configuration guide](docs/configuration.md#optional-shaders)
-and [source/license audit](docs/mod-audit.md#optional-shaders-and-distribution-2026-11-19).
+and [source/license audit](docs/mod-audit.md#shader-migration-and-distribution).
 
 Credits: Complementary Reimagined by EminGT / [Complementary Development](https://www.complementary.dev/),
 under the release's Complementary License Agreement 1.8. MakeUp - Ultra Fast by
@@ -140,13 +139,13 @@ on any future distribution description page.
 ## Install an exported pack
 
 1. Obtain a reviewed release, or build the development artifact below. Current
-   development output is `lantern-crossing-26.2.0.10.0-dev-26.2.mrpack` with its
+   development output is `lantern-crossing-26.3.0.1.0-dev-26.3.mrpack` with its
    matching `.sha256`. A development build still requires manual acceptance.
-2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.10.0-dev-26.2.sha256`.
+2. Verify the download with `sha256sum --check lantern-crossing-26.3.0.1.0-dev-26.3.sha256`.
 3. Import the `.mrpack` into a launcher that supports Modrinth packs. Use a new
    instance with Java 25 and let the launcher obtain the pinned upstream files.
 4. Start the client and complete the [smoke tests](docs/acceptance-tests.md),
-   including joining a completely vanilla 26.2 server.
+   including joining a completely vanilla 26.3 server.
 
 Configured Defaults copies absent mod config files and merges missing options
 keys. Existing values, including resource-pack order and custom keybindings,
@@ -155,7 +154,9 @@ Continuity defaults; an existing resource-pack list still requires deliberate
 manual activation. Modrinth App sync can supply values before launch.
 See the [candidate evaluation and upgrade instructions](docs/configuration.md#defaults-manager-evaluation-2026-11-19)
 and [owner acceptance matrix](docs/acceptance-tests.md#launcher-configuration-acceptance-matrix).
-Neither launcher has been runtime-qualified. When upgrading from 26.2.0.6.0,
+Neither launcher has been runtime-qualified. For a 26.2-to-26.3 upgrade, use a
+disposable instance copy first and review SDL3 keybindings, window modes, maps,
+shader preferences and local screenshots. See the [upgrade checklist](docs/acceptance-tests.md#263-migration-acceptance). When upgrading from 26.2.0.6.0,
 remove its old Default Options mod before launching; preserve live preferences.
 
 Do not merge this pack into an existing instance's mod directory. A clean
@@ -172,7 +173,7 @@ For a fresh source checkout, select the authoritative branch explicitly because
 GitHub's default remains the future migration branch:
 
 ```sh
-git clone --branch 26.2 https://github.com/jabez007/lantern-crossing.git
+git clone --branch 26.3 https://github.com/jabez007/lantern-crossing.git
 cd lantern-crossing
 ```
 
@@ -196,7 +197,7 @@ also recorded in [verification.md](docs/verification.md).
 | `make refresh` | Regenerate packwiz index after an intentional payload edit |
 | `make export` | Validate, export, normalize, and validate the complete `.mrpack` |
 | `make checksum` | Development export and SHA-256 checksum |
-| `make release RELEASE_TAG=v26.2.0.10.0` | Release build, requiring owner-recorded runtime qualification |
+| `make release RELEASE_TAG=v26.3.0.1.0` | Release build, requiring owner-recorded runtime qualification |
 | `make clean` | Remove generated `build/` and `dist/` files |
 
 `PACKWIZ`, `PYTHON`, and `RUFF` can name explicit local executables.
@@ -207,15 +208,16 @@ permissions, and JSON encoding. Stored entries avoid compression-version drift.
 Default development outputs are:
 
 ```text
-dist/lantern-crossing-26.2.0.10.0-dev-26.2.mrpack
-dist/lantern-crossing-26.2.0.10.0-dev-26.2.sha256
+dist/lantern-crossing-26.3.0.1.0-dev-26.3.mrpack
+dist/lantern-crossing-26.3.0.1.0-dev-26.3.sha256
 ```
 
 GitHub Actions validates pushes to `26.2` and `26.3` and pull requests targeting
 either branch. It checks index consistency, builds twice to compare archive
 bytes, and uploads artifacts labeled with their version, branch and channel.
-The archive itself also identifies development builds. The 26.3 bootstrap exports
-its actual **26.2** target with `-dev-26.3`, never as a 26.3-compatible release.
+The archive identifies Minecraft 26.3 and the development channel. Both numeric
+version branches must target their own Minecraft version, including development
+builds. CI success permits owner testing; it does not qualify a release.
 
 Release publication requires a matching tag on the declared version branch,
 agreement with the actual Minecraft target, and an owner acceptance record bound

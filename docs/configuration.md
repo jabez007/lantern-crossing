@@ -2,8 +2,8 @@
 
 ## Safe defaults and existing instances
 
-[Configured Defaults 26.2.0](https://modrinth.com/mod/configured-defaults/version/oM0C4RRZ)
-replaces Default Options in pack 26.2.0.7.0. It is installed only on the client,
+[Configured Defaults 26.3.0](https://modrinth.com/mod/configured-defaults/version/frAVVzBj)
+continues the copy-if-missing strategy introduced on 26.2. It is installed only on the client,
 requires no additional library projects, and needs nothing on the server.
 
 | Packaged template | Behavior on the client |
@@ -27,9 +27,9 @@ even `["vanilla"]`, keeps that exact value and order; enable Continuity manually
 in that case. A saved F8/F9 overlay binding is preserved. Existing App-synced
 preferences can take precedence over pack defaults.
 
-The options template includes data version `4903`, read from `world_version` in
-`version.json` inside the SHA-1-verified official Minecraft 26.2 client archive.
-The [official version metadata](https://piston-meta.mojang.com/v1/packages/cf103b8fab4900562221bf7f23b72725dd9a914a/26.2.json)
+The options template includes data version `5023`, read from `world_version` in
+`version.json` inside the SHA-1-verified official Minecraft 26.3 client archive.
+The [official version metadata](https://piston-meta.mojang.com/v1/packages/ead839cbccf0ddf013c3f935f2840080b5cb0d26/26.3.json)
 and source hash are recorded in `docs/upstream-metadata.json`. This is format
 metadata for modern key serialization, not a graphics preference. Existing
 version fields are not overwritten. Inspecting the ZIP did not execute Minecraft.
@@ -40,7 +40,54 @@ Use a copy of an existing profile when testing upgrades. Configured Defaults
 uses no persistent first-run journal; its per-process guard prevents duplicate
 initialization, and subsequent launches recheck for missing files/keys.
 
-## Defaults manager evaluation, 2026-11-19
+## Minecraft 26.3 configuration review
+
+Only the options data-version seed changes, from 4903 to 5023. The five mod
+config templates are unchanged. Their fields remain present in the new Mouse
+Tweaks 2.31, Client Tweaks 26.3.0.1, BetterGrassify 1.8.8, Iris 1.11.7 and
+Enchantment Descriptions 26.3.0.2 implementations. The HUD/refill overlap switches,
+restrained grass and snow-off selection, and Shift-gated descriptions remain.
+No live settings, forced reset, raw mouse option, numeric keycode or shader
+preset is distributed.
+
+Minecraft's hash-verified 26.3 `InputConstants.Type` bytecode still serializes F7
+as `key.keyboard.f7`, now mapping to SDL scancode 64. This is evidence for the
+symbolic template, not permission to copy old GLFW numbers. Light Overlay retains
+`key.light-overlay.toggle`; Renice Shot retains symbolic F9 and 3840 by 2160 PNG
+capture. Controlling, IPN, Client Tweaks/Balm/Kuma, Mouse Tweaks, Zoomify and Cubes
+Without Borders use their 26.3 artifacts. Test non-US layouts, text editing,
+extra mouse buttons, scrolling, fullscreen and Linux Wayland explicitly.
+Minecraft removed the raw mouse-input preference. Do not recreate it in templates.
+
+Configured Defaults 26.3.0 still copies whole missing mod files and merges absent
+options using `putIfAbsent`, with no persistent reset journal. Its new README
+resource is present in the actual JAR. Seven isolated file scenarios were rerun
+using the unmodified [26.3 handler](https://github.com/Fuzss/configureddefaults/blob/3daae98608359d111c728775ad18bb7f7e87d8e7/Common/src/main/java/fuzs/configureddefaults/common/handler/CopyDefaultsHandler.java)
+and the existing Java fixture. Only logging/constants were stubbed. No game or
+launcher was run. The recorded fixtures bind the new artifact and templates.
+They establish file operations, not Minecraft's later settings conversion.
+
+A fresh 26.3 instance receives missing defaults. An existing 26.3 instance keeps
+its values and configs, including shader selection and resource-pack order.
+For a 26.2 upgrade, first copy/back up the whole instance with the launcher closed.
+Keep the original playable 26.2 instance. Let Minecraft and the owning mods handle
+their formats; the defaults manager does not translate GLFW codes, migrate mod
+schemas, replace old JARs, transfer worlds, or reconcile map folders. Review
+bindings and controls manually. Existing options `version` remains untouched
+until Minecraft processes it. Existing map/world/dimension identities may need
+manual map selection. Preserve screenshots, maps, worlds, configs and presets.
+
+Prism and Modrinth App upgrades remain untested. App-synced options/resource packs
+can override instance choices before launch; test sync disabled and enabled with
+disposable profiles. An already populated resource-pack list is never replaced
+just to activate Continuity. A clean instance with no saved/synced Iris file
+starts disabled. Existing active shaders and presets are not reset on upgrade.
+
+The comparison below records the original 26.2 selection decision. Exact old
+artifact/source citations are historical; current pins are in `mods/*.pw.toml`
+and the [26.3 audit](mod-audit.md#263-artifact-migration-matrix).
+
+## Historical 26.2 defaults manager evaluation, 2026-11-19
 
 **Decision: select Configured Defaults 26.2.0 (`oM0C4RRZ`, project `SISoSFPP`).**
 
@@ -314,7 +361,7 @@ Optional shader packs can also provide held or entity lighting. Dynamic lights d
 or block light levels. BadOptimizations' lightmap caching and the rendering stack
 need visual testing when a held light, weather, or status effect changes.
 
-Iris 1.11.4 is active with Sodium 0.9.2. The Iris template sets
+Iris 1.11.7 is active with Sodium 0.9.2. The Iris template sets
 `enableShaders=false` so the clean baseline starts with vanilla rendering.
 The shader-selection UI remains available with the two optional choices below.
 Check shader-disabled rendering, resizing, and dynamic lighting before accepting
@@ -326,7 +373,7 @@ Complementary Reimagined r5.10 is the featured atmospheric choice. MakeUp 9.6 is
 an adjustable alternative with low and shadowless profiles. Both are official
 Modrinth downloads referenced under `shaderpacks/`, separate from Fabric JARs.
 No extra renderer, configuration manager, resource pack or shader-support mod is
-added. Iris 1.11.4, Sodium 0.9.2, Continuity 3.0.1, BetterGrassify 1.8.7 and
+added. Iris 1.11.7, Sodium 0.9.2, Continuity 3.0.1, BetterGrassify 1.8.8 and
 LambDynamicLights 4.12.4 keep their existing pins and defaults.
 
 A clean instance still seeds only `enableShaders=false` through the existing
@@ -394,6 +441,10 @@ server integrations.
 
 ## Client Tweaks
 
+The 26.3 binary retains the documented fields and overlap overrides. The source
+links below record the original 26.2 rationale; current artifact identity and
+closure are in the 26.3 audit.
+
 The exact [26.2.0.6 configuration source](https://github.com/TwelveIterations/ClientTweaks/blob/v26.2.0.6/common/src/main/java/net/blay09/mods/clienttweaks/ClientTweaksConfig.java)
 defines these options. The pack pins two existing upstream defaults off in
 the Client Tweaks template:
@@ -453,7 +504,7 @@ block light or spawn rules.
 ## Screenshots
 
 [Renice Shot](https://modrinth.com/mod/renice-shot) is FO's screenshot mod for
-Minecraft 26.2. Its exact release retains F9, a 3840 by 2160 PNG capture, and the
+Minecraft 26.3. Its exact release retains F9, a 3840 by 2160 PNG capture, and the
 `huge_` filename prefix in the instance's `screenshots` directory.
 The [release config defaults](https://github.com/wechirok/renice-shot/blob/bca7c14881a592ca3df2d309968cb29bdaa32728/src/main/java/me/wechirok/reniceshot/config/Config.java)
 leave normal F2 screenshots and other mods' screenshot requests unchanged.
@@ -496,8 +547,8 @@ capture-integration concerns. No user file needs removal after this review.
 [Sodium Extra](https://modrinth.com/mod/sodium-extra) adds graphics controls to
 the existing Sodium renderer. [Reese's Sodium Options](https://modrinth.com/mod/reeses-sodium-options)
 supplies the alternative settings layout. Their exact native
-descriptors require Sodium `0.9.2+mc26.2`, which remains pinned unchanged. Iris
-also retains its existing compatible pin. No additional renderer is installed.
+descriptors require Sodium `0.9.2+mc26.3`. Iris 1.11.7 explicitly requires the selected Sodium
+artifact bAZQdGpg. No additional renderer is installed.
 
 Sodium Extra retains its [release defaults](https://github.com/FlashyReese/sodium-extra-fabric/blob/6a1779fc751f27d91ee4387f5cf74e8cd7469bd3/common/src/main/java/me/flashyreese/mods/sodiumextra/client/config/SodiumExtraGameOptions.java).
 Its FPS and coordinate overlays are

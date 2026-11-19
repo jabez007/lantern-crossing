@@ -1,10 +1,9 @@
-# Intent only. Exact versions, URLs and hashes belong to mods/*.pw.toml and
-# shaderpacks/*.pw.toml. Shader choices are separate from Fabric feature mods.
 schema = 1
-minecraft = "26.2"
+minecraft = "26.3"
 loader = "fabric"
 java = "25"
-excluded = []
+
+# Human intent; exact artifact versions and hashes belong to Packwiz locks.
 
 [[selected]]
 project-id = "AANobbMI"
@@ -273,6 +272,34 @@ name = "Configured Defaults"
 category = "pack-management"
 role = "feature"
 
+[[selected]]
+project-id = "m5T5xmUy"
+slug = "bettergrassify"
+name = "BetterGrassify"
+category = "visual-social"
+role = "feature"
+
+[[selected]]
+project-id = "xv94TkTM"
+slug = "controlling"
+name = "Controlling"
+category = "interface"
+role = "feature"
+
+[[selected]]
+project-id = "GGfyJWnG"
+slug = "foodeffecttooltips"
+name = "Food Effect Tooltips [Fabric / NeoForge]"
+category = "information"
+role = "feature"
+
+[[selected]]
+project-id = "UVtY3ZAC"
+slug = "enchantment-descriptions"
+name = "Enchantment Descriptions"
+category = "information"
+role = "feature"
+
 [[resolved-dependency]]
 project-id = "1eAoo2KR"
 slug = "yacl"
@@ -337,27 +364,6 @@ category = "library"
 role = "dependency"
 required-by = ["8qVa1XCN"]
 
-[[selected]]
-project-id = "m5T5xmUy"
-slug = "bettergrassify"
-name = "BetterGrassify"
-category = "visual-social"
-role = "feature"
-
-[[selected]]
-project-id = "xv94TkTM"
-slug = "controlling"
-name = "Controlling"
-category = "interface"
-role = "feature"
-
-[[selected]]
-project-id = "GGfyJWnG"
-slug = "foodeffecttooltips"
-name = "Food Effect Tooltips [Fabric / NeoForge]"
-category = "information"
-role = "feature"
-
 [[resolved-dependency]]
 project-id = "fuuu3xnx"
 slug = "searchables"
@@ -365,13 +371,6 @@ name = "Searchables"
 category = "library"
 role = "dependency"
 required-by = ["xv94TkTM"]
-
-[[selected]]
-project-id = "UVtY3ZAC"
-slug = "enchantment-descriptions"
-name = "Enchantment Descriptions"
-category = "information"
-role = "feature"
 
 [[resolved-dependency]]
 project-id = "aaRl8GiW"

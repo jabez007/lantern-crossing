@@ -1,5 +1,106 @@
 # Verification record
 
+Pack version `26.3.0.1.0` is the primary Minecraft 26.3 migration baseline.
+Development artifact: `lantern-crossing-26.3.0.1.0-dev-26.3.mrpack`.
+All 41 feature mods, eleven libraries and two shaders from 26.2.0.10.0 are
+accounted for, without replacements/exclusions. Every runtime state remains pending.
+
+The existing 26.3 bootstrap was merged with the full 26.2 tree while retaining
+both histories. The 26.2 P3 checklist regression reproduced four stale shader
+claims; the focused fix passed 139 offline tests and source validation there.
+No 26.3 locks are copied to 26.2. GitHub already defaults to 26.3; both branches
+were unprotected and no rulesets existed when inspected. No force-push, branch
+deletion, tag or release publication is part of this migration.
+
+## Migration evidence and limits
+
+The [complete artifact matrix](mod-audit.md#263-artifact-migration-matrix) and
+`migration.toml` cover exact source/target identities and closure. All proposed
+artifacts were downloaded to a temporary audit directory and SHA-512-checked.
+Fabric root and nested descriptors, release notes, loader constraints and hard
+incompatibilities were inspected. Current loader metadata returns0.20.1 stable;
+Mojang26.3 metadata requires Java 25. The official client SHA-1 and options data
+version 5023 were verified without executing the game.
+
+Prickle and ED26.3 Maven binaries match Modrinth byte-for-byte. Their36 and7
+published Java sources respectively match immutable26.3 source commits. The
+new environment exception binds the exact artifact, descriptor, target and ED
+parent. Unrelated server-required projects remain rejected. Prickle's disclosed
+asynchronous HTTP update check remains; no companion protocol was found.
+
+The existing Configured Defaults Java file-method oracle was rerun for all
+seven cases using the unmodified26.3 source, actual JAR README resource and
+logging/constants stubs. It covers fresh/partial/custom options, repeat launch,
+updates, resource-pack order and old-manager/adoption behavior. It does not run
+Fabric, Minecraft, Prism or the App, and does not prove Minecraft's later option
+conversion. InputConstants bytecode retains symbolic `key.keyboard.f7` mapped
+to SDL scancode 64; no GLFW numeric seed is distributed. The five mod templates
+remain unchanged; only the options seed version changes.
+
+Both official shader ZIP hashes and licenses remain unchanged; audits bind
+Iris 1.11.7. New shader compilation, transparency, GPU support, frame times,
+Wayland/windowing, input and actual vanilla26.3 server joins remain owner tests.
+No Minecraft launch, GPU benchmark, launcher test or multiplayer acceptance was
+performed. No acceptance record or runtime state has been marked complete.
+
+## Automated migration checks
+
+Observed: 146 offline tests passed; Ruff lint/format, pack/index/closure checks,
+offline readiness and actionlint passed. Both complete normalized exports were
+byte-identical. The archive is 31,992 bytes with 54 downloads and six defaults
+payloads, all client required/server unsupported; two ZIP references are under
+`shaderpacks/`, with no embedded mod/shader binary.
+
+SHA-256: `14ef42ec1f28e62a6d1d1bb2f4d3fd5b27392529377bf2da0a5f4423af7abfcc`.
+
+Commands executed on 26.3:
+
+```sh
+make test lint validate
+make refresh PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
+make checksum PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
+cp dist/lantern-crossing-26.3.0.1.0-dev-26.3.mrpack /tmp/lantern-migration/first.mrpack
+make export PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
+cmp /tmp/lantern-migration/first.mrpack dist/lantern-crossing-26.3.0.1.0-dev-26.3.mrpack
+python3 scripts/validate_mrpack.py dist/lantern-crossing-26.3.0.1.0-dev-26.3.mrpack
+python3 scripts/check_target_readiness.py --offline
+/tmp/lantern-bin/actionlint .github/workflows/validate.yml
+ruff check scripts tests --select C90 --config 'lint.mccabe.max-complexity=10'
+git diff --check
+git ls-files '*.jar' '*.JAR' '*.zip' '*.ZIP'
+```
+
+The previous branch guard accepted a synthetic mismatch as
+`lantern-crossing-26.3.0.1.0-dev-26.2.mrpack`. With the fix, the same fixture
+fails: “version branch must target its own Minecraft release”. Release tests
+also reject pending runtime acceptance, stale pin/role/closure records, missing
+libraries/shaders and changed pack acceptance hashes.
+
+New regression coverage includes Loader-provided library version incompatibility,
+loader descriptor/pin changes and all-artifact migration completeness. Existing
+server-required/prerelease/provenance/archive tests pass without weakened rules.
+The configured complexity limit 10 passes; `check_entry` is 9, within that limit.
+No new function exceeds the repository threshold. No unrelated refactor was needed.
+
+Artifact Action updated from v5 to immutable v7.0.2 (Node 24), retaining the
+existing workflow and release gates. Index drift checks now explicitly include
+shaders and Configured Defaults. Both version branches still receive CI.
+Repository description now names 26.3; default was already 26.3. Neither branch
+protection nor rulesets were created or relaxed. No owner action is needed to
+change the default. Requiring PR/validate checks in GitHub remains a separate
+repository-settings choice.
+
+The native validator now accounts for MixinExtras 0.5.5 supplied by the exact
+Loader JAR, without adding a duplicate download. Migration validation covers
+libraries and shaders as well as features, pin/role/closure consistency and
+pending runtime gates. Version branches must match targets even for development
+artifacts. Existing Fabric predicate limitations remain documented.
+
+## Historical 26.2 verification
+
+The records below describe earlier26.2 milestones and their then-current branches.
+Their hashes, test counts and strategy statements are historical, not26.3 claims.
+
 Pack version `26.2.0.10.0` is the 26.2 feature-freeze baseline pending owner
 runtime acceptance. Target: Minecraft 26.2, Fabric Loader 0.20.1, Java 25.
 The baseline has 41 Fabric feature mods, eleven libraries and two optional shader

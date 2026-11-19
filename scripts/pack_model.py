@@ -13,7 +13,7 @@ from urllib.parse import unquote, urlsplit
 from native_dependencies import validate_native_dependencies
 
 ROOT = Path(__file__).resolve().parents[1]
-TARGET = "26.2"
+TARGET = "26.3"
 REJECTED = {
     "appleskin",
     "jade",
@@ -101,7 +101,7 @@ def check_collection(collection: dict, evidence: dict) -> dict:
     require(collection.get("schema") == 1, "collection schema must be 1")
     require(
         collection.get("minecraft") == TARGET and collection.get("loader") == "fabric",
-        "collection target must be Fabric 26.2",
+        "collection target must be Fabric 26.3",
     )
     selected = collection.get("selected", [])
     dependencies = collection.get("resolved-dependency", [])
@@ -310,7 +310,7 @@ def check_mod(path: Path, projects: dict, evidence: dict) -> tuple[str, dict, di
         version["project_id"] == pid
         and TARGET in version["game_versions"]
         and "fabric" in version["loaders"],
-        "pin must support Fabric 26.2",
+        "pin must support Fabric 26.3",
     )
     if project["role"] != "dependency":
         require(stable(version), f"selected {project['slug']} must be release-designated")
@@ -359,7 +359,7 @@ def check_shader(path: Path, projects: dict, evidence: dict, mods: dict) -> tupl
         and TARGET in version["game_versions"]
         and "iris" in version["loaders"]
         and stable(version),
-        "shader pin must be release-designated for Iris and Minecraft 26.2",
+        "shader pin must be release-designated for Iris and Minecraft 26.3",
     )
     require("fabric_descriptor" not in version, "shader must not use fabricated Fabric metadata")
     require(
@@ -508,6 +508,36 @@ def fabric_modules(descriptor: dict) -> list[dict]:
     ]
 
 
+def loader_libraries(evidence: dict, runtime: dict[str, str]) -> dict[str, str]:
+    """Include exact libraries shipped inside Loader, not extra pack downloads."""
+    audit = evidence["loader_artifact"]
+    version = runtime["fabricloader"]
+    require(
+        audit["url"]
+        == f"https://maven.fabricmc.net/net/fabricmc/fabric-loader/{version}/fabric-loader-{version}.jar"
+        and re.fullmatch(r"[0-9a-f]{128}", audit["sha512"]),
+        "loader artifact audit disagrees with runtime pin",
+    )
+    descriptor = audit["descriptor"]
+    require(
+        descriptor["id"] == "fabricloader"
+        and descriptor["version"] == version
+        and hashlib.sha256(
+            json.dumps(descriptor, sort_keys=True, separators=(",", ":")).encode()
+        ).hexdigest()
+        == audit["descriptor_sha256"],
+        "loader descriptor disagrees with audited runtime",
+    )
+    check_descriptor(descriptor)
+    modules = fabric_modules(descriptor)[1:]
+    validate_native_dependencies({m["id"]: [m] for m in modules}, runtime)
+    return {
+        name: module["version"]
+        for module in modules
+        for name in [module["id"], *module.get("provides", [])]
+    }
+
+
 def check_native_requirements(versions: dict, runtime: dict) -> None:
     """Also check dependencies omitted from the upstream project metadata."""
     modules = {pid: fabric_modules(v["fabric_descriptor"]) for pid, v in versions.items()}
@@ -516,7 +546,7 @@ def check_native_requirements(versions: dict, runtime: dict) -> None:
         for pid, group in modules.items()
     }
     for pid, group in modules.items():
-        available = supplied[pid] | {"minecraft", "java", "fabricloader"}
+        available = supplied[pid] | runtime.keys()
         for dependency in versions[pid]["client_required"]:
             available |= supplied[dependency["project_id"]]
         for module in group:
@@ -693,9 +723,9 @@ def load_pack(root: Path = ROOT) -> Pack:
     require(
         set(pack["versions"]) == {"minecraft", "fabric"}
         and pack["versions"]["minecraft"] == TARGET,
-        "target must be exactly Minecraft 26.2 + Fabric",
+        "target must be exactly Minecraft 26.3 + Fabric",
     )
-    require(bool(re.fullmatch(r"26\.2\.\d+\.\d+\.\d+", pack["version"])), "invalid pack version")
+    require(bool(re.fullmatch(r"26\.3\.\d+\.\d+\.\d+", pack["version"])), "invalid pack version")
     evidence = json.loads((root / "docs/upstream-metadata.json").read_text())
     require(evidence["schema"] == 1 and evidence["target"] == TARGET, "invalid upstream snapshot")
     require(
@@ -727,6 +757,7 @@ def load_pack(root: Path = ROOT) -> Pack:
         "fabricloader": pack["versions"]["fabric"],
         "java": collection["java"],
     }
+    runtime.update(loader_libraries(evidence, runtime))
     check_dependencies(projects, versions, evidence, runtime)
     shaders, shader_versions = check_shaders(root, collection, evidence, mods)
     check_repository_files(root)

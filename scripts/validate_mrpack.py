@@ -52,10 +52,10 @@ def check_manifest(manifest: dict, pack: Pack, identity: dict, raw: bool) -> Non
     require(
         manifest.get("dependencies")
         == {
-            "minecraft": "26.2",
+            "minecraft": "26.3",
             "fabric-loader": pack.metadata["versions"]["fabric"],
         },
-        "archive must target exact Minecraft 26.2 and Fabric loader pin",
+        "archive must target exact Minecraft 26.3 and Fabric loader pin",
     )
 
 

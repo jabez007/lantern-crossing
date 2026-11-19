@@ -22,7 +22,6 @@ class DefaultsTests(unittest.TestCase):
         if (ROOT / "configureddefaults").exists():
             shutil.copytree(ROOT / "configureddefaults", self.root / "configureddefaults")
         self.managers = {"SISoSFPP": {}}
-        # The 26.3 bootstrap has not adopted the maintained line's helper yet.
         (self.root / "configureddefaults/config").mkdir(parents=True, exist_ok=True)
 
     def test_competing_managers_are_rejected_by_project_identity(self):
@@ -49,7 +48,7 @@ class DefaultsTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "requires its templates"):
             check_defaults_manager(self.root, self.managers)
 
-    def test_bootstrap_without_manager_retains_its_existing_contract(self):
+    def test_no_manager_does_not_require_a_template_tree(self):
         shutil.rmtree(self.root / "configureddefaults")
         check_defaults_manager(self.root, {})
 
@@ -88,7 +87,7 @@ class DefaultsTests(unittest.TestCase):
     def test_recorded_file_audit_matches_locked_artifact_and_templates(self):
         lock_path = ROOT / "mods/configured-defaults.pw.toml"
         if not lock_path.exists():
-            self.skipTest("26.3 bootstrap tracks the helper as deferred, not installed")
+            self.fail("the active baseline must include Configured Defaults")
         evidence = json.loads((ROOT / "tests/fixtures/configured-defaults-files.json").read_text())
         lock = load_toml(lock_path)
         self.assertEqual(evidence["artifact-sha512"], lock["download"]["hash"])

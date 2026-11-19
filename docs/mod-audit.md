@@ -1,20 +1,191 @@
 # Client-only mod and shader audit
 
-Evidence checked on 2026-11-17 against the [Modrinth API](https://docs.modrinth.com/api/) and the exact downloaded Fabric artifacts. [The offline snapshot](upstream-metadata.json) records project/version identity, compatibility declarations, files, dependency edges, and recursive Fabric descriptors. Download hashes were checked during the audit and again by packwiz export.
+## Minecraft 26.3 migration review, 2026-11-19
 
-Renice Shot was added and audited on 2026-11-18. The prior 39 artifact pins are
-unchanged. That addition completed the 30 original features plus Renice Shot.
+The primary baseline is Minecraft 26.3, Fabric Loader 0.20.1, Java 25 and pack
+26.3.0.1.0. All 41 feature mods, eleven libraries and both shader choices from
+26.2.0.10.0 are accounted for. No replacement, exclusion or unrelated feature
+was introduced. Every Packwiz record is pinned client-side. Static validation
+checks exact Modrinth identity, release designation, hashes, target/loaders,
+required closure, Fabric version predicates and incompatible declarations.
+All Minecraft and launcher runtime acceptance remains **pending**.
 
-Five FO-inspired additions were audited on 2026-11-18. On 2026-11-19, the
-configuration evaluation selected Configured Defaults to replace Default Options.
-The other 45 locks are unchanged from the preceding baseline. There are still
-37 intentional features and nine libraries at that point.
-The refinement below adds three features and Searchables, bringing the maintained
-26.2 line to 40 features and ten libraries. The subsequent Prickle classification
-review below adds Enchantment Descriptions, reaching 41 features and eleven libraries.
-The shader milestone adds two separate optional shader resources and changes no mod pins.
+[Official Minecraft 26.3 changes](https://www.minecraft.net/en-us/article/minecraft-java-edition-26-3)
+and [Fabric's migration notes](https://fabricmc.net/2026/09/15/263.html) document
+SDL3 physical-position keys, changed mouse constants and text-focus handling,
+new transparency/core-shader compilation paths and Wayland behavior. Upstream
+release support does not prove correct operation of this combined stack.
 
-The question for every row is whether the selected functionality works entirely on the client while connected to an unmodified vanilla 26.2 server. An optional server label alone is insufficient evidence. No runtime multiplayer acceptance has been performed.
+## 26.3 artifact migration matrix
+
+Each target link is the exact Modrinth release used. Stable project IDs and full
+source/target version IDs, role, dependency edges and independent runtime states
+are in [migration.toml](../migration.toml). Raw release metadata and native
+root/bundled descriptors are in [upstream-metadata.json](upstream-metadata.json).
+All rows are statically verified; none is runtime accepted. Libraries are not
+feature selections; bundled implementation libraries are not extra downloads.
+
+| Project / role | 26.2 artifact | 26.3 artifact | Dependency/client scope and migration risks |
+| --- | --- | --- | --- |
+| Sodium (`AANobbMI`, feature) | mc26.2-0.9.2-fabric | [mc26.3-0.9.2-fabric](https://api.modrinth.com/v2/version/bAZQdGpg) | Local renderer; 0.9.2 port restores Linux fullscreen resolution control. Review new transparency, particles and falling blocks. |
+| Lithium (`gvQqBUqZ`, feature) | mc26.2-0.25.3-fabric | [mc26.3-0.26.4-fabric](https://api.modrinth.com/v2/version/Lal8mJGR) | Independent local/integrated-server optimization; no remote TPS claim. MixinExtras >=0.5.5 supplied by Loader. |
+| FerriteCore (`uXXizFIs`, feature) | 9.0.0-fabric | [9.0.0-fabric](https://api.modrinth.com/v2/version/d5ddUdiB) | Same multi-version artifact; native range >=26.1 <27. Independent client memory optimization. |
+| ImmediatelyFast (`5ZwdcRci`, feature) | 1.16.5+26.2-fabric | [1.17.1+26.3-fabric](https://api.modrinth.com/v2/version/3MP9UR23) | Client rendering batches; 26.3 port. Shader and UI layering remain runtime checks. |
+| Entity Culling (`NNAgCjsB`, feature) | 1.12.1 | [1.12.1](https://api.modrinth.com/v2/version/UWpkLRV5) | Client occlusion; new custom culling API. Inspect missing geometry and translucent entities. |
+| More Culling (`51shyZVL`, feature) | 1.8.2 | [1.9.1](https://api.modrinth.com/v2/version/5jIORlSK) | Client face culling; 1.9.1 fixes fence-top rendering with candles. Check foliage and shader stack. |
+| BadOptimizations (`g96Z4WVZ`, feature) | 2.4.1 | [2.4.1](https://api.modrinth.com/v2/version/Sp0ctspw) | Client-only 26.3 port; no extra optimizer selected. |
+| Dynamic FPS (`LQ3K71Q1`, feature) | 3.11.9 | [3.11.10](https://api.modrinth.com/v2/version/Jwq069rR) | Same multi-version artifact, >=26.2.0-. SDL3 focus/minimize and Wayland need acceptance. |
+| FastQuit (`x1hIzbuY`, feature) | 3.1.5+mc26.2 | [3.1.5+mc26.2](https://api.modrinth.com/v2/version/ZZ5dfboC) | Same artifact lists 26.3 and native >=26.2; local save behavior. Let background saves finish. |
+| Debugify (`QwxR6Gcd`, feature) | 26.2.0.1 | [26.3.0.0](https://api.modrinth.com/v2/version/FMaS2nZn) | 26.3 removes fixes now implemented by Mojang. Selected client fixes need no remote companion. |
+| Language Reload (`uLbm7CG6`, feature) | 1.7.8+26.2 | [1.7.8+26.3](https://api.modrinth.com/v2/version/QVn4cccd) | Client language/resource reload and text input; 26.3 Fabric key-mapping API. |
+| Inventory Profiles Next (`O7RBXm3n`, feature) | fabric-26.2-2.3.8 | [fabric-26.3-2.3.8](https://api.modrinth.com/v2/version/y8vT21Sb) | Client sorting/refill via vanilla interactions; libIPN 6.9 required. Review new bundle/shulker swap-click options. |
+| Mouse Tweaks (`aC3cM3Vq`, feature) | 26.2-2.31-fabric | [26.3-2.31-fabric](https://api.modrinth.com/v2/version/LeMuMhLv) | 26.3 client port; wheel/empty-cursor overlap switches unchanged. SDL3 gestures require acceptance. |
+| Shulker Box Tooltip (`2M01OLQq`, feature) | 5.4.3+26.2-fabric | [5.4.3+26.3-fabric](https://api.modrinth.com/v2/version/60krd8u8) | Client-visible item contents only. Ender-chest server integration is outside selection; no remote preview claim. |
+| Status Effect Bars (`x02cBj9Y`, feature) | 1.0.12 | [1.0.12](https://api.modrinth.com/v2/version/aAXJqboy) | Same client artifact lists 26.3; vanilla effect durations only. |
+| BetterF3 (`8shC1gFX`, feature) | 19.0.1 | [20.0.0](https://api.modrinth.com/v2/version/XB7u4eSf) | 26.3 debug UI scale and shader-line fixes. Local diagnostic information. |
+| Better Mount HUD (`kqJFAPU9`, feature) | 1.3.1 | [1.3.1](https://api.modrinth.com/v2/version/M3Fe5t0L) | Same multi-version client HUD artifact; no server counterpart. |
+| Paginated Advancements & Custom Frames (`pJogNFap`, feature) | 2.8.0+26.2 | [2.9.0+26.3](https://api.modrinth.com/v2/version/coMs94me) | 26.3 client layout/pagination; vanilla advancements only, no new content. |
+| Better Statistics Screen (`n6PXGAoM`, feature) | 5.5.6+fn-26.2 | [5.8.0+fn-26.3](https://api.modrinth.com/v2/version/GSF3fkG9) | Local statistics UI over vanilla statistics; exact TCDCommons GVSkIJY4. Server sharing/commands not selected. |
+| Xaero's Minimap (`1bokaNcj`, feature) | fabric-26.2-26.6.2 | [fabric-26.3-26.6.2](https://api.modrinth.com/v2/version/MfxfgXaO) | Client mapping and local waypoints. Bundles XaeroLib 1.8.5; world map >=1.47.1; no server identification/teleport claim. |
+| Xaero's World Map (`NcUtCpym`, feature) | fabric-26.2-1.47.2 | [fabric-26.3-1.47.2](https://api.modrinth.com/v2/version/VM8lNSSM) | Client explored terrain/manual map selection. Same bundled XaeroLib 1.8.5; minimap >=26.6.1; check world/dimension associations. |
+| Zoomify (Zoom) (`w7ThoJFB`, feature) | 2.17.0+mc26.2 | [2.17.0+mc26.3](https://api.modrinth.com/v2/version/RUBpNu00) | Local camera zoom. Universal NeoForge Kotlin dependency still excluded by exact version audit; Fabric uses Kotlin. |
+| Book Tweaks (`skd7t7zC`, feature) | 1.2.0 | [1.2.0-26.3](https://api.modrinth.com/v2/version/b2TIM6ZY) | 26.3 client editor; vanilla book packets only. SDL3 text focus/paste needs acceptance. |
+| LambDynamicLights - Dynamic Lights (`yBW8D80W`, feature) | 4.12.4+26.2 | [4.13.0+26.3](https://api.modrinth.com/v2/version/rylKnJ4M) | 26.3 client lighting with bundled SpruceUI/Yumi. No server block-light/spawn changes. Compare doubled lighting with shaders. |
+| Chat Heads (`Wb5oqrBJ`, feature) | 1.3.2 | [1.3.2](https://api.modrinth.com/v2/version/i3gcElvQ) | Client chat sprites; 1.3.1 stops recording heads as textual chat logs. No remote installation. |
+| Fabric API (`P7dR8mSH`, selected-library) | 0.161.0+26.2 | [0.166.2+26.3](https://api.modrinth.com/v2/version/Zns5SSRA) | Explicit platform library installed on client; native Minecraft ~26.3-, Java >=25, Loader >=0.19.3. |
+| Client Tweaks (`vPNqo58Q`, feature) | 26.2.0.6+fabric-26.2 | [26.3.0.1+fabric-26.3](https://api.modrinth.com/v2/version/7fKN7OpP) | Client entrypoint, no common initializer; local input/UI conveniences. Balm/Kuma bundled support; overlap switches retained. |
+| Sign Tweaks (`c7xDMxha`, feature) | 2.103.0+26.2 | [2.104.0+26.3](https://api.modrinth.com/v2/version/bqVjibae) | Modrinth environment unknown; actual artifact environment client, empty main/server entrypoints. Local vanilla sign editor. |
+| Iris Shaders (`YL57xq9U`, feature) | 1.11.4+26.2-fabric | [1.11.7+26.3-fabric](https://api.modrinth.com/v2/version/vTN4NRGW) | Client-only 1.11.7 fixes 26.3 bugs; exact Sodium bAZQdGpg required, native 0.9.x. Both shader audits renewed. |
+| Mod Menu (`mOgUt4GM`, feature) | 20.0.3 | [21.0.1](https://api.modrinth.com/v2/version/xckkBHD5) | Client mod/config UI. Placeholder API is now release 3.2.0, so no prerelease dependency exemption needed. |
+| Light Overlay (`8qVa1XCN`, feature) | 2.12.0+26.2 | [2.13.1+26.3](https://api.modrinth.com/v2/version/MBWYrOAD) | Correct project 8qVa1XCN; local light/spawn visualization. Exact OverlayLib iSTcauwL; YACL >=3.9.7. |
+| Renice Shot (`ZDCwiIc3`, feature) | 1.2.1+mc26.2 | [1.2.1+mc26.3](https://api.modrinth.com/v2/version/cqRSJ7PC) | 26.3 capture artifact; symbolic F9 still 3840x2160 PNG. No gallery, automatic upload or filename change configured. |
+| Sodium Extra (`PtjYWJkn`, feature) | mc26.2-0.9.5+fabric | [mc26.3-0.9.5+fabric](https://api.modrinth.com/v2/version/fs5l9Q1U) | Native requires Loader >=0.20.1 and exact Sodium 0.9.2+mc26.3. Client graphics controls, no additional HUD enabled. |
+| Reese's Sodium Options (`Bh37bMuy`, feature) | mc26.2-2.2.4+fabric | [mc26.3-2.2.5+fabric](https://api.modrinth.com/v2/version/EfchygKx) | Client settings UI; exact Sodium 0.9.2+mc26.3. Do not upgrade renderer independently. |
+| Continuity (`1IjD5062`, feature) | 3.0.1+26.2 | [3.0.1+26.3](https://api.modrinth.com/v2/version/Jt2sCWTQ) | 26.3 local connected textures; both built-in resource IDs still present. Existing resource-pack order wins. |
+| Cubes Without Borders (`ETlrkaYF`, feature) | 5.0.0+26.2 | [5.0.0+26.3](https://api.modrinth.com/v2/version/26KCwNI9) | 26.3 SDL3 port; new Windowed/fullscreen choices. Upstream recommends reviewing old borderless-type customization. |
+| More Chat History (`8qkXwOnk`, feature) | 2.0.0 | [2.0.0](https://api.modrinth.com/v2/version/qpDhYv1Y) | Same multi-version client artifact; local message history only. |
+| Configured Defaults (`SISoSFPP`, feature) | 26.2.0 | [26.3.0](https://api.modrinth.com/v2/version/frAVVzBj) | 26.3 early file handler; missing files/options only. New README resource checked; no companion or extra library. |
+| BetterGrassify (`m5T5xmUy`, feature) | 1.8.7+fabric.26.2 | [1.8.8+fabric.26.3](https://api.modrinth.com/v2/version/8qcmuwZa) | 26.3 local terrain port; config fields retained. Fancy grass, snow off; check culling/CTM/shaders. |
+| Controlling (`xv94TkTM`, feature) | 26.2.4 | [26.3.4](https://api.modrinth.com/v2/version/V6AbRm67) | 26.3 controls search/conflicts with Searchables >=1.0.2; no server behavior. |
+| Food Effect Tooltips [Fabric / NeoForge] (`GGfyJWnG`, feature) | 2.1.2+26.2 | [2.1.2+26.3](https://api.modrinth.com/v2/version/kbNgzPtF) | 26.3 client item-consumption data. Native-only Fabric/Cloth edges retained; no current saturation/exhaustion claim. |
+| Enchantment Descriptions (`UVtY3ZAC`, feature) | 26.2.0.2 | [26.3.0.2](https://api.modrinth.com/v2/version/uZf2qbql) | 26.3 client tooltip mixins/local language resources. Renewed exact Prickle review; Shift gate retained, plugin descriptions not promised. |
+| YetAnotherConfigLib (YACL) (`1eAoo2KR`, dependency) | 3.9.7+26.2-fabric | [3.9.7+26.3-fabric](https://api.modrinth.com/v2/version/s9SjoFu1) | Client configuration UI, required by Zoomify/Light Overlay; exact 3.9.7 target release. |
+| Cloth Config API (`9s6osm5g`, dependency) | 26.2.155+fabric | [26.3.159+fabric](https://api.modrinth.com/v2/version/fg2uyxOW) | Client config UI; dependency aliases checked; optional server capability does not require remote installation. |
+| TCDCommons API (`Eldc1g37`, dependency) | 5.5.6+fn-26.2 | [5.8.0+fn-26.3](https://api.modrinth.com/v2/version/GVSkIJY4) | UI/platform dependency; vanilla statistics UI needs no server services. Exact Better Statistics dependency. |
+| Fabric Language Kotlin (`Ha28R6CL`, dependency) | 1.14.2+kotlin.2.4.21 | [1.14.2+kotlin.2.4.21](https://api.modrinth.com/v2/version/SKW1BTL3) | Fabric runtime library, client installation only. Release Kotlin 2.4.21; no server companion. |
+| libIPN (`onSQdWhM`, dependency) | fabric-26.2-6.9.0 | [fabric-26.3-6.9.0](https://api.modrinth.com/v2/version/aKBFonyQ) | Client IPN library; >=6.9.0 <6.10 enforced by IPN, Kotlin >=1.13.10. |
+| Balm (`MBAkmtvl`, dependency) | 26.2.0.9+fabric-26.2 | [26.3.0.3+fabric-26.3](https://api.modrinth.com/v2/version/MYj31XNG) | Client Tweaks config and input platform; capable of server use but no server install needed for selected client features. |
+| Text Placeholder API (`eXts2L7r`, dependency) | 3.1.0-beta.1+26.2 | [3.2.0+26.3](https://api.modrinth.com/v2/version/lXytLqWj) | Release 3.2.0+26.3; local UI text library required by Mod Menu. |
+| OverlayLib (`M1B8mLoH`, dependency) | 0.12.0+26.2 | [0.12.1+26.3](https://api.modrinth.com/v2/version/iSTcauwL) | Exact Light Overlay dependency 0.12.1+26.3; local renderer; native Fabric API >=0.160.5. |
+| Searchables (`fuuu3xnx`, dependency) | 1.0.1 | [1.0.3](https://api.modrinth.com/v2/version/wV79bLRS) | Client search library for Controlling, native >=1.0.2 satisfied by 1.0.3. |
+| Prickle (`aaRl8GiW`, dependency) | 26.2.0.3 | [26.3.0.2](https://api.modrinth.com/v2/version/aPdekuq6) | Exact 26.3 exception renewed below; local configuration, no companion protocol. HTTP update HEAD remains disclosed. |
+| Complementary Shaders - Reimagined (`HVnmMxH1`, shader) | r5.10 | [r5.10](https://api.modrinth.com/v2/version/RKfUB9VC) | Same release ZIP explicitly lists 26.3/Iris. Optional features recognized in Iris 1.11.7; GLSL/GPU tests pending. |
+| MakeUp - Ultra Fast (`izsIPI7a`, shader) | 9.6 | [9.6](https://api.modrinth.com/v2/version/t4YRxQug) | Same release ZIP explicitly lists 26.3/Iris; upstream minimum Iris 1.5.1 met. No performance benchmark claim. |
+
+## Runtime foundation and closure
+
+The [Fabric 26.3 loader endpoint](https://meta.fabricmc.net/v2/versions/loader/26.3)
+currently returns stable 0.20.1. Mojang's [exact version manifest](https://piston-meta.mojang.com/v1/packages/ead839cbccf0ddf013c3f935f2840080b5cb0d26/26.3.json)
+requires Java 25. Its SHA-1-verified client archive reports options data version 5023.
+Fabric API is 0.166.2+26.3, Zns5SSRA. No server counterpart is selected.
+
+Lithium's new native MixinExtras >=0.5.5 requirement is fulfilled by the library
+inside the [exact Loader JAR](https://maven.fabricmc.net/net/fabricmc/fabric-loader/0.20.1/fabric-loader-0.20.1.jar).
+The audit records that JAR's SHA-512 and full root/nested descriptors. Native
+validation now includes this real runtime provider, its alias, dependencies and
+version. It does not install an independent extra MixinExtras artifact.
+Xaero's two JARs both bundle XaeroLib 1.8.5; duplicate copies remain in upstream
+JARs and the checker resolves their equal versions. No additional project is needed.
+
+The 11 library projects are the same identities as on 26.2; their pins and reverse
+parents are rebuilt from the new release graph and native Fabric requirements.
+Text Placeholder API 3.2.0 is release-designated. Bundled prerelease-looking
+implementation components remain bound to their containing release hash. The
+existing general stability policy is unchanged. Zoomify's universal declaration
+still includes NeoForge-only KotlinLangForge; its Fabric descriptor does not.
+The exact RUBpNu00 dependency exception replaces the old D64cvU6G review.
+
+## Prickle environment classification review
+
+Modrinth still labels Prickle client required/server required. That label alone
+would reject the new artifact. We repeated the implementation review for
+**Prickle 26.3.0.2 / aPdekuq6** and its sole selected parent **Enchantment
+Descriptions 26.3.0.2 / uZf2qbql**. The old 26.2 exception is not reused.
+
+[Prickle source commit 24365236](https://github.com/Darkhax-Minecraft/PrickleMC/tree/24365236ad06e42d4ecf1e9043607948e998e11d)
+corresponds to all 36 Java files in the published sources JAR. Its published
+Maven binary is byte-identical to the Modrinth JAR. The exact Fabric descriptor
+has environment `*`, a common initializer and a client initializer, empty
+common/client/server mixin lists, no bundles and only Fabric API/runtime
+requirements. The common path initializes local JSON config. There are no
+Minecraft packet/payload registrations, server lifecycle hooks or companion
+requirements. Server-capable configuration does not require a remote installation.
+
+The initializer still makes an asynchronous HTTP HEAD request to
+`updates.blamejared.com/get` with mod/game/loader identifiers. It is a daemon
+update check, catches failures, and does not gate local functionality. It is
+external traffic, not a vanilla-server handshake; no opt-out was found in this
+release. No logs, screenshot uploads or automatic sharing are selected. This
+existing limitation remains disclosed rather than hidden by the exception.
+
+[Enchantment Descriptions source commit 9548950f](https://github.com/Darkhax-Minecraft/Enchantment-Descriptions/tree/9548950f455e134ee31ad239bc2fbfe1a341d580)
+corresponds to all 7 published Java sources; its Maven binary also matches the
+Modrinth artifact. Its Fabric environment is client, tooltip mixins are client
+only, and vanilla description text comes from local language resources and
+client-visible item enchantments. Prickle is used for local property config.
+No custom Minecraft networking or server-provided description data is required.
+Custom/plugin enchantment descriptions are not promised.
+
+The renewed exception is only an environment-classification correction. It
+binds project/version, filename/SHA-512, complete descriptor digest, Minecraft
+26.3 and the exact ED parent artifact/required edge. Any changed pin or parent
+requires renewed review. Dependency predicates, server-only Fabric module
+rejection, artifact integrity and export side remain enforced. The validator
+prints the exception. Unrelated server-required artifacts still fail. No issue
+or maintainer message has been submitted.
+
+## Shader migration and distribution
+
+Both official ZIPs remain byte-identical to the audited 26.2 selection:
+Complementary Reimagined r5.10 / RKfUB9VC and MakeUp - Ultra Fast 9.6 / t4YRxQug.
+Current release metadata lists Minecraft 26.3 and Iris for both. No shader-code
+change or reupload is made. Their distribution audits now bind the exact Iris
+1.11.7 / vTN4NRGW filename and hash; old renderer approval cannot authorize it.
+Iris's native Sodium requirement and exact Modrinth Sodium edge are satisfied.
+Complementary's optional Iris feature names are present in the new Iris binary;
+MakeUp's documented Iris minimum 1.5.1 is met. These are compatibility inputs,
+not proof of GLSL compilation, GPU support, correct transparency or frame times.
+
+Complementary is by **EminGT / Complementary Development**, under
+[Complementary License Agreement 1.8](https://github.com/ComplementaryDevelopment/ComplementaryReimagined/blob/e10d27dec5acfb18509fdcc3cda704152dc2f7df/License.txt).
+Its section 1.2 permits unmodified modpack inclusion using Modrinth/CurseForge
+systems, without direct file uploads. The original license stays inside the
+upstream ZIP. No shader is enabled by default; visible credit is supplied anyway.
+Lantern Crossing accepts responsibility for integration problems. Do not modify
+shader code or remove notices under this grant.
+
+MakeUp is by **Javier Garduño / javiergcim**, designated LGPL-3.0-or-later with
+its [included license/source](https://github.com/javiergcim/MakeUpUltraFast/tree/fed6d05f841389fb5981f078e2fcac8dfb9c0080)
+and original notices. We reference the complete unmodified official release.
+Attribution and official links remain in README. Neither shader is relicensed
+under repository MIT. Exact license files/digests and immutable source commits
+remain in the machine audit; artifact hashes did not change in this migration.
+
+Complementary remains the atmospheric choice; MakeUp is the configurable
+alternative with shadowless/low profiles. No unmeasured speed guarantee. Iris
+starts disabled only when there is no saved/synced config. No selection, preset
+or user screenshot is overwritten. Review dynamic-light overlap, transparent
+surfaces, CTM/grass/culling, maps, dimensions and screenshots in both launchers.
+The [owner checklist](acceptance-tests.md#263-migration-acceptance) is uncompleted.
+
+## Historical 26.2 selection investigations
+
+The following material records the original version-specific feature selection,
+candidate deferrals, source evidence and shader licenses. Any old pin, count,
+branch strategy or “active” label applies to that historical 26.2 snapshot only.
+Use the current matrix above and lock files for the primary 26.3 baseline.
+The general client-only/stability conclusions remain; exact exceptions do not
+transfer automatically between versions.
 
 ## Requested features
 

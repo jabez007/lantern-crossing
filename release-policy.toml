@@ -1,6 +1,6 @@
 # Intended maintenance line; the actual Minecraft target remains in pack.toml.
 schema = 1
-version-branch = "26.2"
+version-branch = "26.3"
 # Owner fills these only after completing docs/acceptance-tests.md for this pack.
 # SHA-256 of pack.toml binds the version, loader, complete index and payload pins.
 runtime-accepted-version = ""

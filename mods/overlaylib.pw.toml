@@ -1,14 +1,14 @@
 name = "OverlayLib"
-filename = "overlaylib-0.12.0+26.2.jar"
+filename = "overlaylib-0.12.1+26.3.jar"
 side = "client"
 pin = true
 
 [download]
-url = "https://cdn.modrinth.com/data/M1B8mLoH/versions/OQkmYeS8/overlaylib-0.12.0%2B26.2.jar"
+url = "https://cdn.modrinth.com/data/M1B8mLoH/versions/iSTcauwL/overlaylib-0.12.1%2B26.3.jar"
 hash-format = "sha512"
-hash = "c6f3981c99dd68786984361c26a2128df06a359485e947bab4cc2f1c3c5efe6887463779322cb44c14071c1bfa9b8fb1e6d43fc4afc1a453ff8a9a5038516393"
+hash = "357af657e774fe6d3adbec1bf48ecd6db3363f91332d5e742170b1afed0afeb10e66943ed12162699a204f4756743e2cefe7260bcbfc9fd226943a24eeb4424d"
 
 [update]
 [update.modrinth]
 mod-id = "M1B8mLoH"
-version = "OQkmYeS8"
+version = "iSTcauwL"

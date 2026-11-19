@@ -1,14 +1,14 @@
 name = "Configured Defaults"
-filename = "ConfiguredDefaults-v26.2.0-mc26.2.x-Fabric.jar"
+filename = "configureddefaults-v26.3.0-mc26.3.x+fabric.jar"
 side = "client"
 pin = true
 
 [download]
-url = "https://cdn.modrinth.com/data/SISoSFPP/versions/oM0C4RRZ/ConfiguredDefaults-v26.2.0-mc26.2.x-Fabric.jar"
+url = "https://cdn.modrinth.com/data/SISoSFPP/versions/frAVVzBj/configureddefaults-v26.3.0-mc26.3.x%2Bfabric.jar"
 hash-format = "sha512"
-hash = "a8d3274943c67145722c1afe26ad39ba127ef2195c86f17bf4ade40205e571f0efae1db51368e83c31d88c9dafb22a4ff8846ff2e8969c3adbb4781989e78c4c"
+hash = "cf0d8acbf4ce1ecee8bf2a350b43782cdb7248ff0606f14b21f5c7f9a34420af7a700ce3cf17b724d4e73368ab4c27a4883202dd3f117f4bb46fe1984a5d0b53"
 
 [update]
 [update.modrinth]
 mod-id = "SISoSFPP"
-version = "oM0C4RRZ"
+version = "frAVVzBj"

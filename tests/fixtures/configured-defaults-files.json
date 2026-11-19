@@ -1,14 +1,16 @@
 {
   "scope": "Unmodified upstream CopyDefaultsHandler only; logging/constants stubbed; no Fabric, Minecraft or launcher executed.",
-  "source-commit": "1a10697acb2cc415c8f9293bae8d695634c12806",
-  "source-sha256": "915ad2ee0f8ceb7e559a8c24a8734db2980203ee45fbe94a825eb87fafd4f001",
+  "source-commit": "3daae98608359d111c728775ad18bb7f7e87d8e7",
+  "source-sha256": "3d91b13bc133099551cea9f28c9d8056ff830c7ead752825ac47219c183856db",
   "adapter-sha256": "dcbd235579e3083efe06ccf2538605e7e12a52f82c8803c28f85651093fd4a31",
-  "version-id": "oM0C4RRZ",
-  "artifact-sha512": "a8d3274943c67145722c1afe26ad39ba127ef2195c86f17bf4ade40205e571f0efae1db51368e83c31d88c9dafb22a4ff8846ff2e8969c3adbb4781989e78c4c",
+  "version-id": "frAVVzBj",
+  "artifact-sha512": "cf0d8acbf4ce1ecee8bf2a350b43782cdb7248ff0606f14b21f5c7f9a34420af7a700ce3cf17b724d4e73368ab4c27a4883202dd3f117f4bb46fe1984a5d0b53",
   "jdk": "openjdk version \"17.0.21.1\" 2026-11-17",
   "templates-sha256": {
-    "configureddefaults/options.txt": "20f0fa4f40abaa490711e1f0dc932d854583e1d19de1fadc23e326e96e31308b",
+    "configureddefaults/options.txt": "4b8768ccffd00474c4e8942c0843583d499219a7775b4afa2aacf91a68fde459",
     "configureddefaults/config/MouseTweaks.cfg": "7bd34c13dff656651a30814a2db4aded8ed607f1bfdb8e66ba4194ef3e00a152",
+    "configureddefaults/config/enchdesc.json": "24468336c2a7a59b1faaac02b622491e621640a908d2ae0671ff9a55439fecaa",
+    "configureddefaults/config/bettergrass.json": "2cb5f959c9055e88de3b5be671d6168c06af7742de08a83bbc5eef1a4be391bb",
     "configureddefaults/config/iris.properties": "839d34c5b794e53e3e0155f87632026f1d5354f3dd55854d51e990d04d2c92a3",
     "configureddefaults/config/clienttweaks-common.toml": "1d128fe9f9d07d7c7adec3d2ec8d6ca19cd21da9eaf9e762f053c5e8729e4f20"
   },
@@ -17,14 +19,18 @@
       "scenario": "fresh",
       "before": {},
       "after-initial-copy": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"continuity:glass_pane_culling_fix\",\"continuity:default\"]\nkey_key.light-overlay.toggle:key.keyboard.f7\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"continuity:glass_pane_culling_fix\",\"continuity:default\"]\nkey_key.light-overlay.toggle:key.keyboard.f7\n",
         "config/MouseTweaks.cfg": "# IPN owns shift-drag and scroll transfers; Mouse Tweaks supplies other drags.\nRMBTweak=1\nLMBTweakWithItem=1\nLMBTweakWithoutItem=0\nWheelTweak=0\n",
+        "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
+        "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
         "config/clienttweaks-common.toml": "# Better Mount HUD owns mount/player HUD presentation.\n[ui]\nalwaysPrioritizeExperienceBar = false\n\n# IPN owns inventory refill and tool replacement assistance.\n[mining]\ndoNotUseLastMending = false\n"
       },
       "after": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"continuity:glass_pane_culling_fix\",\"continuity:default\"]\nkey_key.light-overlay.toggle:key.keyboard.f7\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"continuity:glass_pane_culling_fix\",\"continuity:default\"]\nkey_key.light-overlay.toggle:key.keyboard.f7\n",
         "config/MouseTweaks.cfg": "# IPN owns shift-drag and scroll transfers; Mouse Tweaks supplies other drags.\nRMBTweak=1\nLMBTweakWithItem=1\nLMBTweakWithoutItem=0\nWheelTweak=0\n",
+        "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
+        "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
         "config/clienttweaks-common.toml": "# Better Mount HUD owns mount/player HUD presentation.\n[ui]\nalwaysPrioritizeExperienceBar = false\n\n# IPN owns inventory refill and tool replacement assistance.\n[mining]\ndoNotUseLastMending = false\n"
       }
@@ -32,17 +38,21 @@
     {
       "scenario": "launcher-created-options",
       "before": {
-        "options.txt": "version:4903\nfullscreen:true\n"
+        "options.txt": "version:5023\nfullscreen:true\n"
       },
       "after-initial-copy": {
-        "options.txt": "version:4903\nfullscreen:true\nresourcePacks:[\"vanilla\",\"continuity:glass_pane_culling_fix\",\"continuity:default\"]\nkey_key.light-overlay.toggle:key.keyboard.f7\n",
+        "options.txt": "version:5023\nfullscreen:true\nresourcePacks:[\"vanilla\",\"continuity:glass_pane_culling_fix\",\"continuity:default\"]\nkey_key.light-overlay.toggle:key.keyboard.f7\n",
         "config/MouseTweaks.cfg": "# IPN owns shift-drag and scroll transfers; Mouse Tweaks supplies other drags.\nRMBTweak=1\nLMBTweakWithItem=1\nLMBTweakWithoutItem=0\nWheelTweak=0\n",
+        "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
+        "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
         "config/clienttweaks-common.toml": "# Better Mount HUD owns mount/player HUD presentation.\n[ui]\nalwaysPrioritizeExperienceBar = false\n\n# IPN owns inventory refill and tool replacement assistance.\n[mining]\ndoNotUseLastMending = false\n"
       },
       "after": {
-        "options.txt": "version:4903\nfullscreen:true\nresourcePacks:[\"vanilla\",\"continuity:glass_pane_culling_fix\",\"continuity:default\"]\nkey_key.light-overlay.toggle:key.keyboard.f7\n",
+        "options.txt": "version:5023\nfullscreen:true\nresourcePacks:[\"vanilla\",\"continuity:glass_pane_culling_fix\",\"continuity:default\"]\nkey_key.light-overlay.toggle:key.keyboard.f7\n",
         "config/MouseTweaks.cfg": "# IPN owns shift-drag and scroll transfers; Mouse Tweaks supplies other drags.\nRMBTweak=1\nLMBTweakWithItem=1\nLMBTweakWithoutItem=0\nWheelTweak=0\n",
+        "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
+        "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
         "config/clienttweaks-common.toml": "# Better Mount HUD owns mount/player HUD presentation.\n[ui]\nalwaysPrioritizeExperienceBar = false\n\n# IPN owns inventory refill and tool replacement assistance.\n[mining]\ndoNotUseLastMending = false\n"
       }
@@ -50,20 +60,24 @@
     {
       "scenario": "customized-instance",
       "before": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
         "config/iris.properties": "enableShaders=true\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after-initial-copy": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
+        "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
+        "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       }
@@ -71,20 +85,24 @@
     {
       "scenario": "repeat-launch",
       "before": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
         "config/iris.properties": "enableShaders=true\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after-initial-copy": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
+        "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
+        "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       }
@@ -92,20 +110,24 @@
     {
       "scenario": "pack-update",
       "before": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
         "config/iris.properties": "enableShaders=true\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after-initial-copy": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
+        "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\nviewBobbing:false\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\nviewBobbing:false\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
+        "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/new-fixture.cfg": "new-default=true\n",
         "config/iris.properties": "enableShaders=true\n",
         "config/clienttweaks-common.toml": "personal = true\n"
@@ -114,20 +136,24 @@
     {
       "scenario": "custom-resource-packs-no-journal",
       "before": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
         "config/iris.properties": "enableShaders=true\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after-initial-copy": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
+        "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
+        "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       }
@@ -135,7 +161,7 @@
     {
       "scenario": "previous-manager-and-explicit-adoption",
       "before": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "defaultoptions.journal.json": "{\"journal\":[{\"id\":\"resource-packs\"}]}\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
         "config/iris.properties": "enableShaders=true\n",
@@ -143,17 +169,21 @@
         "config/defaultoptions/options.txt": "old-unused-defaults\n"
       },
       "after-initial-copy": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "defaultoptions.journal.json": "{\"journal\":[{\"id\":\"resource-packs\"}]}\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
+        "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
         "config/clienttweaks-common.toml": "personal = true\n",
         "config/defaultoptions/options.txt": "old-unused-defaults\n"
       },
       "after": {
-        "options.txt": "version:4903\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
+        "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "defaultoptions.journal.json": "{\"journal\":[{\"id\":\"resource-packs\"}]}\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
+        "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
+        "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties.user-save": "enableShaders=true\n",
         "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
         "config/clienttweaks-common.toml": "personal = true\n",

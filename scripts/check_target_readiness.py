@@ -39,7 +39,7 @@ def discover(
     collection = load_toml(root / "collection.toml")
     projects = collection["selected"] + collection["resolved-dependency"]
     if scope == "requested":
-        projects = [p for p in projects if p["role"] == "feature"] + collection["excluded"]
+        projects = [p for p in projects if p["role"] == "feature"] + collection.get("excluded", [])
     projects += collection.get("shader", [])
     results = []
     for project in projects:
@@ -67,7 +67,7 @@ def main() -> int:
     parser.add_argument("--minecraft", default=TARGET)
     parser.add_argument("--scope", choices=("active", "requested"), default="active")
     parser.add_argument(
-        "--offline", action="store_true", help="use the dated repository snapshot, limited to 26.2"
+        "--offline", action="store_true", help="use the dated repository snapshot, limited to 26.3"
     )
     parser.add_argument(
         "--include-prereleases",

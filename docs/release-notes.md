@@ -1,37 +1,35 @@
-Lantern Crossing 26.2.0.10.0 adds two optional Iris shader choices and freezes
-Minecraft 26.2 feature selection pending owner runtime acceptance. The baseline
-has 41 Fabric feature mods, eleven libraries and two separately modeled shaders.
-All 52 prior mod locks and six configuration templates are unchanged. Minecraft
-26.2, Fabric Loader 0.20.1, Java 25, Iris 1.11.4 and Sodium 0.9.2 remain pinned.
+Lantern Crossing 26.3.0.1.0 migrates the complete 26.2 inventory to Minecraft
+26.3: 41 feature mods, eleven libraries and two optional shader choices. No
+feature was replaced or dropped. All downloads are pinned through Packwiz;
+Minecraft 26.3, Fabric Loader 0.20.1, Java 25 and Fabric API 0.166.2+26.3 are the
+runtime foundation. Sodium 0.9.2 and Iris 1.11.7 are paired exactly.
 
-Complementary Reimagined r5.10 is the featured atmospheric choice. MakeUp - Ultra
-Fast 9.6 is an adjustable alternative with low and shadowless profiles. Both are
-release-designated official Modrinth ZIP downloads into shaderpacks/, referenced
-by exact version IDs and hashes. No ZIP is embedded or directly reuploaded.
-Shaders start disabled in a clean instance. No active shader, shader preset,
-resource-pack order or existing player preference is overwritten by a template.
+Complementary Reimagined r5.10 and MakeUp - Ultra Fast 9.6 retain their official
+ZIPs and license notices, with renewed Iris-bound reviews. Both remain disabled
+on a clean instance. Existing shader settings and presets are not reset.
+Complementary is by EminGT / Complementary Development under Complementary
+License Agreement 1.8. MakeUp is by Javier Garduño / javiergcim under its upstream
+LGPL-3.0-or-later designation. Official links and required credits remain in
+README.md. Lantern Crossing is responsible for shader integration problems.
 
-Complementary is by EminGT / Complementary Development and retains Complementary
-License Agreement 1.8. MakeUp is by Javier Garduño / javiergcim and retains its
-upstream LGPL-3.0-or-later designation and included notices. The source/license
-links and attribution are in README.md and docs/mod-audit.md. Lantern Crossing is
-responsible for problems arising from its shader integration. The repository's
-MIT license does not relicense either shader. Future publication descriptions
-must retain the upstream credits and official links.
+Configured Defaults 26.3.0 preserves existing files and option values. Only the
+initial options data-version seed changes to 5023; the five mod templates retain
+their settings. SDL3 uses physical-position inputs: inspect keybindings,
+mouse gestures, text fields, fullscreen/window modes and Linux Wayland after
+upgrade. Copy the old instance before testing; do not assume seamless format
+conversion or map-directory reconciliation. Existing screenshots are untouched.
 
-The validator distinguishes shader ZIP references from Fabric mods, checks exact
-Iris-bound distribution reviews and rejects copied ZIPs, selected/enabled shader
-defaults, unreviewed required/incompatible dependencies and shader files under mods/. Native
-Fabric checks, the exact Prickle environment audit, client-only exports, archive
-integrity, reproducibility and owner qualification gates remain enforced.
-Renice Shot remains the only screenshot mod. Neither gallery is installed.
+Prickle's contradictory server-required metadata is corrected only for the exact
+reviewed26.3 artifact and ED parent, with renewed matching-source/binary evidence.
+Its previously disclosed external HTTP update HEAD check remains. Environment
+exceptions do not bypass integrity, dependency constraints or client export checks.
+MixinExtras 0.5.5 comes from Fabric Loader itself, not a new independent download.
 
-26.2 is authoritative. Complete runtime acceptance and qualify/release it before
-starting the forward migration from that accepted inventory to Minecraft 26.3.
-The future branch and GitHub default setting are untouched by this milestone.
-No automatic synchronization or 26.3 compatibility claim is made.
+26.3 is the primary/default development and release-candidate branch. 26.2 retains
+independent maintenance pins and acceptance records. Backport applicable fixes
+selectively; never merge the new dependency graph wholesale. Feature selection
+remains frozen during migration and acceptance.
 
-All Minecraft, Prism, Modrinth App and GPU tests remain uncompleted. The owner
-must test the no-shader baseline, both shaders, lighting/culling/textures/maps,
-all dimensions, captures, switching, frame times/VRAM and upgrade preservation.
-Static success does not qualify a release. No tag or release is created here.
+All Minecraft, Prism, Modrinth App and GPU/runtime checks remain uncompleted.
+Successful static CI prepares a development artifact for owner testing and does
+not qualify release publication. No release tag or acceptance record is created.

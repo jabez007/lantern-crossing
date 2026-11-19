@@ -88,7 +88,7 @@ class ShaderTests(unittest.TestCase):
     def test_release_target_loader_and_environment_are_enforced(self):
         for field, value in (
             ("version_type", "beta"),
-            ("game_versions", ["26.3"]),
+            ("game_versions", ["26.2"]),
             ("loaders", ["optifine"]),
         ):
             with self.subTest(field=field):
@@ -214,5 +214,5 @@ class ShaderTests(unittest.TestCase):
 
     def test_readiness_distinguishes_iris_from_fabric(self):
         versions = load_pack(self.root).shader_versions.values()
-        self.assertEqual(len(compatible_versions(versions, "26.2", loader="iris")), 2)
-        self.assertFalse(compatible_versions(versions, "26.2"))
+        self.assertEqual(len(compatible_versions(versions, "26.3", loader="iris")), 2)
+        self.assertFalse(compatible_versions(versions, "26.3"))

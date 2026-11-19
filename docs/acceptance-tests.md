@@ -4,9 +4,9 @@ Static CI validates metadata and packaging. It does not launch Minecraft, verify
 rendering, or prove a vanilla-server join. No runtime test has been completed for
 the initial baseline. Complete this checklist before accepting a release.
 
-Use a fresh launcher instance imported from the built `.mrpack`, Minecraft 26.2,
+Use a fresh launcher instance imported from the built `.mrpack`, Minecraft 26.3,
 Fabric Loader 0.20.1, and Java 25. Test against a completely unmodified vanilla
-26.2 server. Record the pack version, archive SHA-256, date, Java version, launcher,
+26.3 server. Record the pack version, archive SHA-256, date, Java version, launcher,
 OS, GPU and driver, and results in `verification.md`. Keep addresses, player data,
 and account information out of committed logs.
 
@@ -113,7 +113,7 @@ for both bundled shader choices, lighting interactions and preference retention.
 - [ ] F11, Alt-Tab, window resizing, and multiple monitors work as expected.
 - [ ] Dynamic FPS responds correctly to focus/minimize changes in borderless mode.
 - [ ] Renice Shot restores the selected fullscreen mode and resolution after F9 capture.
-- [ ] Connect to the unmodified vanilla 26.2 server and use all five new features
+- [ ] Connect to the unmodified vanilla 26.3 server and use these graphics and screenshot features
       without missing-server-component warnings.
 
 ## Client Tweaks
@@ -148,13 +148,13 @@ for both bundled shader choices, lighting interactions and preference retention.
 
 ### Basic overlay
 
-- [ ] Join a Minecraft 26.2 world and activate Light Overlay with F7.
+- [ ] Join a Minecraft 26.3 world and activate Light Overlay with F7.
 - [ ] The overlay renders useful light and spawnability information.
 - [ ] Deactivate it and confirm the overlay disappears cleanly.
 
 ### Vanilla server
 
-- [ ] Connect to a completely unmodified vanilla Minecraft 26.2 server.
+- [ ] Connect to a completely unmodified vanilla Minecraft 26.3 server.
 - [ ] No missing-server-mod or companion-library warning appears.
 - [ ] Activate Light Overlay and verify useful light/spawn information is displayed.
 - [ ] The server requires no mod or plugin for these features.
@@ -178,7 +178,7 @@ for both bundled shader choices, lighting interactions and preference retention.
 ## Screenshots
 
 - [ ] Renice Shot's local config opens through Mod Menu.
-- [ ] On a completely vanilla 26.2 server, press F9 and save a 3840 by 2160 PNG
+- [ ] On a completely vanilla 26.3 server, press F9 and save a 3840 by 2160 PNG
       under `screenshots` with the `huge_` prefix. No server installation is needed.
 - [ ] F2 still takes a normal screenshot at the current window resolution.
 - [ ] Resolution, fullscreen/windowed state, and HUD state restore after capture.
@@ -188,7 +188,7 @@ for both bundled shader choices, lighting interactions and preference retention.
 
 ## Screenshot owner acceptance matrix
 
-All results below are uncompleted. Run on the maintained 26.2 artifact in both
+All results below are uncompleted. Run on the maintained 26.3 artifact in both
 launchers, with Modrinth App settings synchronization tested separately where
 available. The expected architecture is Renice Shot alone. Neither evaluated
 gallery is installed. Source inspection and archive validation are not observed
@@ -206,7 +206,7 @@ launcher or rendering results. Use copies of screenshots for destructive tests.
 | Privacy before sharing | [ ] | [ ] | [ ] | Inspect a new original PNG's text metadata and default filename for unexpected coordinates, world/server identifiers or uploads. Review visible chat, maps and coordinates in the pixels. `%world%` naming, if personally enabled, exposes that name intentionally. |
 | Xaero and panoramas | [ ] | [ ] | [ ] | Normal maps still work. No screenshot pins/map association, panorama capture or second F9 action is expected. |
 | Sodium and Iris | [ ] | [ ] | [ ] | F2/F9 and restoration work with shaders disabled, without corrupted images or rendering. Repeat with both bundled shaders using the shader matrix below. |
-| Vanilla server and existing world | [ ] | [ ] | [ ] | Capture after singleplayer load and on a completely unmodified vanilla 26.2 server; disconnect/rejoin normally. No server mod/plugin/protocol is needed. |
+| Vanilla server and existing world | [ ] | [ ] | [ ] | Capture after singleplayer load and on a completely unmodified vanilla 26.3 server; disconnect/rejoin normally. No server mod/plugin/protocol is needed. |
 | Upgrade and repeat launch | [ ] | [ ] | [ ] | Upgrade an existing Lantern Crossing instance. Old screenshots, custom capture settings, keybindings and other preferences remain intact. New captures work and originals' hashes remain unchanged. Importing into a separate instance does not automatically move old screenshots. |
 
 Future gallery promotion requires a separate disposable-profile evaluation of
@@ -259,7 +259,7 @@ file state, archive hash and actual upgrade method in the matrix above.
 - [ ] Confirm ordinary enchanted items remain readable with Enchantment Descriptions
       collapsed; hold Shift to expand the locally supplied descriptions.
 - [ ] Existing singleplayer worlds load and save normally. Join/rejoin a completely
-      unmodified vanilla 26.2 server and exercise the new controls/rendering/tooltips
+      unmodified vanilla 26.3 server and exercise the new controls/rendering/tooltips
       without any server mod, plugin, protocol or companion.
 - [ ] Launcher-local crash logs remain accessible. Before sharing any log, review
       paths, chat, server addresses and identifiers. Crash Assistant is not installed;
@@ -285,7 +285,7 @@ observed results. Static source inspection does not complete any row.
 | Customized valid `enchdesc.json` | [ ] | [ ] | An existing `require_keybind.value = false` remains false through launch/restart/upgrade. Prickle may normalize formatting and add default metadata. Other mod configs, keybindings and resource-pack choices remain unchanged. |
 | Real pack upgrade from 26.2.0.8.0 | [ ] | [ ] | The new template seeds only an absent file. Existing graphics, sound, accessibility, controls and mod preferences survive under the recorded App sync choices. |
 | Deliberate adoption/reset of this file only | [ ] | [ ] | With the game closed and a backup retained, move only the live file aside. Next launch seeds Shift mode without resetting other settings. |
-| Completely unmodified vanilla 26.2 server | [ ] | [ ] | Join/rejoin normally; ordinary enchanted item/book descriptions work with nothing installed server-side and no custom packet/companion warning. |
+| Completely unmodified vanilla 26.3 server | [ ] | [ ] | Join/rejoin normally; ordinary enchanted item/book descriptions work with nothing installed server-side and no custom packet/companion warning. |
 | Update host unavailable, optional disposable network test | [ ] | [ ] | Prickle may log its version-check warning; initialization/configuration/tooltips still work after the bounded asynchronous check. This is distinct from Minecraft server connectivity. |
 
 No accurate custom server/plugin enchantment semantics are promised. Do not
@@ -295,7 +295,7 @@ observation, not a Python approximation.
 
 ## Shader owner acceptance matrix
 
-Every result is uncompleted. Run against the final 26.2 archive in Prism Launcher
+Every result is uncompleted. Run against the final 26.3 archive in Prism Launcher
 and Modrinth App, with sync enabled/disabled where supported. Record pack/hash,
 launcher, Java, OS, GPU/driver, resolution, render distance, shader/version/profile
 and actual observations. Test each shader separately and retain a no-shader
@@ -317,11 +317,33 @@ Use disposable copies of existing instances for upgrade tests.
 | Shader switching/reloading | [ ] | [ ] | [ ] | Switch off, to each shader and back repeatedly. Resource reloads, resizing, focus changes and fullscreen restore normally, with no persistent corruption or runaway memory growth. |
 | Performance measurements | [ ] | [ ] | [ ] | Record a repeatable no-shader route, FPS/frame-time behavior and VRAM where available; repeat with both chosen profiles and high render distances. Choose acceptable settings from observed results, not upstream names or universal FPS claims. |
 | Restart and preferences | [ ] | [ ] | [ ] | Active shader, custom preset and disabled state each persist across restarts when deliberately selected. Existing player settings/resource-pack ordering remain authoritative. |
-| Upgrade from existing 26.2 pack | [ ] | [ ] | [ ] | Existing Iris config and per-shader .zip.txt preferences survive; active/disabled choice does not change unexpectedly. Both new downloads appear. Record launcher-specific behavior and any old ZIP filename migration. |
+| Upgrade from existing 26.2 pack | [ ] | [ ] | [ ] | Existing Iris config and per-shader .zip.txt preferences survive; active/disabled choice does not change unexpectedly. Both bundled choices remain available. Record launcher-specific behavior and any old ZIP filename migration. |
 | Screenshots | [ ] | [ ] | [ ] | Renice Shot F9 and normal F2 captures are correct with each shader; resolution/HUD restore. Pre-existing screenshot names/bytes and worlds remain unchanged. Neither gallery is expected. |
-| Unmodified vanilla server | [ ] | [ ] | [ ] | Join/rejoin a completely vanilla 26.2 server, switch visual choices locally, and use ordinary inventory/rendering features without server mods/plugins or missing-component warnings. |
+| Unmodified vanilla server | [ ] | [ ] | [ ] | Join/rejoin a completely vanilla 26.3 server, switch visual choices locally, and use ordinary inventory/rendering features without server mods/plugins or missing-component warnings. |
 
 Resolve runtime findings through scoped fixes during the feature freeze. Repeat
 affected acceptance after any pack/index change. Record actual owner acceptance
 and the final pack hash through the existing release policy before publishing.
-No unchecked box is a pass, and 26.2 acceptance does not qualify a future 26.3 pack.
+No unchecked box is a pass, and 26.3 acceptance does not qualify the 26.2 maintenance pack.
+
+## 26.3 migration acceptance
+
+**Every result is uncompleted.** Use the existing matrices above in Prism and
+Modrinth App, with App option/resource-pack synchronization disabled and enabled
+where available. Record expected behavior separately from observed results.
+Static success is not a completed Minecraft test.
+
+| Migration scenario | Prism | App sync off | App sync on | Owner checks |
+| --- | --- | --- | --- | --- |
+| Fresh import | [ ] | [ ] | [ ] | Minecraft 26.3, Loader 0.20.1, Java 25; all 41 features and eleven libraries initialize; no missing/incompatible warning. Two shaders appear, neither selected automatically. |
+| Real 26.2-to-26.3 upgrade of a disposable instance copy | [ ] | [ ] | [ ] | Record launcher upgrade path and old/new archive hashes. Original instance remains intact. Obsolete 26.2 JARs are removed, no duplicate mods. Retain preferences, screenshots, map data, worlds and shader sidecars where supported. A fresh import is not an upgrade test. |
+| SDL3 controls and physical keys | [ ] | [ ] | [ ] | Review every binding after conversion. F7 overlay and F9 capture stay separate; F2/F3/F11, Zoomify, map keys, Controlling search/conflicts, IPN and extra mouse buttons work. Test non-US layouts, sign/book search and text input, wheel/drag actions and modifier keys. No numeric GLFW seed or raw-input option is expected. |
+| Inventory and tooltips | [ ] | [ ] | [ ] | IPN/Mouse Tweaks actions run once without desync; Client Tweaks overlap switches stay off on fresh profiles; enchantment descriptions remain Shift-gated and food effects are readable without duplicates or invented server state. |
+| SDL3 windows and Linux | [ ] | [ ] | [ ] | Cubes Without Borders fullscreen/windowed modes, resize, Alt-Tab, monitor/DPI changes and Dynamic FPS focus/minimize work. On Linux record Wayland versus XWayland/backend and test native Wayland where supported. Do not infer platform results from Windows. |
+| Transparency and shader compilation | [ ] | [ ] | [ ] | Establish the no-shader baseline, then both shader choices. Check glass, water, particles, clouds, entities, block entities, grass/snow, Continuity textures, dynamic lights, dimensions, maps and overlays. Switch/reload repeatedly, inspect logs and frame times. Complete the shader matrix above. |
+| Screenshot and local data preservation | [ ] | [ ] | [ ] | F2/F9 captures with and without each shader, correct HUD/resolution restoration. Existing screenshot bytes, worlds and map folders survive upgrade; maps retain correct server/dimension association or are deliberately reassigned manually. |
+| Completely vanilla 26.3 server | [ ] | [ ] | [ ] | Join/rejoin with no companion mods/plugins. Inventory, navigation, vanilla enchantment/food tooltips, writing, chat, lighting and both shaders work without server-component warnings. Do not expect plugin-enchantment descriptions, ender-chest remote data or server teleport privileges. |
+| Repeat launch and preferences | [ ] | [ ] | [ ] | Customized graphics, sound, accessibility, binds, resource packs and shader presets persist; deliberate shader-disable persists; no repeated default reset. Record launcher sync effects separately. |
+
+Resolve defects before owner qualification. Set runtime acceptance only for the
+actually tested 26.3 artifact and pack hash, never by copying the 26.2 record.

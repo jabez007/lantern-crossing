@@ -76,3 +76,16 @@ class DocumentationTests(unittest.TestCase):
             with self.subTest(obsolete=obsolete):
                 self.assertNotIn(obsolete, acceptance)
         self.assertIn("shader owner acceptance matrix", acceptance)
+
+    def test_owner_matrices_use_this_branchs_target(self):
+        target = load_toml(ROOT / "pack.toml")["versions"]["minecraft"]
+        content = (ROOT / "docs/acceptance-tests.md").read_text()
+        self.assertIn(f"Run on the maintained {target} artifact", content)
+        self.assertIn(f"Run against the final {target} archive", content)
+
+    def test_current_renderer_configuration_statement_matches_the_pin(self):
+        import json
+
+        evidence = json.loads((ROOT / "docs/upstream-metadata.json").read_text())
+        iris = evidence["projects"]["YL57xq9U"]["versions"][0]["version_number"].split("+")[0]
+        self.assertIn(f"Iris {iris} is active", (ROOT / "docs/configuration.md").read_text())

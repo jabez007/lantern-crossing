@@ -19,17 +19,15 @@ class ReleaseTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
-        for name in ("pack.toml", "collection.toml", "release-policy.toml", "migration.toml"):
+        for name in (
+            "pack.toml",
+            "collection.toml",
+            "release-policy.toml",
+            "migration.toml",
+            "docs/upstream-metadata.json",
+        ):
+            (self.root / name).parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / name, self.root / name)
-        # Identity tests use the full intended inventory on either version branch.
-        entries = load_toml(self.root / "migration.toml")["feature"]
-        (self.root / "collection.toml").write_text(
-            "\n".join(
-                f'[[selected]]\nproject-id = "{p["project-id"]}"\n'
-                f'slug = "{p["slug"]}"\nrole = "feature"\n'
-                for p in entries
-            )
-        )
         self.version = load_toml(self.root / "pack.toml")["version"]
         self.line = load_toml(self.root / "release-policy.toml")["version-branch"]
 
@@ -40,6 +38,8 @@ class ReleaseTests(unittest.TestCase):
 
     def qualify_fixture(self):
         # Synthetic acceptance is confined to a disposable test fixture.
+        path = self.root / "migration.toml"
+        path.write_text(path.read_text().replace('runtime = "pending"', 'runtime = "accepted"'))
         digest = hashlib.sha256((self.root / "pack.toml").read_bytes()).hexdigest()
         self.replace(
             "release-policy.toml",
@@ -56,26 +56,26 @@ class ReleaseTests(unittest.TestCase):
             'runtime-acceptance-record = ""',
             'runtime-acceptance-record = "docs/verification.md"',
         )
-        (self.root / "docs").mkdir()
+        (self.root / "docs").mkdir(exist_ok=True)
         (self.root / "docs/verification.md").write_text("Synthetic test fixture only.")
 
     def test_development_is_default_and_names_actual_target(self):
         info = metadata(self.root)
         self.assertEqual(info["channel"], "development")
-        self.assertIn("Minecraft 26.2", info["summary"])
+        self.assertIn("Minecraft 26.3", info["summary"])
         self.assertEqual(info["archive"], f"lantern-crossing-{self.version}-dev-{self.line}.mrpack")
         self.assertIn("development", info["name"])
 
-    def test_migration_branch_keeps_actual_target_in_development_name(self):
+    def test_version_branch_cannot_mask_a_different_minecraft_target(self):
         self.replace(
-            "release-policy.toml", f'version-branch = "{self.line}"', 'version-branch = "26.3"'
+            "release-policy.toml", f'version-branch = "{self.line}"', 'version-branch = "26.2"'
         )
-        info = metadata(self.root, branch="26.3")
-        self.assertEqual(info["minecraft"], "26.2")
-        self.assertIn("26.2.", info["archive"])
-        self.assertIn("dev-26.3", info["archive"])
-        with self.assertRaisesRegex(ValueError, "migration branch cannot publish"):
-            metadata(self.root, "v" + self.version, branch="26.3", channel="release")
+        for channel in ("development", "release"):
+            with (
+                self.subTest(channel=channel),
+                self.assertRaisesRegex(ValueError, "own Minecraft release"),
+            ):
+                metadata(self.root, "v" + self.version, branch="26.2", channel=channel)
 
     def test_numeric_branch_must_agree_with_policy(self):
         wrong = "26.3" if self.line == "26.2" else "26.2"
@@ -88,20 +88,17 @@ class ReleaseTests(unittest.TestCase):
         )
 
     def test_pack_version_cannot_mislabel_target(self):
-        self.replace("pack.toml", f'version = "{self.version}"', 'version = "26.3.0.6.0"')
+        self.replace("pack.toml", f'version = "{self.version}"', 'version = "26.2.0.6.0"')
         with self.assertRaisesRegex(ValueError, "version must be"):
             metadata(self.root)
 
     def test_release_requires_tag_and_owner_acceptance(self):
         with self.assertRaisesRegex(ValueError, "explicit matching tag"):
             metadata(self.root, channel="release")
-        with self.assertRaisesRegex(ValueError, "not runtime-qualified|migration branch"):
+        with self.assertRaisesRegex(ValueError, "runtime acceptance remains pending"):
             metadata(self.root, "v" + self.version, channel="release")
 
-    def test_qualified_26_2_release_retains_existing_names(self):
-        self.replace(
-            "release-policy.toml", f'version-branch = "{self.line}"', 'version-branch = "26.2"'
-        )
+    def test_qualified_release_retains_existing_names(self):
         self.qualify_fixture()
         info = metadata(self.root, "v" + self.version, channel="release")
         self.assertEqual(info["archive"], f"lantern-crossing-{self.version}.mrpack")
@@ -110,18 +107,12 @@ class ReleaseTests(unittest.TestCase):
             metadata(self.root, "v26.2.99.99.99", channel="release")
 
     def test_acceptance_is_invalidated_by_pack_or_index_changes(self):
-        self.replace(
-            "release-policy.toml", f'version-branch = "{self.line}"', 'version-branch = "26.2"'
-        )
         self.qualify_fixture()
         self.replace("pack.toml", 'fabric = "0.20.1"', 'fabric = "0.20.2"')
         with self.assertRaisesRegex(ValueError, "current pack/index hash"):
             metadata(self.root, "v" + self.version, channel="release")
 
     def test_acceptance_needs_a_record(self):
-        self.replace(
-            "release-policy.toml", f'version-branch = "{self.line}"', 'version-branch = "26.2"'
-        )
         self.qualify_fixture()
         (self.root / "docs/verification.md").unlink()
         with self.assertRaisesRegex(ValueError, "owner-authored acceptance record"):
@@ -129,22 +120,52 @@ class ReleaseTests(unittest.TestCase):
 
     def test_migration_inventory_cannot_omit_active_intent(self):
         self.replace("migration.toml", 'project-id = "AANobbMI"', 'project-id = "wrong"')
-        with self.assertRaisesRegex(ValueError, "omits active features"):
+        with self.assertRaisesRegex(ValueError, "omits active artifacts"):
             metadata(self.root)
 
     def test_migration_claim_cannot_precede_target_change(self):
-        self.replace("migration.toml", 'status = "deferred"', 'status = "static-verified"')
         with self.assertRaisesRegex(ValueError, "cannot claim migrated"):
             validate_migration(self.root, self.line, "26.2")
 
     def test_migration_target_alone_is_not_release_qualification(self):
-        with self.assertRaisesRegex(ValueError, "release is blocked by deferred"):
+        with self.assertRaisesRegex(ValueError, "runtime acceptance remains pending"):
             validate_migration(self.root, "26.3", "26.3", release=True)
 
     def test_migration_release_requires_all_runtime_acceptance(self):
         path = self.root / "migration.toml"
         path.write_text(
-            path.read_text().replace('status = "deferred"', 'status = "static-verified"')
+            path.read_text().replace('status = "static-verified"', 'status = "deferred"', 1)
         )
-        with self.assertRaisesRegex(ValueError, "runtime acceptance remains pending"):
+        with self.assertRaisesRegex(ValueError, "release is blocked by deferred"):
             validate_migration(self.root, "26.3", "26.3", release=True)
+
+    def test_migration_inventory_covers_libraries_and_shaders(self):
+        entries = load_toml(self.root / "migration.toml")["artifact"]
+        self.assertTrue(
+            {"feature", "selected-library", "dependency", "shader"} <= {e["role"] for e in entries}
+        )
+        for kind in ("dependency", "shader"):
+            entry = next(e for e in entries if e["role"] == kind)
+            original = (self.root / "migration.toml").read_text()
+            self.replace(
+                "migration.toml", f'project-id = "{entry["project-id"]}"', 'project-id = "omitted"'
+            )
+            with (
+                self.subTest(kind=kind),
+                self.assertRaisesRegex(ValueError, "omits active artifacts"),
+            ):
+                metadata(self.root)
+            (self.root / "migration.toml").write_text(original)
+
+    def test_migration_pin_role_and_dependency_changes_require_reconciliation(self):
+        path = self.root / "migration.toml"
+        original = path.read_text()
+        for before, after, error in (
+            ('target-version-id = "bAZQdGpg"', 'target-version-id = "unknown"', "pin disagrees"),
+            ('role = "feature"', 'role = "shader"', "identity/role"),
+            ('dependencies = ["P7dR8mSH"]', "dependencies = []", "dependencies disagree"),
+        ):
+            self.replace("migration.toml", before, after)
+            with self.subTest(before=before), self.assertRaisesRegex(ValueError, error):
+                metadata(self.root)
+            path.write_text(original)
