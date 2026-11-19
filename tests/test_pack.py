@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 from check_target_readiness import compatible_versions, discover
 from normalize_mrpack import normalize
-from pack_model import ROOT, load_pack, load_toml, stable
+from pack_model import ROOT, load_pack, load_toml, payload_files, stable
 from release_metadata import metadata, write_checksum
 from validate_mrpack import validate
 
@@ -28,6 +28,8 @@ class PackTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         for name in ("pack.toml", "index.toml", "collection.toml", "candidates.toml"):
             shutil.copyfile(ROOT / name, self.root / name)
+        if (ROOT / "options.txt").exists():
+            shutil.copyfile(ROOT / "options.txt", self.root / "options.txt")
         for name in ("mods", "config"):
             shutil.copytree(ROOT / name, self.root / name)
         (self.root / "docs").mkdir()
@@ -47,7 +49,7 @@ class PackTests(unittest.TestCase):
 
     def test_repository_contract(self):
         pack = load_pack(self.root)
-        self.assertEqual(len(pack.evidence["requested"]), 30)
+        self.assertEqual(len(pack.evidence["requested"]), 31)
         features = {pid for pid, project in pack.projects.items() if project["role"] == "feature"}
         self.assertEqual(features, set(pack.evidence["requested"]))
         self.assertFalse(pack.collection.get("excluded"))
@@ -179,16 +181,33 @@ class PackTests(unittest.TestCase):
         (self.root / "config/new.cfg").write_text("new")
         self.invalid("index omits")
 
+    def test_keybinding_override_is_pack_payload(self):
+        settings = b"key_key.light-overlay.toggle:key.keyboard.f7\n"
+        (self.root / "options.txt").write_bytes(settings)
+        _, overrides = payload_files(self.root)
+        self.assertEqual(overrides.get("options.txt"), settings)
+
+    def test_keybinding_override_rejects_symlinks(self):
+        options = self.root / "options.txt"
+        options.unlink(missing_ok=True)
+        options.symlink_to(self.root / "pack.toml")
+        with self.assertRaisesRegex(ValueError, "symlink"):
+            payload_files(self.root)
+
+    def test_changed_keybinding_requires_refresh(self):
+        self.replace("options.txt", "key.keyboard.f7", "key.keyboard.f8")
+        self.invalid("stale index entry")
+
     def test_symlink_payload_is_rejected(self):
         (self.root / "config/link.cfg").symlink_to(self.root / "pack.toml")
         self.invalid("symlink")
 
     def test_release_tag_must_match(self):
         self.assertEqual(
-            metadata(self.root, "v26.2.0.3.0")["archive"], "lantern-crossing-26.2.0.3.0.mrpack"
+            metadata(self.root, "v26.2.0.4.0")["archive"], "lantern-crossing-26.2.0.4.0.mrpack"
         )
         with self.assertRaisesRegex(ValueError, "tag must agree"):
-            metadata(self.root, "v26.2.0.3.1")
+            metadata(self.root, "v26.2.0.4.1")
 
     def test_release_checksum(self):
         (self.root / "dist").mkdir()
@@ -272,7 +291,7 @@ class PackTests(unittest.TestCase):
 
     def test_archive_missing_feature_or_dependency(self):
         manifest, overrides = self.archive_data()
-        for needle in ("sodium-", "libIPN-"):
+        for needle in ("sodium-", "libIPN-", "renice-shot-"):
             changed = copy.deepcopy(manifest)
             changed["files"] = [f for f in manifest["files"] if needle not in f["path"]]
             with (

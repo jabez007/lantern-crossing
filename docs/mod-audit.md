@@ -2,6 +2,9 @@
 
 Evidence checked on 2026-11-17 against the [Modrinth API](https://docs.modrinth.com/api/) and the exact downloaded Fabric artifacts. [The offline snapshot](upstream-metadata.json) records project/version identity, compatibility declarations, files, dependency edges, and recursive Fabric descriptors. Download hashes were checked during the audit and again by packwiz export.
 
+Renice Shot was added and audited on 2026-11-18. The prior 39 artifact pins are
+unchanged. The baseline now contains all 30 original features plus Renice Shot.
+
 The question for every row is whether the selected functionality works entirely on the client while connected to an unmodified vanilla 26.2 server. An optional server label alone is insufficient evidence. No runtime multiplayer acceptance has been performed.
 
 ## Requested features
@@ -38,6 +41,7 @@ The question for every row is whether the selected functionality works entirely 
 | [Chat Heads](https://modrinth.com/mod/chat-heads) | [1.3.2](https://modrinth.com/mod/chat-heads/version/rsO6BV1x), release-designated | Render player heads next to chat messages. | No server component. Uses player data already available on vanilla servers. | Active |
 | [Iris Shaders](https://modrinth.com/mod/iris) | [1.11.4+26.2-fabric](https://modrinth.com/mod/iris/version/gxZWWnKH), release-designated | Local shader loading, shader selection, and rendering. Starts with shaders disabled. | Client rendering only. Exact upstream Sodium pin xJZxADzI is already selected. Bundled glsl-transformer 3.0.0-pre3 is part of this hash-pinned upstream release. | Active |
 | [Mod Menu](https://modrinth.com/mod/modmenu) | [20.0.3](https://modrinth.com/mod/modmenu/version/iRo7AZXf), release-designated | Installed mod list and local configuration screens. | Client initializer only. Requires Fabric API and Text Placeholder API 3.1.0-beta.1+26.2, exactly as the release build declares. No server counterpart or server data needed. | Active |
+| [Renice Shot](https://modrinth.com/mod/renice-shot), ID `ZDCwiIc3` | [1.2.1+mc26.2](https://modrinth.com/mod/renice-shot/version/roOTvshj), release-designated, Fabric 26.2 | Local high-resolution framebuffer capture and file saving. F9 captures at 3840 by 2160 by default. | Project is client required/server unsupported; the exact native descriptor is client-only. Requires existing Fabric API. Optional Mod Menu and Cloth Config are already present. No server counterpart or server data needed. | Active |
 
 ## Dependency audit
 
@@ -45,7 +49,7 @@ Fabric API is an explicitly selected platform library. Eight projects are transi
 
 | Library | Classification | Client purpose and dependency evidence |
 | --- | --- | --- |
-| [Fabric API](https://modrinth.com/mod/fabric-api) | selected-library | Required by Xaero's Minimap, YetAnotherConfigLib (YACL), Shulker Box Tooltip, Light Overlay, BetterF3, TCDCommons API, Dynamic FPS, OverlayLib, Balm, Entity Culling, Xaero's World Map, Inventory Profiles Next, Debugify, Mouse Tweaks, Sign Tweaks, Mod Menu, Better Statistics Screen, libIPN, Paginated Advancements & Custom Frames, Book Tweaks, Language Reload, Client Tweaks, Zoomify (Zoom), FastQuit, LambDynamicLights - Dynamic Lights. |
+| [Fabric API](https://modrinth.com/mod/fabric-api) | selected-library | Required by Renice Shot, Xaero's Minimap, YetAnotherConfigLib (YACL), Shulker Box Tooltip, Light Overlay, BetterF3, TCDCommons API, Dynamic FPS, OverlayLib, Balm, Entity Culling, Xaero's World Map, Inventory Profiles Next, Debugify, Mouse Tweaks, Sign Tweaks, Mod Menu, Better Statistics Screen, libIPN, Paginated Advancements & Custom Frames, Book Tweaks, Language Reload, Client Tweaks, Zoomify (Zoom), FastQuit, LambDynamicLights - Dynamic Lights. |
 | [YetAnotherConfigLib (YACL)](https://modrinth.com/mod/yacl) | dependency | Required by Light Overlay, Zoomify (Zoom). |
 | [Cloth Config API](https://modrinth.com/mod/cloth-config) | dependency | Required by More Culling, BetterF3, Sign Tweaks, Paginated Advancements & Custom Frames, Status Effect Bars, FastQuit. |
 | [TCDCommons API](https://modrinth.com/mod/tcdcommons) | dependency | Required by Better Statistics Screen. |
@@ -63,7 +67,7 @@ Zoomify version `D64cvU6G` is universal. Its Modrinth record lists KotlinLangFor
 
 ## Upstream release and dependency provenance
 
-All 30 active features use upstream release-designated Fabric 26.2 versions.
+All 31 active features use upstream release-designated Fabric 26.2 versions.
 The same release requirement applies to explicitly selected Fabric API.
 Resolved and bundled libraries remain part of the selected releases' official
 closure, even when their version identifiers look like prereleases. This is not
@@ -95,8 +99,24 @@ The earlier exclusion queried the different Modrinth project `YfOlc91N`, slug
 snapshot identity has been removed. Project-ID substitution regressions now
 reject the similarly named project. The correct release's native Fabric module
 ID and JAR filename still contain `light-overlay`; those are upstream artifact
-identifiers, not its Modrinth project slug. All 30 requested features are active,
+identifiers, not its Modrinth project slug. All 30 original features remain active,
 with zero blocked features.
+
+## Screenshot selection
+
+[FO's version-specific mod list](https://github.com/Fabulously-Optimized/fabulously-optimized/blob/main/INCLUDED-MODS.md)
+uses Renice Shot for 26.2 and Fabrishot on older lines. The selected project is
+Renice Shot `ZDCwiIc3`, version `roOTvshj`, the newest release-designated Fabric
+26.2 artifact when checked. Native requirements are Minecraft `26.2`, Fabric
+Loader `>=0.19.5`, Java `>=25`, and Fabric API. Existing pins satisfy them.
+The artifact has no bundled modules or declared incompatible projects.
+
+The [release source](https://github.com/wechirok/renice-shot/blob/bca7c14881a592ca3df2d309968cb29bdaa32728/src/main/java/me/wechirok/reniceshot/ReniceShot.java)
+registers a local key mapping and captures the client framebuffer to a local
+file. No server handshake, companion, or network data beyond vanilla rendering
+is required. Existing Mod Menu and Cloth Config supply the optional config UI.
+The F9 collision with Light Overlay is resolved by the documented F7 override.
+Runtime screenshot capture and resolution restoration remain untested.
 
 ## Intentional rejections
 

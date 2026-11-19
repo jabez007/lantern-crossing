@@ -1,8 +1,8 @@
 # Configuration decisions
 
 The pack ships `config/MouseTweaks.cfg`, `config/clienttweaks-common.toml`, and
-`config/iris.properties`. Other settings retain upstream defaults.
-User-generated preferences, key bindings, server addresses,
+`config/iris.properties`, plus a single keybinding in `options.txt`. Other
+settings retain upstream defaults. User-generated preferences, server addresses,
 map caches, and waypoints do not belong in the repository or release archive.
 
 ## Inventory gestures
@@ -97,17 +97,26 @@ Tweaks retain their upstream editing defaults.
 
 ## Light Overlay
 
-Light Overlay retains its upstream defaults. The
+Light Overlay retains its upstream behavior defaults. The
 [release's key registrations](https://github.com/lugosieben/lightoverlay/blob/7e7647bb424ca8195329c889ce529c5974d11c21/src/main/java/net/lugo/lightoverlay/registration/KeyMappings.java)
-bind overlay toggling to F9. Config opening and overlay-mode cycling are unbound.
+bind overlay toggling to F9, which conflicts with Renice Shot. The pack's minimal
+`options.txt` changes `key_key.light-overlay.toggle` to `key.keyboard.f7`.
+F9 remains the high-resolution screenshot key familiar from FO.
+Config opening and overlay-mode cycling are unbound.
 The config screen is also available from Mod Menu or the client-local
-`/lightoverlay config` command. No Light Overlay config or keybind override is shipped.
+`/lightoverlay config` command. No other Light Overlay setting is overridden.
 
-Static inspection of the pinned artifacts found no competing F9 action in
+Static inspection of the pinned artifacts found no competing F7 action in
 Xaero's Minimap, Xaero's World Map, Zoomify, BetterF3, Iris, LambDynamicLights,
-or the other active utility mods. libIPN defines F9 in its key-code catalog but
-does not assign it to an action by default. User-customized bindings can differ;
+Renice Shot, or the other active utility mods. libIPN defines F7 in its key-code
+catalog but does not assign it to an action by default. User-customized bindings can differ;
 verify the new instance's Controls screen during acceptance.
+
+Import into a clean launcher instance. The shipped `options.txt` contains only
+that keybinding; it supplies no graphics, audio, accessibility, or personal
+settings. Minecraft fills omitted settings with its defaults. Do not copy this
+file over an existing instance's `options.txt`; change the binding in Controls
+instead. The pack's key file is build input, not a place to save runtime options.
 
 Light Overlay and OverlayLib declare no conflicts with the selected Iris/Sodium
 stack. The overlay uses client-known world/light data and requires no server
@@ -115,3 +124,17 @@ component. This establishes static eligibility, not rendering acceptance.
 Test toggling and persistence with Sodium, Iris, and LambDynamicLights installed,
 starting with shaders disabled. Dynamic lighting does not change server-side
 block light or spawn rules.
+
+## Screenshots
+
+[Renice Shot](https://modrinth.com/mod/renice-shot) is FO's screenshot mod for
+Minecraft 26.2. Its exact release retains F9, a 3840 by 2160 PNG capture, and the
+`huge_` filename prefix in the instance's `screenshots` directory.
+The [release config defaults](https://github.com/wechirok/renice-shot/blob/bca7c14881a592ca3df2d309968cb29bdaa32728/src/main/java/me/wechirok/reniceshot/config/Config.java)
+leave normal F2 screenshots and other mods' screenshot requests unchanged.
+No Renice Shot properties file is shipped. Existing Mod Menu and Cloth Config
+provide its optional local configuration screen.
+
+Capture temporarily changes render resolution and restores it afterward. Test
+that restoration with Sodium and Iris, initially with shaders disabled. Shader
+capture behavior remains part of manual acceptance.

@@ -92,7 +92,7 @@ and account information out of committed logs.
 
 ### Basic overlay
 
-- [ ] Join a Minecraft 26.2 world and activate Light Overlay with F9.
+- [ ] Join a Minecraft 26.2 world and activate Light Overlay with F7.
 - [ ] The overlay renders useful light and spawnability information.
 - [ ] Deactivate it and confirm the overlay disappears cleanly.
 
@@ -115,8 +115,20 @@ and account information out of committed logs.
 ### Configuration
 
 - [ ] Open Light Overlay's config through Mod Menu or `/lightoverlay config`.
-- [ ] F9 works, and the Controls screen shows no new default keybind conflict.
+- [ ] F7 toggles the overlay, and F9 captures a screenshot without toggling it.
+- [ ] Controls shows no conflict between the two bindings.
 - [ ] Configuration changes persist after restarting the client.
+
+## Screenshots
+
+- [ ] Renice Shot's local config opens through Mod Menu.
+- [ ] On a completely vanilla 26.2 server, press F9 and save a 3840 by 2160 PNG
+      under `screenshots` with the `huge_` prefix. No server installation is needed.
+- [ ] F2 still takes a normal screenshot at the current window resolution.
+- [ ] Resolution, fullscreen/windowed state, and HUD state restore after capture.
+- [ ] Repeated captures work with Sodium and Iris installed and shaders disabled.
+- [ ] The F7 overlay binding persists after restarting the client.
+- [ ] Optionally test capture with a separately installed known-good shader pack.
 
 ## Social and resource behavior
 

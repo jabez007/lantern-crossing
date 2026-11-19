@@ -4,4 +4,5 @@
 !mods/**
 !config/
 !config/**
+!options.txt
 # Packwiz reads pack.toml/index.toml itself, not as overrides.

@@ -349,6 +349,11 @@ def payload_files(root: Path) -> tuple[set[str], dict[str, bytes]]:
                 "staged or server-only config artifact",
             )
             configs[relative] = path.read_bytes()
+    # Minecraft stores keybindings outside config/. Ship only deliberate defaults.
+    options = root / "options.txt"
+    require(not options.is_symlink(), f"payload symlink: {options}")
+    if options.is_file():
+        configs["options.txt"] = options.read_bytes()
     return mods, configs
 
 

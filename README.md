@@ -8,7 +8,7 @@ Server operators do not need to install anything. Every active packwiz record
 uses `side = "client"`, and the exported pack marks every mod as required on the
 client and unsupported on the server. Selected functionality must work entirely
 from the client using vanilla server data. The [mod audit](docs/mod-audit.md)
-documents that decision for all 30 requested projects. Static checks enforce the
+documents that decision for all 31 selected features. Static checks enforce the
 packaging contract. A clean-client vanilla-server join still needs
 [runtime acceptance](docs/acceptance-tests.md).
 
@@ -16,12 +16,12 @@ The target is Minecraft **26.2**, Fabric Loader **0.20.1**, and Java **25**.
 The loader pin comes from Fabric's [26.2 compatibility
 API](https://meta.fabricmc.net/v2/versions/loader/26.2), checked on 2026-11-17.
 The checked evidence is in [upstream-metadata.json](docs/upstream-metadata.json).
-Pack version `26.2.0.3.0` is a development baseline, not a runtime qualification.
+Pack version `26.2.0.4.0` is a development baseline, not a runtime qualification.
 
 ## Version branches
 
 - [`26.2`](https://github.com/jabez007/lantern-crossing/tree/26.2) maintains the
-  Minecraft 26.2 pack and its audited 30-feature baseline.
+  Minecraft 26.2 pack and its audited 31-feature baseline.
 - [`26.3`](https://github.com/jabez007/lantern-crossing/tree/26.3) is the default
   development branch for the next Minecraft version. It initially retains the
   verified 26.2 sources; the 26.3 dependency audit and migration are pending.
@@ -33,15 +33,21 @@ target. See the [version-branch policy](docs/version-policy.md#version-branches)
 
 ## Pack philosophy
 
+[Fabulously Optimized](https://modrinth.com/modpack/fabulously-optimized) is the
+reference for performance and visual conveniences.
+Lantern Crossing combines those priorities with a pinned QoL selection and
+documented defaults, so a new Prism Launcher instance starts with the tools you
+normally add by hand. Add your own shader packs to the imported instance.
+
 Lantern Crossing keeps vanilla progression, content, and server mechanics.
 It supplies no blocks, items, mobs, dimensions, recipes, gameplay data packs,
 server companions, shader packs, or resource packs. Upstream defaults apply
-except for the documented [inventory, Client Tweaks, and Iris overrides](docs/configuration.md).
+except for the documented [configuration and keybinding overrides](docs/configuration.md).
 
 ## Active selections
 
-All 30 requested feature selections are active, with nine libraries in
-[collection.toml](collection.toml).
+All 30 original feature selections plus Renice Shot are active, with nine
+libraries in [collection.toml](collection.toml).
 
 | Category | Selected projects |
 | --- | --- |
@@ -50,7 +56,7 @@ All 30 requested feature selections are active, with nine libraries in
 | HUD and information | Status Effect Bars, Light Overlay, BetterF3, Better Mount HUD, Paginated Advancements, Better Statistics Screen |
 | Navigation | Xaero's Minimap, Xaero's World Map, Zoomify |
 | Writing | Sign Tweaks, Book Tweaks |
-| Visual and social | LambDynamicLights, Chat Heads, Iris |
+| Visual and social | LambDynamicLights, Chat Heads, Iris, Renice Shot |
 | Pack management | Mod Menu |
 
 There are zero blocked requested features. Light Overlay uses the current
@@ -71,9 +77,9 @@ It owns exact version IDs, URLs, and SHA-512 hashes. No mod JARs belong in Git.
 
 ## Install an exported pack
 
-1. Obtain `lantern-crossing-26.2.0.3.0.mrpack` and its `.sha256` file from a
+1. Obtain `lantern-crossing-26.2.0.4.0.mrpack` and its `.sha256` file from a
    reviewed release or build them below.
-2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.3.0.sha256`.
+2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.4.0.sha256`.
 3. Import the `.mrpack` into a launcher that supports Modrinth packs. Use a new
    instance with Java 25 and let the launcher obtain the pinned upstream files.
 4. Start the client and complete the [smoke tests](docs/acceptance-tests.md),
@@ -119,21 +125,21 @@ permissions, and JSON encoding. Stored entries avoid compression-version drift.
 Release outputs are:
 
 ```text
-dist/lantern-crossing-26.2.0.3.0.mrpack
-dist/lantern-crossing-26.2.0.3.0.sha256
+dist/lantern-crossing-26.2.0.4.0.mrpack
+dist/lantern-crossing-26.2.0.4.0.sha256
 ```
 
 GitHub Actions validates pushes to `26.2` and `26.3` and pull requests targeting
 either branch. It checks index consistency, builds twice to compare archive
 bytes, and uploads the artifacts. A matching
-`v26.2.0.3.0` tag also creates a GitHub Release with the archive and checksum.
+`v26.2.0.4.0` tag also creates a GitHub Release with the archive and checksum.
 The workflow refuses to replace an already published release. Complete manual
 acceptance before tagging a release intended for users.
 
 ## Select and update deliberately
 
 Version numbers follow `<Minecraft version>.<pack major>.<pack minor>.<pack patch>`.
-`26.2.0.3.0` means Minecraft 26.2 and pack revision 0.3.0. Tags must match
+`26.2.0.4.0` means Minecraft 26.2 and pack revision 0.4.0. Tags must match
 `pack.toml` exactly with a `v` prefix.
 
 Use exact upstream version IDs and repeat the client-only audit for updates.
@@ -151,7 +157,7 @@ python3 scripts/check_target_readiness.py --offline
 ```
 
 The default checks active features and libraries. The requested scope covers
-all 30 requested features. Both scopes currently report release availability for
+all 31 selected features. Both scopes currently report release availability for
 the complete baseline.
 Discovery does not qualify a dependency closure, audit a pinned artifact, or
 replace runtime testing.

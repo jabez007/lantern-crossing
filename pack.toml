@@ -1,12 +1,12 @@
 name = "Lantern Crossing"
 author = "Lantern Crossing contributors"
-version = "26.2.0.3.0"
+version = "26.2.0.4.0"
 pack-format = "packwiz:1.1.0"
 
 [index]
 file = "index.toml"
 hash-format = "sha256"
-hash = "38023d5353c66d134120739fba9501dc77af06bdb21a27521fd259d179806b67"
+hash = "d7ded027329ac767b00e81df9824a9a45dd727201d94dfc44ce1d1be961714c6"
 
 [versions]
 fabric = "0.20.1"

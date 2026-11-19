@@ -163,6 +163,11 @@ hash = "62d51e5faa7530ff3eccac2210513dd848f2208ab6c32273772b28f2442f8359"
 metafile = true
 
 [[files]]
+file = "mods/renice-shot.pw.toml"
+hash = "7bf33e58e03cbb559c64e9b587515572b6bfb707508f0a8aa516e6e0df4c76a4"
+metafile = true
+
+[[files]]
 file = "mods/shulkerboxtooltip.pw.toml"
 hash = "73f960775a99c8fe5d12ffbf27850c7f84e772d6efefcb416c1e665daae8f1ca"
 metafile = true
@@ -206,3 +211,7 @@ metafile = true
 file = "mods/zoomify.pw.toml"
 hash = "e656e41df4fc2ff1431fe3dcf01590c345da8de6928ca37e871b475993a1d107"
 metafile = true
+
+[[files]]
+file = "options.txt"
+hash = "e25c72bac08a54aafb056aba377c4eb37e4a1becde69270d8b2f6d902068e086"

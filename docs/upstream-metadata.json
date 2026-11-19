@@ -7011,6 +7011,130 @@
         }
       ]
     },
+    "ZDCwiIc3": {
+      "checked_at": "2026-11-18",
+      "client_side": "required",
+      "name": "Renice Shot",
+      "server_side": "unsupported",
+      "slug": "renice-shot",
+      "source_url": "https://github.com/wechirok/renice-shot",
+      "versions": [
+        {
+          "client_required": [
+            {
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependency_type": "optional",
+              "file_name": null,
+              "project_id": "mOgUt4GM",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            },
+            {
+              "dependency_type": "optional",
+              "file_name": null,
+              "project_id": "9s6osm5g",
+              "version_id": null
+            }
+          ],
+          "fabric_descriptor": {
+            "bundled": [],
+            "depends": {
+              "fabric-api": "*",
+              "fabricloader": ">=0.19.5",
+              "java": ">=25",
+              "minecraft": "26.2"
+            },
+            "entrypoints": {
+              "main": [
+                "me.wechirok.reniceshot.ReniceShot::initialize"
+              ],
+              "modmenu": [
+                "me.wechirok.reniceshot.config.ModMenuBridge"
+              ]
+            },
+            "environment": "client",
+            "id": "renice-shot",
+            "version": "1.2.1+mc26.2"
+          },
+          "files": [
+            {
+              "file_type": null,
+              "filename": "renice-shot-1.2.1+mc26.2.jar",
+              "hashes": {
+                "sha1": "19daa73d9aab0d032eebe0ecaa5b4d684eea0882",
+                "sha512": "17b28765fa2e32b9b742208cbfb1dffeada014f96e8c85808b4bc45561e6ba68b9ecb8f35ef6621c0bdcaa26bfe0adf3a84a6704b9f82a9967fb1d4229b3da64"
+              },
+              "id": "wicyCJlh",
+              "primary": true,
+              "size": 51788,
+              "url": "https://cdn.modrinth.com/data/ZDCwiIc3/versions/roOTvshj/renice-shot-1.2.1%2Bmc26.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "roOTvshj",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "Renice Shot 1.2.1+mc26.2",
+          "project_id": "ZDCwiIc3",
+          "version_number": "1.2.1+mc26.2",
+          "version_type": "release"
+        },
+        {
+          "dependencies": [
+            {
+              "dependency_type": "optional",
+              "file_name": null,
+              "project_id": "mOgUt4GM",
+              "version_id": null
+            },
+            {
+              "dependency_type": "optional",
+              "file_name": null,
+              "project_id": "9s6osm5g",
+              "version_id": null
+            }
+          ],
+          "files": [
+            {
+              "file_type": null,
+              "filename": "renice-shot-1.0.0+mc26.2.jar",
+              "hashes": {
+                "sha1": "b562578d48f26644c9eb9b85ce5fba5382935fa6",
+                "sha512": "523223bb3aa0db427be56be9f590dc45226c19ac92ae6c6b77f373273ad0068573659ec96fe6afb69974dbc10c48bda65f91dcfea08d52fd64117e220271f02d"
+              },
+              "id": "N6fdPvRM",
+              "primary": true,
+              "size": 44683,
+              "url": "https://cdn.modrinth.com/data/ZDCwiIc3/versions/Grf7gEu1/renice-shot-1.0.0%2Bmc26.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "Grf7gEu1",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "Renice Shot 1.0.0",
+          "project_id": "ZDCwiIc3",
+          "version_number": "1.0.0+mc26.2",
+          "version_type": "release"
+        }
+      ]
+    },
     "aC3cM3Vq": {
       "client_side": "required",
       "name": "Mouse Tweaks",
@@ -10131,7 +10255,8 @@
     "yBW8D80W",
     "Wb5oqrBJ",
     "YL57xq9U",
-    "mOgUt4GM"
+    "mOgUt4GM",
+    "ZDCwiIc3"
   ],
   "schema": 1,
   "target": "26.2"
