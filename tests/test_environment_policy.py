@@ -97,8 +97,8 @@ class EnvironmentPolicyTests(unittest.TestCase):
         self.assertEqual(pack.mods["1eAoo2KR"]["side"], "client")
 
     def test_removing_audit_reproduces_original_metadata_rejection(self):
-        self.authorize_fixture()
-        self.data["environment_exceptions"] = []
+        audit = self.authorize_fixture()
+        self.data["environment_exceptions"].remove(audit)
         self.invalid("mandatory server requirement")
 
     def test_audit_is_bound_to_version_file_hash_descriptor_and_target(self):

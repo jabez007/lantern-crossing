@@ -13,6 +13,10 @@ file = "configureddefaults/config/clienttweaks-common.toml"
 hash = "1d128fe9f9d07d7c7adec3d2ec8d6ca19cd21da9eaf9e762f053c5e8729e4f20"
 
 [[files]]
+file = "configureddefaults/config/enchdesc.json"
+hash = "24468336c2a7a59b1faaac02b622491e621640a908d2ae0671ff9a55439fecaa"
+
+[[files]]
 file = "configureddefaults/config/iris.properties"
 hash = "839d34c5b794e53e3e0155f87632026f1d5354f3dd55854d51e990d04d2c92a3"
 
@@ -98,6 +102,11 @@ metafile = true
 [[files]]
 file = "mods/dynamic-fps.pw.toml"
 hash = "ce2934ff572e6634f68f7c95146d02c82d863a83f7e6d1bc129060b8a062658c"
+metafile = true
+
+[[files]]
+file = "mods/enchantment-descriptions.pw.toml"
+hash = "411236d3d54c26c448404c738125f946af17e1a289799110308fd64bab67aa8c"
 metafile = true
 
 [[files]]
@@ -203,6 +212,11 @@ metafile = true
 [[files]]
 file = "mods/placeholder-api.pw.toml"
 hash = "62d51e5faa7530ff3eccac2210513dd848f2208ab6c32273772b28f2442f8359"
+metafile = true
+
+[[files]]
+file = "mods/prickle.pw.toml"
+hash = "126259bdca8f06df3eb4f44f8e600dfc5c5a4b687f438974bfc7de2378e220a5"
 metafile = true
 
 [[files]]

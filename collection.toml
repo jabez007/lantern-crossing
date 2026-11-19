@@ -186,7 +186,7 @@ slug = "fabric-api"
 name = "Fabric API"
 category = "platform"
 role = "selected-library"
-required-by = ["1IjD5062", "1bokaNcj", "1eAoo2KR", "2M01OLQq", "8qVa1XCN", "8shC1gFX", "Eldc1g37", "GGfyJWnG", "LQ3K71Q1", "M1B8mLoH", "MBAkmtvl", "NNAgCjsB", "NcUtCpym", "O7RBXm3n", "QwxR6Gcd", "ZDCwiIc3", "aC3cM3Vq", "c7xDMxha", "fuuu3xnx", "m5T5xmUy", "mOgUt4GM", "n6PXGAoM", "onSQdWhM", "pJogNFap", "skd7t7zC", "uLbm7CG6", "vPNqo58Q", "w7ThoJFB", "x1hIzbuY", "xv94TkTM", "yBW8D80W"]
+required-by = ["1IjD5062", "1bokaNcj", "1eAoo2KR", "2M01OLQq", "8qVa1XCN", "8shC1gFX", "Eldc1g37", "GGfyJWnG", "LQ3K71Q1", "M1B8mLoH", "MBAkmtvl", "NNAgCjsB", "NcUtCpym", "O7RBXm3n", "QwxR6Gcd", "UVtY3ZAC", "ZDCwiIc3", "aC3cM3Vq", "aaRl8GiW", "c7xDMxha", "fuuu3xnx", "m5T5xmUy", "mOgUt4GM", "n6PXGAoM", "onSQdWhM", "pJogNFap", "skd7t7zC", "uLbm7CG6", "vPNqo58Q", "w7ThoJFB", "x1hIzbuY", "xv94TkTM", "yBW8D80W"]
 
 [[selected]]
 project-id = "vPNqo58Q"
@@ -364,3 +364,18 @@ name = "Searchables"
 category = "library"
 role = "dependency"
 required-by = ["xv94TkTM"]
+
+[[selected]]
+project-id = "UVtY3ZAC"
+slug = "enchantment-descriptions"
+name = "Enchantment Descriptions"
+category = "information"
+role = "feature"
+
+[[resolved-dependency]]
+project-id = "aaRl8GiW"
+slug = "prickle"
+name = "Prickle"
+category = "library"
+role = "dependency"
+required-by = ["UVtY3ZAC"]

@@ -1,117 +1,151 @@
 # Verification record
 
-QoL refinement completed on 2026-11-19 for development pack `26.2.0.8.0`,
-Minecraft 26.2, Fabric Loader 0.20.1 and Java 25. Minecraft, Prism Launcher and
-Modrinth App have not been run. Runtime acceptance remains uncompleted.
-The preceding Configured Defaults evaluation is recorded in Git at `5577d19`.
+The Prickle environment review completed on 2026-11-19 for development pack
+`26.2.0.9.0`, Minecraft 26.2, Fabric Loader 0.20.1 and Java 25. No Minecraft,
+Prism Launcher or Modrinth App runtime acceptance was performed. All owner
+results remain uncompleted. Prior refinement evidence is in Git at `59373ad`.
 
-## Selection and provenance
+## Verdict and artifact correspondence
 
-The [nine-candidate evaluation](mod-audit.md#qol-and-performance-refinement-2026-11-19)
-adds BetterGrassify `r4yqxYQl`, Controlling `sZHXONgm`, Food Effect Tooltips
-`aXyL1zFA`, and resolved Searchables `bvFby61J`. Exact URLs, filenames, SHA-512
-hashes and stable project/version IDs are in the four new `mods/*.pw.toml`
-records; the hash-verified metadata and recursive Fabric descriptors are in
-`upstream-metadata.json`. All four artifacts are upstream releases with client
-native environments. There are no new bundled JARs or server dependencies.
+The original Enchantment Descriptions deferral was overly conservative. An
+isolated invocation of the original `check_mod()` accepted Enchantment
+Descriptions but rejected Prickle because the project API says server required.
+The pair passed the native dependency identities, ranges and hard-break checks
+against the maintained baseline. No companion-server, extra server-data or
+runtime incompatibility was demonstrated by that original rejection.
 
-Packwiz resolved Searchables from Controlling. Food Effect Tooltips omits its
-Fabric API and Cloth Config requirements from Modrinth metadata, so the exact
-native descriptor supplies those two closure edges and artifact-field provenance.
-Both libraries already exist. All 46 previous locks and their full upstream
-project records are byte-identical to `5577d19`. The original four defaults
-files, release policy, CI workflow, Minecraft/Loader and Java pins are unchanged.
-The only added template is `configureddefaults/config/bettergrass.json`.
+The [exact review](mod-audit.md#prickle-environment-classification-review) supports
+independent client use for Enchantment Descriptions `PTAK0HD2`, version 26.2.0.2,
+and Prickle `XdvtdRYJ`, version 26.2.0.3. Both remain pinned through packwiz.
+The two Modrinth binaries match the published Maven binaries byte-for-byte.
+All 36 Prickle and seven Enchantment Descriptions Java files in their versioned
+Maven sources match the immutable Git revisions. All 25 enchantment language
+maps match semantically. `javap -p -c -verbose` inspected every published class,
+including private methods and constant-pool references, without executing mod
+classes. This is release correspondence, not a signed/reproducible upstream
+build attestation or Minecraft runtime qualification.
 
-Enchantment Descriptions, Crash Assistant, Better Block Entities and Tooltip
-Tweaks remain inactive for documented dependency, initialization or rendering/data
-concerns. Ixeris and ModernFix-mVUS remain staged for owner benchmarking.
-No performance measurements or upstream issue reproductions were attempted.
-Native range checks against temporary candidate inventories pass for BBE,
-Ixeris, ModernFix-mVUS and Tooltip Tweaks; that does not resolve their blockers.
+Prickle has no server-only mixins, Minecraft packet registrations, server hooks
+or companion protocol. Its optional daemon HTTP HEAD version check catches
+failures and does not gate local behavior. The endpoint and lack of a discovered
+opt-out are disclosed in the audit. Enchantment Descriptions reads standard
+client-visible components and local translations; plugin behavior is outside
+selection. Food-effect/container tooltip providers remain separate.
 
-## Observed automated results
+## Implementation and policy
 
-Python 3.12.12, Ruff 0.16.4 and the CI-pinned packwiz commit
-`170b22d785959dda5876b54b7f16e1b807a57fb6` were used. Actionlint is 1.7.12.
-Candidate JAR/source downloads and logs remain outside the repository.
+A generic `environment_exceptions` mechanism extends the existing evidence
+snapshot. The one active audit retains Prickle's original labels and binds its
+project/version, filename, SHA-512 and canonical stored descriptor SHA-256,
+Fabric 26.2 context and the exact requiring feature artifact/version/hash.
+All incoming parents and official required edges must match. Only a resolved
+library's project-level server classification may be corrected.
+
+Unrelated server-required projects, unsupported clients, actual server-only
+modules, dependency presence/ranges, release designation, download integrity
+and client-only exports remain enforced. Duplicate/orphan/stale audits fail.
+A new parent or changed artifact/metadata requires re-evaluation, including
+removing the exception after an upstream correction. Both repository and archive
+CLIs print the audit notice. `validate_mrpack.validate()` returns the checked
+`Pack` after complete archive validation so the CLI can report without a second
+source load. Existing callers may continue to ignore its return value.
+
+The [new minimal template](../configureddefaults/config/enchdesc.json) enables
+Shift expansion using Prickle's property wrappers. Configured Defaults only
+seeds a missing file. Prickle reads valid existing values and may normalize the
+file or add metadata; malformed-file recovery belongs to the upstream library.
+All five previous templates and 50 previous locks/project snapshot records are
+byte-identical to `59373ad`. No existing mod, Loader or Java pin changed.
+The release workflow and owner acceptance gates remain unchanged.
+
+No upstream issue or comment was submitted. The existing optional-label issue
+has no maintainer clarification; a concise draft is recorded in the audit.
+Alternative mods/resource packs were compared and not installed.
+
+## Observed automated checks
+
+Tools match the established suite: Python 3.12.12, Ruff 0.16.4 and packwiz commit
+`170b22d785959dda5876b54b7f16e1b807a57fb6`. Actionlint is 1.7.12.
+Audit JARs, source archives, disassembly and temporary fixtures stay outside Git.
 
 | Check | Observed result |
 | --- | --- |
-| Baseline `make test lint validate` before edits | Passed, 94 tests, 37 features and nine libraries. Prior hosted CI was green on both branch tips. |
-| Four new focused tests before integration | Failed for absent selected identities, Searchables, food native edges and the BetterGrassify template. |
-| Final `make test lint validate` on 26.2 | Passed, 98 offline tests, 40 features and ten libraries. |
-| `make refresh` | Passed; repeated export refresh leaves pack/index contents unchanged. |
-| `make checksum`, second `make export`, archive `cmp` | Passed, full archive validation and identical normalized bytes. |
-| Generated `sha256sum --check` | Passed. |
-| `check_target_readiness.py --offline` | Passed for all 40 active feature selections; discovery is not runtime proof. |
-| Actionlint with shellcheck | Passed; workflow/release gates are unchanged. |
-| Ruff complexity threshold 8 | Passed; configured maximum is 10. No production function was changed or broadened. |
-| Prior lock/snapshot/template byte comparison | Passed for all 46 retained locks/project records and four templates. |
-| `git ls-files '*.jar' '*.JAR'` | Empty. No downloaded binary is committed. |
+| Original baseline `make test lint validate` | Passed, 98 tests, 40 features and ten libraries; previous hosted branch CI was green. |
+| Original isolated `check_mod()` reproduction | Prickle rejected with `unsupported client or mandatory server requirement`; Enchantment Descriptions accepted. Native graph compatibility passed independently. |
+| New exact-library regression before implementation | Failed with the same metadata rejection. |
+| Generic mechanism `make test lint validate` before activation | Passed, 114 tests, unchanged 40-feature baseline. |
+| Integrated `make test lint validate` | Passed, 116 offline tests, 41 features and eleven libraries, with explicit Prickle AUDIT notice. |
+| `make refresh` and subsequent exports | Passed, no pack/index drift. |
+| `make checksum`, second `make export`, archive `cmp` | Passed, fully validated archive and byte-identical normalized output. |
+| Generated checksum verification | Passed. |
+| `check_target_readiness.py --offline` | Passed for the recorded active selections and libraries; discovery is not runtime proof. |
+| Actionlint and Ruff complexity threshold 8 | Passed. Configured maximum remains 10; no changed function exceeds either threshold. |
+| Old lock/snapshot/template and release-gate comparison | Passed, all 50 existing pins/project records, five templates and workflow/policy unchanged. |
+| Tracked JAR scan | Empty. No mod/source binary is committed. |
 
-Exact build commands:
+Exact repository/build commands:
 
 ```sh
 make test lint validate
 make refresh PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
 python3 scripts/check_target_readiness.py --offline
 make checksum PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
-cp dist/lantern-crossing-26.2.0.8.0-dev-26.2.mrpack /tmp/lantern-refinement/first.mrpack
+cp dist/lantern-crossing-26.2.0.9.0-dev-26.2.mrpack /tmp/lantern-enchantment/first.mrpack
 make export PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
-cmp /tmp/lantern-refinement/first.mrpack dist/lantern-crossing-26.2.0.8.0-dev-26.2.mrpack
-(cd dist && sha256sum --check lantern-crossing-26.2.0.8.0-dev-26.2.sha256)
+cmp /tmp/lantern-enchantment/first.mrpack dist/lantern-crossing-26.2.0.9.0-dev-26.2.mrpack
+(cd dist && sha256sum --check lantern-crossing-26.2.0.9.0-dev-26.2.sha256)
 /tmp/lantern-bin/actionlint .github/workflows/validate.yml
 ruff check scripts tests --select C90 --config 'lint.mccabe.max-complexity=8'
 git diff --check
 git ls-files '*.jar' '*.JAR'
 ```
 
-The first uncached export was blocked by sandbox networking and correctly failed
-archive validation for missing downloads. Retrying with network access populated
-the external cache and passed. An old test hard-coded pack 0.7.0; it now derives
-the version while retaining tag-mismatch rejection. No production check was
-relaxed to accommodate an artifact or unsupported dependency.
+Packwiz resolved the expected Prickle 26.2.0.3 dependency. Its pinned executable
+warned that Enchantment Descriptions' newer environment enum was unknown and
+initially wrote both-side metadata. Both new lock records were deliberately set
+to `side = "client"` and `pin = true` under the established pack contract.
+No download or validation policy was relaxed.
 
-The new tests verify active identities/library roles, incompatible Searchables,
-Food Effect Tooltips' otherwise omitted native closure and restrained visual
-defaults. Existing tests still cover exact pins, required-server rejection,
-prerelease provenance, staged leaks, Configured Defaults isolation, root live
-preferences, index/archives, branch labels and release eligibility.
+Sixteen synthetic, project-independent policy tests cover exact audit acceptance,
+removal, changed version/hash/descriptor/target/scope, corrected metadata,
+unsupported clients, selected features, server-only roots/bundles, unrelated
+required-server dependencies, native incompatibility, bad hashes, changed or
+unofficial parents, orphan/duplicate audits and explicit notices. Two integration
+tests bind the actual feature/library classification and minimal Prickle config.
+Existing archive tests still enforce exact URLs/hashes, client environment,
+complete closure and byte-identical repository overrides. Unit tests require no
+network or Java runtime and do not imitate Minecraft behavior.
 
-The seven recorded Configured Defaults source-only file-handler cases remain
-bound to the unchanged helper artifact and previous templates. They were not
-rerun or extended into a Minecraft simulation. New JSON/template checks establish
-packaging and intended settings, not actual in-game behavior. The native Fabric
-predicate evaluator remains conservative and partial; unsupported semantics fail
-explicitly. It does not replace Loader's complete SAT resolver or runtime mixins.
+The Fabric predicate evaluator remains conservative and partial, with unsupported
+or ambiguous semantics failing explicitly. Neither it nor source inspection
+proves mixin application or a successful vanilla-server join on an owner's JVM.
 
 ## Artifact and branch state
 
-`dist/lantern-crossing-26.2.0.8.0-dev-26.2.mrpack` is 29,544 bytes, with 50 pinned
-client downloads and five templates under `overrides/configureddefaults/`.
-Every mod is client-required and server-unsupported in the archive. There are no
-root live preferences, staged candidates, server data, embedded JARs or shaders.
+`dist/lantern-crossing-26.2.0.9.0-dev-26.2.mrpack` is 30,899 bytes with 52 pinned
+client downloads and six templates under `overrides/configureddefaults/`.
+All downloads are client-required/server-unsupported. There are no root live
+preferences, staged candidates, embedded JARs, shader packs or server payload.
 SHA-256:
 
 ```text
-768faa063f4bee5d111a6b2f8a42b15c731dbe5041209358f53885ebbe62ab0a
+3c3c1614b1f41e63f9a04121653c24c8c739705996c9634abdcf01b0cd2c27d8
 ```
 
-The 26.3 bootstrap retains pack 26.2.0.3.0, actual Minecraft 26.2, 30 features
-and nine libraries. It receives only the reusable candidate evaluation and
-40-feature migration inventory. All intended 26.3 selections remain deferred,
-runtime pending. Neither its existing pins nor Configured Defaults installation
-status changes. A 26.3 discovery artifact is not a compatibility qualification.
-Publication continues to require matching tag, version branch/actual-target
-agreement, remote ancestry and owner acceptance bound to the pack hash.
-No tag or release is created by this milestone.
+The 26.3 bootstrap retains actual Minecraft 26.2, pack 26.2.0.3.0, 30 features
+and nine libraries. Its shared tooling/migration intent may be updated; no
+Prickle artifact or environment exception is installed there. All 41 intended
+future features remain deferred/runtime pending. The 26.2 audit cannot qualify
+26.3 artifacts. Release publication still requires target/branch agreement,
+matching tag, ancestry and owner evidence bound to the exact pack hash.
+No tag or release is created by this review.
 
 ## Owner handoff
 
-All runtime results remain uncompleted in the [launcher matrix](acceptance-tests.md#launcher-configuration-acceptance-matrix)
-and [refinement checklist](acceptance-tests.md#qol-refinement-acceptance).
-Test fresh imports, App sync choices, F7/F9, customized files, real upgrades,
-terrain/culling/Iris interactions, food-effect probabilities, existing worlds
-and a completely vanilla-server join. No launcher-specific override, automatic
-update UI or newly installed crash-reporting interface is promised.
+Complete the [enchantment matrix](acceptance-tests.md#enchantment-descriptions-acceptance)
+in both launchers, alongside the existing configuration/vanilla-server checklist.
+Fresh initialization, Shift expansion, enchanted items/books, translations,
+tooltip readability, existing valid settings, real upgrades and vanilla-server
+connectivity all remain uncompleted. Treat custom server/plugin semantics,
+legacy configuration formats and launcher/App sync behavior as limits requiring
+separate observation. No runtime success is implied by the automated results.

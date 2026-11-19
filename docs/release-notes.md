@@ -1,23 +1,25 @@
-Lantern Crossing 26.2.0.8.0 adds BetterGrassify 1.8.7+fabric.26.2,
-Controlling 26.2.4 and Food Effect Tooltips 2.1.2+26.2 to the maintained Minecraft
-26.2 Fabric baseline. Searchables 1.0.1 is the only new library. Counts are 40
-features and ten libraries. All 46 earlier artifact pins are unchanged.
+Lantern Crossing 26.2.0.9.0 adds Enchantment Descriptions 26.2.0.2 and its
+Prickle 26.2.0.3 configuration library. The maintained target stays Minecraft
+26.2, Fabric Loader 0.20.1 and Java 25, with 41 features and eleven libraries.
+All 50 earlier artifact pins and five earlier defaults templates are unchanged.
 
-Terrain defaults keep fancy grass and resource-pack compatibility, with path,
-farmland, Nether and extra snow-layer effects disabled. The template uses
-Configured Defaults and never replaces an existing mod config. F7, Continuity
-pack selections and earlier templates are unchanged. Controlling searches
-keybindings without assigning them. Food effects use vanilla client item data;
-no current-player saturation/exhaustion or plugin-state claims are made.
+The previous deferral was a metadata-policy rejection. Exact binary, published
+source and bytecode inspection found no companion-server requirement. Prickle's
+Modrinth required/required labels remain recorded; a documented exception binds
+this exact dependency and requiring feature to both hashes, version IDs, native
+descriptor and Fabric 26.2 context. Validation reports the audit explicitly.
+Unrelated server-required mods, actual server-only modules, dependency ranges,
+integrity and client-only export rules remain enforced. Different artifacts or
+metadata require review. The upstream clarification draft was not submitted.
 
-Enchantment Descriptions is blocked on Prickle's contradictory server-required
-metadata. BBE has unresolved Iris/map/lighting reports. Crash Assistant's early
-privacy configuration ordering needs more evidence. Tooltip Tweaks' nutritional
-display inconsistencies and overlaps prevent promotion. Ixeris and ModernFix-mVUS
-remain staged for owner measurements. The full evaluation is in mod-audit.md.
+A minimal Configured Defaults template selects Shift to expand descriptions.
+Existing valid Prickle config values remain authoritative. No extra resource
+pack, key mapping, tooltip provider or configuration manager is installed.
+Only standard vanilla enchantments are selected. Custom plugin behavior is not
+inferred from local descriptions. Prickle's asynchronous HTTP version check is
+disclosed in the audit; it does not gate local tooltip functionality.
 
-This is a development build. Static validation and deterministic exports do not
-qualify Minecraft or launcher runtime behavior. Owner checks in acceptance-tests.md
-remain uncompleted. Server operators need nothing installed. No shader pack,
-content mod, remote crash service or second configuration manager is added.
-The 26.3 bootstrap retains its 26.2 pins and pending migration status.
+This development build is not runtime-qualified. Prism, Modrinth App, real
+upgrades and vanilla-server acceptance remain owner work in acceptance-tests.md.
+The 26.3 bootstrap receives shared validation and future intent only. No 26.3
+artifact or exception is approved by this 26.2 review. No release is published.

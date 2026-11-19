@@ -10,6 +10,43 @@
       "version_id": "D64cvU6G"
     }
   ],
+  "environment_exceptions": [
+    {
+      "artifact": {
+        "filename": "PrickleMC-fabric-MC26.2-26.2.0.3.jar",
+        "sha512": "2c75c61d3b367636f5c51f8a09c44321a9da6cd2fa146d247073bae9c40870613019c7b17f95487be515d9182795ae8f635cd9f251a0aeb7bc366491eb7c7cc1"
+      },
+      "descriptor_sha256": "1863c2259203f9d9bc40477766f8e1f8069424af16d4a236d23d4d20a427c26c",
+      "evidence": [
+        "https://api.modrinth.com/v2/version/XdvtdRYJ",
+        "https://api.modrinth.com/v2/version/PTAK0HD2",
+        "https://api.modrinth.com/v2/project/aaRl8GiW",
+        "https://github.com/Darkhax-Minecraft/PrickleMC/tree/19934df33b5f874d5849f272a663f0db97c4c099",
+        "https://github.com/Darkhax-Minecraft/Enchantment-Descriptions/tree/df15f5bc42a0d0b74356fec64dcfa4162701d149"
+      ],
+      "loader": "fabric",
+      "minecraft": "26.2",
+      "observed": {
+        "client_side": "required",
+        "server_side": "required"
+      },
+      "project_id": "aaRl8GiW",
+      "reason": "Exact published Prickle Fabric artifact provides local JSON configuration, with empty mixin lists, no Minecraft networking registration or server lifecycle dependency. Enchantment Descriptions uses it only for local config. The asynchronous HTTP HEAD update check catches errors and does not gate functionality; it is not a companion-server protocol.",
+      "required_by": [
+        {
+          "artifact": {
+            "filename": "EnchantmentDescriptions-fabric-MC26.2-26.2.0.2.jar",
+            "sha512": "946f5efd45b034941337ab592050604f09d6ec9455ef59449cabc3fe786ec5a83b3c0fff50e2c81c6f23f8a1e7fdd8fb44bf65fddb5bae571753bb134779cc1b"
+          },
+          "project_id": "UVtY3ZAC",
+          "version_id": "PTAK0HD2"
+        }
+      ],
+      "review": "docs/mod-audit.md#prickle-environment-classification-review",
+      "scope": "modrinth-server-side",
+      "version_id": "XdvtdRYJ"
+    }
+  ],
   "fabric_loader": {
     "build": 1,
     "maven": "net.fabricmc:fabric-loader:0.20.1",
@@ -8048,6 +8085,133 @@
         }
       ]
     },
+    "UVtY3ZAC": {
+      "checked_at": "2026-11-19",
+      "client_side": "required",
+      "name": "Enchantment Descriptions",
+      "server_side": "optional",
+      "slug": "enchantment-descriptions",
+      "source_audit": "https://github.com/Darkhax-Minecraft/Enchantment-Descriptions/tree/df15f5bc42a0d0b74356fec64dcfa4162701d149",
+      "source_correspondence": {
+        "artifact_classes_inspected": 7,
+        "binary_matches_modrinth": true,
+        "commit": "df15f5bc42a0d0b74356fec64dcfa4162701d149",
+        "fabric_mod_json_sha256": "5faef486c3528c1fee51b86e5b88e094ee9b86e160d49010c6b0e8c91c0159b9",
+        "java_sources_matched": 7,
+        "maven_binary_url": "https://maven.blamejared.com/net/darkhax/enchdesc/enchdesc-fabric-26.2/26.2.0.2/enchdesc-fabric-26.2-26.2.0.2.jar",
+        "source_sha256": "8cd19244f3d61fc0f2c0a1afbea14a25dffbbc9e277b873dfda058327d52c57c",
+        "source_url": "https://maven.blamejared.com/net/darkhax/enchdesc/enchdesc-fabric-26.2/26.2.0.2/enchdesc-fabric-26.2-26.2.0.2-sources.jar"
+      },
+      "source_url": "https://github.com/Darkhax-Minecraft/Enchantment-Descriptions",
+      "versions": [
+        {
+          "client_required": [
+            {
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            },
+            {
+              "project_id": "aaRl8GiW",
+              "version_id": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "aaRl8GiW",
+              "version_id": null
+            }
+          ],
+          "fabric_descriptor": {
+            "bundled": [],
+            "depends": {
+              "fabric-api": "*",
+              "fabricloader": ">=0.19.3",
+              "java": ">=25",
+              "minecraft": ">=26.2",
+              "prickle": "*"
+            },
+            "entrypoints": {
+              "client": [
+                "net.darkhax.enchdesc.fabric.EnchantmentDescriptionsFabricClient"
+              ],
+              "main": [
+                "net.darkhax.enchdesc.fabric.EnchantmentDescriptionsFabric"
+              ]
+            },
+            "environment": "client",
+            "id": "enchdesc",
+            "mixin_configs": {
+              "enchdesc.common.mixins.json": {
+                "client": [
+                  "patch.AccessorAbstractContainerScreen",
+                  "patch.MixinItemEnchants",
+                  "patch.MixinItemStack"
+                ],
+                "compatibilityLevel": "JAVA_18",
+                "injectors": {
+                  "defaultRequire": 1
+                },
+                "minVersion": "0.8",
+                "mixins": [],
+                "package": "net.darkhax.enchdesc.common.mixin",
+                "required": true,
+                "server": []
+              },
+              "enchdesc.fabric.mixins.json": {
+                "client": [],
+                "compatibilityLevel": "JAVA_21",
+                "injectors": {
+                  "defaultRequire": 1
+                },
+                "minVersion": "0.8",
+                "mixins": [],
+                "package": "net.darkhax.enchdesc.fabric.mixin",
+                "required": true,
+                "server": []
+              }
+            },
+            "mixins": [
+              "enchdesc.common.mixins.json",
+              "enchdesc.fabric.mixins.json"
+            ],
+            "version": "26.2.0.2"
+          },
+          "files": [
+            {
+              "file_type": null,
+              "filename": "EnchantmentDescriptions-fabric-MC26.2-26.2.0.2.jar",
+              "hashes": {
+                "sha1": "ad9b48d1bcc7944a3667ed4962159150c9c9032a",
+                "sha512": "946f5efd45b034941337ab592050604f09d6ec9455ef59449cabc3fe786ec5a83b3c0fff50e2c81c6f23f8a1e7fdd8fb44bf65fddb5bae571753bb134779cc1b"
+              },
+              "id": "gqY9UZyh",
+              "primary": true,
+              "size": 81821,
+              "url": "https://cdn.modrinth.com/data/UVtY3ZAC/versions/PTAK0HD2/EnchantmentDescriptions-fabric-MC26.2-26.2.0.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "PTAK0HD2",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "EnchantmentDescriptions-fabric-26.2.0.2",
+          "project_id": "UVtY3ZAC",
+          "version_number": "26.2.0.2",
+          "version_type": "release"
+        }
+      ]
+    },
     "Wb5oqrBJ": {
       "client_side": "required",
       "name": "Chat Heads",
@@ -8795,6 +8959,118 @@
           "name": "[26.2 Fabric] Mouse Tweaks 2.31",
           "project_id": "aC3cM3Vq",
           "version_number": "26.2-2.31-fabric",
+          "version_type": "release"
+        }
+      ]
+    },
+    "aaRl8GiW": {
+      "checked_at": "2026-11-19",
+      "client_side": "required",
+      "name": "Prickle",
+      "server_side": "required",
+      "slug": "prickle",
+      "source_audit": "https://github.com/Darkhax-Minecraft/PrickleMC/tree/19934df33b5f874d5849f272a663f0db97c4c099",
+      "source_correspondence": {
+        "artifact_classes_inspected": 46,
+        "binary_matches_modrinth": true,
+        "commit": "19934df33b5f874d5849f272a663f0db97c4c099",
+        "fabric_mod_json_sha256": "aa015f9d4c17d4d6e049509b57c7a012c6c210e0aa7ed0549f13770a8c929ae8",
+        "java_sources_matched": 36,
+        "maven_binary_url": "https://maven.blamejared.com/net/darkhax/pricklemc/prickle-fabric-26.2/26.2.0.3/prickle-fabric-26.2-26.2.0.3.jar",
+        "source_sha256": "bbc68bee69bda1d3097fc4689ca45ac2cbe04a43f9caba8c5152f40e73168293",
+        "source_url": "https://maven.blamejared.com/net/darkhax/pricklemc/prickle-fabric-26.2/26.2.0.3/prickle-fabric-26.2-26.2.0.3-sources.jar"
+      },
+      "source_url": "https://github.com/Darkhax-Minecraft/PrickleMC",
+      "versions": [
+        {
+          "client_required": [
+            {
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "fabric_descriptor": {
+            "bundled": [],
+            "depends": {
+              "fabric-api": "*",
+              "fabricloader": ">=0.19.3",
+              "java": ">=25",
+              "minecraft": ">=26.2"
+            },
+            "entrypoints": {
+              "client": [
+                "net.darkhax.pricklemc.fabric.PrickleMCFabricClient"
+              ],
+              "main": [
+                "net.darkhax.pricklemc.fabric.PrickleMCFabric"
+              ]
+            },
+            "environment": "*",
+            "id": "prickle",
+            "mixin_configs": {
+              "prickle.common.mixins.json": {
+                "client": [],
+                "compatibilityLevel": "JAVA_18",
+                "injectors": {
+                  "defaultRequire": 1
+                },
+                "minVersion": "0.8",
+                "mixins": [],
+                "package": "net.darkhax.pricklemc.common.mixin",
+                "required": true,
+                "server": []
+              },
+              "prickle.fabric.mixins.json": {
+                "client": [],
+                "compatibilityLevel": "JAVA_21",
+                "injectors": {
+                  "defaultRequire": 1
+                },
+                "minVersion": "0.8",
+                "mixins": [],
+                "package": "net.darkhax.pricklemc.fabric.mixin",
+                "required": true,
+                "server": []
+              }
+            },
+            "mixins": [
+              "prickle.common.mixins.json",
+              "prickle.fabric.mixins.json"
+            ],
+            "version": "26.2.0.3"
+          },
+          "files": [
+            {
+              "file_type": null,
+              "filename": "PrickleMC-fabric-MC26.2-26.2.0.3.jar",
+              "hashes": {
+                "sha1": "d3ccf4ea74f3f4b5d4c7e879fab619102bc753f2",
+                "sha512": "2c75c61d3b367636f5c51f8a09c44321a9da6cd2fa146d247073bae9c40870613019c7b17f95487be515d9182795ae8f635cd9f251a0aeb7bc366491eb7c7cc1"
+              },
+              "id": "ez18Glji",
+              "primary": true,
+              "size": 84889,
+              "url": "https://cdn.modrinth.com/data/aaRl8GiW/versions/XdvtdRYJ/PrickleMC-fabric-MC26.2-26.2.0.3.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "XdvtdRYJ",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "PrickleMC-fabric-26.2.0.3",
+          "project_id": "aaRl8GiW",
+          "version_number": "26.2.0.3",
           "version_type": "release"
         }
       ]
@@ -12083,7 +12359,8 @@
     "SISoSFPP",
     "m5T5xmUy",
     "xv94TkTM",
-    "GGfyJWnG"
+    "GGfyJWnG",
+    "UVtY3ZAC"
   ],
   "schema": 1,
   "target": "26.2"

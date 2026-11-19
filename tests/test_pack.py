@@ -58,7 +58,7 @@ class PackTests(unittest.TestCase):
 
     def test_repository_contract(self):
         pack = load_pack(self.root)
-        self.assertEqual(len(pack.evidence["requested"]), 40)
+        self.assertEqual(len(pack.evidence["requested"]), 41)
         features = {pid for pid, project in pack.projects.items() if project["role"] == "feature"}
         self.assertEqual(features, set(pack.evidence["requested"]))
         self.assertFalse(pack.collection.get("excluded"))
@@ -72,6 +72,26 @@ class PackTests(unittest.TestCase):
         self.assertEqual(pack.projects["fuuu3xnx"]["required-by"], ["xv94TkTM"])
         staged = load_toml(self.root / "candidates.toml")["candidate"]
         self.assertTrue({p["project-id"] for p in staged}.isdisjoint(pack.projects))
+
+    def test_enchantment_feature_and_exact_prickle_audit(self):
+        pack = load_pack(self.root)
+        self.assertEqual(pack.projects["UVtY3ZAC"]["role"], "feature")
+        self.assertEqual(pack.projects["aaRl8GiW"]["role"], "dependency")
+        self.assertEqual(pack.projects["aaRl8GiW"]["required-by"], ["UVtY3ZAC"])
+        self.assertEqual(pack.mods["UVtY3ZAC"]["side"], "client")
+        self.assertEqual(pack.mods["aaRl8GiW"]["side"], "client")
+        # Preserve the contradiction as evidence rather than editing upstream labels.
+        self.assertEqual(pack.evidence["projects"]["aaRl8GiW"]["server_side"], "required")
+        self.assertEqual(len(pack.evidence["environment_exceptions"]), 1)
+        audit = pack.evidence["environment_exceptions"][0]
+        self.assertEqual(audit["project_id"], "aaRl8GiW")
+        self.assertEqual(audit["version_id"], "XdvtdRYJ")
+        self.assertEqual(audit["required_by"][0]["version_id"], "PTAK0HD2")
+
+    def test_enchantment_defaults_use_prickle_property_format(self):
+        config = json.loads((self.root / "configureddefaults/config/enchdesc.json").read_text())
+        self.assertEqual(config, {"require_keybind": {"value": True}})
+        self.assertFalse((self.root / "config/enchdesc.json").exists())
 
     def test_controlling_rejects_present_but_incompatible_searchables(self):
         path = self.root / "docs/upstream-metadata.json"
