@@ -336,20 +336,22 @@ def check_defaults_manager(root: Path, projects: dict) -> None:
     """Enforce the selected defaults strategy without simulating mod behavior."""
     managers = {"WEg59z5b", "jlNms3Jp", "SISoSFPP", "WwbubTsV"} & projects.keys()
     require(len(managers) <= 1, f"competing defaults managers: {sorted(managers)}")
-    for name in ("configureddefaults", "config/modpack_defaults", "config/yosbr"):
+    for name in ("config/defaultoptions", "config/modpack_defaults", "config/yosbr"):
         require(not (root / name).exists(), f"unselected defaults layout: {name}")
-    for path in (root / "config").rglob("*"):
-        require(
-            path.name.casefold() not in {"config_manager_update_flag", "config_manager_reset_flag"},
-            f"forced defaults reset/update must not be packaged: {path.name}",
-        )
-        require(
-            path.name.casefold() != "defaultoptions-common.toml",
-            "resource-pack replacement handler must stay unconfigured; preserve player selections",
-        )
-    if "WEg59z5b" in managers:
-        defaults = root / "config/defaultoptions"
-        require(defaults.is_dir(), "Default Options requires its templates directory")
+    for directory in (root / "config", root / "configureddefaults"):
+        for path in directory.rglob("*"):
+            require(
+                path.name.casefold()
+                not in {"config_manager_update_flag", "config_manager_reset_flag"},
+                f"forced defaults reset/update must not be packaged: {path.name}",
+            )
+            require(
+                path.name.casefold() != "defaultoptions-common.toml",
+                "resource-pack replacement handler must stay unconfigured; preserve player selections",
+            )
+    if "SISoSFPP" in managers:
+        defaults = root / "configureddefaults"
+        require(defaults.is_dir(), "Configured Defaults requires its templates directory")
         check_defaults_templates(defaults)
 
 
@@ -358,21 +360,15 @@ def check_defaults_templates(defaults: Path) -> None:
         if not path.is_file():
             continue
         parts = path.relative_to(defaults).parts
-        if parts[0] == "extra":
-            require(
-                len(parts) > 2 and parts[1] == "config",
-                f"extra defaults must target mod config files: {path.name}",
-            )
-        else:
-            require(
-                len(parts) == 1 and parts[0] in {"options.txt", "keybindings.txt"},
-                f"unsupported Default Options template: {path.name}",
-            )
+        require(
+            (len(parts) > 1 and parts[0] == "config") or parts == ("options.txt",),
+            f"unsupported Configured Defaults template: {path.name}",
+        )
 
 
 def payload_files(root: Path) -> tuple[set[str], dict[str, bytes]]:
     require(
-        not (root / "mods").is_symlink() and not (root / "config").is_symlink(),
+        not any((root / name).is_symlink() for name in ("mods", "config", "configureddefaults")),
         "payload directory symlink",
     )
     for name in ("options.txt", "servers.dat", "defaultoptions.journal.json"):
@@ -380,37 +376,39 @@ def payload_files(root: Path) -> tuple[set[str], dict[str, bytes]]:
         require(not path.is_symlink(), f"payload symlink: {path}")
         require(not path.exists(), f"runtime preferences must not be distributed: {name}")
     mods = {p.relative_to(root).as_posix() for p in (root / "mods").glob("*.pw.toml")}
-    defaults = (root / "config/defaultoptions").exists()
+    defaults = (root / "configureddefaults").exists()
     if defaults:
         require(
-            "mods/default-options.pw.toml" in mods,
-            "Default Options templates require the pinned helper",
+            "mods/configured-defaults.pw.toml" in mods,
+            "Configured Defaults templates require the pinned helper",
         )
     configs = {}
-    for path in (root / "config").rglob("*"):
-        require(not path.is_symlink(), f"payload symlink: {path}")
-        if path.is_file():
-            relative = path.relative_to(root).as_posix()
-            require(
-                not relative.lower().endswith((".jar", ".pw.toml")), "unexpected config artifact"
-            )
-            require(
-                not set(path.relative_to(root).parts)
-                & {
-                    "staged",
-                    "server-overrides",
-                    "server.properties",
-                    "eula.txt",
-                    "servers.dat",
-                    "defaultoptions.journal.json",
-                },
-                "staged or server-only config artifact",
-            )
-            require(
-                not defaults or relative.startswith("config/defaultoptions/"),
-                f"config must use copy-if-missing defaults, not direct overrides: {relative}",
-            )
-            configs[relative] = path.read_bytes()
+    for directory in (root / "config", root / "configureddefaults"):
+        for path in directory.rglob("*"):
+            require(not path.is_symlink(), f"payload symlink: {path}")
+            if path.is_file():
+                relative = path.relative_to(root).as_posix()
+                require(
+                    not relative.lower().endswith((".jar", ".pw.toml")),
+                    "unexpected config artifact",
+                )
+                require(
+                    not set(path.relative_to(root).parts)
+                    & {
+                        "staged",
+                        "server-overrides",
+                        "server.properties",
+                        "eula.txt",
+                        "servers.dat",
+                        "defaultoptions.journal.json",
+                    },
+                    "staged or server-only config artifact",
+                )
+                require(
+                    not defaults or relative.startswith("configureddefaults/"),
+                    f"config must use copy-if-missing defaults, not direct overrides: {relative}",
+                )
+                configs[relative] = path.read_bytes()
     return mods, configs
 
 

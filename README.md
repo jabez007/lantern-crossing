@@ -31,14 +31,14 @@ branch and backport shared fixes deliberately. The branch name does not establis
 Minecraft compatibility or runtime acceptance. `pack.toml` records the actual
 target. See the [version-branch policy](docs/version-policy.md#version-branches).
 
-The maintained line's six later feature additions and Default Options helper
+The maintained line's six later feature additions and Configured Defaults helper
 are tracked by project ID in [migration.toml](migration.toml), not added to this
 bootstrap. All 37 migration entries remain deferred, with runtime acceptance
 pending. Discovery evidence is not an installed pin or compatibility audit.
 The bootstrap retains older direct config overrides: use a disposable fresh
 instance, not an existing player profile. The safe-defaults helper is part of
 the future migration audit. The [configuration evaluation](docs/configuration.md#defaults-manager-evaluation-2026-11-19)
-retains Default Options on the maintained line; shared checks now reject competing
+selects Configured Defaults on the maintained line; shared checks now reject competing
 managers, unsafe replacement/reset payloads and live root preference files.
 No manager or target-specific default is promoted here.
 

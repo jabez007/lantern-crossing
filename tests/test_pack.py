@@ -191,7 +191,7 @@ class PackTests(unittest.TestCase):
             path.unlink()
 
     def test_helper_templates_require_the_selected_artifact(self):
-        (self.root / "config/defaultoptions").mkdir()
+        (self.root / "configureddefaults").mkdir()
         self.invalid("templates require the pinned helper")
 
     def test_new_config_requires_refresh(self):

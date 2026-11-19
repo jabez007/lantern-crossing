@@ -7,35 +7,25 @@ No Minecraft client has been launched. All runtime acceptance remains open.
 
 ## Configuration evaluation backport, 2026-11-19
 
-The [candidate comparison](configuration.md#defaults-manager-evaluation-2026-11-19)
-selects Default Options for the maintained 26.2 baseline. No helper, additional
-feature, config template or dependency pin is installed on this bootstrap.
-Its pack/index and all 39 locks remain unchanged from `3378970`.
+The [final evaluation](configuration.md#defaults-manager-evaluation-2026-11-19)
+selects Configured Defaults on the maintained 26.2 line. This bootstrap does not
+install it, promote the later features or change target/version. The shared
+validator and migration inventory reflect that future intended helper. The old
+Default Options alternative is not a migration selection.
 
-Shared validation now rejects competing managers, obsolete template trees,
-forced reset/update flags, resource-pack replacement config, unsupported helper
-templates and live root preferences. The maintained line's existing payload
-checks are reused rather than implementing a second set. The bootstrap's three
-existing mod configs remain unchanged and its release gate remains blocked.
+The manager's seven recorded source-only file cases and adapter are available as
+reference evidence. Its active-artifact/template binding test is intentionally
+skipped because the helper is absent. No Fabric, Minecraft or launcher is run.
+All launcher matrix results remain uncompleted. The bootstrap retains its
+original direct mod configs and cannot publish a release.
 
-The new isolated file fixture is retained as reference evidence for the deferred
-helper. Its active-artifact binding test is intentionally skipped here because
-Default Options and its templates are not installed. No Minecraft runtime or
-launcher acceptance is claimed. The [launcher matrix](acceptance-tests.md#launcher-configuration-acceptance-matrix)
-is explicitly for the future intended baseline after its separate migration audit.
-
-Observed results:
-
-- `make test lint validate`: passed, 87 tests with one intentional skip of the
-  absent helper's active-artifact/template binding. No existing test is skipped.
-- `make refresh`, `make checksum`, `make export`, repeated archive `cmp`, and
-  `sha256sum --check`: passed, with complete archive validation. Local builds use
-  `PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'`.
-- The new archive matches the previously downloaded green-CI bootstrap archive
-  byte for byte. Its filename, size and SHA-256 below remain unchanged.
-- Actionlint 1.7.12 and Ruff including an 8-point complexity check: passed.
-- `git diff --exit-code -- mods config pack.toml index.toml collection.toml docs/upstream-metadata.json release-policy.toml`:
-  passed; no target, pin, payload or qualification field changed.
+Final backport checks passed: `make test lint validate` ran 87 tests with one
+intentional skip of the absent helper binding. `make refresh`, `make checksum`,
+`make export`, repeated `cmp` and checksum verification passed with the external
+Packwiz override recorded below. The archive still matches the prior green-CI
+bootstrap bytes and hash exactly. Actionlint and Ruff including complexity <=8
+passed. `git diff --exit-code -- mods config pack.toml index.toml collection.toml docs/upstream-metadata.json release-policy.toml`
+confirmed that target, pins, payload and release qualification are unchanged.
 
 ## Scope and findings
 
@@ -44,8 +34,8 @@ from the maintained 26.2 line. All 39 bootstrap locks and the configuration
 payload remain unchanged from `3ed86e5`. No missing later feature was added to
 this branch merely to match the maintained line's count.
 
-The maintained line has 37 features. Its six post-baseline additions and Default
-Options helper are tracked in [migration.toml](../migration.toml). All entries
+The maintained line has 37 features. Its six post-baseline additions and Configured
+Defaults helper are tracked in [migration.toml](../migration.toml). All entries
 remain deferred with runtime pending. Discovery on 2026-11-19 found a Fabric
 26.3 release for each feature, but did not audit those versions or their closure.
 The older direct mod configuration overrides remain on this bootstrap; the
