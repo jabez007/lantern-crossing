@@ -8,7 +8,7 @@ Server operators do not need to install anything. Every active packwiz record
 uses `side = "client"`, and the exported pack marks every mod as required on the
 client and unsupported on the server. Selected functionality must work entirely
 from the client using vanilla server data. The [mod audit](docs/mod-audit.md)
-documents that decision for all 37 selected features. Static checks enforce the
+documents that decision for all 40 selected features. Static checks enforce the
 packaging contract. A clean-client vanilla-server join still needs
 [runtime acceptance](docs/acceptance-tests.md).
 
@@ -16,16 +16,16 @@ The target is Minecraft **26.2**, Fabric Loader **0.20.1**, and Java **25**.
 The loader pin comes from Fabric's [26.2 compatibility
 API](https://meta.fabricmc.net/v2/versions/loader/26.2), checked on 2026-11-17.
 The checked evidence is in [upstream-metadata.json](docs/upstream-metadata.json).
-Pack version `26.2.0.7.0` is a development baseline, not a runtime qualification.
+Pack version `26.2.0.8.0` is a development baseline, not a runtime qualification.
 
 ## Version branches
 
 - [`26.2`](https://github.com/jabez007/lantern-crossing/tree/26.2) maintains the
-  Minecraft 26.2 pack and its audited 37-feature baseline.
+  Minecraft 26.2 pack and its audited 40-feature baseline.
 - [`26.3`](https://github.com/jabez007/lantern-crossing/tree/26.3) is the default
   development branch for the next Minecraft version. It still targets 26.2 with
-  the original 30 features; the six later additions and Configured Defaults are tracked
-  in [migration.toml](migration.toml). The 26.3 dependency audit is pending.
+  the original 30 features; the six later additions, Configured Defaults and
+  three QoL refinements are tracked in [migration.toml](migration.toml). The 26.3 dependency audit is pending.
 
 Use `26.2` for Minecraft 26.2 builds. Target pull requests at the intended version
 branch and backport shared fixes deliberately. The branch name does not establish
@@ -43,26 +43,28 @@ normally add by hand. Add your own shader packs to the imported instance.
 Lantern Crossing keeps vanilla progression, content, and server mechanics.
 It supplies no blocks, items, mobs, dimensions, recipes, gameplay data packs,
 server companions, shader packs, or standalone resource packs. Continuity's two
-built-in visual packs are seeded when no options file exists. Upstream defaults otherwise apply
-except for the documented [configuration and keybinding overrides](docs/configuration.md).
+built-in visual packs are seeded when their options entry is absent. Upstream
+defaults otherwise apply except for the documented [configuration and keybinding overrides](docs/configuration.md).
 
 ## Active selections
 
-All 30 original features, Renice Shot, five FO-inspired additions, and Configured Defaults are active:
-37 intentional features plus nine libraries in [collection.toml](collection.toml).
+All 30 original features, Renice Shot, five FO-inspired additions, Configured Defaults,
+and three QoL refinements are active: 40 intentional features plus ten libraries
+in [collection.toml](collection.toml).
 
 | Category | Selected projects |
 | --- | --- |
 | Performance | Sodium, Lithium, FerriteCore, ImmediatelyFast, Entity Culling, More Culling, BadOptimizations, Dynamic FPS, FastQuit, Debugify, Language Reload |
 | Inventory | Inventory Profiles Next, Mouse Tweaks, Shulker Box Tooltip, Client Tweaks |
-| HUD and information | Status Effect Bars, Light Overlay, BetterF3, Better Mount HUD, Paginated Advancements, Better Statistics Screen |
+| HUD and information | Status Effect Bars, Light Overlay, BetterF3, Better Mount HUD, Paginated Advancements, Better Statistics Screen, Food Effect Tooltips |
 | Navigation | Xaero's Minimap, Xaero's World Map, Zoomify |
 | Writing | Sign Tweaks, Book Tweaks |
-| Visual and social | LambDynamicLights, Chat Heads, Iris, Renice Shot, Sodium Extra, Continuity, More Chat History |
-| Interface and windows | Reese's Sodium Options, Cubes Without Borders |
+| Visual and social | LambDynamicLights, Chat Heads, Iris, Renice Shot, Sodium Extra, Continuity, More Chat History, BetterGrassify |
+| Interface and windows | Reese's Sodium Options, Cubes Without Borders, Controlling |
 | Pack management | Mod Menu, Configured Defaults |
 
-There are zero blocked requested features. Light Overlay uses the current
+All 30 originally requested features remain active. New candidates and blockers
+are documented in the refinement audit. Light Overlay uses the current
 `lightoverlay` project, Modrinth ID `8qVa1XCN`; the audit records the identity
 correction that completes this baseline.
 Lantern Crossing selects release-designated feature versions. Upstream-declared
@@ -73,17 +75,26 @@ independently choosing arbitrary prerelease dependencies. See the
 Placeholder API dependency and the libraries bundled with Iris and Client Tweaks.
 
 Fabric API is an explicitly selected platform library. Cloth Config API,
-Fabric Language Kotlin, libIPN, TCDCommons API, YACL, Balm, Text Placeholder API, and OverlayLib
+Fabric Language Kotlin, libIPN, TCDCommons API, YACL, Balm, Text Placeholder API, OverlayLib, and Searchables
 are transitive dependencies. Libraries are separate from feature intent, and bundled libraries
 remain inside upstream artifacts. The machine lock layer is `mods/*.pw.toml`.
 It owns exact version IDs, URLs, and SHA-512 hashes. No mod JARs belong in Git.
 
+BetterGrassify adds restrained terrain visuals, Controlling makes key conflicts
+searchable, and Food Effect Tooltips explains vanilla item effects and their
+probabilities. It does not display current player saturation or exhaustion.
+Enchantment Descriptions, Crash Assistant, BBE, Tooltip Tweaks, Ixeris and
+ModernFix-mVUS remain inactive for the reasons in the
+[refinement evaluation](docs/mod-audit.md#qol-and-performance-refinement-2026-11-19).
+FO is a reference for performance decisions; these additions make no universal
+FPS claim and do not imply FO endorsement.
+
 ## Install an exported pack
 
 1. Obtain a reviewed release, or build the development artifact below. Current
-   development output is `lantern-crossing-26.2.0.7.0-dev-26.2.mrpack` with its
+   development output is `lantern-crossing-26.2.0.8.0-dev-26.2.mrpack` with its
    matching `.sha256`. A development build still requires manual acceptance.
-2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.7.0-dev-26.2.sha256`.
+2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.8.0-dev-26.2.sha256`.
 3. Import the `.mrpack` into a launcher that supports Modrinth packs. Use a new
    instance with Java 25 and let the launcher obtain the pinned upstream files.
 4. Start the client and complete the [smoke tests](docs/acceptance-tests.md),
@@ -129,7 +140,7 @@ also recorded in [verification.md](docs/verification.md).
 | `make refresh` | Regenerate packwiz index after an intentional payload edit |
 | `make export` | Validate, export, normalize, and validate the complete `.mrpack` |
 | `make checksum` | Development export and SHA-256 checksum |
-| `make release RELEASE_TAG=v26.2.0.7.0` | Release build, requiring owner-recorded runtime qualification |
+| `make release RELEASE_TAG=v26.2.0.8.0` | Release build, requiring owner-recorded runtime qualification |
 | `make clean` | Remove generated `build/` and `dist/` files |
 
 `PACKWIZ`, `PYTHON`, and `RUFF` can name explicit local executables.
@@ -140,8 +151,8 @@ permissions, and JSON encoding. Stored entries avoid compression-version drift.
 Default development outputs are:
 
 ```text
-dist/lantern-crossing-26.2.0.7.0-dev-26.2.mrpack
-dist/lantern-crossing-26.2.0.7.0-dev-26.2.sha256
+dist/lantern-crossing-26.2.0.8.0-dev-26.2.mrpack
+dist/lantern-crossing-26.2.0.8.0-dev-26.2.sha256
 ```
 
 GitHub Actions validates pushes to `26.2` and `26.3` and pull requests targeting
@@ -160,7 +171,7 @@ be replaced. See [release eligibility](docs/version-policy.md#publish-a-release)
 ## Select and update deliberately
 
 Version numbers follow `<Minecraft version>.<pack major>.<pack minor>.<pack patch>`.
-`26.2.0.7.0` means Minecraft 26.2 and pack revision 0.7.0. Tags must match
+`26.2.0.8.0` means Minecraft 26.2 and pack revision 0.8.0. Tags must match
 `pack.toml` exactly with a `v` prefix.
 
 Use exact upstream version IDs and repeat the client-only audit for updates.
@@ -178,14 +189,14 @@ python3 scripts/check_target_readiness.py --offline
 ```
 
 The default checks active features and libraries. The requested scope covers
-all 37 selected features. Both scopes currently report release availability for
+all 40 selected features. Both scopes currently report release availability for
 the complete baseline.
 Discovery does not qualify a dependency closure, audit a pinned artifact, or
 replace runtime testing.
 
-Config Manager, Ixeris, and ModernFix-mVUS remain outside the active pack. Their
-[staged investigation results](docs/mod-audit.md#staged-investigations) and
-promotion gates are recorded in [candidates.toml](candidates.toml).
+Config Manager and the six deferred refinement candidates remain outside the
+active pack. Their [evaluation results](docs/mod-audit.md#qol-and-performance-refinement-2026-11-19)
+and promotion gates are recorded in [candidates.toml](candidates.toml).
 
 ## Repository structure and licensing
 

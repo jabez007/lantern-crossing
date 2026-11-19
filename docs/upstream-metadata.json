@@ -3796,6 +3796,79 @@
         }
       ]
     },
+    "GGfyJWnG": {
+      "checked_at": "2026-11-19",
+      "client_side": "required",
+      "name": "Food Effect Tooltips [Fabric / NeoForge]",
+      "server_side": "unsupported",
+      "slug": "foodeffecttooltips",
+      "source_audit": "https://github.com/DaFuqs/FoodEffectTooltips/tree/27b7894278716f5988f6a875bd80483e9e9f3316",
+      "source_url": "https://github.com/DaFuqs/FoodEffectTooltips",
+      "versions": [
+        {
+          "client_required": [
+            {
+              "audit_source": "https://cdn.modrinth.com/data/GGfyJWnG/versions/aXyL1zFA/foodeffecttooltips-2.1.2%2B26.2.jar",
+              "project_id": "P7dR8mSH",
+              "source": "fabric.mod.json:depends.fabric-api",
+              "version_id": null
+            },
+            {
+              "audit_source": "https://cdn.modrinth.com/data/GGfyJWnG/versions/aXyL1zFA/foodeffecttooltips-2.1.2%2B26.2.jar",
+              "project_id": "9s6osm5g",
+              "source": "fabric.mod.json:depends.cloth-config",
+              "version_id": null
+            }
+          ],
+          "dependencies": [],
+          "fabric_descriptor": {
+            "bundled": [],
+            "depends": {
+              "cloth-config": "*",
+              "fabric-api": "*",
+              "fabricloader": "*",
+              "minecraft": ">=26.2"
+            },
+            "entrypoints": {
+              "client": [
+                "de.dafuqs.foodeffecttooltips.FoodeffecttooltipsClient"
+              ],
+              "modmenu": [
+                "de.dafuqs.foodeffecttooltips.config.ModMenuConfig"
+              ]
+            },
+            "environment": "client",
+            "id": "foodeffecttooltips",
+            "version": "2.1.2+26.2"
+          },
+          "files": [
+            {
+              "file_type": null,
+              "filename": "foodeffecttooltips-2.1.2+26.2.jar",
+              "hashes": {
+                "sha1": "901fdc5b9818bb16b35d22f20774eb2cf786b5e6",
+                "sha512": "242b13ce57256b092a1c7e396138042031b54ccb0df79eadd2dba4d9f50b9be439a958bd3ea2a9117980ee41f599af36cc0d598ce8b9348405206f4de2b3a097"
+              },
+              "id": "9wV981Im",
+              "primary": true,
+              "size": 17393,
+              "url": "https://cdn.modrinth.com/data/GGfyJWnG/versions/aXyL1zFA/foodeffecttooltips-2.1.2%2B26.2.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "aXyL1zFA",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "Food Effect Tooltips [Fabric / NeoForge] 2.1.2+26.2",
+          "project_id": "GGfyJWnG",
+          "version_number": "2.1.2+26.2",
+          "version_type": "release"
+        }
+      ]
+    },
     "Ha28R6CL": {
       "client_side": "optional",
       "name": "Fabric Language Kotlin",
@@ -9027,6 +9100,70 @@
         }
       ]
     },
+    "fuuu3xnx": {
+      "checked_at": "2026-11-19",
+      "client_side": "required",
+      "name": "Searchables",
+      "server_side": "unsupported",
+      "slug": "searchables",
+      "source_audit": "https://github.com/jaredlll08/searchables/tree/10cb075ae5f3526bda799b9a37d8e2769a0277d6",
+      "source_url": "https://github.com/jaredlll08/searchables",
+      "versions": [
+        {
+          "client_required": [
+            {
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "fabric_descriptor": {
+            "bundled": [],
+            "depends": {
+              "fabricloader": ">=0.19.3",
+              "java": ">=25",
+              "minecraft": "26.2"
+            },
+            "entrypoints": {},
+            "environment": "client",
+            "id": "searchables",
+            "version": "1.0.1"
+          },
+          "files": [
+            {
+              "file_type": null,
+              "filename": "Searchables-fabric-26.2-1.0.1.jar",
+              "hashes": {
+                "sha1": "73c1917f4ff056254c95f50a5acb18d16384139a",
+                "sha512": "342f6b9ddee7391f0f5c30090dc7b7fe0b9638c86b729d3e989360ccdf5e5a85d729decc3e27efcdaeaad6b4696e9dd8fb48391c803d8324195b6f5194761a70"
+              },
+              "id": "GHHwrF87",
+              "primary": true,
+              "size": 78982,
+              "url": "https://cdn.modrinth.com/data/fuuu3xnx/versions/bvFby61J/Searchables-fabric-26.2-1.0.1.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "bvFby61J",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "Fabric-26.2-1.0.1",
+          "project_id": "fuuu3xnx",
+          "version_number": "1.0.1",
+          "version_type": "release"
+        }
+      ]
+    },
     "g96Z4WVZ": {
       "client_side": "required",
       "name": "BadOptimizations",
@@ -9259,6 +9396,100 @@
           "name": "1.3.1",
           "project_id": "kqJFAPU9",
           "version_number": "1.3.1",
+          "version_type": "release"
+        }
+      ]
+    },
+    "m5T5xmUy": {
+      "checked_at": "2026-11-19",
+      "client_side": "required",
+      "name": "BetterGrassify",
+      "server_side": "unsupported",
+      "slug": "bettergrassify",
+      "source_audit": "https://github.com/UltimatChamp/BetterGrassify/tree/33df4f9ef7f9bdbacb5b9fade4050542f7dcb2bf",
+      "source_url": "https://github.com/UltimatChamp/BetterGrassify",
+      "versions": [
+        {
+          "client_required": [
+            {
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            },
+            {
+              "dependency_type": "optional",
+              "file_name": null,
+              "project_id": "9s6osm5g",
+              "version_id": null
+            }
+          ],
+          "fabric_descriptor": {
+            "breaks": {},
+            "bundled": [],
+            "depends": {
+              "fabric-api": "*",
+              "fabricloader": "*",
+              "minecraft": ">=26.2"
+            },
+            "entrypoints": {
+              "client": [
+                "dev.ultimatchamp.bettergrass.BetterGrassify"
+              ],
+              "modmenu": [
+                "dev.ultimatchamp.bettergrass.config.ModMenuAPIImpl"
+              ],
+              "sodium:config_api_user": [
+                "dev.ultimatchamp.bettergrass.config.SodiumOptionsScreenBuilder"
+              ]
+            },
+            "environment": "client",
+            "id": "bettergrass",
+            "version": "1.8.7+fabric.26.2"
+          },
+          "files": [
+            {
+              "file_type": null,
+              "filename": "BetterGrassify-1.8.7+fabric.26.2.jar",
+              "hashes": {
+                "sha1": "0f4a890d07402280686a518579fa9fa02309e315",
+                "sha512": "7b70e796cea2ee57a6022108092517b6aa39d5a19b8da1de26685ae53b8fbb4717cd91ee1d232c54efa8e210ebe9b760d3dab79bf9a5fdb5ae75d97b461a1fab"
+              },
+              "id": "8aPKXlkP",
+              "primary": true,
+              "size": 88858,
+              "url": "https://cdn.modrinth.com/data/m5T5xmUy/versions/r4yqxYQl/BetterGrassify-1.8.7%2Bfabric.26.2.jar"
+            },
+            {
+              "file_type": null,
+              "filename": "BetterGrassify-1.8.7+fabric.26.2-sources.jar",
+              "hashes": {
+                "sha1": "09f5e6fa9693dd5d1570c9a0db879b6c0b4fdf88",
+                "sha512": "23d2491b5028a8d792b3d65d2f2c2fbab9563f3f257ad100c3464c737a61431cbd2defaa35d4ed26ece4394389e7837d84e7ce35b83b0f2a2c00d9bc9dbfeb24"
+              },
+              "id": "RdhGqhsI",
+              "primary": false,
+              "size": 63888,
+              "url": "https://cdn.modrinth.com/data/m5T5xmUy/versions/r4yqxYQl/BetterGrassify-1.8.7%2Bfabric.26.2-sources.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "r4yqxYQl",
+          "loaders": [
+            "fabric",
+            "quilt"
+          ],
+          "name": "BetterGrassify 1.8.7+fabric.26.2",
+          "project_id": "m5T5xmUy",
+          "version_number": "1.8.7+fabric.26.2",
           "version_type": "release"
         }
       ]
@@ -11330,6 +11561,82 @@
         }
       ]
     },
+    "xv94TkTM": {
+      "checked_at": "2026-11-19",
+      "client_side": "required",
+      "name": "Controlling",
+      "server_side": "unsupported",
+      "slug": "controlling",
+      "source_audit": "https://github.com/jaredlll08/Controlling/tree/3521164fd53771ed95afe4868310ac0f88df8ceb",
+      "source_url": "https://github.com/jaredlll08/Controlling",
+      "versions": [
+        {
+          "client_required": [
+            {
+              "project_id": "fuuu3xnx",
+              "version_id": null
+            },
+            {
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "fuuu3xnx",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "fabric_descriptor": {
+            "bundled": [],
+            "depends": {
+              "fabric-api": "*",
+              "fabricloader": ">=0.19.3",
+              "java": ">=25",
+              "minecraft": "26.2",
+              "searchables": ">=1.0.1"
+            },
+            "entrypoints": {},
+            "environment": "client",
+            "id": "controlling",
+            "version": "26.2.4"
+          },
+          "files": [
+            {
+              "file_type": null,
+              "filename": "Controlling-fabric-26.2-26.2.4.jar",
+              "hashes": {
+                "sha1": "fb95a0c2ef8aad5c5f846aabfca11d86fa4d527f",
+                "sha512": "27147edf57915d88db8d2cbda8a54e97f4dd36bb7379e191d6fec67fe2c42f8f1f96d75a5afc8b84c9177661089ec28f0e89b519321e5d2fcf512a3df27e22c4"
+              },
+              "id": "e2psVTZR",
+              "primary": true,
+              "size": 86209,
+              "url": "https://cdn.modrinth.com/data/xv94TkTM/versions/sZHXONgm/Controlling-fabric-26.2-26.2.4.jar"
+            }
+          ],
+          "game_versions": [
+            "26.2"
+          ],
+          "id": "sZHXONgm",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "Fabric-26.2-26.2.4",
+          "project_id": "xv94TkTM",
+          "version_number": "26.2.4",
+          "version_type": "release"
+        }
+      ]
+    },
     "yBW8D80W": {
       "client_side": "required",
       "name": "LambDynamicLights - Dynamic Lights",
@@ -11773,7 +12080,10 @@
     "1IjD5062",
     "ETlrkaYF",
     "8qkXwOnk",
-    "SISoSFPP"
+    "SISoSFPP",
+    "m5T5xmUy",
+    "xv94TkTM",
+    "GGfyJWnG"
   ],
   "schema": 1,
   "target": "26.2"

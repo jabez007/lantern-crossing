@@ -58,10 +58,51 @@ class PackTests(unittest.TestCase):
 
     def test_repository_contract(self):
         pack = load_pack(self.root)
-        self.assertEqual(len(pack.evidence["requested"]), 37)
+        self.assertEqual(len(pack.evidence["requested"]), 40)
         features = {pid for pid, project in pack.projects.items() if project["role"] == "feature"}
         self.assertEqual(features, set(pack.evidence["requested"]))
         self.assertFalse(pack.collection.get("excluded"))
+
+    def test_refinement_project_identity_and_dependency_roles(self):
+        pack = load_pack(self.root)
+        for pid in ("m5T5xmUy", "xv94TkTM", "GGfyJWnG"):
+            self.assertEqual(pack.projects[pid]["role"], "feature")
+            self.assertEqual(pack.mods[pid]["side"], "client")
+        self.assertEqual(pack.projects["fuuu3xnx"]["role"], "dependency")
+        self.assertEqual(pack.projects["fuuu3xnx"]["required-by"], ["xv94TkTM"])
+        staged = load_toml(self.root / "candidates.toml")["candidate"]
+        self.assertTrue({p["project-id"] for p in staged}.isdisjoint(pack.projects))
+
+    def test_controlling_rejects_present_but_incompatible_searchables(self):
+        path = self.root / "docs/upstream-metadata.json"
+        data = json.loads(path.read_text())
+        data["projects"]["fuuu3xnx"]["versions"][0]["fabric_descriptor"]["version"] = "0.9.0"
+        path.write_text(json.dumps(data))
+        self.invalid("controlling@.*requires searchables.*installed version: 0.9.0")
+
+    def test_food_tooltip_native_dependencies_are_explicit(self):
+        path = self.root / "docs/upstream-metadata.json"
+        data = json.loads(path.read_text())
+        version = data["projects"]["GGfyJWnG"]["versions"][0]
+        # Modrinth omits both edges. The artifact's native Fabric descriptor requires them.
+        self.assertFalse(version["dependencies"])
+        self.assertEqual(
+            {edge["project_id"] for edge in version["client_required"]},
+            {"P7dR8mSH", "9s6osm5g"},
+        )
+        version["client_required"] = [
+            edge for edge in version["client_required"] if edge["project_id"] != "9s6osm5g"
+        ]
+        path.write_text(json.dumps(data))
+        self.invalid("dependency parents disagree|Fabric module dependencies missing")
+
+    def test_bettergrass_defaults_limit_visual_scope(self):
+        config = json.loads((self.root / "configureddefaults/config/bettergrass.json").read_text())
+        self.assertEqual(config["general"]["betterGrassMode"], "FANCY")
+        self.assertIs(config["general"]["resourcePackCompatibilityMode"], True)
+        for block in ("dirtPaths", "farmLands", "crimsonNylium", "warpedNylium"):
+            self.assertIs(config["general"]["blocks"][block], False)
+        self.assertEqual(config["betterSnow"]["betterSnowMode"], "OFF")
 
     def test_side_is_always_explicitly_client(self):
         for side in ('"both"', '"server"', '""'):
@@ -263,12 +304,13 @@ class PackTests(unittest.TestCase):
         self.invalid("symlink")
 
     def test_release_tag_must_match(self):
+        version = load_toml(self.root / "pack.toml")["version"]
         self.assertEqual(
-            metadata(self.root, "v26.2.0.7.0")["archive"],
-            "lantern-crossing-26.2.0.7.0-dev-26.2.mrpack",
+            metadata(self.root, "v" + version)["archive"],
+            f"lantern-crossing-{version}-dev-26.2.mrpack",
         )
         with self.assertRaisesRegex(ValueError, "tag must agree"):
-            metadata(self.root, "v26.2.0.7.1")
+            metadata(self.root, "v" + version + ".1")
 
     def test_release_checksum(self):
         (self.root / "dist").mkdir()

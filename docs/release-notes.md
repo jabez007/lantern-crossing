@@ -1,25 +1,23 @@
-Lantern Crossing 26.2.0.7.0 remains a Minecraft Java 26.2 Fabric client pack.
-Server operators need nothing installed. Runtime acceptance is still pending.
+Lantern Crossing 26.2.0.8.0 adds BetterGrassify 1.8.7+fabric.26.2,
+Controlling 26.2.4 and Food Effect Tooltips 2.1.2+26.2 to the maintained Minecraft
+26.2 Fabric baseline. Searchables 1.0.1 is the only new library. Counts are 40
+features and ten libraries. All 46 earlier artifact pins are unchanged.
 
-Configured Defaults 26.2.0 replaces Default Options after evaluation of it,
-Config Manager and Default Options. It copies missing mod files and adds only
-absent keys to options.txt. This handles launcher-created partial files without
-replacing saved preferences. A pre-existing resource-pack list, even vanilla
-only, still requires manual Continuity activation.
+Terrain defaults keep fancy grass and resource-pack compatibility, with path,
+farmland, Nether and extra snow-layer effects disabled. The template uses
+Configured Defaults and never replaces an existing mod config. F7, Continuity
+pack selections and earlier templates are unchanged. Controlling searches
+keybindings without assigning them. Food effects use vanilla client item data;
+no current-player saturation/exhaustion or plugin-state claims are made.
 
-Templates move to configureddefaults/; no live preferences, reset flags, journal,
-shader pack or extra feature is distributed. The options data version is pinned
-to Minecraft 26.2. Default key seeding is F7; Light Overlay's native Controls reset
-is still F9. Deliberately rebind to F7 when adopting the pack default.
+Enchantment Descriptions is blocked on Prickle's contradictory server-required
+metadata. BBE has unresolved Iris/map/lighting reports. Crash Assistant's early
+privacy configuration ordering needs more evidence. Tooltip Tweaks' nutritional
+display inconsistencies and overlaps prevent promotion. Ixeris and ModernFix-mVUS
+remain staged for owner measurements. The full evaluation is in mod-audit.md.
 
-Before upgrading an existing instance, verify that the old Default Options JAR
-was removed. Its journal and template folder can remain unused. Preserve options
-and mod configs; test launcher removal behavior on a disposable copy. Details
-and both launcher/sync acceptance cases are in configuration.md and
-acceptance-tests.md.
-
-All 45 other mod locks remain unchanged, including Balm and Fabric API.
-Configured Defaults adds no required library. Counts remain 37 features and nine
-libraries. No staged performance mod was promoted. The 26.3 bootstrap receives
-shared tooling and inventory updates only; its actual target stays 26.2.
-Development/release naming, reproducibility and owner acceptance gates remain.
+This is a development build. Static validation and deterministic exports do not
+qualify Minecraft or launcher runtime behavior. Owner checks in acceptance-tests.md
+remain uncompleted. Server operators need nothing installed. No shader pack,
+content mod, remote crash service or second configuration manager is added.
+The 26.3 bootstrap retains its 26.2 pins and pending migration status.

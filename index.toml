@@ -5,6 +5,10 @@ file = "configureddefaults/config/MouseTweaks.cfg"
 hash = "7bd34c13dff656651a30814a2db4aded8ed607f1bfdb8e66ba4194ef3e00a152"
 
 [[files]]
+file = "configureddefaults/config/bettergrass.json"
+hash = "2cb5f959c9055e88de3b5be671d6168c06af7742de08a83bbc5eef1a4be391bb"
+
+[[files]]
 file = "configureddefaults/config/clienttweaks-common.toml"
 hash = "1d128fe9f9d07d7c7adec3d2ec8d6ca19cd21da9eaf9e762f053c5e8729e4f20"
 
@@ -42,6 +46,11 @@ hash = "20191ae45907e9b0c75962d425d794892fabf885832ec79cac075efb1e18350b"
 metafile = true
 
 [[files]]
+file = "mods/bettergrassify.pw.toml"
+hash = "0f8fb805c3fb2a8cd2465324a2c6df9cfde8e7b0403764d852a3d2e5a5d95575"
+metafile = true
+
+[[files]]
 file = "mods/book-tweaks.pw.toml"
 hash = "8d1fd0d270120be5b54995a8d83bbf88cef576a7b70a0fffeba14bfd4fb542cd"
 metafile = true
@@ -69,6 +78,11 @@ metafile = true
 [[files]]
 file = "mods/continuity.pw.toml"
 hash = "66854cbf5ff362326ff8abca8581413fd5cb4ada83393f33d923472f2a9cf9d6"
+metafile = true
+
+[[files]]
+file = "mods/controlling.pw.toml"
+hash = "bce7cca555f245153b1b305aa84c4219349c0bf9b11e10b7029f09758d1722c6"
 metafile = true
 
 [[files]]
@@ -109,6 +123,11 @@ metafile = true
 [[files]]
 file = "mods/ferrite-core.pw.toml"
 hash = "7c32f1ee9d011950dd72a6cd671c353cade2894c9d91bdf716ec6882d8275edc"
+metafile = true
+
+[[files]]
+file = "mods/foodeffecttooltips.pw.toml"
+hash = "ad8961c31a09e17d4f3fdda4a3e2d8248befaa5734e95a2b1ea3a67dc1f5be02"
 metafile = true
 
 [[files]]
@@ -194,6 +213,11 @@ metafile = true
 [[files]]
 file = "mods/renice-shot.pw.toml"
 hash = "7bf33e58e03cbb559c64e9b587515572b6bfb707508f0a8aa516e6e0df4c76a4"
+metafile = true
+
+[[files]]
+file = "mods/searchables.pw.toml"
+hash = "5b1c6d6b07be2a63a67cbd7f8bc196d84950e45b662f4d2182ef06a84f317f4b"
 metafile = true
 
 [[files]]
