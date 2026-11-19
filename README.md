@@ -16,7 +16,7 @@ The target is Minecraft **26.2**, Fabric Loader **0.20.1**, and Java **25**.
 The loader pin comes from Fabric's [26.2 compatibility
 API](https://meta.fabricmc.net/v2/versions/loader/26.2), checked on 2026-11-17.
 The checked evidence is in [upstream-metadata.json](docs/upstream-metadata.json).
-Pack version `26.2.0.6.0` is a development baseline, not a runtime qualification.
+Pack version `26.2.0.7.0` is a development baseline, not a runtime qualification.
 
 ## Version branches
 
@@ -24,7 +24,7 @@ Pack version `26.2.0.6.0` is a development baseline, not a runtime qualification
   Minecraft 26.2 pack and its audited 37-feature baseline.
 - [`26.3`](https://github.com/jabez007/lantern-crossing/tree/26.3) is the default
   development branch for the next Minecraft version. It still targets 26.2 with
-  the original 30 features; the six later additions and Default Options are tracked
+  the original 30 features; the six later additions and Configured Defaults are tracked
   in [migration.toml](migration.toml). The 26.3 dependency audit is pending.
 
 Use `26.2` for Minecraft 26.2 builds. Target pull requests at the intended version
@@ -48,7 +48,7 @@ except for the documented [configuration and keybinding overrides](docs/configur
 
 ## Active selections
 
-All 30 original features, Renice Shot, five FO-inspired additions, and Default Options are active:
+All 30 original features, Renice Shot, five FO-inspired additions, and Configured Defaults are active:
 37 intentional features plus nine libraries in [collection.toml](collection.toml).
 
 | Category | Selected projects |
@@ -60,7 +60,7 @@ All 30 original features, Renice Shot, five FO-inspired additions, and Default O
 | Writing | Sign Tweaks, Book Tweaks |
 | Visual and social | LambDynamicLights, Chat Heads, Iris, Renice Shot, Sodium Extra, Continuity, More Chat History |
 | Interface and windows | Reese's Sodium Options, Cubes Without Borders |
-| Pack management | Mod Menu, Default Options |
+| Pack management | Mod Menu, Configured Defaults |
 
 There are zero blocked requested features. Light Overlay uses the current
 `lightoverlay` project, Modrinth ID `8qVa1XCN`; the audit records the identity
@@ -81,21 +81,23 @@ It owns exact version IDs, URLs, and SHA-512 hashes. No mod JARs belong in Git.
 ## Install an exported pack
 
 1. Obtain a reviewed release, or build the development artifact below. Current
-   development output is `lantern-crossing-26.2.0.6.0-dev-26.2.mrpack` with its
+   development output is `lantern-crossing-26.2.0.7.0-dev-26.2.mrpack` with its
    matching `.sha256`. A development build still requires manual acceptance.
-2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.6.0-dev-26.2.sha256`.
+2. Verify the download with `sha256sum --check lantern-crossing-26.2.0.7.0-dev-26.2.sha256`.
 3. Import the `.mrpack` into a launcher that supports Modrinth packs. Use a new
    instance with Java 25 and let the launcher obtain the pinned upstream files.
 4. Start the client and complete the [smoke tests](docs/acceptance-tests.md),
    including joining a completely vanilla 26.2 server.
 
-Default Options seeds absent files and respects saved keybindings. Existing
-options and resource-pack choices are preserved by the defaults handlers. When
-launchers pre-create `options.txt`, Continuity may require manual activation.
-Modrinth App synchronization can supply saved options and keys; we do not override
-that policy. See the [candidate evaluation and launcher caveats](docs/configuration.md#defaults-manager-evaluation-2026-11-19)
-and the [owner acceptance matrix](docs/acceptance-tests.md#launcher-configuration-acceptance-matrix).
-Neither launcher has been runtime-qualified.
+Configured Defaults copies absent mod config files and merges missing options
+keys. Existing values, including resource-pack order and custom keybindings,
+remain authoritative. Launcher-created partial options files can receive F7 and
+Continuity defaults; an existing resource-pack list still requires deliberate
+manual activation. Modrinth App sync can supply values before launch.
+See the [candidate evaluation and upgrade instructions](docs/configuration.md#defaults-manager-evaluation-2026-11-19)
+and [owner acceptance matrix](docs/acceptance-tests.md#launcher-configuration-acceptance-matrix).
+Neither launcher has been runtime-qualified. When upgrading from 26.2.0.6.0,
+remove its old Default Options mod before launching; preserve live preferences.
 
 Do not merge this pack into an existing instance's mod directory. A clean
 instance avoids leftover mods and configuration. Server rules may restrict
@@ -127,7 +129,7 @@ also recorded in [verification.md](docs/verification.md).
 | `make refresh` | Regenerate packwiz index after an intentional payload edit |
 | `make export` | Validate, export, normalize, and validate the complete `.mrpack` |
 | `make checksum` | Development export and SHA-256 checksum |
-| `make release RELEASE_TAG=v26.2.0.6.0` | Release build, requiring owner-recorded runtime qualification |
+| `make release RELEASE_TAG=v26.2.0.7.0` | Release build, requiring owner-recorded runtime qualification |
 | `make clean` | Remove generated `build/` and `dist/` files |
 
 `PACKWIZ`, `PYTHON`, and `RUFF` can name explicit local executables.
@@ -138,8 +140,8 @@ permissions, and JSON encoding. Stored entries avoid compression-version drift.
 Default development outputs are:
 
 ```text
-dist/lantern-crossing-26.2.0.6.0-dev-26.2.mrpack
-dist/lantern-crossing-26.2.0.6.0-dev-26.2.sha256
+dist/lantern-crossing-26.2.0.7.0-dev-26.2.mrpack
+dist/lantern-crossing-26.2.0.7.0-dev-26.2.sha256
 ```
 
 GitHub Actions validates pushes to `26.2` and `26.3` and pull requests targeting
@@ -158,7 +160,7 @@ be replaced. See [release eligibility](docs/version-policy.md#publish-a-release)
 ## Select and update deliberately
 
 Version numbers follow `<Minecraft version>.<pack major>.<pack minor>.<pack patch>`.
-`26.2.0.6.0` means Minecraft 26.2 and pack revision 0.6.0. Tags must match
+`26.2.0.7.0` means Minecraft 26.2 and pack revision 0.7.0. Tags must match
 `pack.toml` exactly with a `v` prefix.
 
 Use exact upstream version IDs and repeat the client-only audit for updates.

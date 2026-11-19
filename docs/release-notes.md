@@ -1,35 +1,25 @@
-Lantern Crossing 26.2.0.6.0 is a Minecraft Java 26.2 Fabric client pack.
-Server operators do not need to install anything.
+Lantern Crossing 26.2.0.7.0 remains a Minecraft Java 26.2 Fabric client pack.
+Server operators need nothing installed. Runtime acceptance is still pending.
 
-The baseline now contains 37 intentional features and nine libraries. This
-revision adds Default Options for safer first-install settings. All 45 preceding
-mod pins remain unchanged. No new library download is required. Sodium 0.9.2
-and Iris 1.11.4 stay pinned.
+Configured Defaults 26.2.0 replaces Default Options after evaluation of it,
+Config Manager and Default Options. It copies missing mod files and adds only
+absent keys to options.txt. This handles launcher-created partial files without
+replacing saved preferences. A pre-existing resource-pack list, even vanilla
+only, still requires manual Continuity activation.
 
-Continuity's built-in connected-texture and glass-pane packs are seeded using
-the same ordering as FO 14.1.2. No standalone resource pack or shader is added.
-Other new mod settings retain upstream defaults. Light Overlay stays on F7 and
-Renice Shot screenshots stay on F9; Iris starts with shaders disabled.
+Templates move to configureddefaults/; no live preferences, reset flags, journal,
+shader pack or extra feature is distributed. The options data version is pinned
+to Minecraft 26.2. Default key seeding is F7; Light Overlay's native Controls reset
+is still F9. Deliberately rebind to F7 when adopting the pack default.
 
-Config Manager, Ixeris, and ModernFix-mVUS were investigated and remain staged.
-Config Manager has contradictory upstream environment metadata; the other two
-still need the documented review, measurements, and runtime checks. None is
-included in this release artifact.
+Before upgrading an existing instance, verify that the old Default Options JAR
+was removed. Its journal and template folder can remain unused. Preserve options
+and mod configs; test launcher removal behavior on a disposable copy. Details
+and both launcher/sync acceptance cases are in configuration.md and
+acceptance-tests.md.
 
-The .mrpack contains pinned download references and documented configuration.
-The .sha256 file verifies the archive bytes. Static CI does not replace the
-clean-client and vanilla-server acceptance checklist. Runtime acceptance is
-still outstanding; see docs/verification.md and docs/acceptance-tests.md.
-
-Default Options now seeds first-install settings and missing mod config files.
-Saved preferences are preserved. No root options.txt, server list or runtime
-journal is distributed. Existing profiles may need F7 and Continuity selected
-manually; the pack no longer replaces their preference files.
-
-Exports default to a development channel labeled with actual target and version
-branch. Release publication requires a matching target/tag and an owner acceptance
-record bound to the pack hash. The 26.3 bootstrap still targets 26.2 and cannot
-publish a 26.3 release. Its migration inventory tracks all intended features.
-Native Fabric dependency predicates are now checked offline, with unsupported
-semantics reported explicitly. This is not a substitute for Loader's full
-resolver or runtime acceptance.
+All 45 other mod locks remain unchanged, including Balm and Fabric API.
+Configured Defaults adds no required library. Counts remain 37 features and nine
+libraries. No staged performance mod was promoted. The 26.3 bootstrap receives
+shared tooling and inventory updates only; its actual target stays 26.2.
+Development/release naming, reproducibility and owner acceptance gates remain.

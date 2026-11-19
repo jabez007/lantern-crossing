@@ -23,17 +23,17 @@ column unavailable and record the version, rather than treating it as passed.
 | --- | --- | --- | --- | --- |
 | Fresh `.mrpack` import; inspect before launching | [ ] | [ ] | [ ] | Record whether root options, mod configs or a journal already exist, and which settings the launcher populated. No player options/journal should come from the archive. |
 | First launch, no pre-existing options | [ ] | [ ] | [ ] | Continuity's two built-in packs are selected. Unseen Light Overlay binding becomes F7; Renice Shot remains F9. Mouse Tweaks, Client Tweaks and Iris receive their documented initial settings; shaders start disabled. |
-| Launcher-created options containing only fullscreen/version | [ ] | [ ] | [ ] | Existing options remain authoritative. Continuity may need manual activation; fullscreen survives. An unseen overlay key still receives F7. |
+| Launcher-created options containing only fullscreen/version | [ ] | [ ] | [ ] | Existing options remain authoritative. Absent resource-pack and F7 entries are merged while fullscreen survives. Existing resource-pack or key entries are preserved. |
 | Existing graphics, sound, accessibility and interface preferences | [ ] | [ ] | [ ] | Distinctive values survive first launch and two restarts. App-synced values may take precedence; record that separately from mod behavior. |
 | Existing overlay binding set to F8 or F9 | [ ] | [ ] | [ ] | Existing binding survives, even if it conflicts with screenshots. No repeated forced F7 reset. |
 | Customized resource-pack selection and order, with/without a journal | [ ] | [ ] | [ ] | Defaults manager does not replace or reorder it. Record effects of App resource-pack sync separately. |
 | Customized Mouse Tweaks, Client Tweaks and Iris files | [ ] | [ ] | [ ] | Existing files and unrelated settings survive; overlap switches are not silently reasserted. Review those switches manually if retaining old configs. |
 | Repeat launch after changing defaults in-game | [ ] | [ ] | [ ] | Choices persist; no resource-pack or settings reset on every launch. |
-| Upgrade through the actual supported launcher path | [ ] | [ ] | [ ] | Template updates do not reset live options/configs. Newly absent config files and unseen keys can receive defaults. New non-key options and fields in existing mod files are not merged. |
-| Intentional per-action Controls reset | [ ] | [ ] | [ ] | Reset only Light Overlay; verify F7 and no unrelated key changes. If App sync reasserts a global value, test a deliberate per-instance exception. |
+| Upgrade through the actual supported launcher path | [ ] | [ ] | [ ] | Template updates do not reset live options/configs. Newly absent config files and missing option keys can receive defaults. Missing non-key options are merged; existing values and fields inside existing mod configs are not replaced or merged. |
+| Intentional per-action default adoption | [ ] | [ ] | [ ] | Deliberately bind only Light Overlay to F7. Its native reset remains F9, so do not assume the reset button selects F7. If App sync reasserts a global value, test a deliberate per-instance exception. |
 | Intentional Continuity activation | [ ] | [ ] | [ ] | Select both built-in packs manually and preserve personal pack order. Selection survives restart under the chosen sync policy. |
 | Intentional adoption of one mod config | [ ] | [ ] | [ ] | With game closed, retain a copy and move only that live file aside. Next launch re-seeds it; every other custom file remains intact. This resets the entire selected file. |
-| Existing 26.2.0.6.0 Default Options installation | [ ] | [ ] | [ ] | Same manager and templates; existing journal and preferences remain. No cleanup/reset is required. |
+| Existing 26.2.0.6.0 Default Options migration | [ ] | [ ] | [ ] | Old Default Options JAR is removed before launch; only Configured Defaults is active. Existing live preferences remain. Its old journal/templates may remain unused. |
 | Upgrade from older direct-override pack | [ ] | [ ] | [ ] | Test a disposable copy with saved options/configs. Record whether the launcher removes previously managed overrides. The defaults manager cannot prevent launcher deletion. |
 
 For the upgrade row, use a real supported pack update or a clearly labeled
@@ -46,8 +46,8 @@ where the installed version permits. Test a global custom overlay binding, a
 per-instance override, and whether changes propagate to another disposable
 instance. Do not use personal profiles as sync test fixtures.
 
-Do not run `/defaultoptions saveAll` as a reset operation or remove the journal
-as part of normal upgrades. See [adoption instructions](configuration.md#deliberately-adopt-updated-defaults).
+Configured Defaults has no reset GUI and ignores the old Default Options journal.
+Do not remove live preferences as a normal upgrade step. See [adoption instructions](configuration.md#deliberately-adopt-updated-defaults).
 
 ## Startup
 

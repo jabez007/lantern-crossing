@@ -1,1 +1,0 @@
-key_key.light-overlay.toggle:key.keyboard.f7:

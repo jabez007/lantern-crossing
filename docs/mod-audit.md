@@ -5,8 +5,10 @@ Evidence checked on 2026-11-17 against the [Modrinth API](https://docs.modrinth.
 Renice Shot was added and audited on 2026-11-18. The prior 39 artifact pins are
 unchanged. That addition completed the 30 original features plus Renice Shot.
 
-Five FO-inspired additions were audited later on 2026-11-18. Default Options was added on 2026-11-19 to protect player preferences. All 40 prior pins
-remain unchanged; the active baseline now has 37 intentional features.
+Five FO-inspired additions were audited on 2026-11-18. On 2026-11-19, the
+configuration evaluation selected Configured Defaults to replace Default Options.
+The other 45 locks are unchanged from the preceding baseline. There are still
+37 intentional features and nine libraries.
 
 The question for every row is whether the selected functionality works entirely on the client while connected to an unmodified vanilla 26.2 server. An optional server label alone is insufficient evidence. No runtime multiplayer acceptance has been performed.
 
@@ -50,7 +52,7 @@ The question for every row is whether the selected functionality works entirely 
 | [Continuity](https://modrinth.com/mod/continuity), ID `1IjD5062` | [3.0.1+26.2](https://modrinth.com/mod/continuity/version/mgUN5Xz2), release-designated, Fabric 26.2 | Local connected textures and stacked glass-pane visual fix using its built-in packs. | Project and native artifact are client-only. Requires existing Fabric API; no server component or extra server data. Built-in texture assets are part of the pinned mod artifact. | Active |
 | [Cubes Without Borders](https://modrinth.com/mod/cubes-without-borders), ID `ETlrkaYF` | [5.0.0+26.2](https://modrinth.com/mod/cubes-without-borders/version/ZM0HUAhK), release-designated, Fabric 26.2 | Borderless/windowed fullscreen and local window settings. | Project and native artifact are client-only. No required project dependency; optional config libraries are already present. None of its declared incompatible projects is active. No server component. | Active |
 | [More Chat History](https://modrinth.com/mod/morechathistory), ID `8qkXwOnk` | [2.0.0](https://modrinth.com/mod/morechathistory/version/qpDhYv1Y), release-designated, Fabric 26.2 | Retain more already-received messages in local chat scrollback. | Project and native artifact are client-only, with no required project dependency. Does not add server-side history or require altered chat packets. | Active |
-| [Default Options](https://modrinth.com/mod/default-options), ID `WEg59z5b` | [26.2.0.3+fabric-26.2](https://modrinth.com/mod/default-options/version/hS9ZtUOA), release-designated Fabric 26.2 | First-install settings and keybinding defaults with saved-preference preservation. | Project is client required/server unsupported. Native environment is universal, but initialization is client-only and local file/key handlers need no server. Requires existing Fabric API and Balm; native Balm minimum is 26.2.0.1, satisfied by 26.2.0.9. No server list is selected. | Active |
+| [Configured Defaults](https://modrinth.com/mod/configured-defaults), ID `SISoSFPP` | [26.2.0](https://api.modrinth.com/v2/version/oM0C4RRZ), release-designated Fabric 26.2 | Early missing-file defaults and missing-options-key merging. | Client/server installations are independently optional; native environment `*` and the early Fabric adapter perform local file operations. No networking or server contribution is needed. Requires Minecraft `~26.2-` and Loader `>=0.19.0`, satisfied by 0.20.1. No required project dependencies or bundled JARs. | Active |
 
 ## Dependency audit
 
@@ -64,7 +66,7 @@ Fabric API is an explicitly selected platform library. Eight projects are transi
 | [TCDCommons API](https://modrinth.com/mod/tcdcommons) | dependency | Required by Better Statistics Screen. |
 | [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) | dependency | Required by Inventory Profiles Next, libIPN, Zoomify (Zoom). |
 | [libIPN](https://modrinth.com/mod/libipn) | dependency | Required by Inventory Profiles Next. |
-| [Balm](https://modrinth.com/mod/balm) | dependency | Required by Client Tweaks and Default Options. |
+| [Balm](https://modrinth.com/mod/balm) | dependency | Required by Client Tweaks. |
 | [Text Placeholder API](https://modrinth.com/mod/placeholder-api) | dependency | Required by Mod Menu. |
 | [OverlayLib](https://modrinth.com/mod/overlaylib) | dependency | Required by Light Overlay. |
 
@@ -144,10 +146,11 @@ Config Manager's current [source inspection](https://github.com/TheBossMagnus/Co
 shows the usual copy path skips existing files. Startup also supports explicit
 update/reset flags. This is promising for preserving personal preferences, but
 it does not resolve the upstream environment disagreement. The 2026-11-19 [configuration evaluation](configuration.md#defaults-manager-evaluation-2026-11-19)
-rechecked that metadata and retained Default Options. Configured Defaults was also
-reviewed, not installed. Its missing-option merge does not initialize an already
-populated resource-pack selection, and it does not replace the native key reset
-default. No competing defaults manager is active.
+rechecked that metadata. The final selection is Configured Defaults because it
+can fill missing fields in launcher-created partial options files while
+preserving existing values. It cannot replace a populated resource-pack list or
+change native key reset defaults. Default Options is removed; no competing
+manager is installed.
 ModernFix's inspected source and native mixin lists include both client and
 server work; finding a client initializer alone is insufficient for promotion.
 

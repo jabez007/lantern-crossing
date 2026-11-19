@@ -3,7 +3,7 @@
 `pack.toml` owns the pack version. It must use
 `26.2.<pack major>.<pack minor>.<pack patch>`. The initial version is
 `26.2.0.1.0`, and its matching release tag is `v26.2.0.1.0`.
-The current development baseline is `26.2.0.6.0`.
+The current development baseline is `26.2.0.7.0`.
 
 Increment major for intentional policy or selection changes that require users
 to review their setup. Increment minor for compatible feature additions or
@@ -20,11 +20,11 @@ The former `main` branch is renamed to `26.2`; it is no longer an update target.
 The 26.3 bootstrap still declares Minecraft 26.2 and pack version 26.2.0.3.0,
 with 30 features. The maintained 26.2 line now has 37 features: the original 30,
 Renice Shot, Sodium Extra, Reese's Sodium Options, Continuity, Cubes Without
-Borders, More Chat History, and the Default Options helper. Shared tooling fixes
+Borders, More Chat History, and the Configured Defaults helper. Shared tooling fixes
 are backported separately; target-specific pins are preserved.
 
 [migration.toml](../migration.toml) tracks all 37 by stable project ID, including
-the six additions after the original baseline and Default Options. Discovery on
+the six additions after the original baseline and Configured Defaults. Discovery on
 2026-11-19 found a release-designated Fabric 26.3 artifact for every feature.
 These version IDs are discovery evidence, not installed pins or compatibility
 audits. Every migration entry remains `deferred` and runtime `pending`.
@@ -173,8 +173,8 @@ empty until the owner actually performs the checklist. Static tests never set th
 Check and build a qualified release with:
 
 ```sh
-python3 scripts/release_metadata.py --channel release --tag v26.2.0.6.0
-make release RELEASE_TAG=v26.2.0.6.0
+python3 scripts/release_metadata.py --channel release --tag v26.2.0.7.0
+make release RELEASE_TAG=v26.2.0.7.0
 ```
 
 Without qualification these commands intentionally fail. Development validation,

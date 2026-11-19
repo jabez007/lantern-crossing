@@ -1,24 +1,20 @@
 hash-format = "sha256"
 
 [[files]]
-file = "config/defaultoptions/extra/config/MouseTweaks.cfg"
+file = "configureddefaults/config/MouseTweaks.cfg"
 hash = "7bd34c13dff656651a30814a2db4aded8ed607f1bfdb8e66ba4194ef3e00a152"
 
 [[files]]
-file = "config/defaultoptions/extra/config/clienttweaks-common.toml"
+file = "configureddefaults/config/clienttweaks-common.toml"
 hash = "1d128fe9f9d07d7c7adec3d2ec8d6ca19cd21da9eaf9e762f053c5e8729e4f20"
 
 [[files]]
-file = "config/defaultoptions/extra/config/iris.properties"
+file = "configureddefaults/config/iris.properties"
 hash = "839d34c5b794e53e3e0155f87632026f1d5354f3dd55854d51e990d04d2c92a3"
 
 [[files]]
-file = "config/defaultoptions/keybindings.txt"
-hash = "8e6eff2b4ed649e1bd497bc79218a8c9a8f2413f3c49c07f47fbf614c82ed7c2"
-
-[[files]]
-file = "config/defaultoptions/options.txt"
-hash = "89816c433da6e64f9f767b7a2e8845f890719d819f7dd9c56a1585bc58265c1e"
+file = "configureddefaults/options.txt"
+hash = "20f0fa4f40abaa490711e1f0dc932d854583e1d19de1fadc23e326e96e31308b"
 
 [[files]]
 file = "mods/badoptimizations.pw.toml"
@@ -66,6 +62,11 @@ hash = "e941d956c9f691031c2362afcbd8ba13e17fa52e3e493bb9cb5442bf34491de3"
 metafile = true
 
 [[files]]
+file = "mods/configured-defaults.pw.toml"
+hash = "6ae9880c479c32fdddb14629a5a58a9033f25f0219c961d0dc5dd9e7f06ebc78"
+metafile = true
+
+[[files]]
 file = "mods/continuity.pw.toml"
 hash = "66854cbf5ff362326ff8abca8581413fd5cb4ada83393f33d923472f2a9cf9d6"
 metafile = true
@@ -78,11 +79,6 @@ metafile = true
 [[files]]
 file = "mods/debugify.pw.toml"
 hash = "23be1be6e51abfaf0b25ae58549cbd3decd94be3d3be1e13df356636cb6bb160"
-metafile = true
-
-[[files]]
-file = "mods/default-options.pw.toml"
-hash = "56c01d805086231c245def3cbd3107c490d32aeb5a8cb8bd5c6ad783017a778a"
 metafile = true
 
 [[files]]

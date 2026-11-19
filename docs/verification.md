@@ -1,156 +1,116 @@
 # Verification record
 
-Release hardening checked on 2026-11-19 for development pack `26.2.0.6.0`.
-Minecraft has not been launched. All runtime acceptance remains open.
-The preceding 26.2.0.5.0 record is preserved in Git history at `3fa2b8f`.
+Configuration evaluation completed on 2026-11-19 for development pack
+`26.2.0.7.0`, Minecraft 26.2, Fabric Loader 0.20.1 and Java 25.
+Minecraft and both launchers have not been run. Runtime acceptance remains open.
+Previous hardening/evaluation evidence remains in Git history at `4938e86`.
 
-## Configuration evaluation, 2026-11-19
+## Decision and provenance
 
-All three requested managers were rechecked against current release metadata,
-hash-verified candidate artifacts and pinned source. The
-[comparison and decision](configuration.md#defaults-manager-evaluation-2026-11-19)
-retain Default Options. No mod pin, dependency, configuration template, pack/index
-hash, version or release-qualification field changed from `7a10392`.
+The [three-candidate evaluation](configuration.md#defaults-manager-evaluation-2026-11-19)
+selects Configured Defaults. It safely fills missing fields in launcher-created
+partial options files, including the case supported by Modrinth App's current
+pre-launch source. Existing values remain authoritative. Neither automatic
+activation over a pre-existing resource-pack choice nor a pack-defined native
+Controls reset is claimed.
 
-`make test lint validate` passes 94 offline tests. New policy regressions reject
-competing project IDs, obsolete manager layouts, reset/update flags, manager
-resource-pack replacement config and unsupported defaults locations. These tests
-failed before the new guard was implemented. Existing strict client-only,
-provenance, Fabric predicates and archive/release checks still pass.
+The only artifact replacement is Default Options (`WEg59z5b`, `hS9ZtUOA`) with
+Configured Defaults (`SISoSFPP`, `oM0C4RRZ`), release-designated Fabric 26.2 version
+26.2.0. The [lock](../mods/configured-defaults.pw.toml) pins its exact URL and
+SHA-512 `a8d3274943c67145722c1afe26ad39ba127ef2195c86f17bf4ade40205e571f0efae1db51368e83c31d88c9dafb22a4ff8846ff2e8969c3adbb4781989e78c4c`.
+No required library projects or bundled JARs are introduced. All 45 other locks
+are byte-identical to `4938e86`; Balm remains required by Client Tweaks. Fabric
+API and Balm reverse edges no longer include the removed manager.
 
-Seven isolated file scenarios executed unmodified upstream handlers outside
-Minecraft through `DefaultOptionsFilesOracle.java`. The recorded observations
-are bound to the artifact, adapter and template hashes. This does not test
-Minecraft initialization, real keybindings, resource repositories, launchers or
-synchronization. The [fixture scope](configuration.md#file-handler-evidence-and-automation-limits)
-is explicit. Normal unit tests do not download or run upstream Java code.
+The three mod-config templates are byte-identical, now under
+`configureddefaults/config/`. Resource-pack and F7 entries share the new options
+template. Its data version 4903 was read from `version.json` in the official
+SHA-1-verified client ZIP. No Minecraft code was executed. That provenance is in
+the upstream snapshot. Root live preferences, obsolete managers/trees, journals,
+reset flags and arbitrary template locations are rejected by validation.
 
-Observed commands:
+## Observed automated results
+
+Python 3.12.12, Ruff 0.16.4, Go 1.24.6, and packwiz commit
+`170b22d785959dda5876b54b7f16e1b807a57fb6` match CI. Actionlint is 1.7.12.
+Audit downloads and temporary compiler tools remain outside the repository.
+
+| Check | Result |
+| --- | --- |
+| `make test lint validate` | Passed, 94 offline tests. Includes configuration policy, exact pins/closure, Fabric predicates, strict client-only rules, branch/release eligibility and index. |
+| `make refresh` | Passed; subsequent export/refresh caused no further pack/index drift. |
+| `make checksum`, second `make export`, archive `cmp` | Passed, complete archive validation and byte-identical normalized builds. |
+| `sha256sum --check` | Passed for the generated checksum. |
+| Actionlint with shellcheck | Passed; CI workflow and release gates are unchanged. |
+| Ruff with complexity threshold 8 | Passed; configured maximum remains 10. |
+| Prior pin/template byte comparison | Passed for 45 retained locks and all three mod-config templates. |
+| Java file-handler oracle | Seven cases passed using unmodified upstream `CopyDefaultsHandler`, with only its logging/constants holder stubbed. No Fabric, Minecraft or launcher execution. |
+| Committed JAR scan | Empty. Only metadata, templates, scripts, fixture data and source adapter are committed. |
+
+Commands used for build validation:
 
 ```sh
 make test lint validate
 make refresh PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
 make checksum PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
 make export PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'
-cmp /tmp/lantern-config-evaluation/first.mrpack dist/lantern-crossing-26.2.0.6.0-dev-26.2.mrpack
-(cd dist && sha256sum --check lantern-crossing-26.2.0.6.0-dev-26.2.sha256)
+cmp /tmp/lantern-config-evaluation/configured-first.mrpack dist/lantern-crossing-26.2.0.7.0-dev-26.2.mrpack
+(cd dist && sha256sum --check lantern-crossing-26.2.0.7.0-dev-26.2.sha256)
 /tmp/lantern-bin/actionlint .github/workflows/validate.yml
 ruff check scripts tests --select C90 --config 'lint.mccabe.max-complexity=8'
-git diff --exit-code -- mods config pack.toml index.toml collection.toml docs/upstream-metadata.json release-policy.toml
+git ls-files '*.jar' '*.JAR'
 ```
 
-All passed. Complete archive validation runs inside both exports. The artifact
-remains byte-identical to the preceding 26.2.0.6.0 development build, including
-the SHA-256 recorded below. No new upstream artifact is shipped. The previously
-hosted hardening runs passed on [26.2](https://github.com/jabez007/lantern-crossing/actions/runs/44578125449)
-and [26.3](https://github.com/jabez007/lantern-crossing/actions/runs/44578126861).
-Current results remain in Actions.
+The first export encountered a sandbox-blocked uncached download and the archive
+validator rejected the incomplete result. Retrying with network access populated
+the external cache and passed complete validation. No check was relaxed.
 
-Prism and Modrinth App are statically assessed, not runtime-qualified. The
-[launcher matrix](acceptance-tests.md#launcher-configuration-acceptance-matrix)
-leaves all results uncompleted, including App sync disabled/enabled, launcher-created
-options, settings preservation, upgrades and deliberate adoption/reset. The 26.3
-bootstrap remains at its original actual 26.2 target and feature pins; shared
-policy checks and evaluation documentation do not promote its deferred helper.
+Regression coverage includes missing dependency versions, server-required
+artifacts, exact provenance, staged leakage, duplicate projects, competing
+managers, old templates, root preferences, reset flags and archive content/identity.
+The option-format regression checks the audited data version and normal F7 key
+serialization. Recorded file cases cover absent/partial/custom options, repeat
+launch, newly introduced options/files, custom resource packs, and a previous
+manager's leftover files followed by deliberate per-file adoption. They are
+pinned source observations, not a Python approximation or runtime acceptance.
 
-## Findings and disposition
+The native predicate checker remains a conservative partial evaluator following
+Fabric Loader 0.20.1, including its 51 offline conformance vectors. Unsupported
+expressions and ambiguous bundled resolution fail explicitly. It does not
+implement Loader's complete SAT resolver or prove behavior on a particular JVM.
+See [version policy](version-policy.md#native-fabric-requirements).
 
-| Finding | Disposition |
-| --- | --- |
-| Root `options.txt` could replace player preferences | Confirmed and corrected. Default Options uses copy-if-absent templates and preserves saved keys. Three direct mod overrides also became copy-if-missing templates. Source behavior is audited; launcher ordering and preservation still need manual acceptance. |
-| 26.3 branch differs from maintained baseline | Confirmed. Its actual target remains 26.2 with 30 features. Shared tooling is backported without upgrading pins. The migration inventory tracks all 37 intended features, including the six post-baseline additions and Default Options. |
-| Misleading development/release artifacts | Corrected. Filenames and internal identity encode actual target, version branch and development channel. Publication additionally requires matching target/tag, branch ancestry and owner-recorded acceptance bound to the pack hash. Neither branch is runtime-qualified. |
-| Native dependency presence without version enforcement | Confirmed and materially strengthened. Required predicates and hard breaks are checked against native root/bundle/alias/runtime versions. Unsupported cases fail visibly; full Loader SAT resolution remains outside static validation. |
-| Existing deterministic/client-only guarantees | Retained. The previous 45 lock records are byte-identical. No unrelated mod was added, updated or removed. All 46 records remain pinned client-side. |
-| Previous CI failures | None found. Before this pass, both version-branch runs were green: [26.2](https://github.com/jabez007/lantern-crossing/actions/runs/44457005743), [26.3](https://github.com/jabez007/lantern-crossing/actions/runs/44452238087). Current results are in [Actions](https://github.com/jabez007/lantern-crossing/actions). |
+## Artifact and release state
 
-## Tools and commands
-
-Python 3.12.12, Go 1.24.6, Ruff 0.16.4 and packwiz commit
-`170b22d785959dda5876b54b7f16e1b807a57fb6` match CI. Local actionlint is 1.7.12.
-Local export commands use
-`PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'`.
-Audit downloads, compiler tools and cache remain outside the repository.
-
-| Observed command/check | Result |
-| --- | --- |
-| `make test lint validate` | Passed: 85 offline tests, formatting/lint, complexity threshold 10, exact target/loader/pins, dependency closure and predicates, branch policy, migration inventory, client-only rules and index. |
-| `make refresh` twice, then `cmp` on saved `pack.toml` and `index.toml` | Passed, no metadata drift. |
-| `make checksum`, then a second `make export` and `cmp` | Passed, byte-identical normalized exports. |
-| `python3 scripts/validate_mrpack.py dist/lantern-crossing-26.2.0.6.0-dev-26.2.mrpack` | Passed via export; checks complete mod set, exact downloads/hashes/sizes, environments, config bytes and artifact identity. |
-| `sha256sum --check lantern-crossing-26.2.0.6.0-dev-26.2.sha256` from `dist/` | Passed. |
-| `python3 scripts/check_target_readiness.py --offline --scope requested` | Passed for all 37 features; discovery only. |
-| `python3 scripts/release_metadata.py --channel release --tag v26.2.0.6.0` | Rejected as intended: owner runtime qualification is absent. Synthetic unit fixtures prove qualified 26.2 release naming remains functional. |
-| `/tmp/lantern-bin/actionlint .github/workflows/validate.yml` | Passed, including shellcheck integration. |
-| `ruff check scripts tests --select C90 --config 'lint.mccabe.max-complexity=8'` | Passed. No changed function exceeds 8; configured maximum remains 10. |
-| Prior lock-byte comparison against `3fa2b8f` | Passed for all 45 original mod records. |
-| `git ls-files '*.jar' '*.JAR'` | Empty. No upstream binaries are committed. |
-
-The incompatible-loader regression failed with the old presence-only checker,
-then passed after native predicate integration. The root-preferences regression
-likewise failed before the packaging fix. Existing server-required, server-only
-bundle, arbitrary prerelease, staged leakage and project-identity tests remain.
-Additional cases cover numeric boundaries, AND/OR, prereleases, opaque labels,
-Fabric caret/tilde/wildcards, aliases, missing/incompatible requirements, soft
-optional declarations, hard breaks, mandatory roots, and visible unsupported
-resolution. Artifact tests reject incorrect branch/channel filenames and labels,
-unqualified releases, target/version mismatches and stale acceptance hashes.
-
-## Native predicate evidence and limits
-
-51 committed conformance vectors were evaluated through Fabric Loader 0.20.1's
-public `Version` and `VersionPredicate` APIs. Another 500 deterministic comparison
-cases matched during implementation. This CLI-only audit did not launch Minecraft.
-Loader's Maven JAR SHA-256 is
-`d0c5a082e07410aaff9de7ab196aa6b4236002870f9ba3ad5c1260fcce5110ad`.
-The source adapter and expected results are in `tests/fixtures/`; no Java runtime
-or network is required by `make test`.
-
-The evaluator implements a conservative subset of Loader semantics rather than
-ordinary SemVer. It does not implement full SAT/backtracking, non-ASCII version
-cores or ordering among different opaque bundled versions. Ambiguous alternative
-bundle selection and unsupported expressions fail validation explicitly. Optional
-soft declarations are not promoted into requirements. See the detailed
-[version policy](version-policy.md#native-fabric-requirements).
-
-## Dependency and artifact changes
-
-Only Default Options was added: project `WEg59z5b`, version ID `hS9ZtUOA`,
-release `26.2.0.3+fabric-26.2`. Its [lock](../mods/default-options.pw.toml)
-contains the exact URL and SHA-512; its root/bundled metadata and SHA-1/size are
-in the upstream snapshot. Existing Balm and Fabric API satisfy its requirements.
-No resolved library pin changed. The [mod audit](mod-audit.md) and
-[configuration notes](configuration.md#safe-defaults-and-existing-instances)
-record the exact release-source evidence and resource-pack handler decision.
-
-`dist/lantern-crossing-26.2.0.6.0-dev-26.2.mrpack` is 27,092 bytes with 46 downloads
-and five templates under `overrides/config/defaultoptions/`. Every mod is
-client-required and server-unsupported. No root options file, live mod config,
-server list, journal, staged payload or JAR is embedded. Its SHA-256 is:
+`dist/lantern-crossing-26.2.0.7.0-dev-26.2.mrpack` is 26,887 bytes: 46 pinned client
+mod downloads and four templates under `overrides/configureddefaults/`. Every
+mod is client-required and server-unsupported. It contains no root live settings,
+staged data, JARs or server payload. SHA-256:
 
 ```text
-6d38f68adec69416bafd56228380e371d0ca7b6edd7be9666d676a8aea95648e
+fea1539fea89894596f754e33ff341d595a988204c9430f5f8a6de98d2204a2d
 ```
 
-Generated archives and checksums remain ignored. Release-channel artifacts are
-not generated or published before owner acceptance.
+The 26.2 line has 37 features and nine libraries. No runtime acceptance is
+recorded. Publication still requires a matching tag, version branch/actual-target
+agreement, remote ancestry and owner evidence bound to the exact pack hash.
+No tag or release is created by this work.
 
-## Manual acceptance handoff — all uncompleted
+The 26.3 branch still targets actual Minecraft 26.2 at pack 26.2.0.3.0 with the
+original 30 features and nine libraries. It receives shared checks/documentation
+and updated migration intent, not Configured Defaults or a 26.3 upgrade. Its
+migration entries remain deferred/runtime pending. Discovery of a 26.3 release
+is not a compatibility audit.
 
-The owner must run [acceptance-tests.md](acceptance-tests.md). In particular:
+## Owner handoff — all runtime results uncompleted
 
-- [ ] Fresh Prism import: determine whether options are pre-created; verify
-  initial F7/F9, Continuity selection, inventory defaults and shaders disabled.
-- [ ] Existing profile upgrade: distinctive graphics/audio/key/resource-pack/mod
-  settings survive installation and two restarts, with and without a journal.
-  Existing profiles may need F7/Continuity selected manually.
-- [ ] Client reaches the menu with all mods initialized and no dependency warnings.
-- [ ] Join and reconnect to an unmodified vanilla 26.2 server with nothing added
-  server-side; verify no missing-server-component warnings.
-- [ ] Smoke-test rendering with Sodium/Iris/Light Overlay/Continuity/dynamic lights,
-  inventory interaction, maps, books/signs and F9 screenshot restoration.
+Complete the [launcher matrix](acceptance-tests.md#launcher-configuration-acceptance-matrix)
+in Prism and Modrinth App with sync disabled/enabled where available. Verify
+fresh/partial options, F7, Continuity, custom preferences, repeat launches,
+actual upgrades, old-manager removal and deliberate adoption. Record launcher
+versions, sync choices, upgrade path and exact archive hash. No automatic update
+UI is promised for a local unlinked `.mrpack` import.
 
-Record actual results and the exact pack hash only after testing. Do not mark
-26.3 qualified: availability discovery has not audited its artifacts, resolved
-its dependency graph, or tested it at runtime. No additional staged feature is
-promoted by this work.
+Then complete client initialization, vanilla-server join/reconnect, rendering
+and inventory smoke tests. No server installation is required by the selected
+functionality, but successful operation remains for the owner to verify.

@@ -2,61 +2,68 @@
 
 ## Safe defaults and existing instances
 
-The pinned [Default Options](https://modrinth.com/mod/default-options/version/hS9ZtUOA)
-release `26.2.0.3+fabric-26.2` replaces direct preference overrides. It is installed
-only on the client and reuses the existing Balm and Fabric API pins.
+[Configured Defaults 26.2.0](https://modrinth.com/mod/configured-defaults/version/oM0C4RRZ)
+replaces Default Options in pack 26.2.0.7.0. It is installed only on the client,
+requires no additional library projects, and needs nothing on the server.
 
-| Template in the repository | Applied to a player instance |
+| Packaged template | Behavior on the client |
 | --- | --- |
-| `config/defaultoptions/options.txt` | Copies Continuity's resource-pack selection only when root `options.txt` does not exist. |
-| `config/defaultoptions/keybindings.txt` | Sets Light Overlay's F7 default. Bindings already recorded in `options.txt`, including a deliberately retained F9, are respected. |
-| `config/defaultoptions/extra/config/MouseTweaks.cfg` | Copies the inventory defaults only when that mod's config file is absent. |
-| `config/defaultoptions/extra/config/clienttweaks-common.toml` | Copies the two overlap switches only when that config file is absent. |
-| `config/defaultoptions/extra/config/iris.properties` | Starts shaders disabled only when Iris' config file is absent. |
+| `configureddefaults/options.txt` | Adds absent options only: target data version, Continuity selection, and Light Overlay F7. Existing values always win. |
+| `configureddefaults/config/MouseTweaks.cfg` | Copies only if the entire live config file is missing. |
+| `configureddefaults/config/clienttweaks-common.toml` | Copies only if the entire live config file is missing. |
+| `configureddefaults/config/iris.properties` | Copies only if the entire live config file is missing. |
 
-The [exact release source](https://github.com/TwelveIterations/DefaultOptions/tree/062c71b734be32ee1af29015fab2ab0aa89e6e8e)
-checks destination existence before copying normal and extra files. Its early-init
-[Fabric constructor hook](https://github.com/TwelveIterations/DefaultOptions/blob/062c71b734be32ee1af29015fab2ab0aa89e6e8e/fabric/src/main/java/net/blay09/mods/defaultoptions/fabric/mixin/MinecraftMixin.java)
-handles extra files just after the game directory is assigned; its key handler collects saved keys before applying
-new defaults. These are source-audited behaviors, not Minecraft test results.
-A launcher that pre-populates `options.txt` can suppress the resource-pack
-selection on a nominally fresh import; verify that behavior in Prism.
+No live `options.txt`, mod config, server list, journal or forced-reset flag is
+exported. The early Fabric language adapter calls the file handler before normal
+mod initialization. It copies missing mod files and merges missing options keys,
+not missing keys inside existing mod config files. Existing graphics, sound,
+accessibility, keybindings and resource-pack lists remain authoritative.
 
-We intentionally leave Default Options' `defaultResourcePacks` config empty.
-That separate post-load handler replaces the selection once when its journal
-entry is absent, even if player options already exist. The copy-if-absent
-options template preserves existing resource-pack choices instead.
+A launcher-created file containing only version/fullscreen fields can receive
+our absent resource-pack and F7 entries. A file already containing `resourcePacks`,
+even `["vanilla"]`, keeps that exact value and order; enable Continuity manually
+in that case. A saved F8/F9 overlay binding is preserved. Existing App-synced
+preferences can take precedence over pack defaults.
 
-Root `options.txt`, `servers.dat`, the runtime journal, and direct mod-config
-overrides are excluded and rejected by validation. No user preference file or
-journal is shipped. Preserve the player's options, configs and journal during
-an upgrade. Existing files retain their contents, so older instances may need
-F7 or Continuity's two packs selected manually. Review the overlap switches in
-existing Mouse Tweaks and Client Tweaks configs rather than replacing files.
-Already-overwritten preferences from an older installer cannot be reconstructed
-by this change. File copying, key preservation, early-init ordering and Prism's
-handling remain explicit [manual acceptance checks](acceptance-tests.md).
+The options template includes data version `4903`, read from `world_version` in
+`version.json` inside the SHA-1-verified official Minecraft 26.2 client archive.
+The [official version metadata](https://piston-meta.mojang.com/v1/packages/cf103b8fab4900562221bf7f23b72725dd9a914a/26.2.json)
+and source hash are recorded in `docs/upstream-metadata.json`. This is format
+metadata for modern key serialization, not a graphics preference. Existing
+version fields are not overwritten. Inspecting the ZIP did not execute Minecraft.
+
+Merging rewrites the options file only when adding keys. It preserves existing
+parsed values, but malformed lines and duplicate keys are not preserved verbatim.
+Use a copy of an existing profile when testing upgrades. Configured Defaults
+uses no persistent first-run journal; its per-process guard prevents duplicate
+initialization, and subsequent launches recheck for missing files/keys.
 
 ## Defaults manager evaluation, 2026-11-19
 
-**Decision: retain Default Options `26.2.0.3+fabric-26.2` (`hS9ZtUOA`).**
-No mod, dependency, template, pack version or release-qualification field changes
-in this evaluation. Preservation takes priority over automatically enabling
-Continuity when a launcher or player already supplied an options file.
+**Decision: select Configured Defaults 26.2.0 (`oM0C4RRZ`, project `SISoSFPP`).**
 
 We retained the requested weights: preference preservation 25%, launcher
 interoperability 25%, initial defaults 20%, update/reset experience 10%,
-maintenance/compatibility 10%, and simplicity 10%. These weights guide judgment,
-not measured launcher scores. The first 50% favors preserving existing data and
-avoiding competing writers. Default Options supplies our specific defaults and
-changes the Controls reset default to F7 without rewriting existing non-key
-options. Its missing-file limitation is explicit. Configured Defaults improves
-missing-key merging, but that does not solve an existing `resourcePacks` field.
-Config Manager's useful UI does not resolve its eligibility blocker.
-Our only maintained non-key vanilla default is `resourcePacks`. Configured
-Defaults' merge cannot improve that already-present field, while our new key
-already has a dedicated handler. Its broader merge capability therefore provides
-little benefit for the defaults actually shipped here.
+maintenance/compatibility 10%, and simplicity 10%. These guide engineering
+judgment, not measured launcher scores. Configured Defaults wins the concrete
+partial-options case while preserving existing values. That matters more under
+the combined 45% interoperability/initial-default criteria than Default Options'
+better native key-reset behavior. It has no extra dependency projects or
+persistent journal and remains eligible under our strict client-only policy.
+
+Current [Modrinth App launch code](https://github.com/modrinth/code/blob/a22ebc163b21bb266a58957338dd2d8789298b0d/packages/app-lib/src/api/instance/synced_options/game_options/launch_overrides.rs)
+can create options before Minecraft, and
+[its document initializer](https://github.com/modrinth/code/blob/a22ebc163b21bb266a58957338dd2d8789298b0d/packages/app-lib/src/api/instance/synced_options/game_options/options_file.rs)
+starts with only the data version. Fullscreen overrides can therefore leave a
+partial file. Configured Defaults fills our absent fields safely; Default Options'
+non-key file handler skips the whole existing file. Neither can safely replace
+an already populated resource-pack choice. App source is not a claim that a
+particular installed version was runtime-tested.
+
+Default Options remains a viable preference-preserving alternative, especially
+for pack-defined Controls reset defaults. Config Manager has a useful UI, but
+its environment metadata remains contradictory and its reset operations are too
+broad for automatic upgrades. See the source evidence and tradeoffs below.
 
 The comparison below uses **V** = Verified supported by metadata/source,
 **C** = Supported with caveats, **N** = Not supported, and **U** = Unknown / requires
@@ -71,8 +78,8 @@ runtime testing. V is not a Minecraft or launcher acceptance result.
 | Preserve existing mod files on normal launch/update | V: existence check | V: existence check | V: existence check |
 | Merge missing keys inside existing mod configs | N | N | N |
 | Existing options file, even one launcher-created | C: normally skipped; narrow fullscreen workaround below | V: append only missing option keys | C: skip non-key options; separate key handler still applies unseen keys |
-| Preserve existing valid option values and resource-pack order | V in normal copy mode | C: put-if-absent preserves values, but a merge rewrites parsed lines and drops malformed lines/duplicate keys | V: leave existing non-key file untouched; saved keys respected |
-| Automatically add Continuity when `resourcePacks` already exists | N in normal mode | N | N under the selected safe policy; optional replacement handler is deliberately unused |
+| Preserve existing valid option values and resource-pack order | V in normal copy mode | C: put-if-absent preserves values, but a merge rewrites parsed lines and drops malformed lines/duplicate keys | V: existing option values and saved keys respected; applying a new key can trigger Minecraft’s normal save |
+| Automatically add Continuity when `resourcePacks` already exists | N in normal mode | N | N under a preservation policy; optional replacement handler would replace the list |
 | F7 for unseen overlay binding; F7 as Controls reset default | C: missing whole options file only; no separate binding-default handler | C: absent key can be added; no native reset-default replacement | V: separate handler supplies both and respects seen bindings |
 | Newly added defaults after a pack upgrade | C: new files only | C: new files and missing options keys | C: new files and unseen keys; no non-key options merge |
 | Deliberate adoption/reset | C: GUI Update overwrites whole target files; Reset deletes config tree | C: manual file removal/edit; no reset GUI found | C: per-key Controls reset; manual edit or per-file re-seed for other settings |
@@ -103,7 +110,7 @@ runtime testing. V is not a Minecraft or launcher acceptance result.
   is authoritative for these target requirements. Its 26.3 release was published
   2026-09-22; an older-line update followed on 2026-09-26.
 - **Default Options**, project `WEg59z5b`, has release-designated versions for both
-  targets. The selected 26.2 release was published 2026-07-24; its 26.3 successor
+  targets. The previously used 26.2 release was published 2026-07-24; its 26.3 successor
   on 2026-09-16. Native Loader minimum is `>=0.19.3`, Java `>=25`, and Minecraft
   `~26.2-`. Required Fabric API and Balm are already pinned. Default Options requires
   `balm-fabric >=26.2.0.1`; our 26.2.0.9 pin remains unchanged. No additional dependency or
@@ -144,8 +151,8 @@ record of which whole files or individual mod settings were customized. The
 can operate despite a launcher-created options file, but its guard is the absence
 of a journal entry. It cannot tell a fresh launcher file from a customized
 existing resource-pack list. Missing/corrupt/deleted journals can allow another
-application. Lantern Crossing therefore keeps `defaultResourcePacks` empty and
-rejects packaged manager configs that would activate it. This is a deliberate
+application. Lantern Crossing therefore removes that manager and rejects packaged configs
+that would activate its replacement handler. This is a deliberate
 preservation decision, not an unsupported launcher workaround.
 
 ### What FO does, and what we reuse
@@ -190,12 +197,14 @@ packs are not propagated like user-added packs. Whether built-in Continuity IDs
 and our key behave as expected in the installed App version still needs testing.
 
 We ship no launcher settings or sync configuration. Existing saved/synced keys,
-including an intentional F9 binding, win over our unseen-key default. If that
-conflicts with Renice Shot, deliberately change Light Overlay to F7 and, where
-the App supports it, exclude that setting from global synchronization for this
-instance. Do not disable all user sync automatically or fight it on every launch.
-When options already exist, enable Continuity manually in Resource Packs and
-keep any personal packs in the desired order.
+including an intentional F9 binding, win over our missing-key default. If that
+conflicts with Renice Shot, deliberately bind Light Overlay to F7 and, where the
+App supports it, exclude that setting from global synchronization for this
+instance. Do not disable all user sync automatically or fight it every launch.
+When a resource-pack field already exists, enable Continuity manually and keep
+personal packs in the desired order. The App's resource-pack updater can defer
+work when the field is absent; this also does not establish actual launcher
+compatibility without the owner's tests.
 
 A local `.mrpack` import does not itself establish an upstream project link for
 automatic updates. Use a launcher-supported upgrade path if available for that
@@ -205,58 +214,68 @@ publish a Modrinth project or promise either launcher's automatic update UI.
 
 ### Deliberately adopt updated defaults
 
-Default Options' [save commands](https://mods.twelveiterations.com/minecraft/default-options/commands)
-capture the current setup for pack authors. They are not reset commands.
-Do not use `saveAll` to adopt the shipped defaults or delete the journal as a
-routine update step.
+Configured Defaults has no in-game reset GUI. It does not change a mod's native
+key reset default. Controls' reset for Light Overlay therefore returns its native
+F9, not our initial F7; deliberately bind that action to F7 instead.
 
-- To reset only Light Overlay, use that action's reset control in Controls, then
-  verify F7. Leave other keybindings alone. A global App preference may need a
-  deliberate per-instance exception.
-- To enable Continuity, select its two built-in packs in Resource Packs. Preserve
-  the desired order of personal packs. No file deletion is necessary.
-- To adopt an individual new mod setting, change that setting through its UI or
-  edit that field with the game closed. Existing config files are not merged.
-- To reset an entire maintained mod config, close Minecraft, save a copy of that
-  specific live file, and move it out of the way. The next launch re-seeds the
-  absent file. This resets all settings in that file, not just fields changed by
-  the pack. Do not remove the entire config directory or root options file.
+- To adopt an individual option or mod setting, use its normal UI or edit that
+  one field with the game closed. Existing values are not replaced by updates.
+- To enable Continuity, select both built-in packs in Resource Packs and preserve
+  personal pack order. No file deletion is necessary.
+- To reset an entire maintained mod config, close Minecraft, save a copy, and move
+  only that live file aside. Next launch re-seeds it. This resets all settings in
+  that file, not just fields changed by the pack. Do not remove the whole config
+  directory or root options file.
+- To reapply one packaged options key through merging, close the game and save a
+  copy of `options.txt`, then remove only that key's line. The next launch adds
+  it if the launcher has not already supplied it. App sync may require an explicit
+  per-instance exception. Directly choosing the setting in-game is usually easier.
 
-Existing 26.2.0.6.0 installations keep the same manager, templates and journal;
-there is no defaults-manager migration or cleanup. For older installations that
-received direct overrides, preserve options/configs before testing the launcher's
-upgrade behavior in a disposable copy. The defaults mod cannot restore settings
-an older installer already overwrote or prevent a launcher deleting old overrides.
-Obsolete Config Manager/YOSBR/Configured Defaults trees are rejected in source,
-not silently deleted from player instances. Remove another manager from a
-personal profile before combining it with Lantern Crossing.
+### Migrate existing installations
+
+Use a launcher-supported update path or a disposable copy of the old profile.
+Before launching the updated pack, verify that `defaultoptions-...jar` is removed
+and `ConfiguredDefaults-...Fabric.jar` is installed. Do not run two defaults
+managers. The pack contains only Configured Defaults; a launcher's failure to
+remove old mod files cannot be repaired by source validation.
+
+Existing options and mod configs win over templates. Configured Defaults ignores
+`defaultoptions.journal.json` and `config/defaultoptions`, so leftover files from
+26.2.0.6.0 do not execute after its old mod is removed. They need not be deleted
+to migrate. After verifying the transition, the user may remove only that unused
+template folder and journal with the game closed. Never delete live preferences
+as a normal upgrade step. The repository rejects obsolete manager trees, but
+ships no destructive cleanup script for player instances.
+
+For older packs that distributed direct overrides, save options/configs and test
+the launcher's removal behavior first. The defaults mod cannot restore previously
+overwritten preferences or prevent a launcher removing formerly managed files.
 
 ### File-handler evidence and automation limits
 
-Seven isolated fixtures executed the unmodified pinned Default Options
-`SimpleDefaultOptionsFileHandler` and `ExtraDefaultOptionsHandler`, context,
-interfaces and exception source with `DefaultOptionsFilesOracle.java`. Observations
-and source/template hashes are in `tests/fixtures/default-options-files.json`.
-The fixtures cover absent options, launcher-created options, personalized files,
-repeat application, added defaults during an update, custom resource packs with
-no journal, and an existing journal followed by deliberate per-file re-seeding.
+Seven isolated fixtures execute the unmodified pinned upstream
+`CopyDefaultsHandler` through `ConfiguredDefaultsFilesOracle.java`. Observations,
+source/adapter/template hashes and the exact artifact SHA-512 are recorded in
+`tests/fixtures/configured-defaults-files.json`. Cases cover fresh files,
+launcher-created partial options, customized settings, repeat launch, an update
+with new keys/files, a custom resource-pack list, and transition from a previous
+manager followed by deliberate per-file re-seeding. The previous manager is not
+executed concurrently in that transition fixture.
 
-The audit compiled those source files on JDK 17.0.21.1 outside the repository.
-Apache Commons IO 2.20.0 supplied real file copying and was checked against
-Maven's published SHA-1; its SHA-512 is recorded in the fixture. Only logging,
-a nullability annotation and a fail-on-use Minecraft type for deprecated API
-methods were stubbed. No Minecraft initialization, keymapping, resource repository
-or launcher ran. This verifies the isolated file methods, not startup ordering,
-F7 application, actual rendering or launchers. Ordinary Python tests only bind
-these recorded observations to the current artifact/template hashes; they do not
-rerun Java or substitute a Python implementation of mod behavior.
+The audit compiles that source on JDK 17.0.21.1 outside the repository. Only its
+logger/constants holder is stubbed. Each run uses a disposable game directory as
+both its argument and working directory, matching the handler's path assumption.
+No Fabric, Minecraft, resource repository or launcher runs. This verifies file
+methods, not actual initialization order, key dispatch, resource rendering or
+synchronization. Normal Python tests bind recorded observations to current pins
+and templates; they do not download Java or invent a Python implementation.
 
-Validators reject competing manager IDs, obsolete template trees, reset/update
+Validators reject competing manager IDs, obsolete template trees, forced-reset
 flags, unsupported template locations, root live preferences and resource-pack
-replacement configuration. Existing exact pin, native dependency, client-only,
-export and release checks remain in force. The
+replacement config. Exact pins, native dependency compatibility, client-only
+policy, full exports and release gates remain enforced. The
 [launcher acceptance matrix](acceptance-tests.md#launcher-configuration-acceptance-matrix)
-contains every remaining runtime check.
+leaves all runtime results open.
 
 ## Inventory gestures
 
@@ -352,7 +371,7 @@ Tweaks retain their upstream editing defaults.
 
 Light Overlay retains its upstream behavior defaults. The
 [release's key registrations](https://github.com/lugosieben/lightoverlay/blob/7e7647bb424ca8195329c889ce529c5974d11c21/src/main/java/net/lugo/lightoverlay/registration/KeyMappings.java)
-bind overlay toggling to F9, which conflicts with Renice Shot. The keybindings template changes `key_key.light-overlay.toggle` to `key.keyboard.f7`.
+bind overlay toggling to F9, which conflicts with Renice Shot. The options template seeds `key_key.light-overlay.toggle` as `key.keyboard.f7` only when absent.
 F9 remains the high-resolution screenshot key familiar from FO.
 Config opening and overlay-mode cycling are unbound.
 The config screen is also available from Mod Menu or the client-local
@@ -432,5 +451,5 @@ downloaded for this choice.
 FO also enables Sodium translation, chat-reporting, and Mod Menu helper packs.
 Those helper packs are not included here. Animatica, Polytone, custom entity
 models/textures, and custom sky support remain outside this addition.
-Config Manager remains staged. Default Options now supplies the selected
+Config Manager remains staged. Configured Defaults now supplies the selected
 copy-if-missing behavior; do not install two default-setting managers together.
