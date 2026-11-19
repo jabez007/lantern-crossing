@@ -179,6 +179,15 @@ class PackTests(unittest.TestCase):
         (self.root / "config/new.cfg").write_text("new")
         self.invalid("index omits")
 
+    def test_required_native_version_range_is_enforced(self):
+        def incompatible_loader(snapshot):
+            self.evidence_version(snapshot, "AANobbMI")["fabric_descriptor"]["depends"][
+                "fabricloader"
+            ] = ">=999"
+
+        self.edit_evidence(incompatible_loader)
+        self.invalid(r"sodium@.*requires fabricloader '>=999'; installed version: 0.20.1")
+
     def test_symlink_payload_is_rejected(self):
         (self.root / "config/link.cfg").symlink_to(self.root / "pack.toml")
         self.invalid("symlink")

@@ -140,3 +140,33 @@ release. Correct a published artifact with a new version and tag.
 The release format is `.mrpack`. No CurseForge ZIP is produced. Adding another
 format requires a concrete use case and review of its redistribution behavior
 and the individual mod licenses.
+
+## Native Fabric requirements
+
+The offline checker also evaluates native `depends` and hard `breaks` against
+pinned root modules, bundled modules, `provides` aliases, Minecraft, Fabric
+Loader, and the declared minimum Java major in `collection.toml`. Optional
+`recommends`, `suggests`, and soft `conflicts` do not become required edges.
+Failures name the declaring module, requirement, and installed version.
+
+This is a conservative partial implementation of
+[Fabric Loader 0.20.1 predicates](https://github.com/FabricMC/fabric-loader/blob/0.20.1/src/main/java/net/fabricmc/loader/impl/util/version/VersionPredicateParser.java),
+not ordinary npm SemVer or Python packaging versions. It supports exact and
+ordered numeric bounds, arbitrary numeric component counts, prereleases, ignored
+build metadata, space-separated AND, array OR, caret, tilde, trailing wildcards,
+and Fabric's equality handling of opaque labels. In particular, Fabric's caret
+behavior for major zero differs from npm. Python SemVer/PEP 440 libraries do not
+provide these semantics directly; adding one would still require an adapter.
+
+Unsupported syntax, non-ASCII version cores, opaque ordering, ambiguous bundled
+alternatives, and duplicate mandatory IDs fail visibly. Root artifacts are
+mandatory; among bundled copies the checker considers the newest version. A
+constraint requiring selection of a different bundled copy requires Loader's
+resolver and is reported as unevaluable. This does not implement Loader's full
+SAT/backtracking selection algorithm or prove runtime compatibility. The Java
+requirement checks the declared baseline, not the user's actual JVM.
+
+Offline conformance fixtures record results from Loader's public API and the
+exact Maven artifact SHA-256. The small Java adapter in `tests/fixtures/` allows
+maintainers to regenerate that evidence outside Minecraft; normal tests require
+neither Java, downloaded JARs, nor network access.
