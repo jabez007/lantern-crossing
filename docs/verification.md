@@ -1,5 +1,46 @@
 # Verification record
 
+## Initial Prism Launcher runtime smoke test
+
+Source: the repository owner's initial runtime acceptance report for Minecraft
+Java 26.3, recorded on 2026-11-19. The owner imported a GitHub Actions development
+`.mrpack` into Prism Launcher, launched Minecraft and played/explored successfully.
+The initial smoke test passed, with no significant issues reported.
+
+| Observation | Owner-confirmed result |
+| --- | --- |
+| Prism import and startup | Development pack imported and Minecraft 26.3 launched successfully; no blocking startup issue reported. |
+| Gameplay and exploration | Play and exploration worked; general feedback was positive. Individual mods were not comprehensively exercised. |
+| IPN purple hotbar arrows | Expected auto-refill indicators. Owner chose to keep them enabled. |
+| Mod Menu compact pause-menu icon | Mod Menu is present and accessible through the list icon in the pause-menu icon row. Owner chose to retain that style. |
+| BetterGrassify green block sides | Expected FANCY-mode grass extending down block sides, rather than a rendering defect. Owner chose to retain the current configuration. |
+
+The three unfamiliar behaviors are resolved observations, not bugs or outstanding
+issues. No configuration changes are requested or made. This report does not
+establish an absence of all dependency warnings or log errors.
+
+The report does not identify the exact archive filename/SHA-256, test-session
+date, Prism version, Java runtime details, OS, GPU or driver. Do not infer those
+from the current build records below or bind this result to an unconfirmed hash.
+This is preliminary owner evidence, not final release approval. The detailed
+[acceptance checklist](acceptance-tests.md), migration runtime states and final
+release-approval fields remain pending.
+
+The following remain unconfirmed by this report:
+
+- Modrinth App installation and startup.
+- Both bundled shaders, shader switching and performance comparisons.
+- The complete unmodified vanilla-server compatibility matrix.
+- Every individual QoL mod's functionality.
+- Configured Defaults on a completely fresh instance.
+- Preference persistence after restarts and preservation through pack upgrades.
+- Existing-world and configuration migration from 26.2 to 26.3.
+- Platform compatibility beyond the owner's tested environment, whose details
+  were not supplied.
+
+The build records below describe automated work at their respective milestones.
+Their statements that no runtime testing occurred apply to those earlier checks.
+
 ## Development artifact naming
 
 Pack version `26.3.0.1.0` now exports

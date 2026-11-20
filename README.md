@@ -17,6 +17,8 @@ The loader pin comes from Fabric's [26.3 compatibility
 API](https://meta.fabricmc.net/v2/versions/loader/26.3), checked on 2026-11-19.
 The checked evidence is in [upstream-metadata.json](docs/upstream-metadata.json).
 Pack version `26.3.0.1.0` is a development baseline, not a runtime qualification.
+The owner reports a passed [initial Prism smoke test](docs/verification.md#initial-prism-launcher-runtime-smoke-test)
+for import, startup and gameplay. Full runtime acceptance remains pending.
 
 ## Version branches and feature freeze
 

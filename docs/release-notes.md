@@ -30,6 +30,8 @@ independent maintenance pins and acceptance records. Backport applicable fixes
 selectively; never merge the new dependency graph wholesale. Feature selection
 remains frozen during migration and acceptance.
 
-All Minecraft, Prism, Modrinth App and GPU/runtime checks remain uncompleted.
-Successful static CI prepares a development artifact for owner testing and does
-not qualify release publication. No release tag or acceptance record is created.
+The owner reports a passed [initial Prism smoke test](verification.md#initial-prism-launcher-runtime-smoke-test)
+for import, startup and gameplay. Full acceptance remains pending, including
+Modrinth App, shaders, vanilla-server compatibility, preferences and upgrades.
+Successful static CI and this initial smoke test do not qualify release
+publication. No release tag or final release-approval record is created.

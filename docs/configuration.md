@@ -331,6 +331,10 @@ leaves all runtime results open.
 IPN owns sorting, scroll transfers, and shift-drag movement. Mouse Tweaks supplies
 right-button dragging and left-button dragging with a carried stack.
 
+IPN's small purple arrows on hotbar slots are auto-refill indicators. The owner
+confirmed these as expected during the initial Prism smoke test and chose to
+keep them enabled.
+
 | Mouse Tweaks key | Pack value | Reason |
 | --- | --- | --- |
 | `RMBTweak` | `1` | Keep its right-button drag behavior |
@@ -472,8 +476,10 @@ registers Client Tweaks and its local config on the client. Balm's
 maps the common config annotation to `config/clienttweaks-common.toml`.
 Balm can populate omitted options from upstream defaults on first load.
 
-Mod Menu exposes the active mods' configuration screens. Sign Tweaks and Book
-Tweaks retain their upstream editing defaults.
+Mod Menu exposes the active mods' configuration screens. Its pause-menu entry is
+the compact list icon in the icon row. The owner confirmed it is accessible and
+chose to retain that style. Sign Tweaks and Book Tweaks retain their upstream
+editing defaults.
 
 ## Light Overlay
 
@@ -599,6 +605,10 @@ visible than FO's disabled better-grass setting, with fewer effects than the
 upstream default. No resource pack or pack-order change is needed. Configure or
 disable effects through its Mod Menu/Sodium UI. Existing `config/bettergrass.json`
 files are preserved whole, including settings from a previous manual install.
+
+FANCY mode extends the grass texture down grass-block sides instead of showing
+the usual brown dirt sides. The owner confirmed this as expected in the initial
+Prism smoke test and chose to retain the current configuration.
 
 Controlling uses upstream defaults and adds no keybinding. Its conflict search
 helps locate saved F7/F9 collisions; it does not fix them automatically. The

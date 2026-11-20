@@ -1,8 +1,12 @@
 # Clean-client acceptance tests
 
 Static CI validates metadata and packaging. It does not launch Minecraft, verify
-rendering, or prove a vanilla-server join. No runtime test has been completed for
-the initial baseline. Complete this checklist before accepting a release.
+rendering, or prove a vanilla-server join. The owner reports a passed initial
+Prism Launcher smoke test on Minecraft 26.3, covering import, startup and gameplay.
+See the [owner's initial results](verification.md#initial-prism-launcher-runtime-smoke-test)
+for the confirmed observations and limits. The detailed checks below remain
+uncompleted; general play does not establish every row. Complete this checklist
+before accepting a release.
 
 Use a fresh launcher instance imported from the built `.mrpack`, Minecraft 26.3,
 Fabric Loader 0.20.1, and Java 25. Test against a completely unmodified vanilla
