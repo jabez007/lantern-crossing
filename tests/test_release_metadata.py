@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 
 from migration import validate_migration
 from pack_model import ROOT, load_toml
-from release_metadata import metadata
+from release_metadata import artifact_names, metadata
 
 
 class ReleaseTests(unittest.TestCase):
@@ -59,11 +59,34 @@ class ReleaseTests(unittest.TestCase):
         (self.root / "docs").mkdir(exist_ok=True)
         (self.root / "docs/verification.md").write_text("Synthetic test fixture only.")
 
+    def test_naming_matrix_for_both_targets_and_channels(self):
+        pack = load_toml(self.root / "pack.toml")
+        revision = self.version.removeprefix(self.line + ".")
+        for line in ("26.3", "26.2"):
+            version = line + "." + revision
+            fixture = pack | {
+                "version": version,
+                "versions": pack["versions"] | {"minecraft": line},
+            }
+            for channel, suffix in (("development", "-dev"), ("release", "")):
+                with self.subTest(line=line, channel=channel):
+                    info = artifact_names(fixture, line, channel)
+                    basename = "lantern-crossing-" + version + suffix
+                    self.assertEqual(info["artifact-version"], version + suffix)
+                    self.assertEqual(info["basename"], basename)
+                    self.assertEqual(info["artifact-name"], basename)
+                    self.assertEqual(info["archive"], basename + ".mrpack")
+                    self.assertEqual(info["checksum"], basename + ".sha256")
+                    self.assertEqual(info["version-branch"], line)
+                    self.assertNotIn("-dev-" + line, info["archive"])
+                    self.assertNotIn("-dev." + line, info["artifact-version"])
+
     def test_development_is_default_and_names_actual_target(self):
         info = metadata(self.root)
         self.assertEqual(info["channel"], "development")
         self.assertIn("Minecraft 26.3", info["summary"])
-        self.assertEqual(info["archive"], f"lantern-crossing-{self.version}-dev-{self.line}.mrpack")
+        self.assertEqual(info["archive"], f"lantern-crossing-{self.version}-dev.mrpack")
+        self.assertEqual(info["artifact-version"], self.version + "-dev")
         self.assertIn("development", info["name"])
 
     def test_version_branch_cannot_mask_a_different_minecraft_target(self):

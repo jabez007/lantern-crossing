@@ -45,8 +45,12 @@ Do not force-push, rewrite published history or delete either version branch.
 
 ## Artifacts and discovery
 
-Development names include the actual version and declared branch:
-`lantern-crossing-26.3.0.1.0-dev-26.3.mrpack` and `.sha256`.
+Development filenames append only `-dev` to the pack version:
+`lantern-crossing-26.3.0.1.0-dev.mrpack` and `.sha256`.
+The generated manifest version is `<pack-version>-dev`; a qualified release uses
+`<pack-version>` with no development suffix. Checksums and GitHub Actions
+artifact names use the same basename. Branch/target validation remains mandatory
+independently of naming; the manifest retains its branch/target labels.
 Qualified release names omit the development suffix. A tag alone cannot bypass
 branch/target agreement, exact pins, full migration disposition or owner acceptance.
 

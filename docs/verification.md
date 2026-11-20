@@ -1,5 +1,39 @@
 # Verification record
 
+## Development artifact naming
+
+Pack version `26.3.0.1.0` now exports
+`lantern-crossing-26.3.0.1.0-dev.mrpack` with a matching
+`lantern-crossing-26.3.0.1.0-dev.sha256` file. The generated manifest uses
+`26.3.0.1.0-dev`. Qualified releases retain the unsuffixed pack version/name.
+Only naming changes; pack/index, all artifact pins, configs and release acceptance
+requirements remain unchanged. Historical artifacts/releases are not renamed.
+
+Observed: `make test lint validate` passed 148 offline tests, lint/format and
+all repository checks. `make refresh` left the pack/index/locks unchanged.
+`make checksum` and repeated `make export` with
+`PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'` passed;
+`cmp` confirmed byte-identical outputs and `sha256sum --check` passed.
+Actionlint and the configured complexity check passed. The archive is 31,987
+bytes with 54 downloads and six defaults payloads. Its only internal difference
+from the prior archive is the development manifest `versionId`.
+
+SHA-256: `5a02ef6230042064afcb2736fe8efefa1d54ebaef6f1acac37ccbe9ecaa3cd31`.
+
+Regression tests first failed with the old naming, then passed for development
+and release identities on both Minecraft targets. They cover normalization,
+checksum names, rejection of legacy filenames and all prior release gates.
+Documentation now checks branch/target agreement explicitly because filenames
+no longer contain the branch. Makefile and Actions already consume the shared
+metadata outputs, so no duplicated naming logic or workflow edit is needed.
+No Minecraft or launcher runtime acceptance was performed or marked complete.
+
+The earlier records below describe builds produced before this naming cleanup.
+Their old filenames, manifest versions, sizes and checksums remain historical
+evidence, not current build instructions.
+
+## Historical 26.3 migration verification
+
 Pack version `26.3.0.1.0` is the primary Minecraft 26.3 migration baseline.
 Development artifact: `lantern-crossing-26.3.0.1.0-dev-26.3.mrpack`.
 All 41 feature mods, eleven libraries and two shaders from 26.2.0.10.0 are

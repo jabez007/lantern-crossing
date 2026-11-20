@@ -139,9 +139,9 @@ on any future distribution description page.
 ## Install an exported pack
 
 1. Obtain a reviewed release, or build the development artifact below. Current
-   development output is `lantern-crossing-26.3.0.1.0-dev-26.3.mrpack` with its
+   development output is `lantern-crossing-26.3.0.1.0-dev.mrpack` with its
    matching `.sha256`. A development build still requires manual acceptance.
-2. Verify the download with `sha256sum --check lantern-crossing-26.3.0.1.0-dev-26.3.sha256`.
+2. Verify the download with `sha256sum --check lantern-crossing-26.3.0.1.0-dev.sha256`.
 3. Import the `.mrpack` into a launcher that supports Modrinth packs. Use a new
    instance with Java 25 and let the launcher obtain the pinned upstream files.
 4. Start the client and complete the [smoke tests](docs/acceptance-tests.md),
@@ -208,13 +208,13 @@ permissions, and JSON encoding. Stored entries avoid compression-version drift.
 Default development outputs are:
 
 ```text
-dist/lantern-crossing-26.3.0.1.0-dev-26.3.mrpack
-dist/lantern-crossing-26.3.0.1.0-dev-26.3.sha256
+dist/lantern-crossing-26.3.0.1.0-dev.mrpack
+dist/lantern-crossing-26.3.0.1.0-dev.sha256
 ```
 
 GitHub Actions validates pushes to `26.2` and `26.3` and pull requests targeting
 either branch. It checks index consistency, builds twice to compare archive
-bytes, and uploads artifacts labeled with their version, branch and channel.
+bytes, and uploads artifacts named with their pack version and channel.
 The archive identifies Minecraft 26.3 and the development channel. Both numeric
 version branches must target their own Minecraft version, including development
 builds. CI success permits owner testing; it does not qualify a release.
