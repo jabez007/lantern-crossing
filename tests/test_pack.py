@@ -353,7 +353,7 @@ class PackTests(unittest.TestCase):
         version = load_toml(self.root / "pack.toml")["version"]
         self.assertEqual(
             metadata(self.root, "v" + version)["archive"],
-            f"lantern-crossing-{version}-dev-26.2.mrpack",
+            f"lantern-crossing-{version}-dev.mrpack",
         )
         with self.assertRaisesRegex(ValueError, "tag must agree"):
             metadata(self.root, "v" + version + ".1")
@@ -362,7 +362,9 @@ class PackTests(unittest.TestCase):
         (self.root / "dist").mkdir()
         name = metadata(self.root)["archive"]
         (self.root / "dist" / name).write_bytes(b"archive")
-        result = write_checksum(self.root).read_text()
+        checksum = write_checksum(self.root)
+        self.assertEqual(checksum.name, Path(name).with_suffix(".sha256").name)
+        result = checksum.read_text()
         self.assertEqual(result, hashlib.sha256(b"archive").hexdigest() + "  " + name + "\n")
 
     def test_stability_uses_upstream_release_designation(self):
@@ -443,7 +445,20 @@ class PackTests(unittest.TestCase):
         return path
 
     def test_complete_archive(self):
-        validate(self.write_archive(*self.archive_data()), self.root)
+        manifest, overrides = self.archive_data()
+        version = load_toml(self.root / "pack.toml")["version"]
+        self.assertEqual(manifest["versionId"], version + "-dev")
+        validate(self.write_archive(manifest, overrides), self.root)
+
+    def test_normalization_sets_the_development_manifest_version(self):
+        manifest, overrides = self.archive_data()
+        manifest["versionId"] = load_toml(self.root / "pack.toml")["version"]
+        path = self.write_archive(manifest, overrides)
+        normalize(path, metadata(self.root))
+        with zipfile.ZipFile(path) as archive:
+            normalized = json.loads(archive.read("modrinth.index.json"))
+        self.assertEqual(normalized["versionId"], manifest["versionId"] + "-dev")
+        validate(path, self.root)
 
     def test_archive_cannot_hide_its_development_identity(self):
         manifest, overrides = self.archive_data()
@@ -453,10 +468,16 @@ class PackTests(unittest.TestCase):
 
     def test_archive_filename_must_match_version_line_and_channel(self):
         path = self.write_archive(*self.archive_data())
-        wrong = path.with_name("lantern-crossing-26.3.0.1.0.mrpack")
-        path.rename(wrong)
-        with self.assertRaisesRegex(ValueError, "filename/branch/channel mismatch"):
-            validate(wrong, self.root)
+        pack = load_toml(self.root / "pack.toml")
+        version, line = pack["version"], pack["versions"]["minecraft"]
+        for suffix in ("", "-dev-" + line):
+            wrong = path.with_name(f"lantern-crossing-{version}{suffix}.mrpack")
+            wrong.write_bytes(path.read_bytes())
+            with (
+                self.subTest(suffix=suffix),
+                self.assertRaisesRegex(ValueError, "filename/branch/channel mismatch"),
+            ):
+                validate(wrong, self.root)
 
     def test_archive_missing_feature_or_dependency(self):
         manifest, overrides = self.archive_data()

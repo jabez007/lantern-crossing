@@ -91,8 +91,8 @@ def artifact_names(pack: dict, line: str, channel: str) -> dict[str, str]:
     version = pack["version"]
     target = pack["versions"]["minecraft"]
     development = channel == "development"
-    artifact_version = version + (f"-dev.{line}" if development else "")
-    basename = "lantern-crossing-" + version + (f"-dev-{line}" if development else "")
+    artifact_version = version + ("-dev" if development else "")
+    basename = "lantern-crossing-" + version + ("-dev" if development else "")
     return {
         "version": version,
         "minecraft": target,
@@ -115,6 +115,10 @@ def check_documentation(root: Path, version_branch: str) -> None:
     alone. Release publication uses the same development instructions in Git.
     """
     pack = load_toml(root / "pack.toml")
+    require(
+        version_branch == pack["versions"]["minecraft"],
+        "documentation branch disagrees with the Minecraft target",
+    )
     info = artifact_names(pack, version_branch, "development")
     for name in ("README.md", "docs/verification.md"):
         content = (root / name).read_text()

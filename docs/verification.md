@@ -1,5 +1,38 @@
 # Verification record
 
+## Development artifact naming
+
+Pack version `26.2.0.10.0` now exports
+`lantern-crossing-26.2.0.10.0-dev.mrpack` with a matching
+`lantern-crossing-26.2.0.10.0-dev.sha256` file. The manifest version is
+`26.2.0.10.0-dev`. Qualified release names and versions remain unsuffixed.
+Only the naming implementation, focused tests and current examples are backported
+from 26.3. Pack/index, all mod/shader pins, templates and release eligibility
+remain unchanged. Historical published artifacts/releases are not renamed.
+
+Observed: `make test lint validate` passed 143 offline tests and all lint/format,
+metadata, dependency and client-only checks. `make refresh`, `make checksum` and
+repeated `make export` with
+`PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'` passed.
+`cmp` confirmed byte-identical repeated exports; `sha256sum --check`, actionlint
+and the configured complexity check passed. The archive is 31,985 bytes with
+54 downloads and six defaults payloads. Only manifest `versionId` differs from
+the previous archive; all mod/shader locks, pack/index and config bytes match.
+
+SHA-256: `23845fc016c63d83e5b513e215e001386dfa97d977a54f133b88ace55e9d8b6d`.
+
+Coverage includes both Minecraft targets and channels, normalized manifest
+versions, checksum names, rejection of legacy filenames and unchanged branch/
+runtime-qualification safeguards. Makefile and Actions consume the shared
+naming outputs without workflow edits. No Minecraft or launcher runtime
+acceptance was performed or marked complete.
+
+The earlier records below describe builds before this naming cleanup. Their old
+filenames, manifest versions, sizes and checksums are historical evidence, not
+current build instructions.
+
+## Historical 26.2 maintenance verification
+
 ## Maintenance transition, 2026-11-19
 
 26.2 is now legacy maintenance; 26.3 is primary development and GitHub default.

@@ -44,9 +44,15 @@ do not copy those pins or acceptance states into 26.2.
 
 Shader selection, Iris defaults, resource-pack order and all player-preference
 safeguards remain unchanged. The development artifact remains
-`lantern-crossing-26.2.0.10.0-dev-26.2.mrpack`. Both shader choices download through
+`lantern-crossing-26.2.0.10.0-dev.mrpack`. Both shader choices download through
 official Modrinth references and remain disabled on a clean instance. Existing
 Iris choices and presets remain authoritative.
+
+Development filenames append only `-dev` to the pack version. The generated
+manifest version is `<pack-version>-dev`; qualified releases use `<pack-version>`
+without a development suffix. Checksum and GitHub Actions artifact names use the
+same basename. Branch/target validation remains mandatory independently of
+naming; the manifest retains its branch/target labels.
 
 ## Selection stability and upstream dependencies
 
