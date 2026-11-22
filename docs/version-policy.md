@@ -1,7 +1,7 @@
 # Version and update policy
 
 `pack.toml` owns the version, using `<Minecraft>.<major>.<minor>.<patch>`.
-The current development baseline is `26.3.0.1.0`.
+The current development baseline is `26.3.1.0.0`.
 Increment major for policy or selection changes requiring setup review, minor
 for compatible additions or substantial updates, and patch for scoped fixes.
 The Minecraft prefix must equal the actual target. The 26.2 maintenance line
@@ -18,10 +18,12 @@ version and their commit must belong to the appropriate remote version branch.
 Migration moves the complete curated 26.2 inventory forward to 26.3, preserving
 history. It does not imply that 26.2 passed runtime acceptance. The source is
 41 feature mods, eleven libraries and two optional shaders at pack 26.2.0.10.0.
-`migration.toml` schema 2 records every source artifact, exact source and target
+`migration.toml` schema 3 records every source artifact, exact source and target
 versions, roles, dependencies, static status, evidence and separate runtime state.
 The [human matrix](mod-audit.md#263-artifact-migration-matrix) covers the same set.
-No source feature was dropped or replaced. All runtime states remain pending.
+The writing exception replaces Sign Tweaks and Book Tweaks and adds two target-only artifacts.
+Source rows stay intact; additions have the same pin and runtime checks. Every
+replacement disposition also needs owner acceptance. All runtime states remain pending.
 
 Changes flow primarily from 26.3 to 26.2. Backport important relevant bug,
 security/privacy, configuration, installation, packaging, validation and
@@ -35,7 +37,10 @@ byte comparison; invalidate its acceptance if its pack/index changes.
 Keep the accepted inventory frozen during migration and owner runtime acceptance.
 Only compatibility fixes, broken dependencies, bugs, security/privacy issues,
 incorrect defaults, test failures and release documentation should change now.
-No speculative QoL or optimization additions. After qualification, new work
+No speculative QoL or optimization additions. The owner-authorized sign/book
+refinement is a limited 26.3-only exception, with no 26.2 backport.
+Version 26.3.1.0.0 increments major because removing the two previous editors requires setup
+review and changes available controls. After qualification, new work
 starts on 26.3; 26.2 remains selective maintenance.
 
 The migration does not qualify either branch for release. Each branch requires
@@ -46,7 +51,7 @@ Do not force-push, rewrite published history or delete either version branch.
 ## Artifacts and discovery
 
 Development filenames append only `-dev` to the pack version:
-`lantern-crossing-26.3.0.1.0-dev.mrpack` and `.sha256`.
+`lantern-crossing-26.3.1.0.0-dev.mrpack` and `.sha256`.
 The generated manifest version is `<pack-version>-dev`; a qualified release uses
 `<pack-version>` with no development suffix. Checksums and GitHub Actions
 artifact names use the same basename. Branch/target validation remains mandatory
@@ -78,7 +83,7 @@ The collection roles determine how validation applies:
 
 | Kind | Policy |
 | --- | --- |
-| Selected feature | Require upstream `version_type = "release"`, Fabric, and Minecraft 26.2. |
+| Selected feature | Require upstream `version_type = "release"`, Fabric, and Minecraft 26.3. |
 | Selected platform or library | Require upstream release designation and the same target checks. |
 | Resolved dependency | Require a legitimate, reachable dependency edge, exact lock, and client compatibility. A prerelease designation or identifier also requires exact upstream provenance. |
 | Bundled implementation component | Audit the component inside the upstream artifact. The containing artifact's content hash pins it, including any prerelease-looking version name. Reject server-only modules. |
@@ -163,8 +168,8 @@ empty until the owner actually performs the checklist. Static tests never set th
 Check and build a qualified release with:
 
 ```sh
-python3 scripts/release_metadata.py --channel release --tag v26.3.0.1.0
-make release RELEASE_TAG=v26.3.0.1.0
+python3 scripts/release_metadata.py --channel release --tag v26.3.1.0.0
+make release RELEASE_TAG=v26.3.1.0.0
 ```
 
 Without qualification these commands intentionally fail. Development validation,

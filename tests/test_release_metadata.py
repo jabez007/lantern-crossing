@@ -146,6 +146,58 @@ class ReleaseTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "omits active artifacts"):
             metadata(self.root)
 
+    def test_refinement_preserves_source_inventory_and_accounts_for_additions(self):
+        data = load_toml(self.root / "migration.toml")
+        self.assertEqual(len(data["artifact"]), data["source-artifact-count"])
+        self.assertEqual(data["source-artifact-count"], 54)
+        self.assertEqual({e["project-id"] for e in data["addition"]}, {"UCpxwAAu", "NKvLVQMc"})
+        replaced = next(e for e in data["artifact"] if e["project-id"] == "c7xDMxha")
+        self.assertEqual(replaced["status"], "replaced")
+        self.replace("migration.toml", 'project-id = "UCpxwAAu"', 'project-id = "missing"')
+        with self.assertRaisesRegex(ValueError, "omits active artifacts"):
+            metadata(self.root)
+
+    def test_replacement_cannot_point_to_missing_or_unchanged_editor(self):
+        self.replace(
+            "migration.toml", 'replaced-by = ["UCpxwAAu", "NKvLVQMc"]', 'replaced-by = ["c7xDMxha"]'
+        )
+        with self.assertRaisesRegex(ValueError, "invalid migration replacement"):
+            metadata(self.root)
+
+    def test_replacement_keeps_its_historical_pin_auditable(self):
+        self.replace(
+            "migration.toml", 'target-version-id = "bqVjibae"', 'target-version-id = "unknown"'
+        )
+        with self.assertRaisesRegex(ValueError, "pin disagrees"):
+            metadata(self.root)
+
+    def test_new_writing_artifacts_still_require_runtime_qualification(self):
+        self.qualify_fixture()
+        path = self.root / "migration.toml"
+        original, addition = path.read_text().split("[[addition]]", 1)
+        path.write_text(
+            original
+            + "[[addition]]"
+            + addition.replace('runtime = "accepted"', 'runtime = "pending"', 1)
+        )
+        with self.assertRaisesRegex(ValueError, "runtime acceptance remains pending"):
+            validate_migration(self.root, "26.3", "26.3", release=True)
+
+    def test_replaced_editor_still_requires_owner_disposition_acceptance(self):
+        self.qualify_fixture()
+        path = self.root / "migration.toml"
+        prefix, remainder = path.read_text().split('project-id = "c7xDMxha"', 1)
+        retired, suffix = remainder.split("[[artifact]]", 1)
+        retired = retired.replace('runtime = "accepted"', 'runtime = "pending"')
+        path.write_text(prefix + 'project-id = "c7xDMxha"' + retired + "[[artifact]]" + suffix)
+        with self.assertRaisesRegex(ValueError, "signtweaks: migration runtime acceptance"):
+            validate_migration(self.root, "26.3", "26.3", release=True)
+
+    def test_target_additions_cannot_invent_source_release_history(self):
+        self.replace("migration.toml", "[[addition]]", '[[addition]]\nsource-version = "invented"')
+        with self.assertRaisesRegex(ValueError, "target additions cannot claim source"):
+            metadata(self.root)
+
     def test_migration_claim_cannot_precede_target_change(self):
         with self.assertRaisesRegex(ValueError, "cannot claim migrated"):
             validate_migration(self.root, self.line, "26.2")

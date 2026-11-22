@@ -21,6 +21,10 @@ file = "configureddefaults/config/iris.properties"
 hash = "839d34c5b794e53e3e0155f87632026f1d5354f3dd55854d51e990d04d2c92a3"
 
 [[files]]
+file = "configureddefaults/config/symbol-chat.json"
+hash = "03912ced0043a8f0ffa984358d84c4c975a5243881c31cbec54f80d273201351"
+
+[[files]]
 file = "configureddefaults/options.txt"
 hash = "4b8768ccffd00474c4e8942c0843583d499219a7775b4afa2aacf91a68fde459"
 
@@ -55,8 +59,8 @@ hash = "39bff8f394b69a9c55ffeba8d70c1d7dc50be9ae8c9a54c041e1ef7ec23724bf"
 metafile = true
 
 [[files]]
-file = "mods/book-tweaks.pw.toml"
-hash = "850893630237f42e420a239aa9e6a3d7ac8537bf086d2745f99d0077f1aa0f1d"
+file = "mods/bigsignwriter.pw.toml"
+hash = "1508a283b3ccd9ba1664666481ade75c876a38a1af3b90c9efe893fbbd6bcced"
 metafile = true
 
 [[files]]
@@ -240,11 +244,6 @@ hash = "7b986b73d2312ed1c0374ea55bb4dad054cd09d57e4dab531fadf1590f157d6b"
 metafile = true
 
 [[files]]
-file = "mods/signtweaks.pw.toml"
-hash = "b8bb7be6ebe34cc42be7401b2ae14e380f686f8c14d52b91e8802464af195cd1"
-metafile = true
-
-[[files]]
 file = "mods/sodium-extra.pw.toml"
 hash = "53fdc648d1f1bca41d779bdb4263ce0dd5fcf5001562f067c45fa11da25cd048"
 metafile = true
@@ -257,6 +256,11 @@ metafile = true
 [[files]]
 file = "mods/status-effect-bars.pw.toml"
 hash = "95b3f0d239ca8c294c241fca1da4d3a6178de598e8435526fe91772caeda7ef6"
+metafile = true
+
+[[files]]
+file = "mods/symbol-chat.pw.toml"
+hash = "517e49ec41121fb4db7cd895ab8ca73150b7368312c9384985a2294c6b976eeb"
 metafile = true
 
 [[files]]

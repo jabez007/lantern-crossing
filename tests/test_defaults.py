@@ -102,6 +102,21 @@ class DefaultsTests(unittest.TestCase):
             self.assertEqual(hashlib.sha256((ROOT / name).read_bytes()).hexdigest(), digest, name)
         self.assertEqual(len(evidence["observations"]), 7)
         observations = {entry["scenario"]: entry for entry in evidence["observations"]}
+        template = ROOT / "configureddefaults/config/symbol-chat.json"
+        self.assertEqual(
+            json.loads(template.read_text()),
+            {"keep_font_selected": False, "unicode_table_missing_glyphs": True},
+        )
+        self.assertIn("configureddefaults/config/symbol-chat.json", evidence["templates-sha256"])
+        self.assertEqual(
+            observations["fresh"]["after"]["config/symbol-chat.json"], template.read_text()
+        )
+        for name in ("customized-instance", "repeat-launch", "pack-update"):
+            entry = observations[name]
+            self.assertEqual(
+                entry["before"]["config/symbol-chat.json"],
+                entry["after"]["config/symbol-chat.json"],
+            )
         self.assertEqual(
             observations["fresh"]["after"]["options.txt"],
             (ROOT / "configureddefaults/options.txt").read_text(),

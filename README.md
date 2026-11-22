@@ -16,11 +16,15 @@ The target is Minecraft **26.3**, Fabric Loader **0.20.1**, and Java **25**.
 The loader pin comes from Fabric's [26.3 compatibility
 API](https://meta.fabricmc.net/v2/versions/loader/26.3), checked on 2026-11-19.
 The checked evidence is in [upstream-metadata.json](docs/upstream-metadata.json).
-Pack version `26.3.0.1.0` is a development baseline, not a runtime qualification.
+Pack version `26.3.1.0.0` is a development baseline, not a runtime qualification.
 The owner reports a passed [initial Prism smoke test](docs/verification.md#initial-prism-launcher-runtime-smoke-test)
 for import, startup and gameplay. Full runtime acceptance remains pending.
 
 ## Version branches and feature freeze
+
+The owner authorized a 26.3-only writing refinement after runtime usability
+testing. This exception does not reopen other mod selection or authorize a
+26.2 backport. [Scope and decision](docs/mod-audit.md#writing-refinement).
 
 [`26.3`](https://github.com/jabez007/lantern-crossing/tree/26.3) is the primary
 development and release-candidate branch and GitHub default. It owns the active
@@ -28,7 +32,8 @@ feature inventory and targets Minecraft 26.3. The complete 26.2 inventory was
 migrated: 41 Fabric feature mods, eleven libraries and two optional shaders.
 The [artifact matrix](docs/mod-audit.md#263-artifact-migration-matrix) records
 all 54 source artifacts and the [migration inventory](migration.toml) checks
-exact target pins and dependency relationships. Runtime acceptance is pending.
+exact target pins and dependency relationships. The writing refinement replaces Sign Tweaks and Book Tweaks with Big Sign Writer and Symbol Chat,
+for 41 feature mods, eleven libraries and two shaders. Runtime acceptance is pending.
 
 [`26.2`](https://github.com/jabez007/lantern-crossing/tree/26.2) is the legacy
 maintenance branch. It retains its independent Minecraft 26.2 pins, releases and
@@ -57,9 +62,8 @@ defaults otherwise apply except for the documented [configuration and keybinding
 
 ## Active selections
 
-All 30 original features, Renice Shot, five FO-inspired additions, Configured Defaults,
-three QoL refinements and Enchantment Descriptions are active: 41 intentional
-Fabric mod features plus eleven libraries and two separate shader choices in
+The writing refinement brings the active set to 41 intentional Fabric mod
+features, eleven libraries and two separate shader choices in
 [collection.toml](collection.toml).
 
 | Category | Selected projects |
@@ -68,7 +72,7 @@ Fabric mod features plus eleven libraries and two separate shader choices in
 | Inventory | Inventory Profiles Next, Mouse Tweaks, Shulker Box Tooltip, Client Tweaks |
 | HUD and information | Status Effect Bars, Light Overlay, BetterF3, Better Mount HUD, Paginated Advancements, Better Statistics Screen, Food Effect Tooltips, Enchantment Descriptions |
 | Navigation | Xaero's Minimap, Xaero's World Map, Zoomify |
-| Writing | Sign Tweaks, Book Tweaks |
+| Writing | Big Sign Writer, Symbol Chat |
 | Visual and social | LambDynamicLights, Chat Heads, Iris, Renice Shot, Sodium Extra, Continuity, More Chat History, BetterGrassify |
 | Interface and windows | Reese's Sodium Options, Cubes Without Borders, Controlling |
 | Pack management | Mod Menu, Configured Defaults |
@@ -141,9 +145,9 @@ on any future distribution description page.
 ## Install an exported pack
 
 1. Obtain a reviewed release, or build the development artifact below. Current
-   development output is `lantern-crossing-26.3.0.1.0-dev.mrpack` with its
+   development output is `lantern-crossing-26.3.1.0.0-dev.mrpack` with its
    matching `.sha256`. A development build still requires manual acceptance.
-2. Verify the download with `sha256sum --check lantern-crossing-26.3.0.1.0-dev.sha256`.
+2. Verify the download with `sha256sum --check lantern-crossing-26.3.1.0.0-dev.sha256`.
 3. Import the `.mrpack` into a launcher that supports Modrinth packs. Use a new
    instance with Java 25 and let the launcher obtain the pinned upstream files.
 4. Start the client and complete the [smoke tests](docs/acceptance-tests.md),
@@ -165,6 +169,27 @@ Do not merge this pack into an existing instance's mod directory. A clean
 instance avoids leftover mods and configuration. Server rules may restrict
 minimaps or inventory assistance even though they require no server mods.
 
+## Write signs and books
+
+Big Sign Writer adds large letters and composed symbols using two to four normal
+sign rows. Symbol Chat adds searchable symbols, favorites and Unicode lettering
+in signs, writable books, chat and anvils. Books use the vanilla page editor. Choose BSW's **None (Vanilla)** mode for single-line Symbol Chat text;
+leave Symbol Chat on **Normal** when using BSW's large alphabets.
+
+These tools store ordinary text. Supported vanilla glyphs need no mod or resource
+pack on another client, but exact appearance and server persistence still need
+[owner acceptance](docs/acceptance-tests.md#writing-owner-acceptance-matrix).
+Large letters must fit the existing sign width; near the edge, BSW can omit part
+of a letter. Check all rows before saving. Native book color controls, file
+import/export and page reordering are not included.
+
+Sign Tweaks is removed because its text helper conflicts with BSW. Book Tweaks
+is removed after the exact JAR audit found obsolete key codes and paste-loss
+risks. Enhanced sign wrapping/selection, full-sign quick actions and Book Tweaks
+page tools/memory are no longer active. Remove both old JARs when upgrading a
+copied instance; keep player configs, books and signs. See the [writing audit](docs/mod-audit.md#writing-refinement)
+and [configuration guide](docs/configuration.md#writing-tools).
+
 ## Build and validate
 
 The scripts use Python 3.11 or newer and its standard library. Unit tests and
@@ -172,7 +197,7 @@ repository validation work offline. Export needs access to the pinned artifact U
 unless packwiz's external download cache already contains them.
 
 For a fresh source checkout, select the authoritative branch explicitly because
-GitHub's default remains the future migration branch:
+GitHub's default is the primary 26.3 branch:
 
 ```sh
 git clone --branch 26.3 https://github.com/jabez007/lantern-crossing.git
@@ -199,7 +224,7 @@ also recorded in [verification.md](docs/verification.md).
 | `make refresh` | Regenerate packwiz index after an intentional payload edit |
 | `make export` | Validate, export, normalize, and validate the complete `.mrpack` |
 | `make checksum` | Development export and SHA-256 checksum |
-| `make release RELEASE_TAG=v26.3.0.1.0` | Release build, requiring owner-recorded runtime qualification |
+| `make release RELEASE_TAG=v26.3.1.0.0` | Release build, requiring owner-recorded runtime qualification |
 | `make clean` | Remove generated `build/` and `dist/` files |
 
 `PACKWIZ`, `PYTHON`, and `RUFF` can name explicit local executables.
@@ -210,8 +235,8 @@ permissions, and JSON encoding. Stored entries avoid compression-version drift.
 Default development outputs are:
 
 ```text
-dist/lantern-crossing-26.3.0.1.0-dev.mrpack
-dist/lantern-crossing-26.3.0.1.0-dev.sha256
+dist/lantern-crossing-26.3.1.0.0-dev.mrpack
+dist/lantern-crossing-26.3.1.0.0-dev.sha256
 ```
 
 GitHub Actions validates pushes to `26.2` and `26.3` and pull requests targeting

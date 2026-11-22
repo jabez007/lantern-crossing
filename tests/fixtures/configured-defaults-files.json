@@ -12,6 +12,7 @@
     "configureddefaults/config/enchdesc.json": "24468336c2a7a59b1faaac02b622491e621640a908d2ae0671ff9a55439fecaa",
     "configureddefaults/config/bettergrass.json": "2cb5f959c9055e88de3b5be671d6168c06af7742de08a83bbc5eef1a4be391bb",
     "configureddefaults/config/iris.properties": "839d34c5b794e53e3e0155f87632026f1d5354f3dd55854d51e990d04d2c92a3",
+    "configureddefaults/config/symbol-chat.json": "03912ced0043a8f0ffa984358d84c4c975a5243881c31cbec54f80d273201351",
     "configureddefaults/config/clienttweaks-common.toml": "1d128fe9f9d07d7c7adec3d2ec8d6ca19cd21da9eaf9e762f053c5e8729e4f20"
   },
   "observations": [
@@ -24,6 +25,7 @@
         "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
         "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
+        "config/symbol-chat.json": "{\n  \"keep_font_selected\": false,\n  \"unicode_table_missing_glyphs\": true\n}\n",
         "config/clienttweaks-common.toml": "# Better Mount HUD owns mount/player HUD presentation.\n[ui]\nalwaysPrioritizeExperienceBar = false\n\n# IPN owns inventory refill and tool replacement assistance.\n[mining]\ndoNotUseLastMending = false\n"
       },
       "after": {
@@ -32,6 +34,7 @@
         "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
         "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
+        "config/symbol-chat.json": "{\n  \"keep_font_selected\": false,\n  \"unicode_table_missing_glyphs\": true\n}\n",
         "config/clienttweaks-common.toml": "# Better Mount HUD owns mount/player HUD presentation.\n[ui]\nalwaysPrioritizeExperienceBar = false\n\n# IPN owns inventory refill and tool replacement assistance.\n[mining]\ndoNotUseLastMending = false\n"
       }
     },
@@ -46,6 +49,7 @@
         "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
         "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
+        "config/symbol-chat.json": "{\n  \"keep_font_selected\": false,\n  \"unicode_table_missing_glyphs\": true\n}\n",
         "config/clienttweaks-common.toml": "# Better Mount HUD owns mount/player HUD presentation.\n[ui]\nalwaysPrioritizeExperienceBar = false\n\n# IPN owns inventory refill and tool replacement assistance.\n[mining]\ndoNotUseLastMending = false\n"
       },
       "after": {
@@ -54,6 +58,7 @@
         "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
         "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
+        "config/symbol-chat.json": "{\n  \"keep_font_selected\": false,\n  \"unicode_table_missing_glyphs\": true\n}\n",
         "config/clienttweaks-common.toml": "# Better Mount HUD owns mount/player HUD presentation.\n[ui]\nalwaysPrioritizeExperienceBar = false\n\n# IPN owns inventory refill and tool replacement assistance.\n[mining]\ndoNotUseLastMending = false\n"
       }
     },
@@ -63,6 +68,7 @@
         "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
         "config/iris.properties": "enableShaders=true\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after-initial-copy": {
@@ -71,6 +77,7 @@
         "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
         "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after": {
@@ -79,6 +86,7 @@
         "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
         "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       }
     },
@@ -88,6 +96,7 @@
         "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
         "config/iris.properties": "enableShaders=true\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after-initial-copy": {
@@ -96,6 +105,7 @@
         "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
         "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after": {
@@ -104,6 +114,7 @@
         "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
         "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       }
     },
@@ -113,6 +124,7 @@
         "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
         "config/iris.properties": "enableShaders=true\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after-initial-copy": {
@@ -121,6 +133,7 @@
         "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
         "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after": {
@@ -130,6 +143,7 @@
         "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/new-fixture.cfg": "new-default=true\n",
         "config/iris.properties": "enableShaders=true\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       }
     },
@@ -139,6 +153,7 @@
         "options.txt": "version:5023\nresourcePacks:[\"vanilla\",\"file/Personal.zip\"]\nfov:0.72\nsoundCategory_master:0.15\nkey_key.light-overlay.toggle:key.keyboard.f8\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
         "config/iris.properties": "enableShaders=true\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after-initial-copy": {
@@ -147,6 +162,7 @@
         "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
         "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       },
       "after": {
@@ -155,6 +171,7 @@
         "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
         "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n"
       }
     },
@@ -165,6 +182,7 @@
         "defaultoptions.journal.json": "{\"journal\":[{\"id\":\"resource-packs\"}]}\n",
         "config/MouseTweaks.cfg": "WheelTweak=1\n",
         "config/iris.properties": "enableShaders=true\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n",
         "config/defaultoptions/options.txt": "old-unused-defaults\n"
       },
@@ -175,6 +193,7 @@
         "config/enchdesc.json": "{\n  \"require_keybind\": {\n    \"value\": true\n  }\n}\n",
         "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties": "enableShaders=true\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n",
         "config/defaultoptions/options.txt": "old-unused-defaults\n"
       },
@@ -186,6 +205,7 @@
         "config/bettergrass.json": "{\n  \"general\": {\n    \"betterGrassMode\": \"FANCY\",\n    \"resourcePackCompatibilityMode\": true,\n    \"blocks\": {\n      \"dirtPaths\": false,\n      \"farmLands\": false,\n      \"crimsonNylium\": false,\n      \"warpedNylium\": false\n    }\n  },\n  \"betterSnow\": {\n    \"betterSnowMode\": \"OFF\"\n  }\n}\n",
         "config/iris.properties.user-save": "enableShaders=true\n",
         "config/iris.properties": "# Keep the baseline's vanilla rendering until the player selects a shader pack.\nenableShaders=false\n",
+        "config/symbol-chat.json": "{\"keep_font_selected\":true,\"favorite_symbols\":\"\u2605\"}\n",
         "config/clienttweaks-common.toml": "personal = true\n",
         "config/defaultoptions/options.txt": "old-unused-defaults\n"
       }

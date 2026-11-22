@@ -1,5 +1,5 @@
 # Complete 26.2 source inventory; availability and static checks are not runtime acceptance.
-schema = 2
+schema = 3
 source = "26.2"
 target = "26.3"
 source-commit = "a189c7ab799d4c24565e889cc5288266923269cb"
@@ -321,10 +321,11 @@ source-version = "1.2.0"
 source-version-id = "N3Xq3hFp"
 target-version = "1.2.0-26.3"
 target-version-id = "b2TIM6ZY"
-status = "static-verified"
+status = "replaced"
+replaced-by = ["NKvLVQMc"]
 runtime = "pending"
 dependencies = ["P7dR8mSH"]
-reason = "Exact release, target, client-installation policy, dependency graph and integrity checked; owner runtime acceptance pending."
+reason = "Removed on 26.3 after exact JAR review found legacy GLFW dispatch under SDL3 and clipboard consumption by attempted rather than accepted insertion length. Vanilla books plus Symbol Chat preserve the ordinary authoring path."
 evidence = "https://api.modrinth.com/v2/version/b2TIM6ZY"
 
 [[artifact]]
@@ -391,10 +392,11 @@ source-version = "2.103.0+26.2"
 source-version-id = "piBkp75o"
 target-version = "2.104.0+26.3"
 target-version-id = "bqVjibae"
-status = "static-verified"
+status = "replaced"
+replaced-by = ["UCpxwAAu", "NKvLVQMc"]
 runtime = "pending"
 dependencies = ["mOgUt4GM", "9s6osm5g", "P7dR8mSH"]
-reason = "Exact release, target, client-installation policy, dependency graph and integrity checked; owner runtime acceptance pending."
+reason = "Replaced on 26.3 only after source review found text-helper collisions with Big Sign Writer; Symbol Chat supplies shared Unicode authoring. Old content/config remains player-owned."
 evidence = "https://api.modrinth.com/v2/version/bqVjibae"
 
 [[artifact]]
@@ -760,3 +762,29 @@ runtime = "pending"
 dependencies = []
 reason = "Exact release, target, client-installation policy, dependency graph and integrity checked; owner runtime acceptance pending."
 evidence = "https://api.modrinth.com/v2/version/t4YRxQug"
+
+# Added only on 26.3; no 26.2 artifact or compatibility claim.
+[[addition]]
+project-id = "UCpxwAAu"
+slug = "bigsignwriter"
+role = "feature"
+target-version = "3.1.1+26.3"
+target-version-id = "ics7z6RR"
+dependencies = ["P7dR8mSH"]
+status = "static-verified"
+runtime = "pending"
+reason = "Writing-refinement exception; exact client artifact/closure reviewed. Combined GUI and vanilla-server persistence await owner acceptance."
+evidence = "https://api.modrinth.com/v2/version/ics7z6RR"
+
+# Added only on 26.3; no 26.2 artifact or compatibility claim.
+[[addition]]
+project-id = "NKvLVQMc"
+slug = "symbol-chat"
+role = "feature"
+target-version = "1.4.3"
+target-version-id = "Y9zsgkwF"
+dependencies = ["P7dR8mSH"]
+status = "static-verified"
+runtime = "pending"
+reason = "Writing-refinement exception; exact client artifact/closure reviewed. Combined GUI and vanilla-server persistence await owner acceptance."
+evidence = "https://api.modrinth.com/v2/version/Y9zsgkwF"

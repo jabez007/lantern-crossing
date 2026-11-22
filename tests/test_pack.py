@@ -63,6 +63,86 @@ class PackTests(unittest.TestCase):
         self.assertEqual(features, set(pack.evidence["requested"]))
         self.assertFalse(pack.collection.get("excluded"))
 
+    def test_writing_selection_and_native_dependencies(self):
+        pack = load_pack(self.root)
+        for pid, version in (("UCpxwAAu", "ics7z6RR"), ("NKvLVQMc", "Y9zsgkwF")):
+            self.assertEqual(pack.mods[pid]["update"]["modrinth"]["version"], version)
+            self.assertEqual(pack.mods[pid]["side"], "client")
+            self.assertEqual(pack.versions[pid]["client_required"][0]["project_id"], "P7dR8mSH")
+        self.assertNotIn("c7xDMxha", pack.projects)
+        self.assertNotIn("skd7t7zC", pack.projects)
+        self.assertFalse((self.root / "mods/book-tweaks.pw.toml").exists())
+        self.assertFalse((self.root / "mods/signtweaks.pw.toml").exists())
+        self.assertFalse(any("signtweaks" in name for name in pack.overrides))
+
+    def test_recorded_upstream_font_conversion_matches_selected_artifact(self):
+        data = json.loads((ROOT / "tests/fixtures/symbol-chat-fonts.json").read_text())
+        lock = load_toml(self.root / "mods/symbol-chat.pw.toml")
+        self.assertEqual(data["artifact-sha512"], lock["download"]["hash"])
+        self.assertEqual(data["version-id"], lock["update"]["modrinth"]["version"])
+        adapter = ROOT / "tests/fixtures/SymbolChatFontsOracle.java"
+        self.assertEqual(data["adapter-sha256"], hashlib.sha256(adapter.read_bytes()).hexdigest())
+        samples = {entry["font"]: entry for entry in data["observations"]}
+        self.assertEqual(samples["mathematical_bold"]["output"], "𝗔𝘇𝟬𝟵 / 𝗢𝗮𝗸 🌿")
+        self.assertEqual(samples["circled"]["output"], "Ⓐⓩ⓪⑨ ⊘ Ⓞⓐⓚ 🌿")
+        # These are recorded results from real upstream code, not a local converter.
+        # Fullwidth substitution also changes spaces and punctuation.
+        self.assertIn("Ａｚ０９", samples["fullwidth"]["output"])
+        for sample in samples.values():
+            self.assertTrue(sample["output"].endswith("🌿"))
+            self.assertNotIn("§", sample["output"])
+
+    def test_vanilla_glyph_inventory_is_bound_to_exact_writing_artifacts(self):
+        pack = load_pack(self.root)
+        audit = pack.evidence["writing_glyph_audit"]
+        for pid in ("UCpxwAAu", "NKvLVQMc"):
+            lock = pack.mods[pid]
+            self.assertEqual(audit["artifacts"][pid]["sha512"], lock["download"]["hash"])
+            self.assertEqual(
+                audit["artifacts"][pid]["version-id"], lock["update"]["modrinth"]["version"]
+            )
+        self.assertEqual(
+            audit["minecraft-client-sha1"], pack.evidence["options_data_version"]["client_sha1"]
+        )
+        self.assertEqual(audit["missing-codepoints"], [])
+        self.assertEqual(audit["symbol-chat-sample-missing"], [])
+        self.assertEqual(len(audit["bsw-resource-sha256"]), 35)
+        self.assertLessEqual(audit["max-row-utf16"], 384)
+
+    def test_conflicting_writing_editors_are_rejected_before_export(self):
+        for pid, slug in (
+            ("c7xDMxha", "signtweaks"),
+            ("skd7t7zC", "book-tweaks"),
+            ("yXAvIk0x", "scribble"),
+            ("BWloQ9jK", "stendhal"),
+        ):
+            collection = self.root / "collection.toml"
+            evidence = self.root / "docs/upstream-metadata.json"
+            original_collection, original_evidence = collection.read_text(), evidence.read_text()
+            collection.write_text(
+                original_collection
+                + f'\n[[selected]]\nproject-id = "{pid}"\nslug = "{slug}"\nname = "{slug}"\ncategory = "writing"\nrole = "feature"\n'
+            )
+            data = json.loads(original_evidence)
+            data["requested"].append(pid)
+            evidence.write_text(json.dumps(data))
+            with self.subTest(editor=slug):
+                self.invalid("writing editor conflict|writing editor rejected")
+            collection.write_text(original_collection)
+            evidence.write_text(original_evidence)
+
+    def test_retired_book_editor_input_audit_is_bound_to_its_actual_jar(self):
+        pack = load_pack(self.root)
+        audit = pack.evidence["writing_input_audit"]
+        version = pack.evidence["projects"]["skd7t7zC"]["versions"][0]
+        self.assertEqual(audit["version-id"], version["id"])
+        self.assertEqual(audit["artifact-sha512"], version["files"][0]["hashes"]["sha512"])
+        self.assertEqual(
+            audit["minecraft-client-sha1"], pack.evidence["options_data_version"]["client_sha1"]
+        )
+        for key, code in audit["legacy-dispatch"].items():
+            self.assertNotEqual(code, audit["vanilla-scancodes"][key])
+
     def test_refinement_project_identity_and_dependency_roles(self):
         pack = load_pack(self.root)
         for pid in ("m5T5xmUy", "xv94TkTM", "GGfyJWnG"):

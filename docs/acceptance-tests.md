@@ -140,13 +140,54 @@ for both bundled shader choices, lighting interactions and preference retention.
 
 ## Building and writing
 
-- [ ] Sign Tweaks edits a normal sign on the vanilla server.
-- [ ] Multiline cursor navigation and text wrapping work.
-- [ ] Multiline copy and paste work within vanilla sign limits.
-- [ ] The vanilla server accepts the edited sign and its text persists after reopening.
-- [ ] Vanilla sign placement and editing work with the active rendering stack.
-- [ ] Book Tweaks navigation, page wrapping, multi-page paste, and page memory work.
-- [ ] Edit, save, reopen, and sign a book without bypassing vanilla limits.
+Complete the writing matrix below for the refined 26.3 artifact. The earlier
+Prism smoke report did not exercise these writing tools and does not satisfy
+any row. All boxes remain pending until the owner records an observation.
+
+### Writing owner acceptance matrix
+
+Run against the final 26.3 archive, on an **unmodified vanilla 26.3 server** with
+no server mods, plugins, forced resource pack or custom font pack. Use a separate
+ordinary vanilla 26.3 client with default fonts as the observer. Confirm the
+observer has none of Lantern Crossing's mods. Use disposable books/signs and
+ordinary account permissions. Record any account/server text filtering.
+
+Record archive filename and SHA-256, `pack.toml` SHA-256, launcher/version,
+Java/runtime, OS, GPU/driver, GUI scale, keyboard layout, resource-pack/font
+settings, server version/settings and observer version. Save the exact source
+text, screenshots and observed failures with each result. A successful preview
+only establishes local authoring. Check stored text and the observer separately.
+
+| Case | Prism | Modrinth App | Vanilla observer/storage | Expected result and evidence |
+| --- | --- | --- | --- | --- |
+| Fresh installation and controls | [ ] | [ ] | [ ] | Import exact archive into separate fresh instances; BSW and Symbol Chat load; Sign Tweaks and Book Tweaks are absent. No missing dependency, mixin, focus or companion-server warning. Open settings through Mod Menu's compact icon. |
+| Ordinary signs | [ ] | [ ] | [ ] | In BSW **None (Vanilla)** mode, create/edit a normal sign using plain text. Test mouse/keyboard selection and Ctrl-A/C/X/V supported by vanilla. Existing text remains intact; Done saves normally. |
+| Large lettering | [ ] | [ ] | [ ] | Leave Symbol Chat on **Normal**, select a BSW 2-, 3- and 4-row font and type a short word such as OAK. Inspect every row locally and on the observer. No enlarged sign geometry or extra line is expected. |
+| Composed icons and reuse | [ ] | [ ] | [ ] | Insert a BSW icon; save/reload a local symbol definition if using that tool. Copy ordinary text between signs line by line. No enhanced full-sign Copy/Replace/Revert button is expected after Sign Tweaks removal. |
+| Unicode decorative lettering | [ ] | [ ] | [ ] | In BSW **None (Vanilla)** mode, type Oak 09 using a Symbol Chat mathematical/circled variant. Record exact stored Unicode. Switch back to default and confirm existing text is unchanged. Compare observer glyphs/spacing with default fonts. |
+| Search, favorites and clipboard | [ ] | [ ] | [ ] | Search a symbol, right-click to favorite, insert from the palette and try :name suggestions with Tab/arrows/Enter. Reopen and restart to check favorites. Confirm palette use does not overwrite an unrelated OS clipboard value; explicit Unicode-table Copy may replace it. |
+| Hanging and newer sign variants | [ ] | [ ] | [ ] | Repeat plain/large/Unicode text on standing, wall, hanging, wall-hanging and each available 26.3 material variant. Respect narrower hanging-sign width. Inspect front and back independently; dye/glow remain ordinary vanilla actions. |
+| Existing signs and both faces | [ ] | [ ] | [ ] | Open player-written signs, copy/edit one line, save one face and verify the other face. Exercise waxed signs and denied edits using normal permissions; no bypass is expected. Cancel/config-screen round trips must not unexpectedly submit or lose text. |
+| Sign limits and unsupported input | [ ] | [ ] | [ ] | Fill the width with a large font and one more letter. BSW may skip overflowing rows individually; inspect and correct incomplete letters before Done. Test a missing glyph, supplementary symbol, section sign and control character on disposable text. Unsupported input must not cause a crash or invalidate previously valid saved text. Record local refusal/truncation explicitly. |
+| Sign server persistence | [ ] | [ ] | [ ] | Save plain, large and decorative signs on both faces, disconnect/reconnect, restart the vanilla server and inspect them from both clients. Record saved text after every step. No silent server stripping/corruption of supported generated Unicode. |
+| Several-page writable book | [ ] | [ ] | [ ] | Write several pages using vanilla navigation and page-local wrapping/selection. Old writable-book content remains intact. Enhanced first/last navigation, automatic cross-page editing/paste and page memory are not expected. |
+| Decorated writable book | [ ] | [ ] | [ ] | Select a Unicode variant, type text, insert searchable/favorite symbols and inspect the observer's writable-book view. Check non-BMP characters and multiline wrapping without changing unrelated text. |
+| Cross-page clipboard | [ ] | [ ] | [ ] | Paste one page at a time, copy sections back to clipboard and edit existing vanilla text. Check paragraph boundaries and final-page content. Automatic multi-page paste is not installed. Clipboard paste is not promised to convert an entire draft to the selected font. No duplicate shortcut activation or dropped text. |
+| Book limits | [ ] | [ ] | [ ] | Exercise page layout and 1024-UTF-16-unit/100-page limits with disposable drafts, including long words and supplementary characters. Local refusal/finite-capacity behavior must be clear; no disconnect, save corruption or loss of previously stored pages. Compare source text against saved text. Do not treat written-book storage limits as editable-page allowances. |
+| Signed decorated book | [ ] | [ ] | [ ] | Sign a copy using Unicode decorative lettering, reopen it from both clients and confirm title/author/pages. This is ordinary Unicode, not a native color toolbar. Check that attempting to type/paste unsupported section codes does not create a false formatting promise. Existing signed books stay read-only. |
+| Existing native formatting | [ ] | [ ] | [ ] | Read a pre-existing legitimately obtained formatted signed book from both clients; copying text must not modify the item. No RGB/custom component creation or editing of signed books is expected. Record any difference rather than treating a Unicode variant as native formatting. |
+| Book transfers and reconnect | [ ] | [ ] | [ ] | Transfer decorated writable and signed books between inventory, chest, dropped item and the vanilla player's inventory. Reconnect both clients and restart the server; compare page text, order, title/author and visible glyphs. |
+| Book import/export | [ ] | [ ] | [ ] | Confirm no file import/export tool is claimed or installed. Copy a draft through the normal clipboard into a disposable book. Rich page insertion/reordering, general undo/redo and file drafts remain deferred. |
+| Combined layout and input | [ ] | [ ] | [ ] | Check large/small GUI scales, low resolution, keyboard-only focus, narration, non-US layouts, modifiers and SDL3 input. BSW center controls and Symbol Chat corner controls must remain usable without blocking Done/Sign, selecting the wrong text or leaving keys held. Try both symbol panels and switch editor modes with existing text. |
+| Keybindings and performance | [ ] | [ ] | [ ] | Confirm F7 overlay, F9 capture, vanilla shortcuts and existing map/zoom/inventory bindings remain distinct. No new global writing binding is seeded. Check sign/open-book responsiveness and Unicode-table cost with vanilla rendering and each bundled shader. Record frame-time or visible-lag observations without assuming the upstream FPS fix proves this stack. |
+| Fresh defaults and persistence | [ ] | [ ] | [ ] | A missing Symbol Chat file receives font reset between screens and missing-glyph hiding in its Unicode table. Change these preferences and favorites; restart and upgrade to verify they persist. Test Modrinth sync both enabled/disabled. No selected decorative font is forced. |
+| Upgrade and content preservation | [ ] | [ ] | [ ] | Upgrade a closed disposable 26.3 instance copy. Remove both old editor JARs; preserve their unused configs and Book Tweaks page-memory file, BSW custom definitions, worlds and books. Verify old signs/books before and after. No obsolete editor templates or competing editor controls should remain. |
+
+Record failed rows and exact symptoms before considering release acceptance.
+The combined layout, font coverage, server persistence and vanilla observer
+checks are mandatory. Static checks and isolated font/file-handler tests cannot
+complete these boxes. Keep release-policy approval fields blank until the owner
+accepts the exact pack hash and all other existing release requirements.
 
 ## Light Overlay
 

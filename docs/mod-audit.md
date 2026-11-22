@@ -1,6 +1,248 @@
 # Client-only mod and shader audit
 
-## Minecraft 26.3 migration review, 2026-11-19
+## Writing refinement
+
+Reviewed 2026-11-22 for Minecraft **26.3 only**. This is the owner's limited
+feature-freeze exception following the initial Prism usability report.
+Pack **26.3.1.0.0** selects Big Sign Writer + Symbol Chat.
+Sign Tweaks and Book Tweaks are removed. No Minecraft, launcher or server test ran during this
+review. All combined-editor and vanilla-observer results remain pending.
+
+### Candidate inventory
+
+Versions below are exact Fabric 26.3 release artifacts unless explicitly excluded
+for having no 26.3 build. Dependency entries distinguish platform requirements
+from bundled libraries. A catalog label alone is not interoperability evidence.
+
+| Candidate and official release | Dependencies and maintenance evidence | Purpose and disposition |
+| --- | --- | --- |
+| [Sign Tweaks 2.104.0+26.3, bqVjibae](https://api.modrinth.com/v2/version/bqVjibae) | Fabric API; catalog also requires Mod Menu and Cloth Config. Native descriptor recommends the latter two. September 15 release; client descriptor despite unknown catalog environments. | Existing enhanced sign helper, wrapping, multiline selection, internal full-sign copy/replace, erase/revert, held-key blocking, optional escape rollback, click-through and autofill. Remove because its helper replacement conflicts with Big Sign Writer. |
+| [Book Tweaks 1.2.0-26.3, b2TIM6ZY](https://api.modrinth.com/v2/version/b2TIM6ZY) | Native Fabric API requirement omitted from catalog, recorded in the original audit. September 18 release. | Existing vanilla-screen additions advertise first/last navigation, cross-page typing/paste/backspace/arrows and persistent page memory, default latest 100 entries. Remove: exact 26.3 JAR retains obsolete GLFW key dispatch and an unsafe clipboard-consumption loop. No font palette or rich formatting toolbar. |
+| [Big Sign Writer 3.1.1+26.3, ics7z6RR](https://api.modrinth.com/v2/version/ics7z6RR) | Native Fabric API requirement, no catalog dependencies. Loader >=0.19; Minecraft >=26.3 <26.4. October 3 release. Mod Menu integration is optional. | Select multirow lettering and composed symbols on ordinary and hanging signs. No server installation or custom glyph rendering. |
+| [Symbol Chat 1.4.3, Y9zsgkwF](https://api.modrinth.com/v2/version/Y9zsgkwF) | Fabric API >=0.160.5; bundled Reconfigure 0.3.3; optional Mod Menu. September 15 release. Native Minecraft >=26.3 and Java >=25. | Select searchable symbols, categories, favorites, kaomoji, Unicode table, colon suggestions and Unicode substitution in signs, writable books, chat and anvils. |
+| [Stendhal 1.4.9-26.3, WBZX4Wze](https://api.modrinth.com/v2/version/WBZX4Wze) | Catalog requires exact Fabric API bNnaTiuM, 0.161.0+26.3, conflicting with the pack's exact 0.166.2 pin. Bundles LibGui 18.0.1+26.3-rc-2. September 20 release. | Reworked sign/book/chat/anvil controls, Unicode picker, copy/clear, page add/remove, book/sign file import/export, signed-book search/navigation and legacy formatting. Exclude due to exact dependency mismatch, competing input controls and weaker auditability. |
+| [Scribble 2.1.0+mc26.3, aXAUZoEb](https://api.modrinth.com/v2/version/aXAUZoEb) | Bundles Tapestry base/config 1.1.3+mc26.3 and Fabric API base/resource-loader modules. October 9 release. | Strong book alternative: selection formatting, insert/delete pages, two-page view, jump/end navigation, JSON export/import, legacy .book import, undo/redo and close confirmation. Exclude for this composition: custom screens bypass Symbol Chat and Book Tweaks; file dialog crash reported on Fabric 26.3 macOS. |
+| [Improved Sign Editing 26.3.0-1.7, SjslP8Lj](https://api.modrinth.com/v2/version/SjslP8Lj) | Requires Collective; maintained Serilum project, explicit 26.3 release. | Wrapping/backspace and an in-editor toggle. No creative font or book advantage; Sign Tweaks explicitly declares it incompatible. Do not add another wrapping helper beside Big Sign Writer. |
+| [Easy Sign Editing 1.0.1, DJxCjYOy](https://api.modrinth.com/v2/version/DJxCjYOy) | Catalog lists no dependencies; native closure not promoted/audited. Recent November release; no public source linked. | Mouse cursor/drag selection, clipboard, wrapping, ordinary/hanging signs. Overlaps existing helper controls, adds no large alphabet or book workflow. Exclude; simultaneous helper compatibility unverified. |
+| [sign presets 2.0.0+26.3, CBjJYeGG](https://api.modrinth.com/v2/version/CBjJYeGG) | Catalog lists no dependencies; no public source linked. Recent 26.3 rewrite. | Client commands save/load reusable sign templates. Distinct batch-writing value, but limited auditability and no evidence for safe composition; defer. Do not assume commands can edit waxed or unauthorized signs. |
+| [Sign Edit, A6HXxYZr](https://api.modrinth.com/v2/project/A6HXxYZr) | Server required, client optional; no Fabric 26.3 release. Published game support 1.21.5. | Custom formatted sign editor. Exclude for server requirement and target mismatch. |
+| [Book Formatting](https://modrinth.com/mod/book-formatting) | Client Fabric project, latest listed game support 1.21.5, no Fabric 26.3 artifact returned by official API. | Formatting buttons and section-sign insertion. Exclude for target mismatch and narrow overlap. |
+| [Text Colors 1.3.4+26.3, qqYi6A0g](https://api.modrinth.com/v2/version/qqYi6A0g) | Fabric API; official project marks server required/client unsupported. November 21 release. | Server parsing of colors in signs/books/anvils. Exclude: requires a modified server. No environment exception requested. |
+| [Improved Signs 1.7.1, uyXIm9va](https://api.modrinth.com/v2/version/uyXIm9va) | Fabric API; server required/client unsupported. The published version number is 1.7.1 while filenames say 1.8.0+mc26.3. | Server-side sign retention/copy/passthrough. Exclude: changes server behavior. No environment exception requested. |
+
+Additional candidates are screened out before installation. Their catalog-only
+closure entries are not represented as binary-reviewed or runtime-qualified.
+Stendhal's [official page](https://modrinth.com/mod/stendhal) publishes no source
+repository. Its downloaded JAR is the implementation evidence here. Its root
+`environment="*"` and common client-screen mixins are documented, not rewritten;
+its catalog permits client-only use. No new environment exception is needed or
+added for either selected mod.
+
+### Existing baseline and feature comparison
+
+The pre-refinement pack pinned Configured Defaults 26.3.0 (`frAVVzBj`), Mod Menu
+21.0.1 (`xckkBHD5`), Cloth Config 26.3.159 (`fg2uyxOW`), YACL 3.9.7 (`s9SjoFu1`),
+Controlling 26.3.4 (`V6AbRm67`) and Searchables 1.0.3 (`wV79bLRS`). Relevant input
+mods remain Mouse Tweaks 2.31 (`LeMuMhLv`), IPN 2.3.8 (`y8vT21Sb`) and Client
+Tweaks 26.3.0.1 (`7fKN7OpP`). Chat Heads 1.3.2 (`i3gcElvQ`) and More Chat History
+2.0.0 (`qpDhYv1Y`) remain unchanged. Exact artifacts, descriptors and dependency
+edges are in [upstream-metadata.json](upstream-metadata.json) and `mods/*.pw.toml`.
+Neither previous writing mod had a packaged config template or keybinding seed.
+Sign Tweaks upstream defaults enabled enhanced editing, action buttons and held-key
+blocking; escape rollback and autofill were off. Book Tweaks kept its local
+`config/book-tweaks/page-memory.json` reading history, with a 100-entry default.
+
+| Workflow | Previous Sign Tweaks + Book Tweaks | Selected BSW + Symbol Chat | Stendhal / Scribble alternatives |
+| --- | --- | --- | --- |
+| Large letters | Manual Unicode construction only | Built-in 2-, 3- and 4-row alphabets and composed icons | No equivalent large-letter alphabet by themselves |
+| Symbols and decorative single-line text | Vanilla-supported Unicode can be pasted; no palette | Shared search/favorites, colon suggestions, Unicode substitutions | Stendhal picker; Scribble lacks built-in Unicode font substitution |
+| Sign layout and selection | Enhanced multiline wrap, selection, copy/replace/revert | Vanilla line editing plus BSW cursor and layout; enhanced multiline tools removed | Stendhal whole-sign copy/file tools; Scribble does not edit signs |
+| Book editing | Cross-page paste/wrap/arrows and page memory | Vanilla page editing plus shared symbol/font palette; enhanced page tools/memory removed | Both offer page add/delete and file tools; Scribble adds history and two-page viewing |
+| Colors and native styles | No extra authoring controls | No extra native formatting controls; vanilla sign dyes/glow remain | Stendhal/Scribble expose legacy book formatting, subject to serialization and viewer behavior |
+| Undo / redo | Sign revert-to-open snapshot; no general history | No new general history | Scribble has Ctrl-Z/Ctrl-Y history |
+| Import/export and drafts | No file tools | No book file tools; external clipboard drafts remain possible | Stendhal book/sign files; Scribble JSON and legacy book files |
+| Accessibility | Vanilla-style controls and enhanced keyboard travel | Searchable symbols and normal shortcuts; focus, scaling, narration, SDL3 and non-US input still need testing | Larger replacements require separate focus/layout qualification |
+
+### GUI and input compatibility evidence
+
+Immutable source revisions inspected alongside SHA-512-checked release JARs:
+
+- [Big Sign Writer 6a1cc769](https://codeberg.org/chililisoup/BigSignWriter/src/commit/6a1cc769c83c09591d6ae6a870440d99ee657759).
+- [Symbol Chat 7da2d67e](https://github.com/replaceitem/symbol-chat/tree/7da2d67e84d5a6908f2e948c67a662d2814e3239).
+- [Sign Tweaks 7962183e](https://github.com/TerminalMC/SignEdit/tree/7962183e576cf9ddaf85915e7fba9489bbcfbb1d).
+- [Book Tweaks b41f0529](https://github.com/R2bEEaton-Minecraft/book-tweaks/tree/b41f0529ff268469f8b3842e38ef29287cbf3504).
+- [Scribble b82ec58b](https://github.com/chrrs/scribble/tree/b82ec58bcdc09d12794d56fbcc52089c738b2339).
+
+BSW has a client entrypoint, Mod Menu provider and one sign-screen mixin.
+Its `AbstractSignEditScreenMixin`, priority 999, injects font/symbol controls,
+intercepts character/key input for big letters, adjusts the cursor preview and
+suppresses the usual sign-update packet only while visiting its config screen.
+It keeps the vanilla sign screen and save packet. `SignEditContext` takes the
+actual sign width and current face's message array, including hanging signs.
+Sign Tweaks replaces `signField` with a multiline `FieldHelper` in the constructor
+and again at init return. The latter replacement is unconditional in this build,
+even when enhanced editing is disabled. BSW expects the vanilla per-line helper
+and cursor indices. This is a concrete incompatible interface, not a missing
+metadata declaration. Removing Sign Tweaks also removes its full-sign quick
+buttons, wrapping, click-through, held-key blocking and optional autofill/revert.
+
+Symbol Chat injects widgets into vanilla sign/book/chat/anvil screens. Its sign
+mixin wraps the vanilla character insertion to substitute Unicode; the BSW big
+letter path cancels that vanilla insertion. Its suggestion handler consumes keys
+only while its panel/suggestions handle the event. BSW's central selector and
+Symbol Chat's corner controls use separate positions. There is no second screen
+replacement. Use BSW's **None (Vanilla)** mode for Symbol Chat single-line text;
+leave Symbol Chat's font on **Normal** when composing BSW letters. Inserting a
+single-line character into existing large lettering can disrupt the composition.
+Check text before committing. Switching modes does not convert existing text.
+
+Symbol Chat adds a font-processor supplier and suggestion hooks to vanilla
+book page widgets without replacing their text field. It uses the 26.3 event
+helpers for navigation and shortcuts; no old numeric GLFW dispatch was found.
+Ordinary book selection, clipboard, layout limits and signing stay on the vanilla
+path. The symbol palette remains limited to writable books; signed books remain
+read-only. Clipboard pastes are not promised to convert the whole draft to a
+chosen font. Both selected mods keep the OS clipboard except for deliberate
+copy actions. No separate page-memory or automatic cross-page paste layer remains.
+Injection order, focus, scaling, selection, clipboard preservation and signing
+still require owner testing. Metadata coexistence alone does not prove them.
+
+The exact-JAR review rejects Book Tweaks. Its
+`BookEditScreenMixin.onKeyPressed` forwards `KeyEvent.key()` into a switch with
+GLFW Escape/Enter/Left/Right/Up/Down values 256/257/263/262/265/264. Vanilla 26.3's
+`KeyEvent.input()` returns that same physical key, while `InputWithModifiers`
+expects SDL scancodes 41/40/80/79/82/81. Those dispatch branches cannot match the
+ordinary 26.3 keys. The source and compiled JAR agree; this is not inferred from
+an old README. Its multi-page paste loop also takes `remaining.substring(toPaste.length())`
+after a void `insertText` call, even when a long unbroken word was not reduced
+to fit. Vanilla insertion can truncate/refuse that attempt. The loop does not
+confirm what entered the page before consuming the clipboard draft. It also
+trims boundary whitespace. These are concrete input defects and a text-loss
+risk; no runtime loss is claimed. The [binary audit record](upstream-metadata.json)
+binds the artifact/class hashes and vanilla key values. Book Tweaks requires a
+new upstream artifact and SDL3/paste review before reselection. Preserve its
+unused player config/history files; remove its JAR from upgraded instances.
+
+Stendhal's JAR mixes into `BookEditScreen`, `BookViewScreen`,
+`AbstractSignEditScreen`, chat, anvil and field accessors. It adds its own control
+collections, clipboard/file helpers and character handling. It does not justify
+assuming that its sign/book buttons coexist with BSW/Symbol Chat. It also pins
+a different exact Fabric API release. Exclude these combinations from this build;
+reviewing a future compatible artifact may change that decision. Do not label
+an untested overlap as a demonstrated crash.
+
+Scribble replaces the book screens via `LocalPlayer`, packet-listener and lectern
+hooks. Its `ScribbleBookEditScreen` is not vanilla `BookEditScreen`, so Symbol
+Chat and Book Tweaks screen injections do not provide their expected controls.
+[Symbol Chat issue 87](https://github.com/replaceitem/symbol-chat/issues/87)
+tracks the missing integration. [Scribble issue 136](https://github.com/chrrs/scribble/issues/136)
+reports the Fabric 26.3 macOS file-dialog crash. Its importer directly installs
+file pages and its save path converts all pages to legacy strings; the reviewed
+path has no final import page-count/serialized-length rejection before sending.
+Do not treat local formatting preview as proof of safe arbitrary imports.
+[Scribble issue 130](https://github.com/chrrs/scribble/issues/130) reports changed
+unsigned-book line formatting without Scribble on 26.2, not a confirmed 26.3
+result. Issue 139's 25-page loss concerns 1.21.1 NeoForge, not the selected target.
+
+BSW 3.1.1's release notes report fixing font-width/cache-related FPS lag.
+That is an upstream fix claim, not a measured pack result. Its code still does
+per-character width work and skips overflowing rows individually, so a letter
+near the edge can be incomplete. [Symbol Chat issue 74](https://github.com/replaceitem/symbol-chat/issues/74)
+reports Unicode-table render cost. Avoid leaving that table open during
+performance comparisons. Test both with the pack's rendering stack.
+
+### Vanilla text contract
+
+The [official 26.3 metadata](https://piston-meta.mojang.com/v1/packages/ead839cbccf0ddf013c3f935f2840080b5cb0d26/26.3.json)
+identifies the inspected client JAR, SHA-1
+`e877b6a07acd633fb3bb475002175cec036e7b87`. Inspection used `javap`, without
+initializing Minecraft. The client archive includes the protocol, component and
+server-handler classes below. This establishes constraints, not a server test.
+
+| Layer | Verified implementation constraint | Implication for authoring |
+| --- | --- | --- |
+| Sign editing | `SignBlockEntity.getMaxTextLineWidth()` returns 90; hanging signs return 60. Four message rows. | Width is measured in font pixels, not a fixed count of visible letters. No physically larger sign or extra rows. |
+| Sign packet | `ServerboundSignUpdatePacket` uses four UTF-8 strings with maximum decoded Java length 384 each, plus `SignTextSlot.FRONT/BACK`. UTF-8 encoder also enforces its byte budget. | Supplementary characters occupy two UTF-16 units. Existing server permission, wax and face rules still apply. |
+| Sign server/storage | `ServerGamePacketListenerImpl.handleSignUpdate` strips legacy formatting and passes text through the server filter. `SignBlockEntity.updateMessages` stores literal components in front/back text. | No client-submitted arbitrary JSON styles/fonts/click events. Use vanilla dye/glow for sign color. Filters may alter otherwise valid text. |
+| Writable book editing/network | `WritableBookContent.PAGE_EDIT_LENGTH=1024`, `MAX_PAGES=100`; edit packet uses those limits and title <=32. Vanilla editor also limits line layout. | Page layout often fills first. Count serialized UTF-16 units, not just glyphs. No bypass, enlarged page count or custom payload. |
+| Book server/signing | `handleEditBook` validates the inventory slot, filters pages/title and updates writable content or builds written-book literal components. Written storage has separate component/page codec limits, including `PAGE_LENGTH=32767`. | That larger written storage limit is not a writable-book authoring allowance. Signing remains final and cannot edit an existing signed book. |
+| Character insertion | `StringUtil` rejects section sign, DEL and disallowed controls; field paths apply vanilla insertion/layout checks. | A symbol palette cannot grant arbitrary native formatting. Unsupported input may be refused locally. Treat any unreported truncation/loss in ordinary supported input as an acceptance failure. |
+
+BSW's bundled font definitions contain arrays of ordinary Unicode strings. Its
+**None (Vanilla)** selector entry disables large typing; **Default** is a large
+font, so those labels must not be confused. Its composed-symbol panel also has
+search. Symbol Chat adds shared book/chat/anvil access and Unicode substitutions.
+Minecraft, Default, Jukebox, Queatlets, Outlined, Small, Smooth Small, Thin and
+other families occupy two to four of the existing rows; symbol packs include
+Chess, Items, Shapes & Signs and Largemojis. Local custom definitions live under
+`config/bigsignwriter/fonts/`, and can reuse vanilla glyphs without sharing that
+file with a reader. Third-party definitions/resource packs can introduce missing
+glyphs or different spacing and are outside this qualification. BSW checks the
+actual width but skips each overflowing row separately, without a whole-letter
+error dialog. Stop before the edge, use a smaller font, and verify every row.
+It does not enlarge storage or automatically tile lettering across signs.
+There is no new general clipboard/multiline paste system; vanilla editing and
+BSW's symbol-save definitions cover the available reuse workflows.
+
+Symbol Chat's "fonts" substitute codepoints, including mathematical alphabets,
+circled letters, fullwidth letters and combining characters. They do not install
+a custom server font. The symbol table can copy text, and favorites/custom
+kaomoji remain local config. Search and colon suggestions add value beyond BSW's
+composed sign artwork because they work in books, chat and anvils too. Vanilla
+26.3 can display supported built-in glyphs without this pack; font packs, glyph
+availability, combining marks, accessibility settings and text filtering can
+change appearance. The raw Unicode table is not a promise that every codepoint
+has a glyph. The fresh-instance template hides missing table glyphs and does
+not force any decorative font. No resource pack, custom text component or server
+channel is required for the selected output. Exact visual/persistence parity
+with an ordinary client still awaits the acceptance matrix.
+
+The recorded static glyph audit checks all 35 bundled BSW definition files,
+9,634 rows and 478 distinct output codepoints against vanilla 26.3 bitmap/space
+providers and its official Unifont ZIP. No codepoint was missing; the longest
+standalone definition row uses 29 UTF-16 units. The three isolated Symbol Chat
+conversion samples also have vanilla glyph entries. This does not measure
+composed-line width, readability or rendering. The [metadata record](upstream-metadata.json)
+binds both mod hashes, the client SHA-1 and the asset-index URL/SHA-1; the official
+Unifont ZIP SHA-1 is `ccd5ac4767ce0a9c71d1dd62f2dc25449789b5dd`. Custom
+resources and unsampled fonts still require their own evidence.
+
+### Architecture decision
+
+Use the requested weights unchanged: vanilla interoperability 30%, creative
+authoring 25%, mod stability 20%, usability 10%, maintenance 10%, complexity 5%.
+Scores are engineering estimates on a 1-5 scale, not measured runtime results.
+A hard requirement or proven conflict excludes a design before weighted ranking.
+
+| Architecture | Vanilla | Authoring | Stability | UX | Maintenance | Simplicity | Weighted / 5 | Decision |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| Existing editors + BSW | 4 | 4 | 1 | 2 | 4 | 4 | 3.20 | Exclude: Sign Tweaks helper conflict and Book Tweaks input/paste defects. |
+| Existing editors + Symbol Chat | 4 | 3 | 2 | 3 | 4 | 4 | 3.25 | Exclude: Book Tweaks input/paste defects; Sign Tweaks cursor composition unqualified; no large letters. |
+| Existing editors + BSW + Symbol Chat | 4 | 4 | 1 | 2 | 4 | 3 | 3.15 | Exclude: same helper conflict and redundant sign controls. |
+| Stendhal + BSW | 3 | 5 | 1 | 3 | 3 | 2 | 3.05 | Exclude: exact API mismatch; control overlap unqualified. |
+| Stendhal + Symbol Chat | 3 | 4 | 1 | 2 | 3 | 2 | 2.70 | Exclude: exact API mismatch and competing palettes. |
+| BSW + Scribble | 3 | 4 | 2 | 4 | 4 | 3 | 3.25 | Defer: macOS file dialog report, import limits, missing shared book symbol palette. |
+| BSW + Symbol Chat + Book Tweaks | 4 | 4 | 1 | 3 | 3 | 3 | 3.15 | Exclude after exact-JAR review: Book Tweaks input/paste defects. |
+| BSW + Symbol Chat | 4 | 3 | 4 | 4 | 4 | 5 | 3.80 | Select for owner qualification. Large-sign composition and shared Unicode tools on vanilla screens. |
+| Keep existing editors | 4 | 2 | 1 | 3 | 3 | 5 | 2.75 | Exclude unchanged: known Book Tweaks input/paste defects and creative gap. |
+
+The choice trades enhanced page tools and file-based book authoring for a
+smaller change to vanilla editor workflows. It does not promise every desired creative
+feature. No native book formatting toolbar, arbitrary colors, page reordering,
+file import/export or general undo/redo is added. Both removed mods' lost capabilities are listed above. Do not reinstall the
+rejected editors to recover them.
+
+[Migration schema 3](../migration.toml) preserves all 54 historical source rows,
+marks both old editors replaced, and records BSW/Symbol Chat as target-only additions.
+Each replacement disposition and addition still needs owner acceptance. Existing
+content remains vanilla world/item data; no world rewrite or config deletion is
+performed. The [configuration guide](configuration.md#writing-tools) explains
+fresh installs, preference preservation and removal of leftover JARs. Policy
+validation rejects reviewed conflicts before export, including combinations
+that load but leave expected controls missing. The existing privacy defaults,
+exact environment exception and release approval gates remain intact.
+
+## Historical Minecraft 26.3 migration review, 2026-11-19
 
 The primary baseline is Minecraft 26.3, Fabric Loader 0.20.1, Java 25 and pack
 26.3.0.1.0. All 41 feature mods, eleven libraries and both shader choices from
@@ -22,7 +264,8 @@ Each target link is the exact Modrinth release used. Stable project IDs and full
 source/target version IDs, role, dependency edges and independent runtime states
 are in [migration.toml](../migration.toml). Raw release metadata and native
 root/bundled descriptors are in [upstream-metadata.json](upstream-metadata.json).
-All rows are statically verified; none is runtime accepted. Libraries are not
+The table records the initial migration. Sign Tweaks and Book Tweaks are now replaced as described
+above; the other original pins are unchanged. None is runtime accepted. Libraries are not
 feature selections; bundled implementation libraries are not extra downloads.
 
 | Project / role | 26.2 artifact | 26.3 artifact | Dependency/client scope and migration risks |
@@ -49,12 +292,12 @@ feature selections; bundled implementation libraries are not extra downloads.
 | Xaero's Minimap (`1bokaNcj`, feature) | fabric-26.2-26.6.2 | [fabric-26.3-26.6.2](https://api.modrinth.com/v2/version/MfxfgXaO) | Client mapping and local waypoints. Bundles XaeroLib 1.8.5; world map >=1.47.1; no server identification/teleport claim. |
 | Xaero's World Map (`NcUtCpym`, feature) | fabric-26.2-1.47.2 | [fabric-26.3-1.47.2](https://api.modrinth.com/v2/version/VM8lNSSM) | Client explored terrain/manual map selection. Same bundled XaeroLib 1.8.5; minimap >=26.6.1; check world/dimension associations. |
 | Zoomify (Zoom) (`w7ThoJFB`, feature) | 2.17.0+mc26.2 | [2.17.0+mc26.3](https://api.modrinth.com/v2/version/RUBpNu00) | Local camera zoom. Universal NeoForge Kotlin dependency still excluded by exact version audit; Fabric uses Kotlin. |
-| Book Tweaks (`skd7t7zC`, feature) | 1.2.0 | [1.2.0-26.3](https://api.modrinth.com/v2/version/b2TIM6ZY) | 26.3 client editor; vanilla book packets only. SDL3 text focus/paste needs acceptance. |
+| Book Tweaks (`skd7t7zC`, feature) | 1.2.0 | [1.2.0-26.3](https://api.modrinth.com/v2/version/b2TIM6ZY) | Historical client editor pin, now retired after the writing review found input/paste defects. |
 | LambDynamicLights - Dynamic Lights (`yBW8D80W`, feature) | 4.12.4+26.2 | [4.13.0+26.3](https://api.modrinth.com/v2/version/rylKnJ4M) | 26.3 client lighting with bundled SpruceUI/Yumi. No server block-light/spawn changes. Compare doubled lighting with shaders. |
 | Chat Heads (`Wb5oqrBJ`, feature) | 1.3.2 | [1.3.2](https://api.modrinth.com/v2/version/i3gcElvQ) | Client chat sprites; 1.3.1 stops recording heads as textual chat logs. No remote installation. |
 | Fabric API (`P7dR8mSH`, selected-library) | 0.161.0+26.2 | [0.166.2+26.3](https://api.modrinth.com/v2/version/Zns5SSRA) | Explicit platform library installed on client; native Minecraft ~26.3-, Java >=25, Loader >=0.19.3. |
 | Client Tweaks (`vPNqo58Q`, feature) | 26.2.0.6+fabric-26.2 | [26.3.0.1+fabric-26.3](https://api.modrinth.com/v2/version/7fKN7OpP) | Client entrypoint, no common initializer; local input/UI conveniences. Balm/Kuma bundled support; overlap switches retained. |
-| Sign Tweaks (`c7xDMxha`, feature) | 2.103.0+26.2 | [2.104.0+26.3](https://api.modrinth.com/v2/version/bqVjibae) | Modrinth environment unknown; actual artifact environment client, empty main/server entrypoints. Local vanilla sign editor. |
+| Sign Tweaks (`c7xDMxha`, feature) | 2.103.0+26.2 | [2.104.0+26.3](https://api.modrinth.com/v2/version/bqVjibae) | Modrinth environment unknown; actual artifact environment client, empty main/server entrypoints. Local vanilla sign editor; now replaced by the writing refinement. |
 | Iris Shaders (`YL57xq9U`, feature) | 1.11.4+26.2-fabric | [1.11.7+26.3-fabric](https://api.modrinth.com/v2/version/vTN4NRGW) | Client-only 1.11.7 fixes 26.3 bugs; exact Sodium bAZQdGpg required, native 0.9.x. Both shader audits renewed. |
 | Mod Menu (`mOgUt4GM`, feature) | 20.0.3 | [21.0.1](https://api.modrinth.com/v2/version/xckkBHD5) | Client mod/config UI. Placeholder API is now release 3.2.0, so no prerelease dependency exemption needed. |
 | Light Overlay (`8qVa1XCN`, feature) | 2.12.0+26.2 | [2.13.1+26.3](https://api.modrinth.com/v2/version/MBWYrOAD) | Correct project 8qVa1XCN; local light/spawn visualization. Exact OverlayLib iSTcauwL; YACL >=3.9.7. |

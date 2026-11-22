@@ -13,6 +13,7 @@ requires no additional library projects, and needs nothing on the server.
 | `configureddefaults/config/clienttweaks-common.toml` | Copies only if the entire live config file is missing. |
 | `configureddefaults/config/iris.properties` | Copies only if the entire live config file is missing. |
 | `configureddefaults/config/bettergrass.json` | Copies only if the entire live config file is missing; limits terrain changes to fancy grass-style surfaces. |
+| `configureddefaults/config/symbol-chat.json` | Copies only if missing; resets decorative font selection between screens and hides missing glyphs in the Unicode table. |
 | `configureddefaults/config/enchdesc.json` | Copies only if missing; selects shift-gated enchantment descriptions using Prickle property wrappers. |
 
 No live `options.txt`, mod config, server list, journal or forced-reset flag is
@@ -40,9 +41,71 @@ Use a copy of an existing profile when testing upgrades. Configured Defaults
 uses no persistent first-run journal; its per-process guard prevents duplicate
 initialization, and subsequent launches recheck for missing files/keys.
 
+## Writing tools
+
+Big Sign Writer 3.1.1 supplies large sign letters. Symbol Chat 1.4.3 supplies
+shared Unicode insertion on vanilla editor screens, including books.
+Use Mod Menu for BSW and Symbol Chat settings. Mod Menu's existing compact
+pause-menu icon remains the entry point. BSW also exposes settings in its sign
+screen. Its initial selection is vanilla text, with no forced decorative font.
+
+The Symbol Chat template uses the pinned Reconfigure 0.3.3 JSON serializer's
+plain root properties in `config/symbol-chat.json`:
+
+```json
+{
+  "keep_font_selected": false,
+  "unicode_table_missing_glyphs": true
+}
+```
+
+The first setting starts a new editor with its default font; you can choose a
+Unicode variant deliberately. The second hides missing glyphs in the Unicode
+table, not in arbitrary third-party font definitions. Both remain changeable.
+No favorite list, custom symbol pack, selected font, clipboard, draft or global
+keybinding is distributed. Existing F7/F9 and all player bindings remain intact.
+BSW's selector sits near the sign editor; Symbol Chat uses corner controls.
+Check smaller GUI scales and non-US layouts during owner acceptance.
+
+For normal Unicode text, select BSW **None (Vanilla)** and use Symbol Chat's
+font menu or symbol search. For large letters, leave Symbol Chat on **Normal** and
+choose a BSW font. Use BSW's own composed-symbol panel for multirow icons.
+Switching fonts does not rewrite existing text. Inserting single-line text into
+an existing large glyph can spoil its alignment. Check every row before saving,
+especially near the width limit. BSW can skip an overflowing row without an error
+message. Use a smaller alphabet or split the wording across separate signs.
+
+No live config override is exported. Configured Defaults copies this file only
+when absent, so upgrades do not replace favorites or preferences in an existing
+Symbol Chat file. To adopt these defaults in an existing install, change the two
+settings manually in Mod Menu. Keep the rest of your file. Local BSW definitions
+in `config/bigsignwriter/fonts/` are player files; the pack does not replace them.
+The isolated upstream file-handler audit covers fresh copying, existing custom
+Symbol Chat settings, repeat launches and template updates. This is file evidence,
+not a launcher or Minecraft initialization test.
+
+Upgrade a closed, copied 26.3 instance using the new pack's exact mod set. Remove
+`signtweaks-fabric-2.104.0+26.3.jar`, `book-tweaks-1.2.0-26.3.jar` and any
+duplicate older writing JARs before
+launch. Both new JARs are mandatory pack downloads. Do not delete old Sign Tweaks
+configs, books, worlds or signs. They remain player-owned; obsolete editor config
+is simply unused. Cloth Config and Mod Menu remain required by other selected
+mods, so neither library is removed. The removed Sign Tweaks wrapping, multiline
+selection, full-sign quick actions, held-key blocking and click-through controls
+are not migrated to BSW. Book Tweaks' page-memory config is now unused; keep it for rollback.
+Its removal also removes first/last buttons, automatic cross-page editing/paste
+and remembered reading positions. Paste drafts page by page within vanilla limits.
+
+No selected mod adds a native book color/style toolbar, page reordering, file
+import/export or general undo/redo. Unicode substitutions are ordinary text;
+vanilla sign dye/glow is still available. A local preview does not prove that a
+server filter saves the same text or a vanilla client renders it identically.
+See the [text contract](mod-audit.md#vanilla-text-contract) and the
+[writing checklist](acceptance-tests.md#writing-owner-acceptance-matrix).
+
 ## Minecraft 26.3 configuration review
 
-Only the options data-version seed changes, from 4903 to 5023. The five mod
+At the initial migration, only the options data-version seed changed, from 4903 to 5023. The five mod
 config templates are unchanged. Their fields remain present in the new Mouse
 Tweaks 2.31, Client Tweaks 26.3.0.1, BetterGrassify 1.8.8, Iris 1.11.7 and
 Enchantment Descriptions 26.3.0.2 implementations. The HUD/refill overlap switches,
@@ -478,8 +541,8 @@ Balm can populate omitted options from upstream defaults on first load.
 
 Mod Menu exposes the active mods' configuration screens. Its pause-menu entry is
 the compact list icon in the icon row. The owner confirmed it is accessible and
-chose to retain that style. Sign Tweaks and Book Tweaks retain their upstream
-editing defaults.
+chose to retain that style. The writing refinement replaces Sign Tweaks and
+Book Tweaks; see [writing tools](#writing-tools).
 
 ## Light Overlay
 

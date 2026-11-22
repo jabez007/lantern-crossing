@@ -1,5 +1,113 @@
 # Verification record
 
+## Writing refinement verification, 2026-11-22
+
+Pack version `26.3.1.0.0` exports
+`lantern-crossing-26.3.1.0.0-dev.mrpack`. The writing selection and pending owner
+cases are recorded in the [audit](mod-audit.md#writing-refinement) and
+[acceptance matrix](acceptance-tests.md#writing-owner-acceptance-matrix).
+The records below this section describe older milestones, including the previous
+pack version. Their hashes and smoke-test observations do not qualify this build.
+
+The current archive has 54 exact downloads: 41 mod features, eleven libraries and
+two optional shaders. It includes seven defaults payloads, no live config or
+player content, and neither old editor download. BSW 3.1.1 (`ics7z6RR`) and
+Symbol Chat 1.4.3 (`Y9zsgkwF`) replace Sign Tweaks and Book Tweaks.
+Every original retained mod pin, shader audit and existing defaults template is
+byte-identical to the prior checkout. Configured Defaults adds only the missing
+Symbol Chat template. No environment/dependency exception or release-policy
+approval field changed. The sole existing Prickle exception remains exact.
+
+The major version increment follows the existing selection/setup-review policy.
+Migration schema 3 retains all 54 source rows, records both retired editor pins
+and replacement dispositions, and adds two target-only entries. Active, retired
+and added artifact evidence remains checked; new entries and both retirements all
+retain independent pending runtime states. No fictitious 26.2 artifacts are added.
+
+| Command or check | Observed result |
+| --- | --- |
+| `make test lint validate` | PASS: 159 offline tests; Ruff lint/format, exact lock/index, native dependency closure, environment policy, documentation, migration and development identity checks. |
+| `ruff check --select C90 scripts tests` | PASS before and after implementation, configured maximum 10; no over-threshold functions reported. No separate type checker is configured. |
+| `/tmp/lantern-bin/actionlint .github/workflows/validate.yml` | PASS; unchanged workflow. Hosted GitHub Actions was not run during this local verification. |
+| `python3 scripts/check_target_readiness.py --offline` | PASS: all 54 active artifacts have recorded target build availability; discovery is not runtime qualification. |
+| `make refresh PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'` | PASS: repeated refresh leaves pack/index byte-identical. |
+| `make checksum PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'` | PASS with network available for the two new pinned artifacts; full export, normalization, archive validation and checksum creation. |
+| `make export PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'` | PASS from cache; complete normalized archive. |
+| `cmp /tmp/lantern-writing/first-complete.mrpack dist/lantern-crossing-26.3.1.0.0-dev.mrpack` | PASS: byte-identical repeated exports. |
+| `sha256sum --check lantern-crossing-26.3.1.0.0-dev.sha256` from `dist/` | PASS. |
+| `python3 scripts/release_metadata.py --channel release --tag v26.3.1.0.0` | Expected refusal: `sodium: migration runtime acceptance remains pending`. No release was created. Tests separately verify new-artifact and retirement acceptance cannot be skipped. |
+| `git diff --check` | PASS; no staged changes. |
+
+The first sandboxed export could not resolve/download the new files. Packwiz
+omitted them, and our unchanged archive validator rejected the incomplete pack.
+The network-enabled retry downloaded the exact SHA-512-checked files and passed.
+There is no unresolved automated failure. No validator exception was added.
+Conflict/selection regressions failed against the old selection before the
+change. A retired-pin mutation test also failed before the corresponding gate
+was added; it now rejects altered historical identity instead of bypassing it.
+
+Book Tweaks was rejected after the exact JAR/source audit found legacy GLFW
+key dispatch and clipboard consumption without confirmation of accepted text.
+The final pack uses vanilla book page editing, without Book Tweaks page tools
+or memory. The [input audit](upstream-metadata.json) binds artifact/class hashes
+and the inspected vanilla SDL key values. No game execution or runtime data-loss
+claim is involved. A future release needs a fresh input/paste audit before
+Book Tweaks can be selected again.
+
+Tooling observed: Python 3.12.12, Ruff 0.16.4, actionlint 1.7.12. Packwiz build
+metadata identifies `170b22d78595` and Go 1.24.6, matching the pinned CI tooling.
+
+The temporary audit command `python3 /tmp/lantern-writing/run-oracles.py` compiled
+the unmodified Symbol Chat `FontProcessor`, `MappedFontProcessor` and `Util`
+sources at `7da2d67e`, with the repository fixture
+[`SymbolChatFontsOracle.java`](../tests/fixtures/SymbolChatFontsOracle.java).
+Only Minecraft identifier/translation/GsonHelper adapters were stubbed. Actual
+Gson 2.14.0, ICU 78.3 and the pinned JAR's font JSON were used. The recorded
+[conversion results](../tests/fixtures/symbol-chat-fonts.json) bind source,
+resource, library, adapter and artifact hashes. Mathematical bold, fullwidth and
+circled conversions passed, including preservation of an unmapped supplementary
+symbol. This executes source conversion code, not the compiled game or editor.
+Fullwidth also changes spacing/punctuation; substitutions are not native styles.
+
+The same audit command reran the existing unmodified Configured Defaults handler
+with JDK 17.0.21.1 and logging/constants stubs. All seven file scenarios passed
+with the additional writing template. Customized Symbol Chat settings/favorites
+survived repeat launches and template updates. The
+[file evidence](../tests/fixtures/configured-defaults-files.json) binds the new
+complete template set. JDK 17 is only the isolated audit compiler; Minecraft
+still requires Java 25. Neither oracle initializes Fabric or Minecraft.
+
+Static font-resource inspection found all 478 distinct codepoints in the 35
+bundled BSW definitions in vanilla 26.3's official glyph inventory. The three
+Symbol Chat sample outputs also have vanilla glyph entries. The
+[recorded metadata](upstream-metadata.json) binds the exact asset index, Unifont
+ZIP, client and mod artifacts. Glyph presence does not prove rendering, layout,
+server filtering or persistence. Arbitrary custom fonts are not qualified.
+
+Archive size: **32,231 bytes**. Archive SHA-256:
+`3bdc717c99090ca5f16c86a7d986d42266c96f2e0ef72e9ac632a2e8dc8da514`.
+
+`pack.toml` SHA-256 for future owner acceptance:
+`d045b32730bfbd2a84c54a8ebc7747ef57fa752e679a23ac2a58e9bf0b32d894`.
+
+No Minecraft launch, Prism or Modrinth App acceptance, vanilla-server join,
+vanilla-observer rendering or server restart test was performed. The earlier
+owner smoke test stays attributed to its older, unidentified artifact. All
+writing matrix boxes and final release approval fields remain pending.
+Concrete risks are BSW's partial-row overflow behavior, combined widget/focus
+interaction, unsupported/custom glyphs, server filtering and platform input.
+Rich book file tools/native formatting remain deferred, as does the rejected
+Scribble composition with its macOS file-dialog report.
+
+The `26.2` ref remains `6d7e73af2ab2c4835ac748be538d22abd9631ec7`.
+No checkout, backport, commit, push, tag or publication changed that branch.
+The implementation targets only `26.3`.
+
+A remaining cleanup candidate outside the edited code is the hard-coded mod
+count in `tests/test_shaders.py`. Deriving it from the shared inventory would
+avoid future count maintenance. That file remains unchanged; no unrelated
+refactor is included.
+
 ## Initial Prism Launcher runtime smoke test
 
 Source: the repository owner's initial runtime acceptance report for Minecraft

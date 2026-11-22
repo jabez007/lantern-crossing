@@ -3350,6 +3350,163 @@
         }
       ]
     },
+    "NKvLVQMc": {
+      "checked_at": "2026-11-22",
+      "client_side": "required",
+      "name": "Symbol Chat",
+      "server_side": "unsupported",
+      "slug": "symbol-chat",
+      "source_url": "https://github.com/replaceitem/symbol-chat",
+      "versions": [
+        {
+          "client_required": [
+            {
+              "audit_source": "https://cdn.modrinth.com/data/NKvLVQMc/versions/Y9zsgkwF/symbol-chat-26.3-1.4.3.jar",
+              "project_id": "P7dR8mSH",
+              "source": "fabric.mod.json:depends.fabric-api",
+              "version_id": null
+            }
+          ],
+          "dependencies": [
+            {
+              "dependency_type": "embedded",
+              "file_name": null,
+              "project_id": "QHmQeeNt",
+              "version_id": null
+            },
+            {
+              "dependency_type": "optional",
+              "file_name": null,
+              "project_id": "mOgUt4GM",
+              "version_id": null
+            },
+            {
+              "dependency_type": "required",
+              "file_name": null,
+              "project_id": "P7dR8mSH",
+              "version_id": null
+            }
+          ],
+          "fabric_descriptor": {
+            "bundled": [
+              {
+                "bundled": [],
+                "depends": {
+                  "fabric-api": ">=0.160.5",
+                  "fabricloader": ">=0.18.4",
+                  "minecraft": ">=26.3"
+                },
+                "entrypoints": {
+                  "client": [
+                    "net.replaceitem.reconfigure.Reconfigure"
+                  ]
+                },
+                "environment": "client",
+                "id": "reconfigure",
+                "mixin_configs": {
+                  "reconfigure.mixins.json": {
+                    "client": [
+                      "AbstractSliderButtonAccessor",
+                      "CheckboxMixin",
+                      "MultiLineEditBoxAccessor",
+                      "MultilineTextFieldAccessor",
+                      "StringWidgetAccessor"
+                    ],
+                    "compatibilityLevel": "JAVA_25",
+                    "injectors": {
+                      "defaultRequire": 1
+                    },
+                    "minVersion": "0.8",
+                    "mixins": [],
+                    "package": "net.replaceitem.reconfigure.mixin",
+                    "required": true
+                  }
+                },
+                "mixins": [
+                  "reconfigure.mixins.json"
+                ],
+                "version": "0.3.3"
+              }
+            ],
+            "depends": {
+              "fabric-api": ">=0.160.5",
+              "fabricloader": ">=0.18.4",
+              "java": ">=25",
+              "minecraft": ">=26.3",
+              "reconfigure": "~0.3.3"
+            },
+            "entrypoints": {
+              "client": [
+                "net.replaceitem.symbolchat.SymbolChat"
+              ],
+              "modmenu": [
+                "net.replaceitem.symbolchat.config.ModMenuApiImpl"
+              ]
+            },
+            "environment": "client",
+            "id": "symbol-chat",
+            "mixin_configs": {
+              "symbol-chat.mixins.json": {
+                "client": [
+                  "MultilineTextFieldAccessor",
+                  "FontManagerAccessor",
+                  "MinecraftAccessor",
+                  "FontMixin",
+                  "FontSetAccessor",
+                  "FontSetSourceMixin",
+                  "screen.AbstractSignEditScreenMixin",
+                  "screen.AnvilScreenMixin",
+                  "screen.BookEditScreenMixin",
+                  "screen.ChatScreenMixin",
+                  "screen.ScreensMixin",
+                  "widget.MultiLinedEditBoxAccessor",
+                  "widget.MultiLineEditBoxMixin",
+                  "widget.AbstractScrollAreaAccessor",
+                  "widget.EditBoxAccessor",
+                  "widget.EditBoxMixin"
+                ],
+                "compatibilityLevel": "JAVA_25",
+                "injectors": {
+                  "defaultRequire": 1
+                },
+                "minVersion": "0.8",
+                "package": "net.replaceitem.symbolchat.mixin",
+                "required": true
+              }
+            },
+            "mixins": [
+              "symbol-chat.mixins.json"
+            ],
+            "version": "26.3-1.4.3"
+          },
+          "files": [
+            {
+              "file_type": null,
+              "filename": "symbol-chat-26.3-1.4.3.jar",
+              "hashes": {
+                "sha1": "c0106f7fbed831d570b76bdb70a3fa1ce22aa8f7",
+                "sha512": "e520c0f1e3698ab093ba0c2501dabdfb19c9703d399caf89fd6aed180d67bb5e44b0495734f42c9241e6dfd92c1c7166049ce0d1d359bc9307e9bb5c74ef7afe"
+              },
+              "id": "VnUarEZF",
+              "primary": true,
+              "size": 450683,
+              "url": "https://cdn.modrinth.com/data/NKvLVQMc/versions/Y9zsgkwF/symbol-chat-26.3-1.4.3.jar"
+            }
+          ],
+          "game_versions": [
+            "26.3"
+          ],
+          "id": "Y9zsgkwF",
+          "loaders": [
+            "fabric"
+          ],
+          "name": "1.4.3",
+          "project_id": "NKvLVQMc",
+          "version_number": "1.4.3",
+          "version_type": "release"
+        }
+      ]
+    },
     "NNAgCjsB": {
       "checked_at": "2026-11-19",
       "client_side": "required",
@@ -6554,6 +6711,92 @@
           "name": "v26.3.0-mc26.3.x+fabric",
           "project_id": "SISoSFPP",
           "version_number": "26.3.0",
+          "version_type": "release"
+        }
+      ]
+    },
+    "UCpxwAAu": {
+      "checked_at": "2026-11-22",
+      "client_side": "required",
+      "name": "Big Sign Writer",
+      "server_side": "unsupported",
+      "slug": "bigsignwriter",
+      "source_url": "https://codeberg.org/chililisoup/BigSignWriter",
+      "versions": [
+        {
+          "client_required": [
+            {
+              "audit_source": "https://cdn.modrinth.com/data/UCpxwAAu/versions/ics7z6RR/bigsignwriter-3.1.1%2B26.3.jar",
+              "project_id": "P7dR8mSH",
+              "source": "fabric.mod.json:depends.fabric-api",
+              "version_id": null
+            }
+          ],
+          "dependencies": [],
+          "fabric_descriptor": {
+            "bundled": [],
+            "depends": {
+              "fabric-api": "*",
+              "fabricloader": ">=0.19",
+              "minecraft": ">=26.3 <26.4"
+            },
+            "entrypoints": {
+              "client": [
+                "dev.chililisoup.bigsignwriter.loaders.fabric.FabricEntrypoint"
+              ],
+              "modmenu": [
+                "dev.chililisoup.bigsignwriter.compat.ModMenuIntegration"
+              ]
+            },
+            "environment": "client",
+            "id": "bigsignwriter",
+            "mixin_configs": {
+              "bigsignwriter.mixins.json": {
+                "client": [
+                  "AbstractSignEditScreenMixin"
+                ],
+                "compatibilityLevel": "JAVA_21",
+                "injectors": {
+                  "defaultRequire": 1
+                },
+                "minVersion": "0.8",
+                "package": "dev.chililisoup.bigsignwriter.mixin",
+                "required": true
+              }
+            },
+            "mixins": [
+              {
+                "config": "bigsignwriter.mixins.json",
+                "environment": "*"
+              }
+            ],
+            "version": "3.1.1+26.3"
+          },
+          "files": [
+            {
+              "file_type": null,
+              "filename": "bigsignwriter-3.1.1+26.3.jar",
+              "hashes": {
+                "sha1": "f7d2bee88a314cea6b9f3bb390ac33db6604965a",
+                "sha512": "b7e4b6eb47f9cfb6155f4d0245ed9d66eb716da3f6c56a8840460cdcf7dc723311d2b318d35e0065b89f2619664c1cf094453347a87be790520a3bfc3496e84b"
+              },
+              "id": "q8Iw55nE",
+              "primary": true,
+              "size": 284257,
+              "url": "https://cdn.modrinth.com/data/UCpxwAAu/versions/ics7z6RR/bigsignwriter-3.1.1%2B26.3.jar"
+            }
+          ],
+          "game_versions": [
+            "26.3"
+          ],
+          "id": "ics7z6RR",
+          "loaders": [
+            "fabric",
+            "neoforge"
+          ],
+          "name": "Big Sign Writer 3.1.1+26.3",
+          "project_id": "UCpxwAAu",
+          "version_number": "3.1.1+26.3",
           "version_type": "release"
         }
       ]
@@ -10543,8 +10786,6 @@
     "1bokaNcj",
     "NcUtCpym",
     "w7ThoJFB",
-    "c7xDMxha",
-    "skd7t7zC",
     "yBW8D80W",
     "Wb5oqrBJ",
     "YL57xq9U",
@@ -10559,7 +10800,9 @@
     "m5T5xmUy",
     "xv94TkTM",
     "GGfyJWnG",
-    "UVtY3ZAC"
+    "UVtY3ZAC",
+    "UCpxwAAu",
+    "NKvLVQMc"
   ],
   "schema": 1,
   "shader_projects": {
@@ -10832,5 +11075,93 @@
       ]
     }
   },
-  "target": "26.3"
+  "target": "26.3",
+  "writing_glyph_audit": {
+    "artifacts": {
+      "NKvLVQMc": {
+        "sha512": "e520c0f1e3698ab093ba0c2501dabdfb19c9703d399caf89fd6aed180d67bb5e44b0495734f42c9241e6dfd92c1c7166049ce0d1d359bc9307e9bb5c74ef7afe",
+        "version-id": "Y9zsgkwF"
+      },
+      "UCpxwAAu": {
+        "sha512": "b7e4b6eb47f9cfb6155f4d0245ed9d66eb716da3f6c56a8840460cdcf7dc723311d2b318d35e0065b89f2619664c1cf094453347a87be790520a3bfc3496e84b",
+        "version-id": "ics7z6RR"
+      }
+    },
+    "asset-index": {
+      "sha1": "f3df28b441565ca4e5deb9cda856d90df62e1433",
+      "url": "https://piston-meta.mojang.com/v1/packages/f3df28b441565ca4e5deb9cda856d90df62e1433/34.json"
+    },
+    "bsw-resource-sha256": {
+      "assets/bigsignwriter/bigsignwriter/blockheads.json": "ca530d65b13af7254a86ed63f4ff30c3977a6d40f70d154f7ad2b5acd0d97023",
+      "assets/bigsignwriter/bigsignwriter/chess.json": "308a2b92ac3018c2f605db26c3fbad29beaebff4f3a77a5a221312a565d468aa",
+      "assets/bigsignwriter/bigsignwriter/chillager.json": "13679fd98767733c79e94be2069bb5979368fa17886760356ea2eaa495d0150f",
+      "assets/bigsignwriter/bigsignwriter/copper_bulb.json": "1b5f47333955b18096bac6f6f763eb433da3d3351090056a455cf45a33e72556",
+      "assets/bigsignwriter/bigsignwriter/default.json": "2e71fe76843cc684870457c3f07a7cf8bcfbfbc365fc6708616b56b4a68f3770",
+      "assets/bigsignwriter/bigsignwriter/default_mono.json": "c99912a96b0ef0eb112b2dff89ecfc46d759f7d38519585c6b9869421ac96ea8",
+      "assets/bigsignwriter/bigsignwriter/endermite.json": "08a16896537bae92c8e0c20636ba69cddd5a227d3a6906977e4c8236f7a107cc",
+      "assets/bigsignwriter/bigsignwriter/fun.json": "9a8e9367376ae12042a11edafc8ff40f52acc27a659d0c6c4c69c82d009ce5c3",
+      "assets/bigsignwriter/bigsignwriter/happy_ghast.json": "b6171da345bea5d89434949c50d27f7d796f4af4444f2749ef67c08fba77c5a5",
+      "assets/bigsignwriter/bigsignwriter/items.json": "1e1ba930de119f8a4e4281687cc15825f7c46f02ef3c3bd58dcea7db8c25b0df",
+      "assets/bigsignwriter/bigsignwriter/jukebox.json": "b6f5a5c8e074f45d30728d60c5917360a3cebbffb82baacc9104e9e2b4376835",
+      "assets/bigsignwriter/bigsignwriter/jukebox_hollow.json": "60b41d2d1965207d33ecc21589cffbdeb348f827bc3bab81ef71eeb7d4e9914c",
+      "assets/bigsignwriter/bigsignwriter/jukebox_lined.json": "7f9a790fb989615b78efcdb0596ff12a25635743a6def6aa65a98a34f513cc2f",
+      "assets/bigsignwriter/bigsignwriter/lapis_lazuli.json": "48226f2ddeeb73e34601f11e80081f0dd70466213dfc9bba09cb6b2a03e31e59",
+      "assets/bigsignwriter/bigsignwriter/largemojis.json": "45304d1744d4158d5b28a5c3256a615ac6ae8eca48a5a0fc5c336fb599aff45f",
+      "assets/bigsignwriter/bigsignwriter/minecraft.json": "d5f29c6895647c4a0c43640961f0a16900a46fcb161a89e8e1eb24cc95f795a6",
+      "assets/bigsignwriter/bigsignwriter/minecraft_small.json": "8e56b9e6a230d51885b0b54d3effcceebac6f78952afd3ab86c5f6218ea83845",
+      "assets/bigsignwriter/bigsignwriter/minecraft_striped.json": "8227c44fc2167805d5a116207ccf97c5d11165c9db5e0af1d9a265943adc08e8",
+      "assets/bigsignwriter/bigsignwriter/outlined.json": "1026dea2c076d98303906bc5e64f854e9df2ebce9f1cc153c230fcd3abefaf52",
+      "assets/bigsignwriter/bigsignwriter/outlined_short.json": "aa87bf6e3d092d76cd801c42b9ff1262d7065e1226f539c3b2ed4bb456191bfe",
+      "assets/bigsignwriter/bigsignwriter/plains.json": "b82588402e51d9f50644cf3e8f826c53404176fd76ff91b523ff4f280de137a5",
+      "assets/bigsignwriter/bigsignwriter/queatlets.json": "d073b7ebbc9bc0697ca99663b510cfda55436ba4cf4cc40c50821fb241b17f3f",
+      "assets/bigsignwriter/bigsignwriter/queatlets_monospace.json": "134670c63c8980e20337bc7e92a7447dda4f67f6dcafce8562f91b1f7a273148",
+      "assets/bigsignwriter/bigsignwriter/queatlets_old_style.json": "5ef882ca4a20f95459c4b795cb5c194ab618ce0454e2dbf9b6a154dda0ae1dc8",
+      "assets/bigsignwriter/bigsignwriter/queatlets_old_style_monospace.json": "20bad1d07299a0efbd83a2529c80b3b4b1efbb8fe80e9c98455447bca2a3a262",
+      "assets/bigsignwriter/bigsignwriter/queats_lazy_sunday.json": "c8f90d4376c272b1b03caf3eed5fa19f8cd7038addf7933fb0e5de8d727f9442",
+      "assets/bigsignwriter/bigsignwriter/queats_pro.json": "d9f669916754a6c2d5f182c1f8a62e036891296ef8427822503bb9e19517439d",
+      "assets/bigsignwriter/bigsignwriter/queats_pro_monospace.json": "7834611bf3ec8bdaba0a41a64009fbf758948fb33bc3a709114a2b54c6ad9d14",
+      "assets/bigsignwriter/bigsignwriter/retro.json": "516dfe16cf5df78c9963733e88541cf02f8baf77cb348a6387257ba8f76694a6",
+      "assets/bigsignwriter/bigsignwriter/shapes_and_signs.json": "7a9cef90a62f2f55b56cb67296b8c1b5d745dd1510f668a99041eab7b5e797b2",
+      "assets/bigsignwriter/bigsignwriter/sharp.json": "62470833f08dd053de6df2272d9683665112d418f12392536c4877bf9ee34fcc",
+      "assets/bigsignwriter/bigsignwriter/shulkerware.json": "9cb4a1254384a91d49780c660f5f29ca155549ec32cc24fb6955bcdfcacaa941",
+      "assets/bigsignwriter/bigsignwriter/small.json": "bf6adf5355856508cf87498955e22504400ae03539fee23992604a86d8598f6a",
+      "assets/bigsignwriter/bigsignwriter/smooth_small.json": "9e48fc70d2df2592d857e84649ad905c8ce1537b9b09bedc19c94915e49d4a27",
+      "assets/bigsignwriter/bigsignwriter/thin.json": "bca3a4e9dcb1baf8b876c07f6f5a8dddf9a35e765287cda10965c841e5a8934b"
+    },
+    "builtin-row-count": 9634,
+    "checked_at": "2026-11-22",
+    "max-row-utf16": 29,
+    "minecraft-client-sha1": "e877b6a07acd633fb3bb475002175cec036e7b87",
+    "missing-codepoints": [],
+    "scope": "Static glyph presence only. No font rendering, editor, client/server or launcher runtime test.",
+    "symbol-chat-sample-missing": [],
+    "unique-codepoints": 478,
+    "vanilla-unifont-sha1": "ccd5ac4767ce0a9c71d1dd62f2dc25449789b5dd"
+  },
+  "writing_input_audit": {
+    "artifact-sha512": "b96fee38c940abde5606e1e0aa0947bef15f8358fdd6b5ec2bca7a705b8543152b552c3f05985d847b3b74759dec6a507107331961fe8cbaa352988e08fd4133",
+    "checked_at": "2026-11-22",
+    "class-sha256": "d4ffd4cb463b83d8eca54153332dc419a8c4df1fa6dd3792563733c4b317b1c2",
+    "legacy-dispatch": {
+      "down": 264,
+      "enter": 257,
+      "escape": 256,
+      "left": 263,
+      "right": 262,
+      "up": 265
+    },
+    "minecraft-client-sha1": "e877b6a07acd633fb3bb475002175cec036e7b87",
+    "rejected-project-id": "skd7t7zC",
+    "scope": "Exact JAR bytecode and source inspection only; no Minecraft execution. KeyEvent.key/input is a physical SDL3 scancode. Paste consumes attempted text length even when vanilla insertion truncates or rejects it.",
+    "source-commit": "b41f0529ff268469f8b3842e38ef29287cbf3504",
+    "vanilla-scancodes": {
+      "down": 81,
+      "enter": 40,
+      "escape": 41,
+      "left": 80,
+      "right": 79,
+      "up": 82
+    },
+    "version-id": "b2TIM6ZY"
+  }
 }

@@ -150,6 +150,27 @@ def check_candidates(root: Path, projects: dict) -> None:
         slugs.add(entry["slug"])
 
 
+def check_writing_editors(projects: dict) -> None:
+    """Reject reviewed editor collisions that upstream dependency labels omit.
+
+    The source and artifact evidence is in docs/mod-audit.md#writing-refinement.
+    A missing integration is a release blocker even when both mods can load.
+    """
+    require(
+        "skd7t7zC" not in projects,
+        "writing editor rejected: Book Tweaks needs a new SDL3/paste audit before reselection",
+    )
+    conflicts = (
+        ("c7xDMxha", "UCpxwAAu"),  # Sign Tweaks replaces BSW's text helper.
+        ("NKvLVQMc", "yXAvIk0x"),  # Symbol Chat has no Scribble 2 integration.
+        ("BWloQ9jK", "NKvLVQMc"),  # Competing symbol/input controls, unqualified.
+        ("BWloQ9jK", "UCpxwAAu"),  # Competing sign controls, unqualified.
+        ("BWloQ9jK", "c7xDMxha"),  # Competing sign controls, unqualified.
+    )
+    for pair in conflicts:
+        require(not set(pair) <= projects.keys(), f"writing editor conflict: {pair}")
+
+
 def check_descriptor(descriptor: dict) -> None:
     require(descriptor.get("environment") != "server", "server-only Fabric module")
     # The containing artifact's hash pins bundled implementation components.
@@ -739,6 +760,7 @@ def load_pack(root: Path = ROOT) -> Pack:
         "collection must declare the client Java major version",
     )
     projects = check_collection(collection, evidence)
+    check_writing_editors(projects)
     check_defaults_manager(root, projects)
     check_candidates(root, projects | entries_by_id(collection.get("shader", [])))
     mods, versions = {}, {}

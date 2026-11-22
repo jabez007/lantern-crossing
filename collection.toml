@@ -160,13 +160,6 @@ category = "navigation"
 role = "feature"
 
 [[selected]]
-project-id = "skd7t7zC"
-slug = "book-tweaks"
-name = "Book Tweaks"
-category = "writing"
-role = "feature"
-
-[[selected]]
 project-id = "yBW8D80W"
 slug = "lambdynamiclights"
 name = "LambDynamicLights - Dynamic Lights"
@@ -186,20 +179,13 @@ slug = "fabric-api"
 name = "Fabric API"
 category = "platform"
 role = "selected-library"
-required-by = ["1IjD5062", "1bokaNcj", "1eAoo2KR", "2M01OLQq", "8qVa1XCN", "8shC1gFX", "Eldc1g37", "GGfyJWnG", "LQ3K71Q1", "M1B8mLoH", "MBAkmtvl", "NNAgCjsB", "NcUtCpym", "O7RBXm3n", "QwxR6Gcd", "UVtY3ZAC", "ZDCwiIc3", "aC3cM3Vq", "aaRl8GiW", "c7xDMxha", "fuuu3xnx", "m5T5xmUy", "mOgUt4GM", "n6PXGAoM", "onSQdWhM", "pJogNFap", "skd7t7zC", "uLbm7CG6", "vPNqo58Q", "w7ThoJFB", "x1hIzbuY", "xv94TkTM", "yBW8D80W"]
+required-by = ["1IjD5062", "1bokaNcj", "1eAoo2KR", "2M01OLQq", "8qVa1XCN", "8shC1gFX", "Eldc1g37", "GGfyJWnG", "LQ3K71Q1", "M1B8mLoH", "MBAkmtvl", "NKvLVQMc", "NNAgCjsB", "NcUtCpym", "O7RBXm3n", "QwxR6Gcd", "UCpxwAAu", "UVtY3ZAC", "ZDCwiIc3", "aC3cM3Vq", "aaRl8GiW", "fuuu3xnx", "m5T5xmUy", "mOgUt4GM", "n6PXGAoM", "onSQdWhM", "pJogNFap", "uLbm7CG6", "vPNqo58Q", "w7ThoJFB", "x1hIzbuY", "xv94TkTM", "yBW8D80W"]
 
 [[selected]]
 project-id = "vPNqo58Q"
 slug = "client-tweaks"
 name = "Client Tweaks"
 category = "inventory"
-role = "feature"
-
-[[selected]]
-project-id = "c7xDMxha"
-slug = "signtweaks"
-name = "Sign Tweaks"
-category = "writing"
 role = "feature"
 
 [[selected]]
@@ -300,6 +286,20 @@ name = "Enchantment Descriptions"
 category = "information"
 role = "feature"
 
+[[selected]]
+project-id = "UCpxwAAu"
+slug = "bigsignwriter"
+name = "Big Sign Writer"
+category = "writing"
+role = "feature"
+
+[[selected]]
+project-id = "NKvLVQMc"
+slug = "symbol-chat"
+name = "Symbol Chat"
+category = "writing"
+role = "feature"
+
 [[resolved-dependency]]
 project-id = "1eAoo2KR"
 slug = "yacl"
@@ -314,7 +314,7 @@ slug = "cloth-config"
 name = "Cloth Config API"
 category = "library"
 role = "dependency"
-required-by = ["51shyZVL", "8shC1gFX", "GGfyJWnG", "c7xDMxha", "pJogNFap", "x02cBj9Y", "x1hIzbuY"]
+required-by = ["51shyZVL", "8shC1gFX", "GGfyJWnG", "pJogNFap", "x02cBj9Y", "x1hIzbuY"]
 
 [[resolved-dependency]]
 project-id = "Eldc1g37"

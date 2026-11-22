@@ -1,0 +1,38 @@
+{
+  "scope": "Unmodified upstream font conversion only; Minecraft identifiers, translations and GsonHelper stubbed. Actual Gson/ICU libraries and pinned JAR font resources. No Minecraft, Fabric or networking executed.",
+  "source-commit": "7da2d67e84d5a6908f2e948c67a662d2814e3239",
+  "version-id": "Y9zsgkwF",
+  "artifact-sha512": "e520c0f1e3698ab093ba0c2501dabdfb19c9703d399caf89fd6aed180d67bb5e44b0495734f42c9241e6dfd92c1c7166049ce0d1d359bc9307e9bb5c74ef7afe",
+  "adapter-sha256": "6654b4f7d643fb97a00f07fecaa2331ba3efc17a8d32d34ef919e6858c96fd6b",
+  "source-sha256": {
+    "net/replaceitem/symbolchat/resource/FontProcessor.java": "2834b11ce9ac239e4b98db03d5a5051047298e1baedb2fa9544faccc8179a594",
+    "net/replaceitem/symbolchat/resource/MappedFontProcessor.java": "0da8d5be37330a76af15542ee5131fd3e1ebe709ff9cdc15fa478a25c5ab7524",
+    "net/replaceitem/symbolchat/Util.java": "4098caa91b72e81921d2876d3a762bf309a554e068990876a3718dc1ca28f7d0"
+  },
+  "resource-sha256": {
+    "assets/symbol-chat/symbol_fonts/mathematical_bold.json": "7d061683329d385e9c4487ca569787038e0acdf00f87ee019b0f3b0d0b67164f",
+    "assets/symbol-chat/symbol_fonts/fullwidth.json": "7ebab311ad1638d92fdb2b4e086e0c2722d0906a2eb5eb61a9be9640dd367657",
+    "assets/symbol-chat/symbol_fonts/circled.json": "c0dd6f9b05efc2aacd9983827fb50946878625ce9d2df807c5b2db27c5f31095"
+  },
+  "library-sha1": {
+    "gson-2.14.0.jar": "efc0e34ede4e3204eaefb84a00e55e8c86634382",
+    "icu4j-78.3.jar": "6a851a53bb1f25689fc418dcc8935b0d93580adf"
+  },
+  "observations": [
+    {
+      "font": "mathematical_bold",
+      "input": "Az09 / Oak 🌿",
+      "output": "𝗔𝘇𝟬𝟵 / 𝗢𝗮𝗸 🌿"
+    },
+    {
+      "font": "fullwidth",
+      "input": "Az09 / Oak 🌿",
+      "output": "Ａｚ０９  ／  Ｏａｋ  🌿"
+    },
+    {
+      "font": "circled",
+      "input": "Az09 / Oak 🌿",
+      "output": "Ⓐⓩ⓪⑨ ⊘ Ⓞⓐⓚ 🌿"
+    }
+  ]
+}
