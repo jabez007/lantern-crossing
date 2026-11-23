@@ -1,6 +1,212 @@
 # Client-only mod and shader audit
 
+## Writing gap recovery
+
+Pack **26.3.1.0.1**, reviewed 2026-11-22, keeps Big Sign Writer 3.1.1
+(`ics7z6RR`) and Symbol Chat 1.4.3 (`Y9zsgkwF`) unchanged. No recovery mod passes
+this review. The patch corrects documentation and records exclusion evidence;
+it does not restore the missing editor functions. This is the limited 26.3-only
+writing exception. No 26.2 work, Minecraft launch or runtime acceptance occurred.
+
+| Finding | Disposition |
+| --- | --- |
+| P2, lost sign/book editing capabilities | **Open, deferred on upstream fixes.** Reevaluate the exact candidates below when their blockers change. Adding unsafe clipboard/import behavior or a conflicting editor would make recovery worse. |
+| P3, README claims all original projects remain active | **Fixed.** Requests remain accounted for; Sign Tweaks and Book Tweaks are replaced. Current decorative tools provide partial capability coverage, not full editing parity. |
+
+The baseline is commit `300837db7cd52275dcb128f3f1a0e5f95b5cd622`, confirmed as
+the latest remote 26.3 head at the start. Its [Actions run](https://github.com/jabez007/lantern-crossing/actions/runs/45081176784)
+completed successfully. The pack still contains 41 mod features, eleven libraries
+and two optional shaders, for 54 downloads. No installed mod, dependency,
+Configured Defaults template, packaged binding or environment exception changes.
+
+### Recovery candidate inventory
+
+All eligible version links are exact Fabric 26.3 releases. Catalog dependencies
+are distinguished from native descriptor requirements. No screened artifact is
+installed. Native descriptors, tested class hashes and observed transformations
+are recorded in [writing-recovery.json](../tests/fixtures/writing-recovery.json).
+
+| Candidate | Dependency, maturity and client scope | Recovery value and disposition |
+| --- | --- | --- |
+| [BookPaste 2.2+26.3, Jv93kuQo](https://api.modrinth.com/v2/version/Jv93kuQo), `pfokf5Ct` | October 30 release. Fabric API required, Mod Menu optional; native Loader >=0.20.1, Java >=25, networking/lifecycle API modules. Catalog says client required/server unsupported; native environment is universal with common and client entrypoints. | Cross-page paste, two paragraph/layout modes and remainder notifications. **Exclude:** both modes strip authored whitespace; unconditional codec expansion and sign handling cannot be disabled independently. No exception to vanilla limits. |
+| [Book Extractor 1.0.4+26.3, Q3RHvvDk](https://api.modrinth.com/v2/version/Q3RHvvDk), `oUFjGUhJ` | October 2 release, client descriptor; native Fabric API >=0.161.0+26.3 omitted from catalog, Loader >=0.19.5, Java >=25. No maintained source repository linked; the descriptor's Fabric example link is not its source. | UTF-8 plaintext export, clipboard/file backups and clipboard reimport. **Exclude:** an authored page-separator line is lost and splits a page during accepted reimport. Import replaces the draft without confirmation/automatic backup; no export-only toggle. |
+| [Booker 1.0.0, eHX8ty48](https://api.modrinth.com/v2/version/eHX8ty48), `DJVsjgm4` | September 15 release, client descriptor and client-annotated initializer; Loader >=0.19.5, Java >=25, no extra library. [BookUtils source a8f93d3a](https://github.com/RealDevJG/BookUtils/tree/a8f93d3acb57a7aa6d2b48cefbc412ae9044d242). | Back-from-first wraps to last; reader arrows cycle. **Exclude:** zero-page reader modulo by zero; editable back-from-first appends a blank page, rather than solely navigating. No persistent last-read memory. |
+| [Easy Sign Editing 1.0.1, DJxCjYOy](https://api.modrinth.com/v2/version/DJxCjYOy), `P6TVpx0l` | November 6 release; native client-only, Loader >=0.19.5, Java >=25; no extra library. No source repository linked; exact JAR/mixin inspected. | Mouse caret, drag/multiline selection, copy/paste and wrap. **Exclude:** it keeps the native helper but intercepts the same typing/selection/render paths without BSW mode guards. This differs from Sign Tweaks' helper replacement, but still conflicts with the desired lettering workflow. |
+| [Scribble 2.1.0+mc26.3, aXAUZoEb](https://api.modrinth.com/v2/version/aXAUZoEb), `yXAvIk0x` | Latest release is still October 9, unchanged from the previous review. Bundles Tapestry base/config 1.1.3+mc26.3 and Fabric API modules; client-only. | Rich page tools, two-page display, native formatting, history and files. **Defer:** unchanged screen replacement, missing Symbol Chat book integration, final import-validation concerns and the open 26.3 macOS file-dialog report. |
+| [Scribe 1.0.2+26.3, CurseForge file 9150892](https://www.curseforge.com/minecraft/mc-mods/scribe-books-and-writing/files/9150892), project `1741986` | October 12 release; native universal environment, Fabric API, Loader >=0.19.5, Java >=25. Exact official CF JAR inspected, with computed SHA-512 recorded. [Source 5036280c](https://github.com/jaubertt/Scribe/tree/5036280c23273066841611940c81ec8037540bde) still declares 1.0.1; do not claim a complete source/binary match. | Broad editor, files/backups, chapters, bookmarks, covers and placement. **Exclude:** no isolated writing-only initialization; common initializer unconditionally registers customization, placement, ink and server/network modules. Reworked book/sign workflows also compete with the current UI. |
+| [Scholar 1.2.13, 5JsB0NmQ](https://api.modrinth.com/v2/version/5JsB0NmQ), `fX4dIQCo` | Additional editor named by BookPaste. Catalog requires Fabric API and `ohNO6lps` dependency, and marks both client and server required. | **Exclude at screening:** independent client-only eligibility is not established. No environment exception or server participation introduced. |
+| [Book Scroll](https://api.modrinth.com/v2/project/Ss2JOg1D), `Ss2JOg1D` | Client-only catalog; no Fabric 26.3 artifact returned by the official target query. | **Exclude:** smaller navigation alternative has no eligible target build. No guessed compatibility with older artifacts. |
+| [Journaling 1.0-modern, D6CFZgvf](https://api.modrinth.com/v2/version/D6CFZgvf), `eKvNAquO` | Fabric 26.3, client-only catalog; no declared dependencies, not promoted to native closure review. | **Exclude:** its [upstream description](https://modrinth.com/mod/journaling) explicitly warns that over-1024-character pages can disconnect from vanilla servers. Enlarged authoring limits are outside scope. |
+
+The bounded search stopped with these six named candidates and three related
+writing alternatives. Recipe-book, inventory, HUD and other unrelated results
+were not investigated. The Modrinth slug `scribe` belongs to an unrelated
+"Text to Screen" project; it is not the requested Scribe. The requested Scribe
+is identified by the official CurseForge/source links above. It is documented
+here, not entered into the Modrinth-ID staging ledger under a guessed identity.
+The eight Modrinth candidates are staged with blockers in [candidates.toml](../candidates.toml);
+that ledger cannot promote a mod into an export.
+
+### Text preservation and interoperability
+
+[BookPaste source 085d0b22](https://github.com/SvyatON/bookpaste/tree/085d0b22f9a122cc8ccdd6afd66501a312c9d864)
+and its exact release JAR were inspected. Its book handler builds a working copy
+of all pages, appends to the current page and subsequent existing pages, and
+consumes the `PageSlice` remainder only after its own length/layout fitter
+accepts that slice. It does not use Book Tweaks' void-insert/attempted-length
+pattern. The fitter checks <=1024 UTF-16 units and the vanilla 114 by 128 layout.
+`findMaxAppend` avoids cutting a surrogate pair or a section-code pair at its
+length boundary. A full page keeps the remainder and the normal remote cap
+falls back to 100 without an advertised modded-server capability. Long words
+can be split rather than discarded, and a large remaining draft stays on the
+clipboard after the handler finishes. These are useful improvements.
+
+They do not establish lossless paste. `buildPage`, `buildSmartPage` and
+`buildWholeParagraphPage` call `trimRight` on inserted text and `trimLeft` on the
+uninserted suffix. The tested input `alpha\n\n` becomes `alpha` with no remainder
+in **both** available modes. At a capacity boundary, `abcdefgh \n\nnext` becomes
+`abcdefgh` plus remainder `next`. The whitespace cannot be recovered from the
+post-operation clipboard. CRLF/CR normalization is also explicit. The capacity-boundary test also splits `e` from its combining acute accent,
+leaving the accent at the start of the remainder, although no codepoint is lost.
+The book handler edits page lists directly, appends rather than replacing the
+current selection/caret range, then calls vanilla save. It has no undo or draft
+backup of that bulk operation. It does not provide automatic continuation for
+normal typing after a paste.
+
+BookPaste's client join query is gated by `ClientPlayNetworking.canSend`, and
+ordinary vanilla servers need no companion. However, `UnlimitedWritableBookMixin`
+unconditionally substitutes `Integer.MAX_VALUE` into disk/network list limits,
+and `UnlimitedBookPacketMixin` installs its own page-list codec. The runtime
+page-cap lookup can accept a modded server's higher advertised cap. The client
+`customBookPages` switch does not remove these mixins. A copy-if-missing template
+cannot disable that implementation, nor override an existing player's expansion
+setting. This release cannot meet this milestone's requirement to exclude
+expanded authoring/serialization behavior.
+
+Its sign hook is always installed. `SignPasteCompat` finds the current row and
+message fields reflectively and calls the native setter, so it does not replace
+`signField`. It nevertheless repacks existing rows with a fixed 90-pixel fitter,
+including hanging signs whose native width is 60, and does not check BSW's active
+large-font mode. It can overwrite a composed layout and competes for Ctrl+V.
+There is no independent sign-paste disable property. Symbol Chat's book widgets
+remain present in the vanilla screen, but BookPaste bypasses their typed-font
+path when it changes page lists. No combined compatibility is inferred from
+metadata or from BookPaste's unrelated Scribble/Scholar adapters.
+
+Book Extractor exports the readable plain text through a sanitized filename to
+`book-extractor/exports/` using UTF-8. Existing same-name files receive suffixes
+under its normal sequential path. It does not implement transactional automatic
+drafts or rich-component backups. It reads imports from the clipboard, not an
+arbitrary file picker. `validatePages` rejects >100 pages or >1024 UTF-16 units
+before mutating the book, which avoids truncating oversize imports. It then
+clears/replaces the full page list and immediately submits a vanilla edit packet.
+No confirmation/automatic backup or separate import-disable setting was found.
+
+Its format uses unescaped `--- Page N ---` lines. A single valid page containing
+`before\n--- Page 99 ---\nafter` exports and reimports as **two** accepted pages,
+`before` and `after`. The authored marker disappears. Ordinary Unicode, leading
+spaces, blank pages and line breaks survived the non-colliding test, but that
+success cannot justify calling the format a reliable arbitrary-text backup.
+Layout overflow, very large clipboard parsing and exotic Unicode import behavior
+were not accepted as runtime-tested. No unmodified-server persistence test ran.
+
+Booker uses narrow injections into vanilla page methods and no clipboard,
+serialization, networking or font layer. It could otherwise complement Symbol
+Chat. Its reader forces both arrows visible, then computes modulo `getNumPages()`
+without guarding zero. The published handler throws `ArithmeticException` for
+zero. Vanilla `BookViewScreen.BookAccess.getPageCount()` returns the actual list
+size, and empty signed-book page lists are valid. Its writable-book hook also
+appends a page when Back is pressed on the first page and cancels native button
+visibility updates. Do not describe it as persistent page memory or neutral
+last-page navigation. New upstream fixes are required before inclusion.
+
+Easy Sign Editing is not rejected for replacing the helper. Exact bytecode
+shows no `signField` assignment. Instead, its default-priority cancellable HEAD
+handler calls the helper itself and reflows rows while auto wrapping is on.
+That can cancel before BSW's priority-999 multirow typer and bypass Symbol Chat's
+wrap around the vanilla character path. Selection, mouse caret and cursor-render
+hooks remain when auto wrapping is off. No BSW detection or independent disable
+for all those hooks exists in the inspected JAR. Simultaneous composition is
+excluded; exact failure symptoms are not claimed as runtime observations.
+
+Scribe has guarded capability checks and some vanilla fallbacks, so "Client &
+Server" labeling alone is not the exclusion reason. Its `writingOnly=true` option
+disables `personalizationOn()` and `worldBooksOn()` behavior, and sign formatting
+has its own switch. These are real feature controls. They do not isolate the
+artifact: the exact JAR still registers recipe serializers and its ink creative-tab
+callback unconditionally, and `InkPots.addToCreative` adds ink items without a
+writing-only guard. The exact JAR's common
+initializer calls customization, placement, ink and server modules regardless
+of the client UI toggles. The release contains custom payloads and common
+world/gameplay mixins, plus reworked held-book/lectern/sign paths. Adding that
+artifact would introduce more than a client writing subset and require another
+editor architecture. No settings-only isolation of its common registration and creative entries was
+established. No server-required gameplay is admitted to recover editing tools.
+
+### Previous exclusions and architecture decision
+
+Sign Tweaks remains `bqVjibae`, Book Tweaks `b2TIM6ZY`, and Stendhal `WBZX4Wze`.
+No newer eligible artifact or contradictory implementation evidence was found.
+Their established helper, SDL3/paste and exact-Fabric-API/control blockers stand.
+Scribble also remains `aXAUZoEb`. [Symbol Chat #87](https://github.com/replaceitem/symbol-chat/issues/87),
+[Scribble #130](https://github.com/chrrs/scribble/issues/130) and
+[#136](https://github.com/chrrs/scribble/issues/136) are still open as checked
+2026-11-22. Issue 130 is a 26.2 unsigned-formatting report, not proof of the same
+bug on 26.3. Issue 136 concerns the exact 26.3 release's macOS file dialog.
+
+BSW and Scribble operate on different sign/book domains, so that combination is
+a real alternative. Losing Symbol Chat's book-specific controls could be an
+acceptable functional tradeoff if the replacement were safer. It is not rejected
+solely for missing palette integration. Its unchanged final import validation
+and platform crash concerns still block that tradeoff. No compiled release
+fixes those paths in the refreshed target inventory.
+
+Weights remain exactly as requested: vanilla interoperability 30%, text safety
+25%, compatibility 20%, functional recovery 15%, maintenance/complexity 10%.
+The estimates below use 1-5, not measured runtime scores. A hard text-loss,
+serialization or server-participation failure disqualifies a candidate before
+scoring. Scores do not waive those failures.
+
+| Architecture | Vanilla | Text safety | Compatibility | Recovery | Maintenance | Weighted / 5 | Decision |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| BSW + Symbol Chat + BookPaste | 2 | 1 | 1 | 5 | 3 | 2.10 | Exclude: whitespace loss, codec and sign-hook blockers. |
+| Existing stack + BookPaste + Booker | 2 | 1 | 1 | 5 | 2 | 2.00 | Exclude: paste blockers plus zero-page reader failure. |
+| Existing stack + Book Extractor | 4 | 1 | 4 | 3 | 3 | 3.00 | Exclude: accepted import loses an authored marker. |
+| Existing stack + Easy Sign Editing | 4 | 2 | 1 | 4 | 2 | 2.70 | Exclude: typing, selection and cursor ownership conflict. |
+| BSW + Scribble | 3 | 2 | 2 | 5 | 3 | 2.85 | Defer: new evidence does not resolve import/platform blockers. |
+| Scribe-based alternative | 2 | 2 | 1 | 5 | 1 | 2.15 | Exclude: non-isolated gameplay/server modules and competing editor architecture. |
+| Existing stack + Booker only | 4 | 2 | 3 | 2 | 4 | 3.00 | Defer: zero-page failure and unexpected blank-page append. |
+| Current stack unchanged | 4 | 4 | 4 | 1 | 5 | 3.65 | Retain. No new text transformation, server channel or editor replacement. Functional gaps remain open. |
+
+### Functional gap matrix
+
+No missing editing function is restored by this patch. Existing decorative
+capabilities remain present; runtime verification remains pending.
+
+| Capability | Current implementation | Recovery disposition |
+| --- | --- | --- |
+| Large sign lettering/composed symbols | BSW, unchanged | Preserved; existing partial-row overflow limitation remains. |
+| Decorative Unicode and searchable symbols | Symbol Chat on vanilla screens, unchanged | Preserved; no new font/rendering requirement. |
+| Cross-page clipboard paste and automatic next-page typing/wrap | Not installed; paste one page at a time | Still missing. BookPaste requires upstream changes; do not reinstall Book Tweaks. |
+| First/last buttons, cyclic navigation, persistent last-read page | No enhanced controls or memory | Still missing. Booker is not safe for all valid books. |
+| Keyboard page navigation | Vanilla readable books retain Page Up/Page Down; normal editor cursor keys remain | Preserved native behavior, not restored cross-page editing. Non-US/SDL3 acceptance remains pending. |
+| Page insertion, deletion, reordering and two-page viewing | No enhanced tools | Deferred rich-editor replacement. |
+| General undo/redo and automatic draft backups | No added implementation | Deferred; explicit external clipboard drafts remain possible. |
+| Book file export/import | No installed tool | Deferred pending an unambiguous backup format and safe replacement workflow. |
+| Sign line wrapping and multiline selection/copy | No enhanced helper; vanilla per-line editing | Still missing. Easy Sign Editing does not safely coordinate with BSW. |
+| Sign caret placement and keyboard navigation | Existing vanilla/BSW behavior | Preserved; mouse drag/multiline selection not added. |
+| Existing layouts/content | Vanilla signs/books and player-owned files | Preserved by packaging; no migration rewrites. Actual save/reopen tests remain owner work. |
+
+See the [isolated verification record](verification.md#writing-gap-recovery-verification)
+and [owner handoff](acceptance-tests.md#gap-recovery-owner-checks). The pack's
+existing privacy, client-only, exact-pin, deterministic-export and hash-bound
+release safeguards remain unchanged. No environment exception is requested.
+
+
 ## Writing refinement
+
+This section records the initial 26.3.1.0.0 decision. The current follow-up
+[gap recovery](#writing-gap-recovery) retains its exact installed mods.
 
 Reviewed 2026-11-22 for Minecraft **26.3 only**. This is the owner's limited
 feature-freeze exception following the initial Prism usability report.

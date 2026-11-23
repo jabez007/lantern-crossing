@@ -16,7 +16,7 @@ The target is Minecraft **26.3**, Fabric Loader **0.20.1**, and Java **25**.
 The loader pin comes from Fabric's [26.3 compatibility
 API](https://meta.fabricmc.net/v2/versions/loader/26.3), checked on 2026-11-19.
 The checked evidence is in [upstream-metadata.json](docs/upstream-metadata.json).
-Pack version `26.3.1.0.0` is a development baseline, not a runtime qualification.
+Pack version `26.3.1.0.1` is a development baseline, not a runtime qualification.
 The owner reports a passed [initial Prism smoke test](docs/verification.md#initial-prism-launcher-runtime-smoke-test)
 for import, startup and gameplay. Full runtime acceptance remains pending.
 
@@ -77,8 +77,14 @@ features, eleven libraries and two separate shader choices in
 | Interface and windows | Reese's Sodium Options, Cubes Without Borders, Controlling |
 | Pack management | Mod Menu, Configured Defaults |
 
-All 30 originally requested features remain active. New candidates and blockers
-are documented in the refinement audit. Light Overlay uses the current
+The original feature requests remain accounted for, including the intentional
+replacement of Sign Tweaks and Book Tweaks. Those two original projects are no
+longer installed. Big Sign Writer and Symbol Chat provide decorative lettering
+and Unicode authoring, with partial editing capability coverage. Enhanced sign
+wrapping/selection, automatic cross-page book editing/paste and page memory remain
+unavailable. Rich page tools, undo/redo and file drafts are deferred. The
+[gap matrix and candidate exclusions](docs/mod-audit.md#writing-gap-recovery)
+distinguish implemented capabilities from missing ones. Light Overlay uses the current
 `lightoverlay` project, Modrinth ID `8qVa1XCN`; the audit records the identity
 correction that completes this baseline.
 Lantern Crossing selects release-designated feature versions. Upstream-declared
@@ -145,9 +151,9 @@ on any future distribution description page.
 ## Install an exported pack
 
 1. Obtain a reviewed release, or build the development artifact below. Current
-   development output is `lantern-crossing-26.3.1.0.0-dev.mrpack` with its
+   development output is `lantern-crossing-26.3.1.0.1-dev.mrpack` with its
    matching `.sha256`. A development build still requires manual acceptance.
-2. Verify the download with `sha256sum --check lantern-crossing-26.3.1.0.0-dev.sha256`.
+2. Verify the download with `sha256sum --check lantern-crossing-26.3.1.0.1-dev.sha256`.
 3. Import the `.mrpack` into a launcher that supports Modrinth packs. Use a new
    instance with Java 25 and let the launcher obtain the pinned upstream files.
 4. Start the client and complete the [smoke tests](docs/acceptance-tests.md),
@@ -170,6 +176,10 @@ instance avoids leftover mods and configuration. Server rules may restrict
 minimaps or inventory assistance even though they require no server mods.
 
 ## Write signs and books
+
+The follow-up safety review retains these two mods unchanged. New paste, backup
+and navigation candidates remain excluded for documented implementation blockers.
+The missing editing capabilities are still open; no full feature parity is claimed.
 
 Big Sign Writer adds large letters and composed symbols using two to four normal
 sign rows. Symbol Chat adds searchable symbols, favorites and Unicode lettering
@@ -224,7 +234,7 @@ also recorded in [verification.md](docs/verification.md).
 | `make refresh` | Regenerate packwiz index after an intentional payload edit |
 | `make export` | Validate, export, normalize, and validate the complete `.mrpack` |
 | `make checksum` | Development export and SHA-256 checksum |
-| `make release RELEASE_TAG=v26.3.1.0.0` | Release build, requiring owner-recorded runtime qualification |
+| `make release RELEASE_TAG=v26.3.1.0.1` | Release build, requiring owner-recorded runtime qualification |
 | `make clean` | Remove generated `build/` and `dist/` files |
 
 `PACKWIZ`, `PYTHON`, and `RUFF` can name explicit local executables.
@@ -235,8 +245,8 @@ permissions, and JSON encoding. Stored entries avoid compression-version drift.
 Default development outputs are:
 
 ```text
-dist/lantern-crossing-26.3.1.0.0-dev.mrpack
-dist/lantern-crossing-26.3.1.0.0-dev.sha256
+dist/lantern-crossing-26.3.1.0.1-dev.mrpack
+dist/lantern-crossing-26.3.1.0.1-dev.sha256
 ```
 
 GitHub Actions validates pushes to `26.2` and `26.3` and pull requests targeting
@@ -279,7 +289,7 @@ libraries. Both scopes report release availability for this recorded baseline.
 Discovery does not qualify a dependency closure, audit a pinned artifact, or
 replace runtime testing.
 
-Config Manager and the five deferred refinement candidates remain outside the
+Config Manager and the other deferred candidates remain outside the
 active pack. Their [evaluation results](docs/mod-audit.md#qol-and-performance-refinement-2026-11-19)
 and promotion gates are recorded in [candidates.toml](candidates.toml).
 

@@ -1,4 +1,23 @@
-Lantern Crossing 26.3.1.0.0 refines sign and book authoring on Minecraft 26.3.
+Lantern Crossing 26.3.1.0.1 records the writing gap-recovery safety review and
+corrects the README's original-feature parity claim. The 26.3-only review adds
+no mod: Big Sign Writer 3.1.1 and Symbol Chat 1.4.3, all dependency pins and seven
+Configured Defaults payloads remain unchanged. The pack has 41 feature mods,
+eleven libraries and two optional shaders, for 54 downloads.
+
+P3 is fixed. Original requests remain accounted for, while Sign Tweaks and Book
+Tweaks remain replaced with partial capability coverage. P2 stays open. BookPaste
+trims authored boundary whitespace; Book Extractor accepts colliding plaintext
+page markers; Booker fails on zero-page readers. Easy Sign Editing does not
+coordinate its input/cursor hooks with BSW. Scribble's prior blockers have no
+newer target artifact, and Scribe does not isolate writing from its common
+customization/world modules. [Evidence and gap matrix](mod-audit.md#writing-gap-recovery).
+
+Cross-page book paste/typing, enhanced navigation/page memory, rich page tools,
+history and file drafts remain unavailable. No unsafe recovery mod or new F8
+binding is installed. No player files are overwritten. All owner runtime checks
+remain pending; no Minecraft/launcher/server test or release approval occurred.
+
+The preceding writing milestone introduced the following installed tools.
 Big Sign Writer 3.1.1 and Symbol Chat 1.4.3 replace Sign Tweaks and Book Tweaks.
 Books retain the vanilla editor with the shared Unicode palette. The pack has 41 feature mods, eleven libraries and two optional
 shader choices. No 26.2 change or backport is part of this milestone.

@@ -1,5 +1,110 @@
 # Verification record
 
+## Writing gap recovery verification
+
+Pack version `26.3.1.0.1` exports `lantern-crossing-26.3.1.0.1-dev.mrpack`.
+The [recovery audit](mod-audit.md#writing-gap-recovery) retains the installed
+BSW/Symbol Chat stack and records P2 as open and P3 as fixed. All subsequent
+sections describe earlier milestone artifacts. Their archive hashes do not
+identify this follow-up.
+
+The baseline was remote commit `300837db7cd52275dcb128f3f1a0e5f95b5cd622`.
+Its Actions run `45081176784` completed successfully. The results below record
+local verification before this follow-up's commit and push; they do not report
+a hosted CI result for the follow-up.
+
+The diagnostic oracle executed unmodified BookPaste, Book Extractor and Booker
+classes from their exact SHA-512-checked release JARs. Framework/config adapters
+are stubbed; the fitter checks UTF-16 capacity, not actual Minecraft font layout.
+There is no Minecraft JAR on its classpath and no Fabric/client/server/mod
+initializer runs. Passing the diagnostic means the recorded failures reproduce;
+it does not certify those candidates for installation.
+
+The [adapter](../tests/fixtures/WritingRecoveryOracle.java),
+[offline runner](../tests/fixtures/run_writing_recovery.py) and
+[inputs/results](../tests/fixtures/writing-recovery.json) record:
+
+- BookPaste preserves long-word/full-page remainders and a surrogate pair at a
+  capacity boundary. A 500,000-unit string leaves 397,600 units after 100 helper
+  slices. Both modes nevertheless turn `alpha\n\n` into `alpha` without a
+  remainder. Boundary whitespace disappears, and a combining accent can start
+  the next remainder separately from its base letter.
+- Book Extractor round-trips a non-colliding Unicode/blank-page sample and rejects
+  101 pages or 1025 units before mutation. Its accepted marker-collision sample
+  loses an authored delimiter and splits one page into two.
+- Booker wraps a five-page reader from index 0 to 4, but the same published
+  handler throws `ArithmeticException` for a zero-page reader.
+
+The record binds artifact identities, tested class hashes, fixture source,
+Gson 2.14.0 and the downloaded Temurin 25.0.5.1+2 tool archive. Scribe's exact
+CurseForge file and selected class hashes are recorded separately from its
+not-fully-matched public source tree. All nine candidates' exclusions and current
+issue states are in the [audit](mod-audit.md#writing-gap-recovery).
+
+Reproduce the optional JAR diagnostic with local copies of the exact inputs
+listed in the JSON record:
+
+```sh
+python3 tests/fixtures/run_writing_recovery.py \
+	--jdk /tmp/lantern-writing-recovery/jdk25/jdk-25.0.5.1+2 \
+	--artifacts /tmp/lantern-writing-recovery \
+	--gson /tmp/lantern-writing/gson-2.14.0.jar
+```
+
+Observed command results:
+
+| Command/check | Result |
+| --- | --- |
+| `make test lint validate` | PASS: 163 offline tests, Ruff lint/format, source/pins/index/native dependency/client-policy checks, migration and documentation/version consistency. |
+| The JAR diagnostic command above | PASS: exact recorded observations reproduced against actual upstream class implementations, within the stubbed scope. |
+| `ruff check --select C90 scripts tests` | PASS at the configured maximum 10, both before and after changes; no over-threshold functions. No separate type checker is configured. |
+| `/tmp/lantern-bin/actionlint .github/workflows/validate.yml` | PASS; workflow unchanged. |
+| `python3 scripts/check_target_readiness.py --offline` | PASS: recorded availability for all 54 active artifacts; candidates are not promoted. |
+| `make refresh PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'` | PASS: index unchanged. |
+| `make checksum PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'` | PASS from cache; exact complete archive, normalization, validation and checksum. |
+| `make export PACKWIZ='/tmp/lantern-bin/packwiz --cache /tmp/lantern-cache'` | PASS repeated export. |
+| `cmp /tmp/lantern-writing-recovery/first.mrpack dist/lantern-crossing-26.3.1.0.1-dev.mrpack` | PASS: byte-identical repeated builds. |
+| `sha256sum --check lantern-crossing-26.3.1.0.1-dev.sha256` from `dist/` | PASS. |
+| `python3 scripts/release_metadata.py --channel release --tag v26.3.1.0.1` | Expected refusal: `sodium: migration runtime acceptance remains pending`. No release/tag created. |
+| `git diff --check` | PASS. |
+
+The new README and candidate-admission regressions first failed against the old
+parity text and unstaged recovery candidates, then passed after the corrections.
+The first full run caught a missing literal "Pack version" prefix in this new
+record; correcting the documentation satisfied the existing rule. No validation
+policy was relaxed. There is no unresolved automated failure.
+
+The eight Modrinth recovery candidates are staged in `candidates.toml`, alongside
+eight existing entries. Tests show attempted active selection is rejected before
+export. Scribe's official CurseForge identity is documented, without staging an
+unrelated Modrinth project. No mod is added/removed/upgraded, and no defaults,
+keybinding, player file or server channel is introduced.
+
+Byte comparisons against the baseline confirmed that every mod/shader lock,
+all seven defaults payloads, the active collection, index, migration inventory,
+upstream metadata, validation modules, CI workflow and release-policy fields are
+unchanged. The normalized previous/current archives differ only in manifest
+`versionId`, from `26.3.1.0.0-dev` to `26.3.1.0.1-dev`. Both have 54 exact client
+required/server unsupported downloads and seven defaults payloads.
+
+Archive size: **32,231 bytes**. Archive SHA-256:
+`40aa7eebd2cd245d345cf6e2b4decff615b3f1585de876082d1f811e13b5c1fb`.
+
+`pack.toml` SHA-256 for any future owner acceptance:
+`0c916c1b032c0296e79ec9707533bc53cb1ca2d9e80df3a48c41c0a83501e2a7`.
+
+No Minecraft, Prism, Modrinth App, vanilla server or ordinary vanilla observer
+acceptance ran. All [owner checks](acceptance-tests.md#gap-recovery-owner-checks)
+remain uncompleted and all release-approval fields remain blank. P2 remains open,
+with the unchanged BSW partial-row overflow and combined GUI/input acceptance
+risks. P3 is fixed. No import, history, backup or cross-page recovery is promised.
+
+The local `26.2` ref remains `6d7e73af2ab2c4835ac748be538d22abd9631ec7`.
+No 26.2 checkout, backport, commit or push was performed. This follow-up's commit
+and push target 26.3 only; no tag or release is created. Existing hard-coded
+mod-count checks remain an optional cleanup;
+no unrelated refactor or new over-threshold function is introduced.
+
 ## Writing refinement verification, 2026-11-22
 
 Pack version `26.3.1.0.0` exports

@@ -1,8 +1,10 @@
 # Staging never adds a project to packwiz. Promotion requires an audit, an exact
 # stable Fabric 26.3 pin, dependency closure, and a deliberate collection edit.
 schema = 1
-# Evaluated versions below are historical 26.2 findings, not 26.3 authorization.
-# Feature additions stay frozen; reevaluate target support before any promotion.
+# Each entry declares its own target/version evidence; historical 26.2 findings
+# do not authorize promotion on 26.3.
+# Feature additions stay frozen except for the authorized 26.3 writing review.
+# Screening a candidate never authorizes installing it.
 
 # Future [[candidate]] tables require:
 # project-id, slug, category, rationale, status, client-only, target-support,
@@ -123,3 +125,114 @@ artifact-sha512 = "e6cc2455fd9ab1f1567ea226d20948973a6e947fba1cf97d0411fbe7c7bf6
 source-commit = "c1676036589ceccd6942d4b5449002baf036753c"
 evidence = ["https://api.modrinth.com/v2/version/H592Npj8", "https://github.com/Azz-9/Screenshot-Overhaul/tree/c1676036589ceccd6942d4b5449002baf036753c", "docs/mod-audit.md#screenshot-experience-evaluation-2026-11-19"]
 checked-at = "2026-11-19"
+
+[[candidate]]
+project-id = "pfokf5Ct"
+slug = "bookpaste"
+category = "writing"
+rationale = "Restore cross-page clipboard pasting while preserving decorative editors."
+status = "blocked-writing-audit"
+client-only = "Catalog client_side=required, server_side=unsupported; see the writing recovery audit for exact native implementation and exclusion."
+target-support = "2.2+26.3 (Jv93kuQo), release-designated Fabric 26.3 artifact."
+blockers = ["Published 2.2 trims authored boundary whitespace in both modes, changes page codecs unconditionally, and has no independent sign-disable control. Sign paste uses fixed width 90 rather than hanging-sign width."]
+promotion-criteria = ["A release preserves uninserted text and significant whitespace; codec limits remain vanilla; sign hooks can be disabled or reliably coordinate with BSW. Optional server expansion is excluded."]
+evidence = ["https://api.modrinth.com/v2/project/pfokf5Ct", "https://api.modrinth.com/v2/version/Jv93kuQo", "docs/mod-audit.md#writing-gap-recovery"]
+checked-at = "2026-11-22"
+version-id = "Jv93kuQo"
+
+[[candidate]]
+project-id = "oUFjGUhJ"
+slug = "book-extractor"
+category = "writing"
+rationale = "Provide local text backups and validated reimport without replacing vanilla editors."
+status = "blocked-writing-audit"
+client-only = "Catalog client_side=required, server_side=unsupported; see the writing recovery audit for exact native implementation and exclusion."
+target-support = "1.0.4+26.3 (Q3RHvvDk), release-designated Fabric 26.3 artifact."
+blockers = ["Published 1.0.4 accepts unescaped page markers inside authored text as extra page boundaries. Valid import then replaces the current book without confirmation or automatic backup."]
+promotion-criteria = ["A release uses an unambiguous escaped format and confirms or backs up replacement before mutation; unsafe import must be independently disableable for export-only inclusion."]
+evidence = ["https://api.modrinth.com/v2/project/oUFjGUhJ", "https://api.modrinth.com/v2/version/Q3RHvvDk", "docs/mod-audit.md#writing-gap-recovery"]
+checked-at = "2026-11-22"
+version-id = "Q3RHvvDk"
+
+[[candidate]]
+project-id = "DJVsjgm4"
+slug = "booker"
+category = "writing"
+rationale = "Recover last-page navigation with minimal editor changes."
+status = "blocked-writing-audit"
+client-only = "Catalog client_side=required, server_side=unsupported; see the writing recovery audit for exact native implementation and exclusion."
+target-support = "1.0.0 (eHX8ty48), release-designated Fabric 26.3 artifact."
+blockers = ["Published 1.0.0 forces reader arrows visible and takes a remainder modulo zero for a valid zero-page book. Editable back-from-first appends a blank page."]
+promotion-criteria = ["A release safely handles zero-page books, preserves native visibility updates and provides explicit navigation without unexpected content mutation."]
+evidence = ["https://api.modrinth.com/v2/project/DJVsjgm4", "https://api.modrinth.com/v2/version/eHX8ty48", "docs/mod-audit.md#writing-gap-recovery"]
+checked-at = "2026-11-22"
+version-id = "eHX8ty48"
+
+[[candidate]]
+project-id = "P6TVpx0l"
+slug = "easysignediting"
+category = "writing"
+rationale = "Recover mouse cursor positioning, selection and sign wrapping."
+status = "blocked-writing-audit"
+client-only = "Catalog client_side=required, server_side=unsupported; see the writing recovery audit for exact native implementation and exclusion."
+target-support = "1.0.1 (DJxCjYOy), release-designated Fabric 26.3 artifact."
+blockers = ["Published 1.0.1 avoids replacing signField, but its cancellable HEAD character/selection handlers preempt BSW and its per-line reflow and cursor rendering have no BSW-mode guard. Disabling auto wrapping does not disable all hooks."]
+promotion-criteria = ["Exact artifact demonstrates BSW-aware delegation for typing, selection, reflow and cursor rendering; composition remains intact in every mode."]
+evidence = ["https://api.modrinth.com/v2/project/P6TVpx0l", "https://api.modrinth.com/v2/version/DJxCjYOy", "docs/mod-audit.md#writing-gap-recovery"]
+checked-at = "2026-11-22"
+version-id = "DJxCjYOy"
+
+[[candidate]]
+project-id = "yXAvIk0x"
+slug = "scribble"
+category = "writing"
+rationale = "Evaluate richer page editing, undo and file drafts with a deliberate Unicode-UI tradeoff."
+status = "blocked-writing-audit"
+client-only = "Catalog client_side=required, server_side=unsupported; see the writing recovery audit for exact native implementation and exclusion."
+target-support = "2.1.0+mc26.3 (aXAUZoEb), release-designated Fabric 26.3 artifact."
+blockers = ["Latest 26.3 release remains aXAUZoEb. Symbol Chat issue 87 and Scribble 130/136 remain open. Existing import-limit and platform concerns have no new contrary implementation evidence."]
+promotion-criteria = ["New release fixes final import validation and file-dialog failures. Any loss of Symbol Chat book controls requires an explicitly justified architecture and safe Unicode clipboard path."]
+evidence = ["https://api.modrinth.com/v2/project/yXAvIk0x", "https://api.modrinth.com/v2/version/aXAUZoEb", "docs/mod-audit.md#writing-gap-recovery"]
+checked-at = "2026-11-22"
+version-id = "aXAUZoEb"
+
+[[candidate]]
+project-id = "fX4dIQCo"
+slug = "scholar"
+category = "writing"
+rationale = "Screen the additional book editor named by BookPaste compatibility documentation."
+status = "blocked-writing-audit"
+client-only = "Catalog client_side=required, server_side=required; see the writing recovery audit for exact native implementation and exclusion."
+target-support = "1.2.13 (5JsB0NmQ), release-designated Fabric 26.3 artifact."
+blockers = ["Official catalog requires a server installation; client-only eligibility is not established. No environment exception is requested."]
+promotion-criteria = ["Independently useful client-only release and audited vanilla-server operation, without custom components or shared server-authoring requirements."]
+evidence = ["https://api.modrinth.com/v2/project/fX4dIQCo", "https://api.modrinth.com/v2/version/5JsB0NmQ", "docs/mod-audit.md#writing-gap-recovery"]
+checked-at = "2026-11-22"
+version-id = "5JsB0NmQ"
+
+[[candidate]]
+project-id = "Ss2JOg1D"
+slug = "book-scroll"
+category = "writing"
+rationale = "Check a smaller page-navigation alternative after Booker fails its safety review."
+status = "blocked-writing-audit"
+client-only = "Catalog client_side=required, server_side=unsupported; see the writing recovery audit for exact native implementation and exclusion."
+target-support = "No Fabric 26.3 artifact in the official release query."
+blockers = ["No Fabric 26.3 artifact is returned by the official release query."]
+promotion-criteria = ["Release-designated Fabric 26.3 build passes native dependency, input and editor-interoperability review."]
+evidence = ["https://api.modrinth.com/v2/project/Ss2JOg1D", "docs/mod-audit.md#writing-gap-recovery"]
+checked-at = "2026-11-22"
+
+[[candidate]]
+project-id = "eKvNAquO"
+slug = "journaling"
+category = "writing"
+rationale = "Screen the purpose-built longer-book editor found by the bounded search."
+status = "blocked-writing-audit"
+client-only = "Catalog client_side=required, server_side=unsupported; see the writing recovery audit for exact native implementation and exclusion."
+target-support = "1.0-modern (D6CFZgvf), release-designated Fabric 26.3 artifact."
+blockers = ["Advertises removing book length limits; upstream explicitly warns that pages above 1024 characters can disconnect from vanilla servers."]
+promotion-criteria = ["Implementation preserves ordinary vanilla page/packet limits and refuses overflow before mutation; no expanded-authoring behavior."]
+evidence = ["https://api.modrinth.com/v2/project/eKvNAquO", "https://api.modrinth.com/v2/version/D6CFZgvf", "docs/mod-audit.md#writing-gap-recovery"]
+checked-at = "2026-11-22"
+version-id = "D6CFZgvf"

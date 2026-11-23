@@ -103,6 +103,32 @@ server filter saves the same text or a vanilla client renders it identically.
 See the [text contract](mod-audit.md#vanilla-text-contract) and the
 [writing checklist](acceptance-tests.md#writing-owner-acceptance-matrix).
 
+### Recovery review
+
+Pack 26.3.1.0.1 adds no writing config or keybinding. Existing Symbol Chat and
+BSW settings remain authoritative; all seven Configured Defaults payloads are
+byte-identical to the preceding writing milestone. No draft, book, sign,
+screenshot or user config is packaged or rewritten.
+
+BookPaste and Book Extractor both use F8 by default. Extractor's import uses
+Shift plus the same registered export key. Selecting both would require a
+reviewed remap and preservation of existing bindings. Neither is installed,
+so no F8 conflict or new binding is introduced. F7 overlay and F9 capture remain
+unchanged. The rejected candidates' settings do not appear in pack defaults.
+
+Do not try to enable BookPaste safely with a template that only sets its page
+count to 100. Its unconditional codec mixins and sign-paste hook remain, and its
+formatting modes still trim whitespace. No supported setting removes all those
+paths. Book Extractor has no independent export-only toggle to avoid its import
+marker problem. Booker has no configuration to guard its zero-page reader.
+
+Books still use vanilla pages with Symbol Chat's palette. Keep source drafts
+outside the book while copying one page at a time. Normal clipboard contents
+should remain intact after a capacity-limited vanilla paste; verify this on the
+owner's actual platform. No automatic draft recovery or cross-page continuation
+is claimed. Enhanced sign wrapping, selection and rich book tools remain
+[explicit gaps](mod-audit.md#functional-gap-matrix).
+
 ## Minecraft 26.3 configuration review
 
 At the initial migration, only the options data-version seed changed, from 4903 to 5023. The five mod

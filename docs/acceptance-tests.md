@@ -189,6 +189,31 @@ checks are mandatory. Static checks and isolated font/file-handler tests cannot
 complete these boxes. Keep release-policy approval fields blank until the owner
 accepts the exact pack hash and all other existing release requirements.
 
+### Gap recovery owner checks
+
+Run this on the final 26.3.1.0.1 archive in both Prism Launcher and Modrinth App,
+with a completely unmodified vanilla 26.3 server and an ordinary vanilla client
+as observer. All rows remain uncompleted. The earlier smoke test and isolated
+candidate routines do not complete any runtime row. Record archive/pack hashes,
+launcher, Java, OS, GUI scale, keyboard layout and server/filter settings as above.
+
+| Workflow/failure case | Prism | Modrinth App | Expected observation |
+| --- | --- | --- | --- |
+| Installed tools and ordinary editing | [ ] | [ ] | BSW and Symbol Chat remain present; staged paste/navigation/backup editors remain absent. Write, save, close/reopen and sign several ordinary book pages. Compare existing content before and after. |
+| Cross-page/long-text paste | [ ] | [ ] | No automatic cross-page paste is installed. Copy long paragraphs and unbroken words into a disposable book one page at a time. At a full page/book, the OS clipboard must retain the full source for manual continuation. Record local refusal/truncation, never infer recovery from a notification. |
+| Unicode and paragraph boundaries | [ ] | [ ] | Use Symbol Chat symbols, supplementary letters, combining marks, leading/trailing spaces, CRLF/newline text and blank pages. Compare the intended text to saved/reopened pages and the vanilla observer. Preserve the source clipboard separately before copying results back. |
+| Navigation and full books | [ ] | [ ] | Exercise native Page Up/Page Down in readable books and ordinary editor cursor/navigation. No first/last enhancement, cyclic navigation or persistent reading memory is expected. Test a valid empty signed book and a 100-page disposable book without new arrow controls or crashes. |
+| Rich page tools, history and file operations | [ ] | [ ] | No insert/delete/reorder, general undo/redo, automatic drafts or book import/export controls are promised. Confirm absent tools do not leave duplicate controls or unexpected file dialogs. File import error handling is not a supported runtime feature of this stack. |
+| Save, signing, reconnect and transfers | [ ] | [ ] | Complete a decorated book, sign a copy, transfer both writable and signed copies through inventories/chests, reconnect and read with the vanilla observer. Compare exact text and page order; signed books remain read-only. |
+| Signs and composed layouts | [ ] | [ ] | Create/edit ordinary and hanging signs. Use BSW large fonts with Symbol Chat Normal, and Symbol Chat Unicode with BSW None (Vanilla). Exercise existing per-line copy/caret/keyboard selection. No enhanced wrap/multiline helper is expected; saving/reopening must preserve the chosen layout and both faces. |
+| Shortcuts and focus | [ ] | [ ] | Check non-US layouts, Ctrl/Cmd, selection, clipboard, corner/central controls and focus after palettes. F7/F9 remain distinct; no new packaged F8 binding, duplicate shortcut action or candidate UI appears. |
+| Preferences and player files | [ ] | [ ] | Upgrade a closed disposable instance copy. Existing preferences, favorites, custom definitions, worlds, books, screenshots and unused prior editor configs remain unchanged. Check App sync enabled/disabled and compare fresh defaults to saved personal settings. |
+
+Failures belong in the acceptance record for the exact hashes. P2 remains open;
+these cases validate the retained stack and the disclosed gaps, not the excluded
+mods. No candidate should be installed to claim that its missing tools passed.
+Final release approval fields remain blank until all existing requirements pass.
+
 ## Light Overlay
 
 ### Basic overlay

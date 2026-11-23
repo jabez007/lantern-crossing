@@ -1,7 +1,7 @@
 # Version and update policy
 
 `pack.toml` owns the version, using `<Minecraft>.<major>.<minor>.<patch>`.
-The current development baseline is `26.3.1.0.0`.
+The current development baseline is `26.3.1.0.1`.
 Increment major for policy or selection changes requiring setup review, minor
 for compatible additions or substantial updates, and patch for scoped fixes.
 The Minecraft prefix must equal the actual target. The 26.2 maintenance line
@@ -34,12 +34,17 @@ byte comparison; invalidate its acceptance if its pack/index changes.
 
 ## Feature freeze
 
+The 26.3.1.0.1 follow-up is a patch-level documentation, staging and regression
+fix. Recovery candidates remain excluded; no active mod, template or dependency
+changes. The P2 editing gaps remain open and P3 parity language is corrected.
+
+
 Keep the accepted inventory frozen during migration and owner runtime acceptance.
 Only compatibility fixes, broken dependencies, bugs, security/privacy issues,
 incorrect defaults, test failures and release documentation should change now.
 No speculative QoL or optimization additions. The owner-authorized sign/book
 refinement is a limited 26.3-only exception, with no 26.2 backport.
-Version 26.3.1.0.0 increments major because removing the two previous editors requires setup
+Version 26.3.1.0.0 incremented major because removing the two previous editors requires setup
 review and changes available controls. After qualification, new work
 starts on 26.3; 26.2 remains selective maintenance.
 
@@ -51,7 +56,7 @@ Do not force-push, rewrite published history or delete either version branch.
 ## Artifacts and discovery
 
 Development filenames append only `-dev` to the pack version:
-`lantern-crossing-26.3.1.0.0-dev.mrpack` and `.sha256`.
+`lantern-crossing-26.3.1.0.1-dev.mrpack` and `.sha256`.
 The generated manifest version is `<pack-version>-dev`; a qualified release uses
 `<pack-version>` with no development suffix. Checksums and GitHub Actions
 artifact names use the same basename. Branch/target validation remains mandatory
@@ -168,8 +173,8 @@ empty until the owner actually performs the checklist. Static tests never set th
 Check and build a qualified release with:
 
 ```sh
-python3 scripts/release_metadata.py --channel release --tag v26.3.1.0.0
-make release RELEASE_TAG=v26.3.1.0.0
+python3 scripts/release_metadata.py --channel release --tag v26.3.1.0.1
+make release RELEASE_TAG=v26.3.1.0.1
 ```
 
 Without qualification these commands intentionally fail. Development validation,

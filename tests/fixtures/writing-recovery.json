@@ -1,0 +1,352 @@
+{
+  "schema": 1,
+  "checked-at": "2026-11-22",
+  "scope": "Unmodified candidate JAR classes with config/framework stubs and a UTF-16-capacity fitter. No Minecraft or Fabric initialization, GUI, networking, actual font layout, save or server acceptance. Findings are isolated algorithm observations.",
+  "artifacts": {
+    "bookpaste": {
+      "project-id": "pfokf5Ct",
+      "version-id": "Jv93kuQo",
+      "version": "2.2+26.3",
+      "filename": "bookpaste-fabric-2.2+26.3.jar",
+      "url": "https://cdn.modrinth.com/data/pfokf5Ct/versions/Jv93kuQo/bookpaste-fabric-2.2%2B26.3.jar",
+      "sha512": "f5a7f23d8ee71b0733b78926c6df54fd9cb96ac6275b71dac6ced6f1589f062547f8f3730adcfebbff3b8d09d8d49a9dd64f9cebda768713b178f60caf0e27e9",
+      "client-side": "required",
+      "server-side": "unsupported",
+      "class-sha256": {
+        "ru/svyaton/bookpaste/PasteHelper.class": "f19893e8f60eb44df3e60c4258a45a8d9cac1a7cccf58c2b2be36cf37580a567",
+        "ru/svyaton/bookpaste/mixin/UnlimitedWritableBookMixin.class": "30003386bd1e4e68d516a2a47d75167a9a7cc47a82570f65fbdc36a1bf8c16ad",
+        "ru/svyaton/bookpaste/mixin/UnlimitedBookPacketMixin.class": "5066762cb36927349d202ec430042bbf006f1f7ce70b56f8aeca605389fcab02",
+        "ru/svyaton/bookpaste/SignPasteCompat.class": "d2bfcb37a7130de22d346c56d971627b0156cb95908574bbacccc20aca04170e"
+      },
+      "descriptor": {
+        "schemaVersion": 1,
+        "id": "bookpaste",
+        "version": "2.2+26.3",
+        "name": "BookPaste",
+        "description": "Paste large texts into writable books and signs with automatic page splitting.",
+        "authors": [
+          "SvyatON"
+        ],
+        "icon": "assets/bookpaste/icon.png",
+        "contact": {
+          "homepage": "https://modrinth.com/mod/bookpaste",
+          "issues": "https://github.com/SvyatON/bookpaste/issues",
+          "sources": "https://github.com/SvyatON/bookpaste"
+        },
+        "license": "Apache-2.0",
+        "environment": "*",
+        "entrypoints": {
+          "main": [
+            "ru.svyaton.bookpaste.BookPaste"
+          ],
+          "client": [
+            "ru.svyaton.bookpaste.BookPasteClient"
+          ],
+          "modmenu": [
+            "ru.svyaton.bookpaste.BookPasteModMenu"
+          ]
+        },
+        "mixins": [
+          "bookpaste.mixins.json"
+        ],
+        "depends": {
+          "fabric-networking-api-v1": "*",
+          "fabricloader": ">=0.20.1",
+          "fabric-api": "*",
+          "fabric-lifecycle-events-v1": "*",
+          "minecraft": ">=26.3 <26.4",
+          "java": ">=25"
+        }
+      }
+    },
+    "book-extractor": {
+      "project-id": "oUFjGUhJ",
+      "version-id": "Q3RHvvDk",
+      "version": "1.0.4+26.3",
+      "filename": "book-extractor-1.0.4+26.3.jar",
+      "url": "https://cdn.modrinth.com/data/oUFjGUhJ/versions/Q3RHvvDk/book-extractor-1.0.4%2B26.3.jar",
+      "sha512": "cace9ea8f1fcced7822b96a57644a2881c24fb317fa2fbdefa013eae4c460bb7e8355e6482bdc328152ad943ed388e4c4e12a94eea342ee3dc1ec12aae86e4a7",
+      "client-side": "required",
+      "server-side": "unsupported",
+      "class-sha256": {
+        "com/bookextractor/client/BookImportService.class": "6cfc605ef75d63848c4b522428d4ed6627e4d46efe8218258ef4c92e3852ac9e",
+        "com/bookextractor/export/BookExportFormatter.class": "e640ebc2ae3164eefab0655436bd6ef2a7f1258e9f4cb890e67c7057d079f0c2"
+      },
+      "descriptor": {
+        "schemaVersion": 1,
+        "id": "bookextractor",
+        "version": "1.0.4+26.3",
+        "name": "Book Extractor",
+        "description": "Client-side Fabric mod for exporting text from signed books and book & quills.",
+        "authors": [
+          "ElmerLion"
+        ],
+        "icon": "assets/bookextractor/icon.png",
+        "contact": {
+          "homepage": "https://fabricmc.net/",
+          "sources": "https://github.com/FabricMC/fabric-example-mod"
+        },
+        "license": "MIT",
+        "environment": "client",
+        "entrypoints": {
+          "client": [
+            "com.bookextractor.client.BookExtractorClient"
+          ]
+        },
+        "mixins": [
+          {
+            "config": "bookextractor.client.mixins.json",
+            "environment": "client"
+          }
+        ],
+        "depends": {
+          "fabricloader": ">=0.19.5",
+          "minecraft": "~26.3",
+          "java": ">=25",
+          "fabric-api": ">=0.161.0+26.3"
+        }
+      }
+    },
+    "booker": {
+      "project-id": "DJVsjgm4",
+      "version-id": "eHX8ty48",
+      "version": "1.0.0",
+      "filename": "devjg-booker-26.3-1.0.0.jar",
+      "url": "https://cdn.modrinth.com/data/DJVsjgm4/versions/eHX8ty48/devjg-booker-26.3-1.0.0.jar",
+      "sha512": "69c3f00c82be6011a2e67fe9ac097e92d5114d13f270032591db4a9df704675dda1ecc4e31a285f5fea8b83a8c178652d8f3f511d8d834268cdb0d5fa53b17de",
+      "client-side": "required",
+      "server-side": "unsupported",
+      "class-sha256": {
+        "me/devjg/booker/mixin/ReadOnlyBookArrowsMixin.class": "7c0c9e898727e03d80fd7642cae5581040eb85cfb8930fbf821cb61c5f8ec419",
+        "me/devjg/booker/mixin/EditableBookArrowsMixin.class": "f33a8502ae8bf6a55723988da72c137d801047c1ad0e05ae807270fea90b360e"
+      },
+      "descriptor": {
+        "schemaVersion": 1,
+        "id": "devjg-booker",
+        "version": "1.0.0",
+        "name": "Booker (BookUtils)",
+        "description": "A simple utility mod to make using books easier",
+        "authors": [
+          "DevJG"
+        ],
+        "contact": {
+          "homepage": "https://discord.gg/b35rQvS"
+        },
+        "license": "MPL-2.0",
+        "icon": "assets/devjg-booker/booker.png",
+        "environment": "client",
+        "entrypoints": {
+          "main": [
+            "me.devjg.booker.Booker"
+          ]
+        },
+        "mixins": [
+          "devjg-booker.mixins.json"
+        ],
+        "depends": {
+          "fabricloader": ">=0.19.5",
+          "minecraft": "26.3",
+          "java": ">=25"
+        }
+      }
+    },
+    "easysignediting": {
+      "project-id": "P6TVpx0l",
+      "version-id": "DJxCjYOy",
+      "version": "1.0.1",
+      "filename": "easysignediting-1.0.1-fabric-mc26.3.jar",
+      "url": "https://cdn.modrinth.com/data/P6TVpx0l/versions/DJxCjYOy/easysignediting-1.0.1-fabric-mc26.3.jar",
+      "sha512": "70c15d4866d9a73c089a44b6965541cd30427da84544f29f37e67ae6f7ef929cff0e4378fe085460e6e9602519e408973faeafbd208c34a8e279ed41dbdb59c7",
+      "client-side": "required",
+      "server-side": "unsupported",
+      "class-sha256": {
+        "dev/leoml/easysignediting/mixin/client/AbstractSignEditScreenMixin.class": "32e30901f4fe81194fd114d3d782ff11397fac6b5eb308db77193c718b0a0e30"
+      },
+      "descriptor": {
+        "schemaVersion": 1,
+        "id": "easy_sign_editing",
+        "version": "1.0.1",
+        "name": "Easy Sign Editing",
+        "description": "Small client-side improvements to vanilla sign text editing.",
+        "authors": [
+          "leoml"
+        ],
+        "license": "MIT",
+        "environment": "client",
+        "entrypoints": {
+          "client": [
+            "dev.leoml.easysignediting.client.EasySignEditingClient"
+          ]
+        },
+        "mixins": [
+          {
+            "config": "easy_sign_editing.client.mixins.json",
+            "environment": "client"
+          }
+        ],
+        "depends": {
+          "fabricloader": ">=0.19.5",
+          "minecraft": "~26.3",
+          "java": ">=25"
+        }
+      }
+    }
+  },
+  "oracle-projects": [
+    "bookpaste",
+    "book-extractor",
+    "booker"
+  ],
+  "observations": {
+    "bookpaste": {
+      "long-word-remainder-units": 76,
+      "full-final-page-retains-text": true,
+      "partial-final-page-remainder": "Y",
+      "surrogate-pair-preserved-at-capacity": true,
+      "combining-sequence-remainder": "́Z",
+      "SMART_FILL-whitespace-output": "alpha",
+      "WHOLE_PARAGRAPHS-whitespace-output": "alpha",
+      "boundary-output": "abcdefgh",
+      "boundary-remainder": "next",
+      "large-payload-remainder-after-100-helper-slices": 397600
+    },
+    "book-extractor": {
+      "ordinary-roundtrip": [
+        "  alpha\n\n",
+        "",
+        "🌿 café"
+      ],
+      "ordinary-roundtrip-equal": true,
+      "marker-collision-roundtrip": [
+        "before",
+        "after"
+      ],
+      "marker-collision-preserved": false,
+      "1025-units-rejected": true,
+      "101-pages-rejected": true
+    },
+    "booker": {
+      "five-page-reader-back-from-first-index": 4,
+      "zero-page-reader-exception": "ArithmeticException"
+    }
+  },
+  "adapter-sha256": "fc3bc4c83e88f1157446e6331e1c80d43ec4ecaf0bcea8ecda0094f3f02dfff4",
+  "java-audit-tool": {
+    "version": "25.0.5+100000002.0.LTS",
+    "url": "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.5.1%2B2/OpenJDK25U-jdk_x64_linux_hotspot_25.0.5.1_2.tar.gz",
+    "sha256": "760f91b22c3efc9bd1b64ff950598231be82928cc807e30691a0e7a2995a62c0"
+  },
+  "gson": {
+    "filename": "gson-2.14.0.jar",
+    "sha1": "efc0e34ede4e3204eaefb84a00e55e8c86634382"
+  },
+  "sources": {
+    "bookpaste": {
+      "repository": "SvyatON/bookpaste",
+      "commit": "085d0b22f9a122cc8ccdd6afd66501a312c9d864",
+      "branch": "master"
+    },
+    "booker": {
+      "repository": "RealDevJG/BookUtils",
+      "commit": "a8f93d3acb57a7aa6d2b48cefbc412ae9044d242",
+      "branch": "master"
+    },
+    "scribe": {
+      "repository": "jaubertt/Scribe",
+      "commit": "5036280c23273066841611940c81ec8037540bde",
+      "branch": "main"
+    }
+  },
+  "issues": {
+    "symbol-chat-issue-87": {
+      "html_url": "https://github.com/replaceitem/symbol-chat/issues/87",
+      "state": "open",
+      "updated_at": "2026-10-14T15:12:17Z"
+    },
+    "scribble-issue-130": {
+      "html_url": "https://github.com/chrrs/scribble/issues/130",
+      "state": "open",
+      "updated_at": "2026-10-09T13:23:03Z"
+    },
+    "scribble-issue-136": {
+      "html_url": "https://github.com/chrrs/scribble/issues/136",
+      "state": "open",
+      "updated_at": "2026-10-26T09:51:14Z"
+    }
+  },
+  "scribe": {
+    "provider": "curseforge",
+    "project-id": 1741986,
+    "file-id": 9150892,
+    "version": "1.0.2+26.3",
+    "url": "https://www.curseforge.com/minecraft/mc-mods/scribe-books-and-writing/files/9150892",
+    "sha512": "4f95ff30f395dfab2b62ee6a8bc6d36b7dc28e52841f4aa10828902da3e68df70d9959816812581ea991c6f76936c14c6b49630c5c359e2fc627c09f87845bd4",
+    "descriptor": {
+      "schemaVersion": 1,
+      "id": "scribe",
+      "version": "1.0.2+26.3",
+      "name": "Scribe",
+      "description": "Writing utilities and book customization.",
+      "authors": [
+        "Jaubert"
+      ],
+      "contact": {
+        "sources": "https://github.com/jaubertt/Scribe",
+        "issues": "https://github.com/jaubertt/Scribe/issues"
+      },
+      "license": [
+        "MIT",
+        "All Rights Reserved (art)"
+      ],
+      "icon": "assets/scribe/icon.png",
+      "environment": "*",
+      "entrypoints": {
+        "main": [
+          "scribe.Scribe"
+        ],
+        "client": [
+          "scribe.client.ScribeClient"
+        ],
+        "modmenu": [
+          "scribe.client.compat.ModMenuCompat"
+        ]
+      },
+      "mixins": [
+        "scribe.mixins.json",
+        {
+          "config": "scribe.client.mixins.json",
+          "environment": "client"
+        }
+      ],
+      "depends": {
+        "fabricloader": ">=0.19.5",
+        "minecraft": "~26.3",
+        "java": ">=25",
+        "fabric-api": "*"
+      },
+      "breaks": {
+        "scholar": "*",
+        "scribble": "*",
+        "stendhal": "*",
+        "colorful_books": "*",
+        "book_scroll": "*",
+        "book_and_quick_save": "*",
+        "bookmark": "*",
+        "book-tweaks": "*",
+        "book-formatting": "*",
+        "enhancedbookwriting": "*",
+        "fixbookgui": "*",
+        "betterbooks": "*",
+        "bookcopy": "*"
+      },
+      "suggests": {
+        "modmenu": "*"
+      }
+    },
+    "class-sha256": {
+      "scribe/Scribe.class": "b9aac885b4f0922fdd6e357d22cc2807cf2599f1bf5c77f373b25a7710e17af1",
+      "scribe/config/ScribeConfig.class": "c5c3bfdaf249d41e9dc18a4761c0dd68b349655c3cd6271c33f8bd15417b1211",
+      "scribe/ink/InkPots.class": "e7ce44089ff61a7922dcd5a5a5f6c9b63b4e6e9e110586133a7295ae8aad0ed4"
+    }
+  }
+}
